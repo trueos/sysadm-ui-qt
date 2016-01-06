@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>030 Camera</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-528.000000, -48.000000)" fill="#D4D4D4">
+            <path d="M536,60 C537.656854,60 539,58.6568543 539,57 C539,55.3431457 537.656854,54 536,54 C534.343146,54 533,55.3431457 533,57 C533,58.6568543 534.343146,60 536,60 Z M530.006845,53 L532,53 L532,51.990778 C532,51.4509752 532.446386,51 532.99703,51 L539.00297,51 C539.546964,51 540,51.4435864 540,51.990778 L540,53 L541.993155,53 C542.550051,53 543,53.4463856 543,53.9970301 L543,60.0029699 C543,60.5469637 542.54922,61 541.993155,61 L530.006845,61 C529.449949,61 529,60.5536144 529,60.0029699 L529,53.9970301 C529,53.4530363 529.45078,53 530.006845,53 Z M536,59 C534.89543,59 534,58.1045696 534,57 C534,55.8954304 534.89543,55 536,55 C537.10457,55 538,55.8954304 538,57 C538,58.1045696 537.10457,59 536,59 Z M536,59" id="Rectangle 122"></path>
+        </g>
+    </g>
+</svg>

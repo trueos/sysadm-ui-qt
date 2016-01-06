@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>125 CloudDelete</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-768.000000, -288.000000)" fill="#D4D4D4">
+            <path d="M768,298 C768,296.651721 768.895887,295.507545 770.127761,295.131093 C770.500314,293.897932 771.645295,293 773,293 C773.174013,293 773.344566,293.014816 773.510466,293.043254 C774.195719,291.823839 775.50165,291 777,291 C779.209139,291 781,292.790861 781,295 C782.668415,295.005076 784,296.346276 784,298 C784,299.653483 782.652611,301 780.990522,301 L771.009478,301 C769.336631,301 768,299.656854 768,298 Z M773,296 L773,298 L779,298 L779,296 Z M773,296" id="Rectangle 169 copy 4"></path>
+        </g>
+    </g>
+</svg>

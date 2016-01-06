@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>212 CircledBorderArrowDown</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-624.000000, -528.000000)" fill="#D4D4D4">
+            <path d="M640,536 C640,531.581722 636.418278,528 632,528 C627.581722,528 624,531.581722 624,536 C624,540.418278 627.581722,544 632,544 C636.418278,544 640,540.418278 640,536 L640,536 Z M638,536 C638,532.686291 635.313709,530 632,530 C628.686291,530 626,532.686291 626,536 C626,539.313709 628.686291,542 632,542 C635.313709,542 638,539.313709 638,536 L638,536 Z M632,541 L636,537 L633,537 L633,531 L631,531 L631,537 L628,537 L632,541 L632,541 Z M632,541" id="Shape"></path>
+        </g>
+    </g>
+</svg>

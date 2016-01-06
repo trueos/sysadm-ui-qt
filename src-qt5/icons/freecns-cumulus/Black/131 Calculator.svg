@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>131 Calculator</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-192.000000, -336.000000)" fill="#000000">
+            <path d="M195,337 L195,340 L205,340 L205,337 Z M195.002473,336 L204.997527,336 C205.544239,336 206,336.448106 206,337.000872 L206,350.999128 C206,351.555369 205.551177,352 204.997527,352 L195.002473,352 C194.455761,352 194,351.551894 194,350.999128 L194,337.000872 C194,336.444631 194.448823,336 195.002473,336 Z M196,342 L196,344 L198,344 L198,342 Z M199,342 L199,344 L201,344 L201,342 Z M202,342 L202,344 L204,344 L204,342 Z M196,345 L196,347 L198,347 L198,345 Z M199,345 L199,347 L201,347 L201,345 Z M202,345 L202,347 L204,347 L204,345 Z M196,348 L196,350 L198,350 L198,348 Z M199,348 L199,350 L201,350 L201,348 Z M202,348 L202,350 L204,350 L204,348 Z M202,348" id="Rectangle 317"></path>
+        </g>
+    </g>
+</svg>

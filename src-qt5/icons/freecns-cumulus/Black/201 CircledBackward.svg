@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>201 CircledBackward</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-96.000000, -528.000000)" fill="#000000">
+            <path d="M104,544 C108.418278,544 112,540.418278 112,536 C112,531.581722 108.418278,528 104,528 C99.5817218,528 96,531.581722 96,536 C96,540.418278 99.5817218,544 104,544 Z M99,532 L101,532 L101,536 L101,540 L99,540 Z M101,536 L105,532 L105,536 L105,540 Z M105,536 L109,532 L109,540 Z M105,536" id="Rectangle 198 copy"></path>
+        </g>
+    </g>
+</svg>

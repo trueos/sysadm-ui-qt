@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>132 CD</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-240.000000, -336.000000)" fill="#000000">
+            <path d="M248,352 C243.581722,352 240,348.418278 240,344 C240,339.581722 243.581722,336 248,336 C252.418278,336 256,339.581722 256,344 C256,348.418278 252.418278,352 248,352 Z M248,346 C246.89543,346 246,345.10457 246,344 C246,342.89543 246.89543,342 248,342 C249.10457,342 250,342.89543 250,344 C250,345.10457 249.10457,346 248,346 Z M248,347 C249.656854,347 251,345.656854 251,344 C251,342.343146 249.656854,341 248,341 C246.343146,341 245,342.343146 245,344 C245,345.656854 246.343146,347 248,347 Z M248,345 C248.552285,345 249,344.552285 249,344 C249,343.447715 248.552285,343 248,343 C247.447715,343 247,343.447715 247,344 C247,344.552285 247.447715,345 248,345 Z M248,345" id="Oval 205"></path>
+        </g>
+    </g>
+</svg>

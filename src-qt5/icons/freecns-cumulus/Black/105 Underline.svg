@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>105 Underline</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-672.000000, -240.000000)" fill="#000000">
+            <path d="M677,240 L677,248 C677,249.5 678.5,251 680,251 C681.5,251 683,249.5 683,248 L683,240 L686.000013,240 L686,249 C686,252 684,254 681,254 L679,254 C676,254 674,252 674,249 L674,240 L677,240 L677,240 Z M674,255 L686,255 L686,256 L674,256 L674,255 L674,255 Z M674,255" id="Shape"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>032 Printer2</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-624.000000, -48.000000)" fill="#000000">
+            <path d="M624,54 C624,53 625,52 626,52 L627,52 L627,54 L627,55 L637,55 L637,54 L637,52 L638,52 C639,52 640,53 640,54 L640,59 C640,60 639,61 638,61 L637,61 L637,59 L637,58 L627,58 L627,59 L627,61 L626,61 C625,61 624,60 624,59 L624,54 L624,54 Z M628,61 L628,59 L636,59 L636,61 L636,64 L628,64 L628,61 L628,61 Z M636,52 L636,54 L628,54 L628,52 L628,49 L636,49 L636,52 L636,52 Z M639,55.6 L639,56 L638,56 L638,55.6 L638,55 L639,55 L639,55.6 L639,55.6 Z M639,55.6" id="Shape"></path>
+        </g>
+    </g>
+</svg>

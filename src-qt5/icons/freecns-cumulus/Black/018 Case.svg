@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>018 Case</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-816.000000, 0.000000)" fill="#000000">
+            <path d="M818.006845,6 L829.993155,6 C830.550051,6 831,6.4463856 831,6.99703014 L831,13.0029699 C831,13.5469637 830.54922,14 829.993155,14 L818.006845,14 C817.449949,14 817,13.5536144 817,13.0029699 L817,6.99703014 C817,6.45303631 817.45078,6 818.006845,6 Z M827.06406,5 C826.579057,3.89844167 825.369694,3 824.160331,3 C822.950968,3 821.741604,3.89844167 821.256602,5 L820.160331,5 C820.694507,3.38353653 822.427419,2 824.160331,2 C825.893243,2 827.626155,3.38353653 828.160331,5 Z M827.06406,5" id="Rectangle 145"></path>
+        </g>
+    </g>
+</svg>

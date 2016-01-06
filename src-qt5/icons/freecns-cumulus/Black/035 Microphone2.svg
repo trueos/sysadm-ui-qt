@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>035 Microphone2</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-768.000000, -48.000000)" fill="#000000">
+            <path d="M781,54 L781,57 C781,59 779,61 777,61 L777,63 L780,63 L780,64 L773,64 L773,63 L776,63 L776,61 C774,61 772,59 772,57 L772,54 L773,54 L773,57 C773,58.5 774.5,60 776,60 L777,60 C778.5,60 780,58.5 780,57 L780,54 Z M776.004882,48 L776.995118,48 C778.1061,48 779,48.8918564 779,49.992017 L779,57.007983 C779,58.0998238 778.102384,59 776.995118,59 L776.004882,59 C774.8939,59 774,58.1081436 774,57.007983 L774,49.992017 C774,48.9001762 774.897616,48 776.004882,48 Z M775,49 L775,50 L776,50 L776,49 L775,49 Z M777,49 L777,50 L778,50 L778,49 L777,49 Z M774,50 L774,51 L775,51 L775,50 L774,50 Z M776,50 L776,51 L777,51 L777,50 L776,50 Z M778,50 L778,51 L779,51 L779,50 L778,50 Z M775,51 L775,52 L776,52 L776,51 L775,51 Z M777,51 L777,52 L778,52 L778,51 L777,51 Z M774,52 L774,53 L775,53 L775,52 L774,52 Z M776,52 L776,53 L777,53 L777,52 L776,52 Z M778,52 L778,53 L779,53 L779,52 L778,52 Z M775,53 L775,54 L776,54 L776,53 L775,53 Z M777,53 L777,54 L778,54 L778,53 L777,53 Z M777,53" id="Shape copy"></path>
+        </g>
+    </g>
+</svg>

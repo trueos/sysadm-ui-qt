@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>194 LightBulb</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-624.000000, -480.000000)" fill="#000000">
+            <path d="M629,489.000366 C627.785549,488.088152 627,486.635814 627,485 C627,482.238576 629.238576,480 632,480 C634.761424,480 637,482.238576 637,485 C637,486.635814 636.214451,488.088152 635,489.000366 L635,491 L629,491 Z M635,492 L635,492.99967 C635,494.651356 633.656854,496 632,496 C630.346517,496 629,494.656707 629,492.99967 L629,492 Z M635,492" id="Oval 183"></path>
+        </g>
+    </g>
+</svg>

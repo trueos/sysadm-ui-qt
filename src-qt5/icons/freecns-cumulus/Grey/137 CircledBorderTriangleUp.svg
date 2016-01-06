@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>137 CircledBorderTriangleUp</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-480.000000, -336.000000)" fill="#D4D4D4">
+            <path d="M488,350 C491.313709,350 494,347.313709 494,344 C494,340.686291 491.313709,338 488,338 C484.686291,338 482,340.686291 482,344 C482,347.313709 484.686291,350 488,350 Z M488,352 C483.581722,352 480,348.418278 480,344 C480,339.581722 483.581722,336 488,336 C492.418278,336 496,339.581722 496,344 C496,348.418278 492.418278,352 488,352 Z M488,341 L492,346 L484,346 Z M488,341" id="Oval 186"></path>
+        </g>
+    </g>
+</svg>

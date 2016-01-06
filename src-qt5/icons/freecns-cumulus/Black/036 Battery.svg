@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>036 Battery</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-816.000000, -48.000000)" fill="#000000">
+            <path d="M817,53 L817,59 L830,59 L830,53 Z M817.007484,52 L829.992516,52 C830.55108,52 831,52.4463856 831,52.9970301 L831,54 L832,54 L832,58 L831,58 L831,59.0029699 C831,59.5469637 830.548934,60 829.992516,60 L817.007484,60 C816.44892,60 816,59.5536144 816,59.0029699 L816,52.9970301 C816,52.4530363 816.451066,52 817.007484,52 Z M818,54 L826,54 L826,58 L818,58 Z M818,54" id="Rectangle 147"></path>
+        </g>
+    </g>
+</svg>

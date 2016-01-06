@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>057 CircledArrowLeft</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-96.000000, -144.000000)" fill="#000000">
+            <path d="M103,150 L109,150 L109,154 L103,154 L103,156 L98,152 L103,148 L103,150 L103,150 Z M112,152 C112,147.5 108.5,144 104,144 C99.5,144 96,147.5 96,152 C96,156.5 99.5,160 104,160 C108.5,160 112,156.5 112,152 L112,152 Z M112,152" id="Shape"></path>
+        </g>
+    </g>
+</svg>

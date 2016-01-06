@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>138 CircledBorderTriangleDown</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-528.000000, -336.000000)" fill="#000000">
+            <path d="M536,338 C539.5,338 542,340.5 542,344 C542,347.5 539.5,350 536,350 C532.5,350 530,347.5 530,344 C530,340.5 532.5,338 536,338 L536,338 Z M536,336 C531.5,336 528,339.5 528,344 C528,348.5 531.5,352 536,352 C540.5,352 544,348.5 544,344 C544,339.5 540.5,336 536,336 L536,336 Z M536,347 L540,342 L532,342 L536,347 L536,347 Z M536,347" id="Shape"></path>
+        </g>
+    </g>
+</svg>

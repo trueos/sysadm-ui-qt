@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>024 Computer</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-240.000000, -48.000000)" fill="#D4D4D4">
+            <path d="M242.006845,49 L253.993155,49 C254.550051,49 255,49.4457352 255,49.9955775 L255,59.0044225 C255,59.555163 254.54922,60 253.993155,60 L250.5,60 L253,63 L243,63 L245.5,60 L242.006845,60 C241.449949,60 241,59.5542648 241,59.0044225 L241,49.9955775 C241,49.444837 241.45078,49 242.006845,49 Z M242,50 L242,59 L254,59 L254,50 Z M242,50" id="Rectangle 132"></path>
+        </g>
+    </g>
+</svg>

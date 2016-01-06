@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>034 Microphone</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-720.000000, -48.000000)" fill="#000000">
+            <path d="M733,54 L733,57 C733,59 731,61 729,61 L729,63 L732,63 L732,64 L725,64 L725,63 L728,63 L728,61 C726,61 724,59 724,57 L724,54 L725,54 L725,57 C725,58.5 726.5,60 728,60 L729,60 C730.5,60 732,58.5 732,57 L732,54 Z M728.004882,48 L728.995118,48 C730.1061,48 731,48.8918564 731,49.992017 L731,57.007983 C731,58.0998238 730.102384,59 728.995118,59 L728.004882,59 C726.8939,59 726,58.1081436 726,57.007983 L726,49.992017 C726,48.9001762 726.897616,48 728.004882,48 Z M728.004882,48" id="Shape"></path>
+        </g>
+    </g>
+</svg>

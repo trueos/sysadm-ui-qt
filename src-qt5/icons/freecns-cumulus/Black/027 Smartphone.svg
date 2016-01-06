@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>027 Smartphone</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-384.000000, -48.000000)" fill="#000000">
+            <path d="M388.999615,48 L395.000385,48 C396.112567,48 397,48.8927712 397,49.9940603 L397,62.0059397 C397,63.1054862 396.104742,64 395.000385,64 L388.999615,64 C387.887433,64 387,63.1072288 387,62.0059397 L387,49.9940603 C387,48.8945138 387.895258,48 388.999615,48 Z M388,51 L388,61 L396,61 L396,51 Z M391,62 L391,63 L393,63 L393,62 L391,62 Z M390,49 L390,50 L394,50 L394,49 L390,49 Z M390,49" id="Rectangle 129"></path>
+        </g>
+    </g>
+</svg>

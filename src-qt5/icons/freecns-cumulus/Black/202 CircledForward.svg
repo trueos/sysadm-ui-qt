@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>202 CircledForward</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-144.000000, -528.000000)" fill="#000000">
+            <path d="M152,544 C147.581722,544 144,540.418278 144,536 C144,531.581722 147.581722,528 152,528 C156.418278,528 160,531.581722 160,536 C160,540.418278 156.418278,544 152,544 L152,544 Z M157,532 L155,532 L155,536 L155,540 L157,540 L157,532 L157,532 Z M155,536 L151,532 L151,536 L151,540 L155,536 L155,536 Z M151,536 L147,532 L147,540 L151,536 L151,536 Z M151,536" id="Shape"></path>
+        </g>
+    </g>
+</svg>

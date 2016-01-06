@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>219 CircledSync</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-96.000000, -576.000000)" fill="#000000">
+            <path d="M104,588 C102.377798,588 100.981139,587.034337 100.353492,585.646468 L102,584 L101,584 L100,584 L98,584 L98,587.999902 L98.8762369,587.123687 C99.9300868,588.848645 101.830587,590 104,590 C106.973014,590 109.440993,587.837688 109.917042,585 L107.873983,585 C107.429918,586.725245 105.863826,588 104,588 Z M104,592 C99.5817218,592 96,588.418278 96,584 C96,579.581722 99.5817218,576 104,576 C108.418278,576 112,579.581722 112,584 C112,588.418278 108.418278,592 104,592 Z M108,584 L110,584 L110,580.000098 L109.123763,580.876313 C108.069913,579.151355 106.169413,578 104,578 C101.026986,578 98.5590075,580.162312 98.0829585,583 L100.126018,583 C100.570083,581.274755 102.136174,580 104,580 C105.622202,580 107.018861,580.965663 107.646508,582.353532 L106,584 L107,584 Z M108,584" id="Oval 17"></path>
+        </g>
+    </g>
+</svg>

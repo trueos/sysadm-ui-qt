@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>83 Thermometer Three Quarter Full</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons new Arranged Names Color" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="83 Thermometer Three Quarter Full">
+            <path d="M16,30 C18.2091391,30 20,28.2091391 20,26 C20,24.5194342 19.1956017,23.2267458 18,22.5351287 L18,4.00494659 C18,2.89764516 17.1122704,2 16,2 C14.8954305,2 14,2.89702623 14,4.00494659 L14,22.5351287 C12.8043983,23.2267458 12,24.5194342 12,26 C12,28.2091391 13.7908609,30 16,30 Z M16,32 C12.6862913,32 10,29.3137087 10,26 C10,24.2229949 10.7725059,22.6264183 12,21.5277869 L12,4.00552025 C12,1.78708529 13.790861,0 16,0 C18.2046438,0 20,1.7933325 20,4.00552025 L20,21.5277869 C21.2274941,22.6264183 22,24.2229949 22,26 C22,29.3137087 19.3137087,32 16,32 Z M16,32" id="Oval 245" fill="#000000"></path>
+            <path d="M16,29 C17.6568543,29 19,27.6568543 19,26 C19,24.3431457 17.6568543,23 16,23 C14.3431457,23 13,24.3431457 13,26 C13,27.6568543 14.3431457,29 16,29 Z M16,29" id="Oval 249" fill="#9A0000"></path>
+            <path d="M16,7 C15.4477153,7 15,7.44494629 15,7.99339768 L15,24.0066023 C15,24.5552407 15.4438648,25 16,25 L16,25 C16.5522847,25 17,24.5550537 17,24.0066023 L17,7.99339768 C17,7.44475929 16.5561352,7 16,7 L16,7 Z M16,7" id="Rectangle" fill="#9A0000"></path>
+        </g>
+    </g>
+</svg>

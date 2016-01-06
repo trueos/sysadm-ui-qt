@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>169 Pricetag</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-288.000000, -432.000000)" fill="#000000">
+            <path d="M290,435 L302,435 L302,436.535129 C303.195602,437.226746 304,438.519434 304,440 C304,441.480566 303.195602,442.773254 302,443.464871 L302,445 L290,445 L290,443.464871 C288.804398,442.773254 288,441.480566 288,440 C288,438.519434 288.804398,437.226746 290,436.535129 Z M290,435" id="Rectangle 212"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>171 CurvedArrowLeftDown</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-384.000000, -432.000000)" fill="#000000">
+            <path d="M389.972188,438 L389.972188,447 L398.922128,447 L395.938815,444 C397.430471,443 399.419347,440.5 398.922128,438 C398.424909,435 396.436034,433 391.961064,433 C386.491657,433 385,437.5 385,438 C387.983313,435.5 389.972188,435 391.961064,435 C393.949939,435 394.944377,436.5 394.944377,438 C394.944377,439 394.447158,440 392.955502,441 L389.972188,438 L389.972188,438 Z M389.972188,438" id="Shape"></path>
+        </g>
+    </g>
+</svg>

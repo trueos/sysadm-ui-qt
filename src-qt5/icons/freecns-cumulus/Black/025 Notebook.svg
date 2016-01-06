@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>025 Notebook</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-288.000000, -48.000000)" fill="#000000">
+            <path d="M290,51 L290,58 L302,58 L302,51 Z M290.006845,50 L301.993155,50 C302.550051,50 303,50.446616 303,50.9975446 L303,58.0024554 C303,58.5536886 302.54922,59 301.993155,59 L290.006845,59 C289.449949,59 289,58.553384 289,58.0024554 L289,50.9975446 C289,50.4463114 289.45078,50 290.006845,50 Z M289,61 L289,60 L295,60 L295,61 L297,61 L297,60 L303,60 L303,61 C303,61.5522847 302.552285,62 302,62 L290,62 C289.447715,62 289,61.5522847 289,61 Z M289,61" id="Rectangle 130"></path>
+        </g>
+    </g>
+</svg>

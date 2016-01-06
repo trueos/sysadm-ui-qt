@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>054 Preferences2</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-816.000000, -96.000000)" fill="#000000">
+            <path d="M818,98 L818,100 L820,100 L820,98 Z M818.006845,97 L829.993155,97 C830.550051,97 831,97.4507801 831,98.0068455 L831,109.993155 C831,110.550051 830.54922,111 829.993155,111 L818.006845,111 C817.449949,111 817,110.54922 817,109.993155 L817,98.0068455 C817,97.4499488 817.45078,97 818.006845,97 Z M828,108 L828,110 L830,110 L830,108 Z M828,98 L828,100 L830,100 L830,98 Z M818,108 L818,110 L820,110 L820,108 Z M823.009369,101 C822.45191,101 822,101.450975 822,101.990778 L822,106.009222 C822,106.556414 822.443353,107 823.009369,107 L824.990631,107 C825.54809,107 826,106.549025 826,106.009222 L826,101.990778 C826,101.443586 825.556647,101 824.990631,101 Z M823,102 L825,102 L825,106 L823,106 Z M823,102" id="Rectangle 231"></path>
+        </g>
+    </g>
+</svg>

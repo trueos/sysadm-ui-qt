@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>231 PagesView</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-672.000000, -576.000000)" fill="#000000">
+            <path d="M674.997152,576 L681.002848,576 C682.657561,576 683.998677,577.340548 684,578.994705 C683.68038,578.99489 683.3453,579 683,579 L679,579 C676.790861,579 675,580.790861 675,583 L675,588 L674.997152,588 C673.341623,588 672,586.658129 672,585.002848 L672,578.997152 C672,577.341623 673.341871,576 674.997152,576 Z M678.997152,580 L685.002848,580 C686.658377,580 688,581.341871 688,582.997152 L688,589.002848 C688,590.658377 686.658129,592 685.002848,592 L678.997152,592 C677.341623,592 676,590.658129 676,589.002848 L676,582.997152 C676,581.341623 677.341871,580 678.997152,580 Z M678.997152,580" id="Rectangle 16"></path>
+        </g>
+    </g>
+</svg>

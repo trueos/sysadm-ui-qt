@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>096 Textform</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-240.000000, -240.000000)" fill="#000000">
+            <path d="M241,241 L255,241 L255,247.085353 C255.582593,247.291267 256,247.846888 256,248.5 C256,249.153112 255.582593,249.708733 255,249.914647 L255,255 L241,255 L241,249.914647 C240.417407,249.708733 240,249.153112 240,248.5 C240,247.846888 240.417407,247.291267 241,247.085353 Z M242,242 L242,247.085353 C242.582593,247.291267 243,247.846888 243,248.5 C243,249.153112 242.582593,249.708733 242,249.914647 L242,254 L254,254 L254,249.914647 C253.417407,249.708733 253,249.153112 253,248.5 C253,247.846888 253.417407,247.291267 254,247.085353 L254,242 Z M244,244 L252,244 L252,245 L252,246 L251,246 L251,245 L249,245 L249,251 L250,251 L250,252 L246,252 L246,251 L247,251 L247,245 L245,245 L245,246 L244,246 L244,245 Z M244,244" id="Rectangle 214"></path>
+        </g>
+    </g>
+</svg>

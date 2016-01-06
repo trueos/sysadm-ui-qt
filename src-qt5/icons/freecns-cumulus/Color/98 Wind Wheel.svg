@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>98 Wind Wheel</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs cx="50%" r="52.523303%" id="radialGradient-1" fy="61.2503908%" cy="61.2503908%" fx="50%">
+        <radialGradient>
+            <stop stop-color="#C4C4C4" offset="0%"></stop>
+            <stop stop-color="#C4C4C4" offset="73.9318669%"></stop>
+            <stop stop-color="#FF0000" offset="74.0258888%"></stop>
+            <stop stop-color="#FF0000" offset="84.3857961%"></stop>
+            <stop stop-color="#C4C4C4" offset="84.4830979%"></stop>
+            <stop stop-color="#C4C4C4" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Icons new Arranged Names Color" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="98 Wind Wheel">
+            <path d="M17.1052841,15.7898303 L18,31 C18,31 17.5,32 16,32 C14.5,32 14,31 14,31 L14.8947159,15.7898303 C15.2367653,15.9254579 15.6096775,16 16,16 C16.3903225,16 16.7632347,15.9254579 17.1052841,15.7898303 Z M17.1052841,15.7898303" id="Path" fill="#404040"></path>
+            <path d="M18.9678223,12.5590517 C21.5232051,14.3737243 27.6702073,18.8389755 27.2734476,19.5261841 C26.875591,20.2152928 19.8977348,17.105437 17.0633843,15.8060796 C18.1953484,15.3768823 19,14.2824094 19,13 C19,12.8501992 18.9890205,12.7029629 18.9678223,12.5590517 Z M14.9366139,15.806079 C12.1022677,17.1054358 5.12440972,20.2152925 4.72655236,19.5261841 C4.32979203,18.8389758 10.4767969,14.3737228 13.0321771,12.5590555 C13.0109793,12.7029654 13,12.8502005 13,13 C13,14.2824087 13.8046507,15.3768811 14.9366139,15.806079 Z M16,0 C16.7922643,-3.58885766e-07 17.5845287,7.53219313 17.8795007,10.6616008 C17.365212,10.2477113 16.711534,10 16,10 C15.2884653,10 14.6347868,10.2477118 14.1204978,10.661602 C14.4154716,7.53219067 15.2077358,3.58885692e-07 16,0 Z M16,15 C14.8954304,15 14,14.1045696 14,13 C14,11.8954304 14.8954304,11 16,11 C17.1045696,11 18,11.8954304 18,13 C18,14.1045696 17.1045696,15 16,15 Z M16,15" id="Triangle 25" fill="url(#radialGradient-1)"></path>
+        </g>
+    </g>
+</svg>

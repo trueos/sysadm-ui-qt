@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>23 Cloud Warning</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons new Arranged Names" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="23 Cloud Warning" fill="#D4D4D4">
+            <path d="M16,18 C16.5522847,18 17,17.5621186 17,16.9970707 L17,12.0029293 C17,11.4490268 16.5561352,11 16,11 C15.4477153,11 15,11.4378814 15,12.0029293 L15,16.9970707 C15,17.5509732 15.4438648,18 16,18 Z M0,19 C0,16.7828376 1.20753986,14.8416411 3.00211353,13.8029948 C3.10690617,8.92340284 7.0952729,5 12,5 C15.2334975,5 18.0687212,6.7052115 19.6554697,9.26543304 C20.2402063,9.09270499 20.8592769,9 21.5,9 C24.2845531,9 26.6601501,10.7509485 27.5858427,13.2118973 C30.129704,13.9074543 32,16.2353674 32,19 C32,22.3069658 29.3136299,25 25.9998243,25 L6.00017566,25 C2.68697795,25 0,22.3137085 0,19 Z M16,22 C16.5522848,22 17,21.5522848 17,21 C17,20.4477152 16.5522848,20 16,20 C15.4477152,20 15,20.4477152 15,21 C15,21.5522848 15.4477152,22 16,22 Z M16,22" id="Rectangle 1 copy 2"></path>
+        </g>
+    </g>
+</svg>

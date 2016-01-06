@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>126 CloudError</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-816.000000, -288.000000)" fill="#000000">
+            <path d="M823,293 L823,297 L825,297 L825,293 Z M816,298 C816,296.651721 816.895887,295.507545 818.127761,295.131093 C818.500314,293.897932 819.645295,293 821,293 C821.174013,293 821.344566,293.014816 821.510466,293.043254 C822.195719,291.823839 823.50165,291 825,291 C827.209139,291 829,292.790861 829,295 C830.668415,295.005076 832,296.346276 832,298 C832,299.653483 830.652611,301 828.990522,301 L819.009478,301 C817.336631,301 816,299.656854 816,298 Z M823,298 L823,300 L825,300 L825,298 Z M823,298" id="Rectangle 169 copy 4"></path>
+        </g>
+    </g>
+</svg>

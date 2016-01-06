@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>217 CircledRedo</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(0.000000, -576.000000)" fill="#000000">
+            <path d="M8,592 C3.58172178,592 0,588.418278 0,584 C0,579.581722 3.58172178,576 8,576 C12.4182782,576 16,579.581722 16,584 C16,588.418278 12.4182782,592 8,592 Z M8,588 C6.34314567,588 5,586.656854 5,585 C5,583.343146 6.34314567,582 8,582 L8,584 L12,581 L8,578 L8,580 C5.23857611,580 3,582.238576 3,585 C3,587.761424 5.23857611,590 8,590 C10.7614239,590 13,587.761424 13,585 C13,584.384899 12.8889295,583.79574 12.6857262,583.251419 L10.9760553,584.619156 C10.9918532,584.743828 11,584.870963 11,585 C11,586.656854 9.65685433,588 8,588 Z M8,588" id="Oval 6"></path>
+        </g>
+    </g>
+</svg>

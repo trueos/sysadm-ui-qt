@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>052 Ruler</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-720.000000, -96.000000)" fill="#000000">
+            <path d="M721.99406,99 L722,99 L722,103 L723,103 L723,99 L724,99 L724,101 L725,101 L725,99 L726,99 L726,103 L727,103 L727,99 L728,99 L728,101 L729,101 L729,99 L730,99 L730,103 L731,103 L731,99 L732,99 L732,101 L733,101 L733,99 L734.00594,99 C735.105486,99 736,99.8952581 736,100.999615 L736,107.000385 C736,108.112567 735.107229,109 734.00594,109 L721.99406,109 C720.894514,109 720,108.104742 720,107.000385 L720,100.999615 C720,99.8874333 720.892771,99 721.99406,99 Z M721.99406,99" id="Rectangle 226"></path>
+        </g>
+    </g>
+</svg>

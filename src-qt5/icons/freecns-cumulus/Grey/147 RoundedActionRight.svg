@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>147 RoundedActionRight</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-96.000000, -384.000000)" fill="#D4D4D4">
+            <path d="M98,389 L98,396 L108,396 L108,394 L110,392.4 L110,396.007983 C110,397.099824 109.101946,398 107.994141,398 L98.0058587,398 C96.8970601,398 96,397.108144 96,396.007983 L96,388.992017 C96,387.900176 96.8980535,387 98.0058587,387 L102.75,387 L100.25,389 Z M112,389 L107,393 L107,391.008289 C103.667389,390.888001 101.661068,392.37291 99.9668579,394.023071 C99.9668579,390.100747 103.460459,387.011342 107,386.976794 L107,385 Z M112,389" id="Rectangle 204"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>002 User</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-48.000000, 0.000000)" fill="#000000">
+            <path d="M48,13 L48,16 L64,16 L64,13 L48,13 Z M58.0351562,8.71432299 L58.0351562,10 C59.9912109,11.9533691 64,13 64,13 L48,13 C48,13 51.9771729,11.9980469 54.0234375,10 L54.0234375,8.74568593 C53.4137638,8.4035646 53,7.75085352 53,7.00189865 L53,2.99810135 C53,1.88670635 53.8944962,1 54.9979131,1 L57.0020869,1 C58.1017394,1 59,1.89458045 59,2.99810135 L59,7.00189865 C59,7.73248111 58.6134728,8.36597173 58.0351562,8.71432299 Z M58.0351562,8.71432299" id="Rectangle 253"></path>
+        </g>
+    </g>
+</svg>

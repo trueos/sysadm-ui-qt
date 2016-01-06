@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>227 CircledList</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-480.000000, -576.000000)" fill="#000000">
+            <path d="M483,580 L483,582 L493,582 L493,580 Z M488,592 C483.581722,592 480,588.418278 480,584 C480,579.581722 483.581722,576 488,576 C492.418278,576 496,579.581722 496,584 C496,588.418278 492.418278,592 488,592 Z M483,583 L483,585 L493,585 L493,583 Z M483,586 L483,588 L493,588 L493,586 Z M483,586" id="Oval 12"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>180 Ticket</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-816.000000, -432.000000)" fill="#000000">
+            <path d="M818.78734,436 L829.21266,436 C829.542226,436.779779 830.220221,437.457774 831,437.78734 L831,443.21266 C830.220221,443.542226 829.542226,444.220221 829.21266,445 L818.78734,445 C818.457774,444.220221 817.779779,443.542226 817,443.21266 L817,437.78734 C817.779779,437.457774 818.457774,436.779779 818.78734,436 L818.78734,436 Z M820,438 L820,443 L828,443 L828,438 L820,438 L820,438 Z M821,439 L821,442 L827,442 L827,439 L821,439 L821,439 Z M821,439" id="Shape"></path>
+        </g>
+    </g>
+</svg>

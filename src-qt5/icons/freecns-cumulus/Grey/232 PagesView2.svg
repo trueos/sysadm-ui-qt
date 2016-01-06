@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>232 PagesView2</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-720.000000, -576.000000)" fill="#D4D4D4">
+            <path d="M722.99703,578 C722.446386,578 722,578.453036 722,578.99703 L722,585.00297 C722,585.553614 722.453036,586 722.99703,586 L723,586 L723,588 L722.997152,588 C721.341623,588 720,586.658129 720,585.002848 L720,578.997152 C720,577.341623 721.341871,576 722.997152,576 L729.002848,576 C730.657561,576 731.998677,577.340548 732,578.994705 C731.68038,578.99489 731.3453,579 731,579 L730,579 L730,578.99703 C730,578.446386 729.546964,578 729.00297,578 Z M726.997152,580 L733.002848,580 C734.658377,580 736,581.341871 736,582.997152 L736,589.002848 C736,590.658377 734.658129,592 733.002848,592 L726.997152,592 C725.341623,592 724,590.658129 724,589.002848 L724,582.997152 C724,581.341623 725.341871,580 726.997152,580 Z M726.997152,580" id="Rectangle 16 copy"></path>
+        </g>
+    </g>
+</svg>

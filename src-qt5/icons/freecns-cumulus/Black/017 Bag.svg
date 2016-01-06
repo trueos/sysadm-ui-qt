@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>017 Bag</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-768.000000, 0.000000)" fill="#000000">
+            <path d="M783,10 L783,13.0046024 C783,13.5443356 782.54922,14 781.993155,14 L770.006845,14 C769.449949,14 769,13.5543453 769,13.0046024 L769,10 L771,10 L771,12 L774,12 L774,10 L778,10 L778,12 L781,12 L781,10 Z M770.006845,4 L772,4 L772,2.99895656 C772,2.44266033 772.446386,2 772.99703,2 L779.00297,2 C779.546964,2 780,2.44724809 780,2.99895656 L780,4 L781.993155,4 C782.550051,4 783,4.44565467 783,4.99539757 L783,9 L781,9 L781,7 L778,7 L778,9 L774,9 L774,7 L771,7 L771,9 L769,9 L769,4.99539757 C769,4.4556644 769.45078,4 770.006845,4 Z M772,8 L773,8 L773,11 L772,11 Z M779,8 L780,8 L780,11 L779,11 Z M773,3 L773,4 L779,4 L779,3 Z M773,3" id="Rectangle 144"></path>
+        </g>
+    </g>
+</svg>

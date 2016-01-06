@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>144 Forbidden</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-816.000000, -336.000000)" fill="#000000">
+            <path d="M824,350 C825.402054,350 826.691788,349.519101 827.713252,348.713252 L819.286748,340.286748 C818.480899,341.308212 818,342.597946 818,344 C818,347.313709 820.686291,350 824,350 Z M828.713252,347.713252 C829.519101,346.691788 830,345.402054 830,344 C830,340.686291 827.313709,338 824,338 C822.597946,338 821.308212,338.480899 820.286748,339.286748 Z M824,352 C819.581722,352 816,348.418278 816,344 C816,339.581722 819.581722,336 824,336 C828.418278,336 832,339.581722 832,344 C832,348.418278 828.418278,352 824,352 Z M824,352" id="Oval 288"></path>
+        </g>
+    </g>
+</svg>

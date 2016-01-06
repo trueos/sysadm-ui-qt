@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>078 Pin</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-240.000000, -192.000000)" fill="#D4D4D4">
+            <path d="M247,201 L249,201 L249,207 L248,208 L247,207 Z M248,200 C245.790861,200 244,198.209139 244,196 C244,193.790861 245.790861,192 248,192 C250.209139,192 252,193.790861 252,196 C252,198.209139 250.209139,200 248,200 Z M247,196 C247.552285,196 248,195.552285 248,195 C248,194.447715 247.552285,194 247,194 C246.447715,194 246,194.447715 246,195 C246,195.552285 246.447715,196 247,196 Z M247,196" id="Rectangle 160"></path>
+        </g>
+    </g>
+</svg>

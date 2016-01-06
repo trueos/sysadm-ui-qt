@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>222 ArrowTurnRightDown</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-240.000000, -576.000000)" fill="#000000">
+            <path d="M248,592 C252.418278,592 256,588.418278 256,584 C256,579.581722 252.418278,576 248,576 C243.581722,576 240,579.581722 240,584 C240,588.418278 243.581722,592 248,592 L248,592 Z M246,586 L244,586 L244,584 L244,579 L246,579 L246,584 L250,584 L250,581 L253.9567,585.102797 L250,589 L250,586 L246,586 L246,586 Z M246,586" id="Shape"></path>
+        </g>
+    </g>
+</svg>

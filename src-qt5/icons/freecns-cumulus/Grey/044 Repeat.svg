@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>044 Repeat</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-336.000000, -96.000000)" fill="#D4D4D4">
+            <path d="M351.428943,101.678293 C351.793548,102.37207 352,103.161957 352,104 C352,106.755805 349.762908,109 347.003314,109 L341,109 L341,111 L337,108 L341,105 L341,107 L347.002848,107 C348.658129,107 350,105.653483 350,104 C350,103.613413 349.926961,103.243904 349.793936,102.904548 Z M338,104 C338,104.386587 338.073039,104.756096 338.206064,105.095452 L336.571057,106.321707 C336.206452,105.62793 336,104.838043 336,104 C336,101.244195 338.237092,99 340.996686,99 L347,99 L347,97 L351,100 L347,103 L347,101 L340.997152,101 C339.341871,101 338,102.346517 338,104 Z M338,104" id="Rectangle 259"></path>
+        </g>
+    </g>
+</svg>

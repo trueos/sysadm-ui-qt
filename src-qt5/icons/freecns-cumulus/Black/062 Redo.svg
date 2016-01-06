@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>062 Redo</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-336.000000, -144.000000)" fill="#000000">
+            <path d="M344.5,157 C346.985281,157 349,154.985281 349,152.5 C349,152.330989 348.990683,152.164155 348.972536,152 L350.981055,152 C350.993609,152.165026 351,152.331767 351,152.5 C351,156.089851 348.089851,159 344.5,159 C340.910149,159 338,156.089851 338,152.5 C338,149.078382 340.64378,146.274253 344,146.018945 L344,144 L348,147 L344,150 L344,148.027464 C341.750016,148.276196 340,150.183729 340,152.5 C340,154.985281 342.014719,157 344.5,157 Z M344.5,157" id="Oval 194"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>130 ArrowRightDouble</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-144.000000, -336.000000)" fill="#000000">
+            <path d="M160,344 L154,339 L154,339.833333 L159,344 L154,348.166667 L154,349 L160,344 L160,344 Z M158,344 L152,339 L152,342.081559 C148.460721,342.401309 145.692963,343.767593 144,348 C146.478653,345.934456 148.957306,345.234183 152,345.617183 L152,349 L158,344 L158,344 Z M158,344" id="Shape"></path>
+        </g>
+    </g>
+</svg>

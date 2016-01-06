@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>160 Desktop</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-720.000000, -384.000000)" fill="#000000">
+            <path d="M721,388 L721,398 L735,398 L735,388 Z M721.99406,385 L734.00594,385 C735.105486,385 736,385.898054 736,387.005859 L736,396.994141 C736,398.10294 735.107229,399 734.00594,399 L721.99406,399 C720.894514,399 720,398.101946 720,396.994141 L720,387.005859 C720,385.89706 720.892771,385 721.99406,385 Z M724,395 L732,395 L733,397 L723,397 Z M721,386 L721,387 L722,387 L722,386 Z M734,386 L734,387 L735,387 L735,386 L734,386 Z M732,386 L732,387 L733,387 L733,386 L732,386 Z M730,386 L730,387 L731,387 L731,386 L730,386 Z M730,386" id="Rectangle 298"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>218 CircledUndo</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Icons with numbers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-48.000000, -576.000000)" fill="#000000">
+            <path d="M56,592 C60.4182782,592 64,588.418278 64,584 C64,579.581722 60.4182782,576 56,576 C51.5817218,576 48,579.581722 48,584 C48,588.418278 51.5817218,592 56,592 L56,592 Z M56,588 C57.6568543,588 59,586.656854 59,585 C59,583.343146 57.6568543,582 56,582 L56,584 L52,581 L56,578 L56,580 C58.7614239,580 61,582.238576 61,585 C61,587.761424 58.7614239,590 56,590 C53.2385761,590 51,587.761424 51,585 C51,584.384899 51.1110705,583.79574 51.3142738,583.251419 L53.0239447,584.619156 C53.0081468,584.743828 53,584.870963 53,585 C53,586.656854 54.3431457,588 56,588 L56,588 Z M56,588" id="Shape"></path>
+        </g>
+    </g>
+</svg>
