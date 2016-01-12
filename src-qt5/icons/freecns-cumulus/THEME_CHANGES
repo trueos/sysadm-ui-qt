@@ -1,0 +1,4 @@
+Changes performed to the stock freecns-cumulus icon theme:
+
+1) Only use the SVG icon format (remove all PNG/PDF/EPS/other files)
+2) Move all the files into sub-directories based on color (black/grey/color) 

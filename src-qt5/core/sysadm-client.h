@@ -13,35 +13,90 @@
 #include <QWebSocket>
 #include <QObject>
 #include <QSettings>
+#include <QSslError>
+#include <QHash>
+#include <QDebug>
+
+//NOTE: The default port will be used unless the host IP has ":<port>" appended on the end
+//NOTE-2: The host IP can be either a number (127.0.0.1) or a URL address-only  (mysystem.net)
+#define WSPORTDEFAULT 12150
+//Number of automatic re-connects to try before failing out
+#define FAIL_MAX 10
 
 class sysadm_client : public QObject{
 	Q_OBJECT
 public:
+	enum EVENT_TYPE{ DISPATCHER };
+	
 	sysadm_client();
 	~sysadm_client();
 
 	// Overall Connection functions (start/stop)
-	bool openConnection(QString user, QString pass, QString hostIP);
-	bool openConnection(QString authkey, QString hostIP);
+	void openConnection(QString user, QString pass, QString hostIP);
+	void openConnection(QString authkey, QString hostIP);
 	void closeConnection();
 
 	// Connection Hosts Database Access
 	QStringList knownHosts(); //Returns: <IP>::::<Name>
-	bool saveHost(QString IP, QString name);
-	bool removeHost(QString IP);
+	void saveHost(QString IP, QString name);
+	void removeHost(QString IP);
 
+	// Register for Event Notifications (no notifications by default)
+	void registerForEvents(EVENT_TYPE event, bool receive = true);
 	
-
+	// Messages which are still pending a response
+	QStringList pending(); //returns only the "id" for each 
+	
+	// Fetch a message from the recent cache
+	QJsonObject cachedRequest(QString id);
+	QJsonValue cachedReply(QString id);
+	
 private:
 	QSettings *settings;
 	QWebSocket *SOCKET;
-	QString chost, cport, cauthkey; //current host/port/authkey
+	QString chost, cauthkey, cuser, cpass; //current host/authkey/user/pass
+	QList<EVENT_TYPE> events;
+	QHash<QString, QJsonObject> SENT, BACK; //small cache of sent/received messages
+	QStringList PENDING; //ID's for sent but not received messages
+	bool keepActive;
+	int num_fail; //number of server connection failures
+
+	//Functions to do the initial socket setup
+        void setupSocket(); //uses chost/cport for setup
+	void performAuth(QString user="", QString pass=""); //uses cauthkey if empty inputs
+
+	//Communication subroutines with the server (block until message comes back)
+	void sendEventSubscription(EVENT_TYPE event, bool subscribe = true);
+	void sendSocketMessage(QJsonObject msg);
+
+	//Simplification functions
+	QJsonObject convertServerReply(QString reply);
 
 public slots:
-	
+	// Overloaded Communication functions
+	// Reply from server may be obtained later from the newReply() signal
+	void communicate(QString ID, QString namesp, QString name, QJsonValue args);
+	void communicate(QJsonObject);
+	void communicate(QList<QJsonObject>);
+
 private slots:
+	//Socket signal/slot connections
+	void socketConnected(); //Signal: connected()
+	void socketClosed(); //Signal: disconnected()
+	void socketSslErrors(QList<QSslError>&errlist); //Signal: sslErrors()
+	void socketError(QAbstractSocket::SocketError err); //Signal:: error()
+	//void socketProxyAuthRequired(const QNetworkProxy &proxy, QAuthenticator *auth); //Signal: proxyAuthenticationRequired()
+
+	// - Main message input parsing
+	void socketMessage(QString); //Signal: textMessageReceived()
 	
 signals:
+	void clientConnected(); //Stage 1 - host address is valid
+	void clientAuthorized(); //Stage 2 - user is authorized to continue
+	void clientDisconnected(); //Only emitted if the client could not automatically reconnect to the server
+	void clientUnauthorized(); //Only emitted if the user needs to re-authenticate with the server
+	void newReply(QString ID, QString namesp, QString name, QJsonValue args);
+	void DispatcherEvent(QJsonValue data);
 
 };
 

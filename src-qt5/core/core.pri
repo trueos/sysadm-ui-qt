@@ -4,7 +4,7 @@
 # =============================================
 # To include in a client project file: "include(<path to this file>/core.pri)"
 # =============================================
-QT += core network websockets
+QT *= core network websockets
 
 SOURCES += $$PWD/sysadm-client.cpp
 
