@@ -4,15 +4,22 @@
 //  Available under the 3-clause BSD license
 //  See the LICENSE file for full details
 //===========================================
-#include <QCoreApplication>
+#include <QApplication>
 #include <QDebug>
 
-#include "core/sysadm-client.h"
+#include "globals.h"
+#include "mainUI.h"
+
+//Initialize the core of the client
+sysadm_client *S_CORE = new sysadm_client();
 
 int main( int argc, char ** argv )
 {
-  //Run a simple test of all the sysadm client functions
-  sysadm_client CLIENT;
-  //CLIENT.
-  return 0;
+  //Load the application
+  QApplication A(argc, argv);
+  //Start up the client UI
+  MainUI dlg;
+  dlg.show();
+  //Start the event loop
+  return A.exec();
 }

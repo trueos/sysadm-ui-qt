@@ -31,6 +31,7 @@ sysadm_client::~sysadm_client(){
 // Overall Connection functions (start/stop)
 void sysadm_client::openConnection(QString user, QString pass, QString hostIP){
   cuser = user; cpass = pass; chost = hostIP;
+  qDebug() << "Client: Setup connection:" << user << pass << hostIP;
   setupSocket();
 }
 
@@ -104,6 +105,7 @@ QJsonValue sysadm_client::cachedReply(QString id){
 // === PRIVATE ===
 //Functions to do the initial socket setup
 void sysadm_client::setupSocket(){
+  qDebug() << "Setup Socket:" << SOCKET->isValid();
   if(SOCKET->isValid()){ return; }
   //uses chost for setup
   // - assemble the host URL
@@ -113,6 +115,7 @@ void sysadm_client::setupSocket(){
   url.section(":",-1).toInt(&hasport); //check if the last piece of the url is a valid number
   //Could add a check for a valid port number as well - but that is a bit overkill right now
   if(!hasport){ url.append(":"+QString::number(WSPORTDEFAULT)); }
+  qDebug() << " - URL:" << url;
   SOCKET->open(QUrl(url));
 }
 
@@ -228,11 +231,13 @@ void sysadm_client::socketClosed(){ //Signal: disconnected()
   }	  
 }
 
-void sysadm_client::socketSslErrors(QList<QSslError>&errlist){ //Signal: sslErrors()
+void sysadm_client::socketSslErrors(const QList<QSslError>&errlist){ //Signal: sslErrors()
   qWarning() << "SSL Errors Detected:" << errlist.length();
-  for(int i=0; errlist.length(); i++){
+  for(int i=0; i< errlist.length(); i++){
     qWarning() << " - " << errlist[i].errorString();
   }
+  qWarning() << "Ignoring SSL errors...";
+  SOCKET->ignoreSslErrors();
 }
 
 void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: error()

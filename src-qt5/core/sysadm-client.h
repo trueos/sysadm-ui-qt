@@ -83,7 +83,7 @@ private slots:
 	//Socket signal/slot connections
 	void socketConnected(); //Signal: connected()
 	void socketClosed(); //Signal: disconnected()
-	void socketSslErrors(QList<QSslError>&errlist); //Signal: sslErrors()
+	void socketSslErrors(const QList<QSslError>&errlist); //Signal: sslErrors()
 	void socketError(QAbstractSocket::SocketError err); //Signal:: error()
 	//void socketProxyAuthRequired(const QNetworkProxy &proxy, QAuthenticator *auth); //Signal: proxyAuthenticationRequired()
 
