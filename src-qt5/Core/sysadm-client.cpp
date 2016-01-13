@@ -7,13 +7,12 @@
 #include "sysadm-client.h"
 #include <QSslConfiguration>
 #include <QJsonArray>
+#include <QTimer>
 
 // === PUBLIC ===
 sysadm_client::sysadm_client(){
   SOCKET = new QWebSocket("sysadm-client", QWebSocketProtocol::VersionLatest, this);
     SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
-    QList<QSslError> ignored; ignored << QSslError(QSslError::SelfSignedCertificate) << QSslError(QSslError::HostNameMismatch);
-    SOCKET->ignoreSslErrors(ignored);
     //SOCKET->ignoreSslErrors();
     //use the new Qt5 connection syntax for compile time checks that connections are valid
     connect(SOCKET, &QWebSocket::connected, this, &sysadm_client::socketConnected);
@@ -118,7 +117,10 @@ void sysadm_client::setupSocket(){
   //Could add a check for a valid port number as well - but that is a bit overkill right now
   if(!hasport){ url.append(":"+QString::number(WSPORTDEFAULT)); }
   qDebug() << " - URL:" << url;
+  QTimer::singleShot(0,SOCKET, SLOT(ignoreSslErrors()) );
   SOCKET->open(QUrl(url));
+    //QList<QSslError> ignored; ignored << QSslError(QSslError::SelfSignedCertificate) << QSslError(QSslError::HostNameMismatch);
+    //SOCKET->ignoreSslErrors(ignored);
 }
 
 void sysadm_client::performAuth(QString user, QString pass){
@@ -235,7 +237,6 @@ void sysadm_client::socketClosed(){ //Signal: disconnected()
 
 void sysadm_client::socketSslErrors(const QList<QSslError>&errlist){ //Signal: sslErrors()
   qWarning() << "SSL Errors Detected:" << errlist.length();
-  //SOCKET->ignoreSslErrors(QList<QSslError>() << QSslError(QSslError::SelfSignedCertificate) << QSslError(QSslError::HostNameMismatch) );
   QList<QSslError> ignored;
   for(int i=0; i< errlist.length(); i++){
     if(errlist[i].error()==QSslError::SelfSignedCertificate || errlist[i].error()==QSslError::HostNameMismatch ){
@@ -245,15 +246,14 @@ void sysadm_client::socketSslErrors(const QList<QSslError>&errlist){ //Signal: s
       qWarning() << " - " << errlist[i].errorString();
     }
   }
-  if(!ignored.isEmpty()){
-    qDebug() << "Ignoring errors:";
-    SOCKET->ignoreSslErrors(ignored);
+  if(ignored.length() != errlist.length()){
+    SOCKET->close(); //SSL errors - close the connection
   }
 }
 
 void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: error()
   qWarning() << "Socket Error detected:" << err;
-  if(err==13){qWarning() << " - SSL Handshake Failed"; }
+  if(err==QAbstractSocket::SslHandshakeFailedError){qWarning() << " - SSL Handshake Failed"; }
   qWarning() << " - Final websocket error:" << SOCKET->errorString();
 }
 //void sysadm_client::socketProxyAuthRequired(const QNetworkProxy &proxy, QAuthenticator *auth); //Signal: proxyAuthenticationRequired()
