@@ -25,7 +25,8 @@ private:
 
 private slots:
 	//UI Signals
-	void on_push_auth_connect_clicked();
+	void auth_connect();
+	void auth_disconnect();
 
 	//Core Signals
 	void NoAuthorization();

@@ -21,5 +21,7 @@ int main( int argc, char ** argv )
   MainUI dlg;
   dlg.show();
   //Start the event loop
-  return A.exec();
+  int ret = A.exec();
+  S_CORE->closeConnection();
+  return ret;
 }

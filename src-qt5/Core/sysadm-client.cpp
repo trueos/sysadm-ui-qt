@@ -270,6 +270,7 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
   if(ID=="sysadm-client-auth-auto"){
     //Reply to automated auth system
     if(name=="error"){
+      closeConnection();
       emit clientUnauthorized();
     }else{
       QJsonValue args = obj.value("args");

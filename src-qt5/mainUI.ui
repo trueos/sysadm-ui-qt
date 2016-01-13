@@ -192,20 +192,57 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionDisconnect"/>
     <addaction name="actionClose_Application"/>
    </widget>
+   <widget class="QMenu" name="menuConnection">
+    <property name="title">
+     <string>Connection</string>
+    </property>
+    <addaction name="actionDisconnect"/>
+    <addaction name="actionSave_Host_Bookmark"/>
+    <addaction name="separator"/>
+    <addaction name="actionLocalhost_Auto_Connect"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuConnection"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionClose_Application">
+   <property name="icon">
+    <iconset resource="icons/icons.qrc">
+     <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
+   </property>
    <property name="text">
     <string>Close Application</string>
    </property>
   </action>
   <action name="actionDisconnect">
+   <property name="icon">
+    <iconset resource="icons/icons.qrc">
+     <normaloff>:/icons/black/off.svg</normaloff>:/icons/black/off.svg</iconset>
+   </property>
    <property name="text">
     <string>Disconnect</string>
+   </property>
+  </action>
+  <action name="actionLocalhost_Auto_Connect">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Localhost Auto-Connect</string>
+   </property>
+  </action>
+  <action name="actionSave_Host_Bookmark">
+   <property name="icon">
+    <iconset resource="icons/icons.qrc">
+     <normaloff>:/icons/black/bookmark.svg</normaloff>:/icons/black/bookmark.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Save Host Bookmark</string>
    </property>
   </action>
  </widget>
