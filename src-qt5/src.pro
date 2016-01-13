@@ -23,7 +23,7 @@ HEADERS += globals.h \
 
 FORMS += mainUI.ui
 
-include(core/core.pri)
+include(Core/core.pri)
 
 
 

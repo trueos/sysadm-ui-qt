@@ -17,7 +17,7 @@
 #include <QObject>
 
 
-#include "core/sysadm-client.h"
+#include "Core/sysadm-client.h"
 
 #endif
 
