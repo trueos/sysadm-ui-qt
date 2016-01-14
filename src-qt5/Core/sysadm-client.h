@@ -36,6 +36,9 @@ public:
 	void openConnection(QString authkey, QString hostIP);
 	void closeConnection();
 
+	//Check if the sysadm server is running on the local system
+	bool localhostAvailable();
+	
 	// Connection Hosts Database Access
 	QStringList knownHosts(); //Returns: <IP>::::<Name>
 	void saveHost(QString IP, QString name);
@@ -52,7 +55,6 @@ public:
 	QJsonValue cachedReply(QString id);
 	
 private:
-	QSettings *settings;
 	QWebSocket *SOCKET;
 	QString chost, cauthkey, cuser, cpass; //current host/authkey/user/pass
 	QList<EVENT_TYPE> events;

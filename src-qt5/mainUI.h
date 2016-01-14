@@ -22,11 +22,13 @@ public:
 
 private:
 	Ui::MainUI *ui;
+	void InitializeUI();
 
 private slots:
 	//UI Signals
 	void auth_connect();
 	void auth_disconnect();
+	void auto_local_auth_changed();
 
 	//Core Signals
 	void NoAuthorization();

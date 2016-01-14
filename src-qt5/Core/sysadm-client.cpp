@@ -5,9 +5,13 @@
 //  See the LICENSE file for full details
 //===========================================
 #include "sysadm-client.h"
+#include "../globals.h"
 #include <QSslConfiguration>
 #include <QJsonArray>
-#include <QTimer>
+#include <QProcess>
+#include <QFile>
+
+#define SERVERPIDFILE QString("/var/run/sysadm-websocket.pid")
 
 // === PUBLIC ===
 sysadm_client::sysadm_client(){
@@ -22,7 +26,6 @@ sysadm_client::sysadm_client(){
     connect(SOCKET, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)) );
     connect(SOCKET, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(socketSslErrors(const QList<QSslError>&)) );
   keepActive=false; //not setup yet
-  settings = new QSettings("PC-BSD","sysadm-client", this);
 }
 
 sysadm_client::~sysadm_client(){
@@ -48,6 +51,19 @@ void sysadm_client::closeConnection(){
   performAuth();
   //Now close the connection
   SOCKET->close(QWebSocketProtocol::CloseCodeNormal, "sysadm-client closed");
+}
+
+//Check if the sysadm server is running on the local system
+bool sysadm_client::localhostAvailable(){
+  #ifdef __FreeBSD__
+  //Check if the local socket can connect
+  if(QFile::exists(SERVERPIDFILE)){
+    //int ret = QProcess::execute("pgrep -f \""+SERVERPIDFILE+"\"");
+    //return (ret==0 || ret>3);
+    return true;
+  }
+  #endif
+  return false;
 }
 
 // Connection Hosts Database Access

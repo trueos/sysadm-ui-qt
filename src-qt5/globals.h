@@ -15,10 +15,17 @@
 #include <QJsonValue>
 #include <QWidget>
 #include <QObject>
+#include <QSettings>
+#include <QTimer>
 
 
 #include "Core/sysadm-client.h"
 
+//Now define all the global variables
+// (those each subsystem might need to access independently)
+extern sysadm_client *S_CORE;
+extern QSettings *settings;
+
 #endif
 
-extern sysadm_client *S_CORE;
+

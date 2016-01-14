@@ -10,8 +10,9 @@
 #include "globals.h"
 #include "mainUI.h"
 
-//Initialize the core of the client
+//Initialize the global variables (defined in globals.h)
 sysadm_client *S_CORE = new sysadm_client();
+QSettings *settings = new QSettings("PC-BSD","sysadm-client", 0);
 
 int main( int argc, char ** argv )
 {
@@ -22,6 +23,11 @@ int main( int argc, char ** argv )
   dlg.show();
   //Start the event loop
   int ret = A.exec();
+  //Clean up any global classes before exiting
   S_CORE->closeConnection();
+  settings->sync();
+  //Now fully-close the global classes
+  delete settings;
+  delete S_CORE;
   return ret;
 }

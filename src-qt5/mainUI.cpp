@@ -10,17 +10,49 @@
 // === PUBLIC ===
 MainUI::MainUI() : QMainWindow(), ui(new Ui::MainUI){
   ui->setupUi(this); //load the designer form
+  ui->stackedWidget->setCurrentWidget(ui->page_auth);
+  InitializeUI();
+}
+
+MainUI::~MainUI(){
+	
+}
+// === PRIVATE ===
+void MainUI::InitializeUI(){
+  //First load any pre-existing settings
+  bool haslocalhost = S_CORE->localhostAvailable();
+  ui->actionLocalhost_Auto_Connect->setVisible(haslocalhost);
+  ui->actionLocalhost_Auto_Connect->setEnabled(haslocalhost);
+  ui->actionLocalhost_Auto_Connect->setChecked(false);
+  if(haslocalhost){ 
+    ui->actionLocalhost_Auto_Connect->setChecked(settings->value("auto-auth-localhost",true).toBool()); 
+    ui->line_auth_host->setText("localhost");
+    //Also load the currently-running user for this process and place that into the UI automatically
+    //Note: This will only be valid on FreeBSD systems (since the server is only for FreeBSD)
+    #ifdef __FreeBSD__
+    #include <unistd.h>
+    ui->line_auth_user->setText( getlogin() );
+    #endif
+    if(!ui->line_auth_user->text().isEmpty()){ ui->line_auth_pass->setFocus();  }
+    else{ ui->line_auth_user->setFocus(); }
+  }else{
+    ui->line_auth_host->setFocus();
+  }
+  
+  //Now setup the signals/slots
   connect(S_CORE, SIGNAL(clientAuthorized()), this, SLOT(Authorized()) );
   connect(S_CORE, SIGNAL(clientUnauthorized()), this, SLOT(NoAuthorization()) );
   connect(S_CORE, SIGNAL(clientDisconnected()), this, SLOT(NoAuthorization()) );
   connect(ui->line_auth_pass, SIGNAL(returnPressed()), this, SLOT(auth_connect()) );
   connect(ui->push_auth_connect, SIGNAL(clicked()), this, SLOT(auth_connect()) );
   connect(ui->actionClose_Application, SIGNAL(triggered()), this, SLOT(close()) );
-  connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(auth_disconnect()) );
-}
-
-MainUI::~MainUI(){
-	
+  connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(auth_disconnect()) );	
+  connect(ui->actionLocalhost_Auto_Connect, SIGNAL(triggered()), this, SLOT(auto_local_auth_changed()) );
+  
+  //Now Run any automatic auth routines
+  if(!ui->line_auth_user->text().isEmpty() && ui->actionLocalhost_Auto_Connect->isChecked() ){
+    QTimer::singleShot(0,this, SLOT(auth_connect()) );
+  }
 }
 
 // === PRIVATE SLOTS ===
@@ -34,6 +66,10 @@ void MainUI::auth_connect(){
 void MainUI::auth_disconnect(){
   qDebug() << "UI Closing Connection";
   S_CORE->closeConnection();
+}
+
+void MainUI::auto_local_auth_changed(){
+  settings->setValue("auto-auth-localhost",  ui->actionLocalhost_Auto_Connect->isChecked());
 }
 
 //Core Signals
