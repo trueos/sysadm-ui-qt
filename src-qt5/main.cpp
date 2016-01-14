@@ -12,7 +12,7 @@
 
 //Initialize the global variables (defined in globals.h)
 sysadm_client *S_CORE = new sysadm_client();
-QSettings *settings = new QSettings("PC-BSD","sysadm-client", 0);
+QSettings *settings = new QSettings("PCBSD","sysadm-client", 0);
 
 int main( int argc, char ** argv )
 {
