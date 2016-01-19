@@ -30,6 +30,10 @@ private slots:
 	void auth_disconnect();
 	void auto_local_auth_changed();
 
+	//Temporary test actions
+	void on_push_tmp_sendmsg_clicked();
+	void NewMessage(QString, QString, QString, QJsonValue);
+
 	//Core Signals
 	void NoAuthorization();
 	void Authorized();

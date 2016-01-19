@@ -43,6 +43,7 @@ void MainUI::InitializeUI(){
   connect(S_CORE, SIGNAL(clientAuthorized()), this, SLOT(Authorized()) );
   connect(S_CORE, SIGNAL(clientUnauthorized()), this, SLOT(NoAuthorization()) );
   connect(S_CORE, SIGNAL(clientDisconnected()), this, SLOT(NoAuthorization()) );
+  connect(S_CORE, SIGNAL(newReply(QString,QString,QString,QJsonValue)), this, SLOT( NewMessage(QString,QString,QString,QJsonValue)) );
   connect(ui->line_auth_pass, SIGNAL(returnPressed()), this, SLOT(auth_connect()) );
   connect(ui->push_auth_connect, SIGNAL(clicked()), this, SLOT(auth_connect()) );
   connect(ui->actionClose_Application, SIGNAL(triggered()), this, SLOT(close()) );
@@ -70,6 +71,17 @@ void MainUI::auth_disconnect(){
 
 void MainUI::auto_local_auth_changed(){
   settings->setValue("auto-auth-localhost",  ui->actionLocalhost_Auto_Connect->isChecked());
+}
+
+// Temporary Test Functions
+void MainUI::on_push_tmp_sendmsg_clicked(){
+  //QString args = QJsonDocument::fromJson(ui->line_tmp_json->text()).object();
+  S_CORE->communicate("sampleID", ui->line_tmp_namesp->text(), ui->line_tmp_name->text(), QJsonDocument::fromJson(ui->line_tmp_json->text().toUtf8()).object());
+}
+
+void MainUI::NewMessage(QString id, QString ns, QString nm, QJsonValue args){
+  qDebug() << "New Message:" << id << ns << nm << args;
+  ui->label_tmp_reply->setText(QJsonDocument(args.toObject()).toJson() );
 }
 
 //Core Signals

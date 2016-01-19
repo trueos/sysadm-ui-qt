@@ -203,6 +203,7 @@ void sysadm_client::communicate(QString ID, QString namesp, QString name, QJsonV
   obj.insert("name", name);
   obj.insert("id", ID);
   obj.insert("args", args);
+  qDebug() << "Send Message:" << QJsonDocument(obj).toJson();
   communicate(QList<QJsonObject>() << obj);
 }
 
