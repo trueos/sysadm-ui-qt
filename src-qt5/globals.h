@@ -13,6 +13,7 @@
 #include <QStringList>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QJsonArray>
 #include <QWidget>
 #include <QObject>
 #include <QSettings>

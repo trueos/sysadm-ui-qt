@@ -178,6 +178,7 @@ void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
   obj.insert("id", "sysadm-client-event-auto");
   QString arg;
   if(event == DISPATCHER){ arg = "dispatcher"; }
+  else if(event == LIFEPRESERVER){ arg = "life-preserver"; }
   obj.insert("args", arg);
   sendSocketMessage(obj);
 }
@@ -239,17 +240,17 @@ void sysadm_client::socketConnected(){ //Signal: connected()
 }
 
 void sysadm_client::socketClosed(){ //Signal: disconnected()
-  if(keepActive && num_fail < FAIL_MAX){ 
+  /*if(keepActive && num_fail < FAIL_MAX){ 
     //Socket closed due to timeout? 
     // Go ahead and re-open it if possible with the last-used settings/auth
     num_fail++;
     setupSocket();
-  }else{
+  }else{*/
     num_fail = 0; //reset back to nothing
     emit clientDisconnected();
     //Server cache is now invalid - completely lost connection
     SENT.clear(); BACK.clear(); PENDING.clear(); 
-  }	  
+  //}	  
 }
 
 void sysadm_client::socketSslErrors(const QList<QSslError>&errlist){ //Signal: sslErrors()
@@ -302,7 +303,8 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
     //Reply to automated event subscription - don't need to save this
   }else if(namesp=="events"){
     //Event notification - not tied to any particular request
-    if(name=="dispatcher"){ emit DispatcherEvent(obj.value("args")); }
+    if(name=="dispatcher"){ emit NewEvent(DISPATCHER, obj.value("args")); }
+    else if(name=="life-preserver"){ emit NewEvent(LIFEPRESERVER, obj.value("args")); }
   }else{
     //Now save this message into the cache for use later (if not an auth reply)
     if(!ID.isEmpty()){ 

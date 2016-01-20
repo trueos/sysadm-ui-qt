@@ -26,7 +26,7 @@
 class sysadm_client : public QObject{
 	Q_OBJECT
 public:
-	enum EVENT_TYPE{ DISPATCHER };
+	enum EVENT_TYPE{ DISPATCHER, LIFEPRESERVER};
 	
 	sysadm_client();
 	~sysadm_client();
@@ -98,7 +98,7 @@ signals:
 	void clientDisconnected(); //Only emitted if the client could not automatically reconnect to the server
 	void clientUnauthorized(); //Only emitted if the user needs to re-authenticate with the server
 	void newReply(QString ID, QString namesp, QString name, QJsonValue args);
-	void DispatcherEvent(QJsonValue data);
+	void NewEvent(EVENT_TYPE type, QJsonValue data);
 
 };
 

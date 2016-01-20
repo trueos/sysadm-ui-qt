@@ -76,7 +76,12 @@ void MainUI::auto_local_auth_changed(){
 // Temporary Test Functions
 void MainUI::on_push_tmp_sendmsg_clicked(){
   //QString args = QJsonDocument::fromJson(ui->line_tmp_json->text()).object();
-  S_CORE->communicate("sampleID", ui->line_tmp_namesp->text(), ui->line_tmp_name->text(), QJsonDocument::fromJson(ui->line_tmp_json->text().toUtf8()).object());
+  QJsonValue args;
+  QString txt = ui->line_tmp_json->text();
+  if(txt.startsWith("{")){ args = QJsonDocument::fromJson(txt.toUtf8()).object(); }
+  else if(txt.startsWith("[")){ args = QJsonDocument::fromJson(txt.toUtf8()).array(); }
+  else{ args = QJsonValue(txt); }
+  S_CORE->communicate("sampleID", ui->line_tmp_namesp->text(), ui->line_tmp_name->text(), args );
 }
 
 void MainUI::NewMessage(QString id, QString ns, QString nm, QJsonValue args){
