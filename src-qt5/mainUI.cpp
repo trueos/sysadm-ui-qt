@@ -30,6 +30,8 @@ void MainUI::InitializeUI(){
     //Also load the currently-running user for this process and place that into the UI automatically
     //Note: This will only be valid on FreeBSD systems (since the server is only for FreeBSD)
     #ifdef __FreeBSD__
+    #include <sys/types.h>
+    #include <sys/wait.h>
     #include <unistd.h>
     ui->line_auth_user->setText( getlogin() );
     #endif
