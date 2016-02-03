@@ -17,12 +17,15 @@ namespace Ui{
 class MainUI : public QMainWindow{
 	Q_OBJECT
 public:
-	MainUI();
+	MainUI(sysadm_client *core);
 	~MainUI();
+
+	sysadm_client* currentCore();
 
 private:
 	Ui::MainUI *ui;
 	void InitializeUI();
+	sysadm_client *CORE;
 
 private slots:
 	//UI Signals
@@ -39,6 +42,13 @@ private slots:
 	void Authorized();
 
 signals:
+	void ClientClosed(MainUI*);
 
+protected:
+	void closeEvent(QCloseEvent *ev){
+	  emit ClientClosed(this);
+	  QMainWindow::closeEvent(ev);
+	}
+	
 };
 #endif

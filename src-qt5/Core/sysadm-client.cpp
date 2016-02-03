@@ -56,6 +56,10 @@ void sysadm_client::closeConnection(){
   SOCKET->close(QWebSocketProtocol::CloseCodeNormal, "sysadm-client closed");
 }
 
+QString sysadm_client::currentHost(){
+  return chost;	
+}
+
 //Check if the sysadm server is running on the local system
 bool sysadm_client::localhostAvailable(){
   #ifdef __FreeBSD__
@@ -71,10 +75,10 @@ bool sysadm_client::localhostAvailable(){
 
 // Connection Hosts Database Access
 QStringList sysadm_client::knownHosts(){
-  //Returns: <IP>::::<Name>
+  //Returns: <Name>::::<IP>
   QStringList hosts =settings->value("knownhosts",QStringList()).toStringList();
   for(int i=0; i<hosts.length(); i++){
-    hosts[i].append("::::" + settings->value("hostnames/"+hosts[i],"").toString() );
+    hosts[i].prepend(settings->value("hostnames/"+hosts[i],"").toString() +"::::");
   }
   return hosts;
 }

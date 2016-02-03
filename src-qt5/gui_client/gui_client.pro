@@ -2,7 +2,7 @@ TEMPLATE	= app
 LANGUAGE	= C++
 
 CONFIG	+= qt warn_on release
-QT = core gui widgets
+QT = core gui widgets svg
 QMAKE_LIBDIR = /usr/local/lib/qt5 /usr/local/lib
 
 TARGET=sysadm-client
@@ -16,9 +16,11 @@ RESOURCES += ../icons/icons.qrc \
 			../styles/styles.qrc
 			
 SOURCES	+= main.cpp \
+		TrayUI.cpp \
 		mainUI.cpp
 		
 HEADERS += globals.h \
+		TrayUI.h \
 		mainUI.h
 
 FORMS += mainUI.ui

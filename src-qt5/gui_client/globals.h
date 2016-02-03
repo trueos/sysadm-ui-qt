@@ -8,13 +8,16 @@
 #define _PCBSD_SYSADM_CLIENT_GLOBAL_HEADERS_H
 
 #include <QApplication>
+#include <QSystemTrayIcon>
 #include <QString>
 #include <QList>
+#include <QThread>
 #include <QStringList>
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QWidget>
+#include <QMenu>
 #include <QObject>
 #include <QSettings>
 #include <QTimer>
@@ -24,7 +27,7 @@
 
 //Now define all the global variables
 // (those each subsystem might need to access independently)
-extern sysadm_client *S_CORE;
+//extern sysadm_client *S_CORE;
 extern QSettings *settings;
 
 #endif

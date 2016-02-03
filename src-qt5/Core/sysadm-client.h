@@ -35,14 +35,15 @@ public:
 	void openConnection(QString user, QString pass, QString hostIP);
 	void openConnection(QString authkey, QString hostIP);
 	void closeConnection();
-
+	QString currentHost();
+	
 	//Check if the sysadm server is running on the local system
-	bool localhostAvailable();
+	static bool localhostAvailable();
 	
 	// Connection Hosts Database Access
-	QStringList knownHosts(); //Returns: <IP>::::<Name>
-	void saveHost(QString IP, QString name);
-	void removeHost(QString IP);
+	static QStringList knownHosts(); //Returns: <IP>::::<Name>
+	static void saveHost(QString IP, QString name);
+	static void removeHost(QString IP);
 
 	// Register for Event Notifications (no notifications by default)
 	void registerForEvents(EVENT_TYPE event, bool receive = true);
