@@ -12,8 +12,8 @@ INSTALLS += target
 
 
 
-RESOURCES += icons/icons.qrc \
-			styles/styles.qrc
+RESOURCES += ../icons/icons.qrc \
+			../styles/styles.qrc
 			
 SOURCES	+= main.cpp \
 		mainUI.cpp

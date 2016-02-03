@@ -20,7 +20,7 @@
 #include <QTimer>
 
 
-#include "Core/sysadm-client.h"
+#include "../Core/sysadm-client.h"
 
 //Now define all the global variables
 // (those each subsystem might need to access independently)
