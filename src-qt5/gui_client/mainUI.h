@@ -40,6 +40,7 @@ private slots:
 	//Core Signals
 	void NoAuthorization();
 	void Authorized();
+	void Disconnected();
 
 signals:
 	void ClientClosed(MainUI*);

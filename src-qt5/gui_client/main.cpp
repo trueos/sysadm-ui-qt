@@ -64,6 +64,7 @@ int main( int argc, char ** argv )
     MainUI M(&CORE);
     M.show();
     ret = A.exec();
+    CORE.closeConnection();
   }
   
   

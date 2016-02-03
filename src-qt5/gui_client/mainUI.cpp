@@ -43,7 +43,7 @@ void MainUI::InitializeUI(){
   //Now setup the signals/slots
   connect(CORE, SIGNAL(clientAuthorized()), this, SLOT(Authorized()) );
   connect(CORE, SIGNAL(clientUnauthorized()), this, SLOT(NoAuthorization()) );
-  connect(CORE, SIGNAL(clientDisconnected()), this, SLOT(NoAuthorization()) );
+  connect(CORE, SIGNAL(clientDisconnected()), this, SLOT(Disconnected()) );
   connect(CORE, SIGNAL(newReply(QString,QString,QString,QJsonValue)), this, SLOT( NewMessage(QString,QString,QString,QJsonValue)) );
   connect(ui->line_auth_pass, SIGNAL(returnPressed()), this, SLOT(auth_connect()) );
   connect(ui->push_auth_connect, SIGNAL(clicked()), this, SLOT(auth_connect()) );
@@ -95,4 +95,8 @@ void MainUI::NoAuthorization(){
 void MainUI::Authorized(){
   qDebug() << "Got Server Authentication";
   ui->stackedWidget->setCurrentWidget(ui->page_main);
+}
+
+void MainUI::Disconnected(){
+  this->close();
 }
