@@ -58,7 +58,9 @@ int main( int argc, char ** argv )
   }else{
     //Open the stand-alone client just for the localhost
     sysadm_client CORE;
+      #ifdef __FreeBSD__
       CORE.openConnection(getlogin(),"","127.0.0.1");
+      #endif
     MainUI M(&CORE);
     M.show();
     ret = A.exec();
