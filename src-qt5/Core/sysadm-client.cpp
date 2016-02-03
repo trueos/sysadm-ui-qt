@@ -5,7 +5,6 @@
 //  See the LICENSE file for full details
 //===========================================
 #include "sysadm-client.h"
-//#include "../globals.h"
 #include <QSslConfiguration>
 #include <QJsonArray>
 #include <QProcess>
