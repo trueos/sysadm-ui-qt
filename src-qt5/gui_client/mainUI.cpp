@@ -7,6 +7,13 @@
 #include "mainUI.h"
 #include "ui_mainUI.h"
 
+#ifdef __FreeBSD__
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#endif
+
+
 // === PUBLIC ===
 MainUI::MainUI() : QMainWindow(), ui(new Ui::MainUI){
   ui->setupUi(this); //load the designer form
@@ -30,7 +37,6 @@ void MainUI::InitializeUI(){
     //Also load the currently-running user for this process and place that into the UI automatically
     //Note: This will only be valid on FreeBSD systems (since the server is only for FreeBSD)
     #ifdef __FreeBSD__
-    #include <unistd.h>
     ui->line_auth_user->setText( getlogin() );
     #endif
     if(!ui->line_auth_user->text().isEmpty()){ ui->line_auth_pass->setFocus();  }
