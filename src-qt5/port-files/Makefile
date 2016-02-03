@@ -19,7 +19,7 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	pcbsd
 GH_PROJECT=	sysadm-ui-qt
 GH_TAGNAME=	%%GHTAG%%
-PLIST_FILES+=	bin/sysadm-client
+PLIST_FILES+=	bin/sysadm-client bin/sysadm
 
 .include <bsd.port.pre.mk>
 
