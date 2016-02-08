@@ -21,11 +21,13 @@ SOURCES	+= main.cpp \
 		
 HEADERS += globals.h \
 		TrayUI.h \
+		PageWidget.h \
 		mainUI.h
 
 FORMS += mainUI.ui
 
 include(../Core/core.pri)
+include(pages/pages.pri)
 
 
 

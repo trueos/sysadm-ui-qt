@@ -67,7 +67,7 @@ int main( int argc, char ** argv )
     CORE.closeConnection();
   }
   
-  
+  qDebug() << "Cleanup globals";
   //Clean up any global classes before exiting
   settings->sync();
   //Now fully-close the global classes

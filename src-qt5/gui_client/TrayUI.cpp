@@ -89,7 +89,8 @@ void sysadm_tray::updateCoreList(){
 
 void sysadm_tray::ClientClosed(MainUI* client){
   qDebug() << "Client Closed";
-  if(CLIENTS.contains(client)){ CLIENTS.removeAll(client); }
+  int index = CLIENTS.indexOf(client);
+  if(index >=0){ delete CLIENTS.takeAt(index); }
 }
 
 void sysadm_tray::open_gui(QAction *act){
@@ -117,14 +118,17 @@ void sysadm_tray::close_tray(){
     // Disconnect any cores
   QStringList cores = CORES.keys();
   for(int i=0; i<cores.length(); i++){
+    qDebug() << "Closing Connection:" << CORES[cores[i]]->currentHost();
     CORES[ cores[i] ]->closeConnection();
   }
     // Close any clients
+  if(!CLIENTS.isEmpty()){ qDebug() << "Closing open client:" << CLIENTS.length();}
   for(int i=0; i<CLIENTS.length(); i++){
     CLIENTS[i]->close();
   }
     // Delete any cores (should be disconnected by now)
   for(int i=0; i<cores.length(); i++){
+    qDebug() << "Deleting Cores...";
     delete CORES.take(cores[i]);
   }
   QCoreApplication::exit(0);

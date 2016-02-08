@@ -7,6 +7,7 @@
 #include "mainUI.h"
 #include "ui_mainUI.h"
 
+#include "pages/getPage.h"
 
 // === PUBLIC ===
 MainUI::MainUI(sysadm_client *core) : QMainWindow(), ui(new Ui::MainUI){
@@ -69,6 +70,15 @@ void MainUI::auto_local_auth_changed(){
   settings->setValue("auto-auth-localhost",  ui->actionLocalhost_Auto_Connect->isChecked());
 }
 
+//Page Management
+void MainUI::loadPage(QString id){
+  PageWidget *page = GetNewPage(id, this, CORE);
+  if(page==0){ return; }
+  this->setCentralWidget(page);
+  page->setupCore();
+  page->startPage();
+}
+
 // Temporary Test Functions
 void MainUI::on_push_tmp_sendmsg_clicked(){
   //QString args = QJsonDocument::fromJson(ui->line_tmp_json->text()).object();
@@ -94,7 +104,8 @@ void MainUI::NoAuthorization(){
 
 void MainUI::Authorized(){
   qDebug() << "Got Server Authentication";
-  ui->stackedWidget->setCurrentWidget(ui->page_main);
+  //ui->stackedWidget->setCurrentWidget(ui->page_main);
+  loadPage();
 }
 
 void MainUI::Disconnected(){
