@@ -9,6 +9,11 @@
 #include "../globals.h"
 #include "../PageWidget.h"
 
+
+//==============================================================
+//  DON"T FORGET TO ADD YOUR NEW PAGE TO THE "getPage.h" FILE!!!!
+//==============================================================
+
 namespace Ui{
 	class sample_ui; //this is the name of the main widget/object in the QtDesigner form
 };
@@ -19,6 +24,8 @@ public:
 	sample_page(QWidget *parent, const sysadm_client *core);
 	~sample_page();
 
+	QString pageID(){ return "sample"; } //ID is used to identify which type of page this is
+	
 private:
 	Ui::sample_ui *ui;
 

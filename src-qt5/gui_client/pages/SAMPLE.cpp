@@ -7,10 +7,10 @@
 #include "SAMPLE.h"
 #include "ui_SAMPLE.h" //auto-generated from the .ui file
 
-control_panel::control_panel(QWidget *parent, const sysadm_client *core) : PageWidget(parent, core), ui(new Ui::control_panel_ui){
+sample_page::sample_page(QWidget *parent, const sysadm_client *core) : PageWidget(parent, core), ui(new Ui::control_panel_ui){
   ui->setupUi(this);	
 }
 
-control_panel::~control_panel(){
+sample_page::~sample_page(){
   
 }
