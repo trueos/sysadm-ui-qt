@@ -90,7 +90,7 @@ void sysadm_tray::updateCoreList(){
 void sysadm_tray::ClientClosed(MainUI* client){
   qDebug() << "Client Closed";
   int index = CLIENTS.indexOf(client);
-  if(index >=0){ delete CLIENTS.takeAt(index); }
+  if(index >=0){ CLIENTS.takeAt(index)->deleteLater(); }
 }
 
 void sysadm_tray::open_gui(QAction *act){

@@ -56,7 +56,7 @@ static void setupCategoryButton(QString cat, QTreeWidgetItem *item){
     item->setIcon(0, QIcon(":/icons/black/globe.svg")); 
   }else{ //utils
     item->setText(0, QObject::tr("Utilities")); 
-    item->setIcon(0, QIcon(":/icons/black/flag.svg")); 
+    item->setIcon(0, QIcon(":/icons/black/preferences.svg")); 
   }
 }
 

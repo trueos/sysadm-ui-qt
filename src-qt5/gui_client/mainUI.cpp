@@ -12,6 +12,13 @@
 // === PUBLIC ===
 MainUI::MainUI(sysadm_client *core) : QMainWindow(), ui(new Ui::MainUI){
   ui->setupUi(this); //load the designer form
+  //Need to tinker with the toolbar a bit to get actions in the proper places
+  //  -- insert a spacer so that the title/save actions are aligned right
+  QWidget *spacer = new QWidget(this);
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  ui->toolBar->insertWidget(ui->actionTitle, spacer);
+  ui->actionTitle->setEnabled(false);
+  //Now finish up the rest of the init
   CORE = core;
   InitializeUI();
   loadPage();
@@ -32,6 +39,8 @@ void MainUI::InitializeUI(){
   connect(CORE, SIGNAL(clientDisconnected()), this, SLOT(Disconnected()) );
 
   connect(ui->actionClose_Application, SIGNAL(triggered()), this, SLOT(close()) );
+  connect(ui->actionBack, SIGNAL(triggered()), this, SLOT(loadPage()) );
+  connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(SavePage()) );
 }
 
 // === PRIVATE SLOTS ===
@@ -45,10 +54,15 @@ void MainUI::loadPage(QString id){
   connect(page, SIGNAL(HasPendingChanges()), this, SLOT(ShowSaveButton()) );
   connect(page, SIGNAL(ChangePageTitle(QString)), this, SLOT(ShowPageTitle(QString)) );
   connect(page, SIGNAL(ChangePage(QString)), this, SLOT(loadPage(QString)) );
+  connect(ui->actionSave, SIGNAL(triggered()), page, SLOT(SaveSettings()) );
   //Switch page in window
   //qDebug() << " - Swap page in window";
   QWidget *old = this->centralWidget();
   this->setCentralWidget(page);
+  ui->actionBack->setVisible(!id.isEmpty());
+  ui->actionSave->setVisible(false);
+  ui->actionSave->setEnabled(false);
+  ui->actionTitle->setText("");
   if(old!=0 && old!=ui->centralwidget){ old->disconnect(); old->deleteLater(); }
   //Now run the page startup routines
   //qDebug() << " - Setup Core";
@@ -57,6 +71,21 @@ void MainUI::loadPage(QString id){
   page->startPage();
   //qDebug() << " - Give Page Focus";
   page->setFocus();
+}
+
+void MainUI::ShowPageTitle(QString title){
+  ui->actionTitle->setText(title);
+}
+
+void MainUI::ShowSaveButton(){
+  ui->actionSave->setEnabled(true);
+  ui->actionSave->setVisible(true);
+}
+
+void MainUI::SavePage(){
+  //This signal is overloaded so the page gets it directly - just hide/disable the button here
+  ui->actionSave->setEnabled(false);
+  ui->actionSave->setVisible(false);
 }
 
 //Core Signals

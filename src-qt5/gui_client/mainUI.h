@@ -30,6 +30,9 @@ private:
 private slots:
 	//Page Management
 	void loadPage(QString id = "");
+	void ShowPageTitle(QString);
+	void ShowSaveButton();
+	void SavePage();
 	
 	//Temporary test actions
 	//void NewMessage(QString, QString, QString, QJsonValue);

@@ -4,5 +4,5 @@ HEADERS	+= 	$${PWD}/getPage.h \
 
 SOURCES	+=	$${PWD}/control_panel.cpp
 
-FORMS		+=  $${PWD}/control_panel.ui
+#FORMS		+=  
 
