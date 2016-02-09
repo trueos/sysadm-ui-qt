@@ -45,18 +45,18 @@ static void setupCategoryButton(QString cat, QTreeWidgetItem *item){
   item->setFont(0,tmp);
   if(cat=="appmgmt"){ 
     item->setText(0, QObject::tr("Application Management")); 
-    item->setIcon(0, QIcon(":/icons/black/box-filled.svg")); 
+    item->setIcon(0, QIcon(":/icons/black/case.svg")); 
     item->setStatusTip(0, QObject::tr("App Management Status") );
     item->setToolTip(0, item->statusTip(0));
   }else if(cat=="sysmgmt"){
     item->setText(0, QObject::tr("System Management")); 
-    item->setIcon(0, QIcon(":/icons/black/box-filled.svg")); 
+    item->setIcon(0, QIcon(":/icons/black/computer.svg")); 
   }else if(cat=="connect"){
     item->setText(0, QObject::tr("Connection")); 
-    item->setIcon(0, QIcon(":/icons/black/box-filled.svg")); 
+    item->setIcon(0, QIcon(":/icons/black/globe.svg")); 
   }else{ //utils
     item->setText(0, QObject::tr("Utilities")); 
-    item->setIcon(0, QIcon(":/icons/black/box-filled.svg")); 
+    item->setIcon(0, QIcon(":/icons/black/flag.svg")); 
   }
 }
 
