@@ -21,13 +21,20 @@ namespace Ui{
 class sample_page : public PageWidget{
 	Q_OBJECT
 public:
-	sample_page(QWidget *parent, const sysadm_client *core);
+	sample_page(QWidget *parent, sysadm_client *core);
 	~sample_page();
 
+	//Initialize the CORE <-->Page connections
+	void setupCore();
+	//Page embedded, go ahead and startup any core requests
+	void startPage();
+		
 	QString pageID(){ return "sample"; } //ID is used to identify which type of page this is
 	
 private:
 	Ui::sample_ui *ui;
 
+private slots:
+	void ParseReply(QString, QString, QString, QJsonValue);
 };
 #endif
