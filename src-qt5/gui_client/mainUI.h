@@ -28,17 +28,11 @@ private:
 	sysadm_client *CORE;
 
 private slots:
-	//UI Signals
-	void auth_connect();
-	void auth_disconnect();
-	void auto_local_auth_changed();
-
 	//Page Management
 	void loadPage(QString id = "");
 	
 	//Temporary test actions
-	void on_push_tmp_sendmsg_clicked();
-	void NewMessage(QString, QString, QString, QJsonValue);
+	//void NewMessage(QString, QString, QString, QJsonValue);
 
 	//Core Signals
 	void NoAuthorization();

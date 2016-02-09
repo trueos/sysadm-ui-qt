@@ -18,8 +18,10 @@
 class PageWidget : public QWidget{
 	Q_OBJECT
 public:
+	sysadm_client *CORE;
+
 	//Main constructor/destructor (create/destroy any interface items)
-	PageWidget(QWidget *parent, const sysadm_client *core) : QWidget(parent){
+	PageWidget(QWidget *parent, sysadm_client *core) : QWidget(parent){
 		CORE = core; //save the pointer to the core for access later
 	}
 	~PageWidget(){}
@@ -38,12 +40,15 @@ public slots:
 	//User requested to save any pending changes
 	virtual void SaveSettings(){} 
 
-private:
-	const sysadm_client *CORE;
-	
 signals:
 	//emit this when the page has changes which are waiting to be saved
-	void PendingChanges(); 
+	void HasPendingChanges(); 
+	//emit this when the page title changes (will updates main UI as needed)
+	void ChangePageTitle(QString);
+
+	//emit this when we need to change to another client/page (if needed - generally only used for the base/group pages)
+	void ChangePage(QString); //ID of new page to open
+
 };
 
 #endif

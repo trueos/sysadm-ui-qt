@@ -8,23 +8,26 @@
 #define _PCBSD_SYSADM_CLIENT_CONTROL_PANEL_PAGE_H
 #include "../globals.h"
 #include "../PageWidget.h"
-#include "ui_control_panel.h"
-
-namespace Ui{
-	class control_panel_ui;
-};
 
 class control_panel : public PageWidget{
 	Q_OBJECT
 public:
-	control_panel(QWidget *parent, const sysadm_client *core);
+	control_panel(QWidget *parent, sysadm_client *core);
 	~control_panel();
 
-private:
-	Ui::control_panel_ui *ui;
-
-public slots:
+	void setupCore();
+	void startPage();
+	QString pageID(){ return ""; }
 	
+private:
+	QTreeWidget *tree;
+
+private slots:
+	//GUI userevent handling
+	void ItemClicked(QTreeWidgetItem*, int);
+
+	//Core Reply handling
+	void parseReply(QString, QString, QString, QJsonValue);
 
 };
 #endif

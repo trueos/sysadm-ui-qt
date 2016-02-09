@@ -7,8 +7,11 @@
 #ifndef _PCBSD_SYSADM_CLIENT_GLOBAL_HEADERS_H
 #define _PCBSD_SYSADM_CLIENT_GLOBAL_HEADERS_H
 
+//Main app classes
 #include <QApplication>
 #include <QSystemTrayIcon>
+
+//Backend/core classes
 #include <QString>
 #include <QList>
 #include <QThread>
@@ -21,6 +24,11 @@
 #include <QObject>
 #include <QSettings>
 #include <QTimer>
+
+//GUI widgets
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
+#include <QVBoxLayout>
 
 
 #include "../Core/sysadm-client.h"

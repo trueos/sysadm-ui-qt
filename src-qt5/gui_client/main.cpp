@@ -64,10 +64,11 @@ int main( int argc, char ** argv )
     MainUI M(&CORE);
     M.show();
     ret = A.exec();
+    CORE.disconnect();
     CORE.closeConnection();
   }
   
-  qDebug() << "Cleanup globals";
+  qDebug() << "Cleanly Closing Client...";
   //Clean up any global classes before exiting
   settings->sync();
   //Now fully-close the global classes

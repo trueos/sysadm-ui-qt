@@ -14,8 +14,7 @@ MainUI::MainUI(sysadm_client *core) : QMainWindow(), ui(new Ui::MainUI){
   ui->setupUi(this); //load the designer form
   CORE = core;
   InitializeUI();
-  if(CORE->currentHost().isEmpty()){ NoAuthorization(); }
-  else{ Authorized(); }
+  loadPage();
 }
 
 MainUI::~MainUI(){
@@ -27,87 +26,52 @@ sysadm_client* MainUI::currentCore(){
 
 // === PRIVATE ===
 void MainUI::InitializeUI(){
-  //First load any pre-existing settings
-  bool haslocalhost = sysadm_client::localhostAvailable();
-  ui->actionLocalhost_Auto_Connect->setVisible(haslocalhost);
-  ui->actionLocalhost_Auto_Connect->setEnabled(haslocalhost);
-  ui->actionLocalhost_Auto_Connect->setChecked(false);
-  if(haslocalhost){ 
-    ui->actionLocalhost_Auto_Connect->setChecked(settings->value("auto-auth-localhost",true).toBool()); 
-    ui->line_auth_host->setText("localhost");
-    if(!ui->line_auth_user->text().isEmpty()){ ui->line_auth_pass->setFocus();  }
-    else{ ui->line_auth_user->setFocus(); }
-  }else{
-    ui->line_auth_host->setFocus();
-  }
-  
   //Now setup the signals/slots
   connect(CORE, SIGNAL(clientAuthorized()), this, SLOT(Authorized()) );
   connect(CORE, SIGNAL(clientUnauthorized()), this, SLOT(NoAuthorization()) );
   connect(CORE, SIGNAL(clientDisconnected()), this, SLOT(Disconnected()) );
-  connect(CORE, SIGNAL(newReply(QString,QString,QString,QJsonValue)), this, SLOT( NewMessage(QString,QString,QString,QJsonValue)) );
-  connect(ui->line_auth_pass, SIGNAL(returnPressed()), this, SLOT(auth_connect()) );
-  connect(ui->push_auth_connect, SIGNAL(clicked()), this, SLOT(auth_connect()) );
+
   connect(ui->actionClose_Application, SIGNAL(triggered()), this, SLOT(close()) );
-  connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(auth_disconnect()) );	
-  connect(ui->actionLocalhost_Auto_Connect, SIGNAL(triggered()), this, SLOT(auto_local_auth_changed()) );
 }
 
 // === PRIVATE SLOTS ===
-//UI Signals
-void MainUI::auth_connect(){
-  qDebug() << " UI Start Connection";
-  CORE->openConnection(ui->line_auth_user->text(), ui->line_auth_pass->text(), ui->line_auth_host->text() );
-  ui->line_auth_pass->clear();
-}
-
-void MainUI::auth_disconnect(){
-  qDebug() << "UI Closing Connection";
-  CORE->closeConnection();
-}
-
-void MainUI::auto_local_auth_changed(){
-  settings->setValue("auto-auth-localhost",  ui->actionLocalhost_Auto_Connect->isChecked());
-}
 
 //Page Management
 void MainUI::loadPage(QString id){
+  qDebug() << "Load Page:" << id;
   PageWidget *page = GetNewPage(id, this, CORE);
   if(page==0){ return; }
+  //Connect Page
+  connect(page, SIGNAL(HasPendingChanges()), this, SLOT(ShowSaveButton()) );
+  connect(page, SIGNAL(ChangePageTitle(QString)), this, SLOT(ShowPageTitle(QString)) );
+  connect(page, SIGNAL(ChangePage(QString)), this, SLOT(loadPage(QString)) );
+  //Switch page in window
+  //qDebug() << " - Swap page in window";
+  QWidget *old = this->centralWidget();
   this->setCentralWidget(page);
+  if(old!=0 && old!=ui->centralwidget){ old->disconnect(); old->deleteLater(); }
+  //Now run the page startup routines
+  //qDebug() << " - Setup Core";
   page->setupCore();
+  //qDebug() << " - Start Page";
   page->startPage();
-}
-
-// Temporary Test Functions
-void MainUI::on_push_tmp_sendmsg_clicked(){
-  //QString args = QJsonDocument::fromJson(ui->line_tmp_json->text()).object();
-  QJsonValue args;
-  QString txt = ui->line_tmp_json->text();
-  if(txt.startsWith("{")){ args = QJsonDocument::fromJson(txt.toUtf8()).object(); }
-  else if(txt.startsWith("[")){ args = QJsonDocument::fromJson(txt.toUtf8()).array(); }
-  else{ args = QJsonValue(txt); }
-  CORE->communicate("sampleID", ui->line_tmp_namesp->text(), ui->line_tmp_name->text(), args );
-}
-
-void MainUI::NewMessage(QString id, QString ns, QString nm, QJsonValue args){
-  qDebug() << "New Message:" << id << ns << nm << args;
-  ui->label_tmp_reply->setText(QJsonDocument(args.toObject()).toJson() );
+  //qDebug() << " - Give Page Focus";
+  page->setFocus();
 }
 
 //Core Signals
 void MainUI::NoAuthorization(){
   qDebug() << "Lost Server authentication";
-  ui->stackedWidget->setCurrentWidget(ui->page_auth);
-  ui->line_auth_user->clear();
+  //ui->stackedWidget->setCurrentWidget(ui->page_auth);
+  //ui->line_auth_user->clear();
 }
 
 void MainUI::Authorized(){
   qDebug() << "Got Server Authentication";
-  //ui->stackedWidget->setCurrentWidget(ui->page_main);
   loadPage();
 }
 
 void MainUI::Disconnected(){
+  qDebug() << "Core Disconnected";
   this->close();
 }
