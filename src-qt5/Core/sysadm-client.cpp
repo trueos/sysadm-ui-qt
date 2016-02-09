@@ -50,8 +50,10 @@ void sysadm_client::openConnection(QString authkey, QString hostIP){
 void sysadm_client::closeConnection(){
   keepActive = false;
   //de-authorize the current auth token
-  cauthkey.clear(); 
-  performAuth();
+  if(!cauthkey.isEmpty()){
+    cauthkey.clear(); 
+    performAuth();
+  }
   //Now close the connection
   SOCKET->close(QWebSocketProtocol::CloseCodeNormal, "sysadm-client closed");
 }
@@ -129,7 +131,7 @@ QJsonValue sysadm_client::cachedReply(QString id){
 // === PRIVATE ===
 //Functions to do the initial socket setup
 void sysadm_client::setupSocket(){
-  qDebug() << "Setup Socket:" << SOCKET->isValid();
+  //qDebug() << "Setup Socket:" << SOCKET->isValid();
   if(SOCKET->isValid()){ return; }
   //uses chost for setup
   // - assemble the host URL
@@ -152,7 +154,7 @@ void sysadm_client::performAuth(QString user, QString pass){
   obj.insert("namespace","rpc");
   obj.insert("id","sysadm-client-auth-auto");
   bool noauth = false;
-  if(user.isEmpty() && pass.isEmpty()){
+  if(user.isEmpty()){
     if(cauthkey.isEmpty()){
       //Nothing to authenticate - de-auth the connection instead
       obj.insert("name","auth_clear");
@@ -192,6 +194,7 @@ void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
 
 void sysadm_client::sendSocketMessage(QJsonObject msg){
   QJsonDocument doc(msg);
+  //qDebug() << "Send Socket Message:" << doc.toJson(QJsonDocument::Compact);
   SOCKET->sendTextMessage(doc.toJson(QJsonDocument::Compact));
 }
 
@@ -211,7 +214,7 @@ void sysadm_client::communicate(QString ID, QString namesp, QString name, QJsonV
   obj.insert("name", name);
   obj.insert("id", ID);
   obj.insert("args", args);
-  qDebug() << "Send Message:" << QJsonDocument(obj).toJson();
+  //qDebug() << "Send Message:" << QJsonDocument(obj).toJson();
   communicate(QList<QJsonObject>() << obj);
 }
 
@@ -285,7 +288,7 @@ void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: er
 
 // - Main message input parsing
 void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
-  qDebug() << "New Reply From Server:" << msg;
+  //qDebug() << "New Reply From Server:" << msg;
   //Convert this into a JSON object
   QJsonObject obj = convertServerReply(msg);
   QString ID = obj.value("id").toString();

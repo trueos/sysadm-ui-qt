@@ -22,11 +22,12 @@ control_panel::control_panel(QWidget *parent, sysadm_client *core) : PageWidget(
     tree->setMouseTracking(true); //make sure mouse-hover highlights items
     tree->setDragDropMode(QTreeView::NoDragDrop);
     tree->setDragEnabled(false);
+    tree->setFrameShape(QFrame::NoFrame);
     int icosize = 2.3*tree->fontMetrics().height();
     tree->setIconSize(QSize(icosize,icosize));
   connect(tree, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(ItemClicked(QTreeWidgetItem*, int)) );
   connect(tree, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(ItemClicked(QTreeWidgetItem*, int)) );
-
+  
   //Now add the tree widget to the page
   this->setLayout(new QVBoxLayout(this));
   this->layout()->setContentsMargins(0,0,0,0);
@@ -43,6 +44,7 @@ void control_panel::setupCore(){
 	
 void control_panel::startPage(){
   CORE->communicate(REQ_ID, "rpc", "query", QJsonValue("simple-query"));
+  emit ChangePageTitle( tr("Control Panel") );
 }
 	
 // === PRIVATE SLOTS ===
