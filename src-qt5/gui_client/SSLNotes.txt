@@ -1,0 +1,48 @@
+Quick Notes about client-side SSL stuff:
+
+Creating the SSL Files for the client (one-time)
+Note: There might be more inputs required for non-interactive setup
+
+1) Create SSL key/crt using the "openssl" utility (no passphrase on these)
+"openssl req -newkey rsa:2048 -nodes -keyout <key file: key.pem>"
+crt: "openssl req -key <key file> -new -x509 -out <crt file: sysadm-client.crt>"
+
+2) Convert the key/crt files into a single PKCS12 file (This is passphrase locked)
+"openssl pkcs12 -inkey <key file> -in <crt file> -export -passout file:<temporary file containing passphrase> -out <new .pfx file>"
+
+
+
+Using the SSL files:
+(Note: This will change the default SSL config for the entire app)
+
+[code]
+bool loadPfxCertifcate(QString certFilename, QString passphrase) {
+
+    QFile certFile(certFilename);
+    certFile.open(QFile::ReadOnly);
+    QSslCertificate certificate;
+    QSslKey key;
+    QList<QSslCertificate> importedCerts;
+
+    bool imported = QSslCertificate::importPkcs12(&certFile, &key, &certificate, &importedCerts, QByteArray::fromStdString(passphrase.toStdString()));
+
+    certFile.close();
+
+    qDebug() << "Imported cert:" << imported;
+
+    if (imported) {
+        QSslConfiguration sslConfig = QSslConfiguration::defaultConfiguration();
+        QList<QSslCertificate> certs = sslConfig.caCertificates();
+        QList<QSslCertificate> localCerts = sslConfig.localCertificateChain();
+        localCerts.append(certificate);
+        certs.append(importedCerts);
+
+        sslConfig.setLocalCertificateChain(localCerts);
+        sslConfig.setCaCertificates(certs);
+        sslConfig.setPrivateKey(key);
+        QSslConfiguration::setDefaultConfiguration(sslConfig);
+    }
+
+    return imported;
+}
+[/code]
