@@ -62,6 +62,10 @@ QString sysadm_client::currentHost(){
   return chost;	
 }
 
+bool sysadm_client::isActive(){
+  return ((SOCKET!=0) && SOCKET->isValid());	
+}
+
 //Check if the sysadm server is running on the local system
 bool sysadm_client::localhostAvailable(){
   #ifdef __FreeBSD__

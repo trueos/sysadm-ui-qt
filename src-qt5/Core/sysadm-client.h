@@ -35,7 +35,9 @@ public:
 	void openConnection(QString user, QString pass, QString hostIP);
 	void openConnection(QString authkey, QString hostIP);
 	void closeConnection();
+	
 	QString currentHost();
+	bool isActive();
 	
 	//Check if the sysadm server is running on the local system
 	static bool localhostAvailable();
