@@ -17,10 +17,12 @@ RESOURCES += ../icons/icons.qrc \
 			
 SOURCES	+= main.cpp \
 		TrayUI.cpp \
+		MenuItem.cpp \
 		mainUI.cpp
 		
 HEADERS += globals.h \
 		TrayUI.h \
+		MenuItem.h \
 		PageWidget.h \
 		mainUI.h
 

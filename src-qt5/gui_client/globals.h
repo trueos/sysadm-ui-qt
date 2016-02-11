@@ -38,6 +38,8 @@
 //extern sysadm_client *S_CORE;
 extern QSettings *settings;
 
+#define LOCALHOST QString("127.0.0.1")
+
 #endif
 
 

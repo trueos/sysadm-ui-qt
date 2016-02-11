@@ -12,36 +12,31 @@
 #include <unistd.h>
 #endif
 
-#define LOCALHOST QString("127.0.0.1")
+QHash<QString,sysadm_client*> CORES; // hostIP / core
 
 // === PUBLIC ===
 sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
-	
-  //Connect signals/slots
-  connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayActivated()) );
+  //Load any CORES
+  updateCoreList();
+
   //Setup the tray icon
   this->setIcon( QIcon(":/icons/grey/disk2.svg") );
-  this->setContextMenu( new QMenu() );
+  connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayActivated()) );
 	
-  //Create the open menu
-  M_opengui = new QMenu();
-    M_opengui->setTitle("Manage System");
-    M_opengui->setIcon( QIcon(":/icons/black/disk2.svg") );
-    connect(M_opengui, SIGNAL(triggered(QAction*)), this, SLOT(open_gui(QAction*)) );
-	
-  //Setup the main menu
-  this->contextMenu()->addMenu(M_opengui);
-  this->contextMenu()->addSeparator();
-  this->contextMenu()->addAction(QIcon(":/icons/black/preferences.svg"),tr("Manage Connections"), this, SLOT(open_config()) );
-  this->contextMenu()->addSeparator();
-  this->contextMenu()->addAction(QIcon(":/icons/black/off.svg"),tr("Close SysAdm Client"), this, SLOT(close_tray()) );
-  
-  //Now kick off the menu/core loading systems
-  QTimer::singleShot(0,this, SLOT(updateCoreList()) );
+  //Setup the menu
+  menu = new MenuItem();
+  this->setContextMenu(menu);
+  connect(menu, SIGNAL(OpenConnectionManager()), this, SLOT(OpenConnectionManager()) );
+  connect(menu, SIGNAL(OpenSettings()), this, SLOT(OpenSettings()) );
+  connect(menu, SIGNAL(CloseApplication()),this, SLOT(CloseApplication()) );
+  connect(menu, SIGNAL(OpenCore(QString)), this, SLOT(OpenCore(QString)) );
+  connect(menu, SIGNAL(OpenCoreLogs(QString)), this, SLOT(OpenCoreLogs(QString)) );
+  connect(menu, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)), this, SLOT(showMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)) );
+
+  QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
 }
 
 sysadm_tray::~sysadm_tray(){
-  delete M_opengui;
   delete this->contextMenu(); //Note in docs that the tray does not take ownership of this menu
 }
 
@@ -61,24 +56,17 @@ sysadm_client* sysadm_tray::getCore(QString host){
 
 // === PRIVATE SLOTS ===
 void sysadm_tray::updateCoreList(){
-  bool firstrun = M_opengui->isEmpty();
-  M_opengui->clear();
+  bool firstrun = (this->contextMenu()==0);
   //First add the localhost to the top of the list (if available)
   if(sysadm_client::localhostAvailable() ){
-    QAction* tmp = M_opengui->addAction( tr("Local System") );
-      tmp->setWhatsThis(LOCALHOST);
-    if(getCore(LOCALHOST)->currentHost()==LOCALHOST){ tmp->setIcon(QIcon(":/icons/black/disk.svg")); }
-    else{ tmp->setIcon(QIcon(":/icons/grey/disk.svg")); }
+    getCore(LOCALHOST);
   }
   //Now add any known hosts (including connection status)
   QStringList known = sysadm_client::knownHosts();
     known.sort(); //sort by name
   //Now add these hosts to the menu
   for(int i=0; i<known.length(); i++){
-    QAction* tmp = M_opengui->addAction( known[i].section("::::",0,0) );
-      tmp->setWhatsThis( known[i].section("::::",1,1) );
-    if( getCore(known[i].section("::::",1,1))->currentHost()==known[i].section("::::",1,1)){ tmp->setIcon(QIcon(":/icons/black/disk.svg")); }
-    else{ tmp->setIcon(QIcon(":/icons/grey/disk.svg")); }
+    getCore(known[i].section("::::",1,1));
   }
   
   if(firstrun){
@@ -93,27 +81,16 @@ void sysadm_tray::ClientClosed(MainUI* client){
   if(index >=0){ CLIENTS.takeAt(index)->deleteLater(); }
 }
 
-void sysadm_tray::open_gui(QAction *act){
-  QString host = act->whatsThis(); //selected host
-  //See if a window for this host is already open and use that
-  for(int i=0; i<CLIENTS.length(); i++){
-    if(CLIENTS[i]->currentCore()->currentHost()==host){
-      CLIENTS[i]->showNormal();
-      return;
-    }
-  }
-  //Open a new window for this host
-  MainUI *tmp = new MainUI(getCore(host));
-  tmp->showNormal();
-  connect(tmp, SIGNAL(ClientClosed(MainUI*)), this, SLOT(ClientClosed(MainUI*)) );
-  CLIENTS << tmp;
-}
-
-void sysadm_tray::open_config(){
+//Menu Actions
+void sysadm_tray::OpenConnectionManager(){
 	
 }
 
-void sysadm_tray::close_tray(){
+void sysadm_tray::OpenSettings(){
+	
+}
+
+void sysadm_tray::CloseApplication(){
   //perform any cleanup
     // Disconnect any cores
   QStringList cores = CORES.keys();
@@ -131,5 +108,24 @@ void sysadm_tray::close_tray(){
     qDebug() << "Deleting Cores...";
     delete CORES.take(cores[i]);
   }
-  QCoreApplication::exit(0);
+  QCoreApplication::exit(0);	
+}
+
+void sysadm_tray::OpenCore(QString host){
+  //See if a window for this host is already open and use that
+  for(int i=0; i<CLIENTS.length(); i++){
+    if(CLIENTS[i]->currentCore()->currentHost()==host){
+      CLIENTS[i]->showNormal();
+      return;
+    }
+  }
+  //Open a new window for this host
+  MainUI *tmp = new MainUI(getCore(host));
+  tmp->showNormal();
+  connect(tmp, SIGNAL(ClientClosed(MainUI*)), this, SLOT(ClientClosed(MainUI*)) );
+  CLIENTS << tmp;	
+}
+
+void sysadm_tray::OpenCoreLogs(QString host){
+	
 }

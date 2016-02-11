@@ -9,6 +9,7 @@
 
 #include "globals.h"
 #include "mainUI.h"
+#include "MenuItem.h"
 
 class sysadm_tray : public QSystemTrayIcon{
 	Q_OBJECT
@@ -18,11 +19,11 @@ public:
 
 private:
 	//Lists of open cores/windows
-	QHash<QString,sysadm_client*> CORES; // hostIP / core
+	//QHash<QString,sysadm_client*> CORES; // hostIP / core
 	QList<MainUI*> CLIENTS; //currently open windows
 
 	//Menu's attached to the tray
-	QMenu *M_opengui; //menu for launching the main config UI on a particular server
+	MenuItem *menu; //the main menu
 	
 	sysadm_client* getCore(QString host);
 
@@ -36,11 +37,12 @@ private slots:
 	void updateCoreList();
 	void ClientClosed(MainUI*);
 	
-	//void showEvent(sysadm_client::EVENT_TYPE, QJsonValue);
 	//Menu Actions
-	void open_gui(QAction*);
-	void open_config();
-	void close_tray();
+	void OpenConnectionManager();
+	void OpenSettings();
+	void CloseApplication();
+	void OpenCore(QString);
+	void OpenCoreLogs(QString);
 
 };
 
