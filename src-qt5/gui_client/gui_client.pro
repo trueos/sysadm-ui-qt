@@ -18,15 +18,18 @@ RESOURCES += ../icons/icons.qrc \
 SOURCES	+= main.cpp \
 		TrayUI.cpp \
 		MenuItem.cpp \
-		mainUI.cpp
+		mainUI.cpp \
+		C_Manager.cpp
 		
 HEADERS += globals.h \
 		TrayUI.h \
 		MenuItem.h \
 		PageWidget.h \
-		mainUI.h
+		mainUI.h \
+		C_Manager.h
 
-FORMS += mainUI.ui
+FORMS += mainUI.ui \
+		C_Manager.ui
 
 include(../Core/core.pri)
 include(pages/pages.pri)

@@ -16,9 +16,11 @@ QHash<QString,sysadm_client*> CORES; // hostIP / core
 
 // === PUBLIC ===
 sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
+  CMAN = 0;
+	
   //Load any CORES
   updateCoreList();
-
+  
   //Setup the tray icon
   this->setIcon( QIcon(":/icons/grey/disk2.svg") );
   connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayActivated()) );
@@ -37,6 +39,7 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
 }
 
 sysadm_tray::~sysadm_tray(){
+  if(CMAN!=0){ delete CMAN; }
   delete this->contextMenu(); //Note in docs that the tray does not take ownership of this menu
 }
 
@@ -83,7 +86,8 @@ void sysadm_tray::ClientClosed(MainUI* client){
 
 //Menu Actions
 void sysadm_tray::OpenConnectionManager(){
-	
+  if(CMAN==0){ CMAN = new C_Manager(); }
+  CMAN->showNormal();
 }
 
 void sysadm_tray::OpenSettings(){

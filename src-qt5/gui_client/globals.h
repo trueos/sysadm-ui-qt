@@ -27,9 +27,13 @@
 #include <QFile>
 
 //GUI widgets
+#include <QMainWindow>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
+#include <QPushButton>
 #include <QVBoxLayout>
+#include <QActionGroup>
+#include <QAction>
 
 
 #include "../Core/sysadm-client.h"
