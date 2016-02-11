@@ -1,4 +1,9 @@
-QTreeWidget{
-  background-color: darkgrey;
-  color: white;
+QTreeWidget::item {
+  padding:5px 5px 5px 5px;
+  background-color: white;
+  color: black;
+}
+
+QTreeWidget::item:open {
+  color: blue
 }
