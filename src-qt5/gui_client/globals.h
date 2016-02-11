@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QSettings>
 #include <QTimer>
+#include <QFile>
 
 //GUI widgets
 #include <QTreeWidget>

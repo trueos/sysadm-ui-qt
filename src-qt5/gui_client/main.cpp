@@ -21,11 +21,22 @@
 //sysadm_client *S_CORE = new sysadm_client();
 QSettings *settings = new QSettings("PCBSD","sysadm-client", 0);
 
+QString readfile(QString path){
+  QFile file(path);
+  QString out;
+  if(file.open(QIODevice::ReadOnly) ){
+    QTextStream in(&file);
+    out = in.readAll();
+    file.close();
+  }
+  return out;
+}
+
 int main( int argc, char ** argv )
 {
   //Load the application
   QApplication A(argc, argv);
-    
+
   //Determine if this is a stand-alone instance of the client for the localhost	
   bool local_only = false;
   for(int i=1; i<argc; i++){
@@ -50,6 +61,8 @@ int main( int argc, char ** argv )
       return 1;
     }
     //Now start up the system tray
+    QString cstyle = settings->value("style","generic").toString();
+    A.setStyleSheet( readfile(":/styles/"+cstyle+".qss") );
     sysadm_tray *T = new sysadm_tray();
     T->show();
     //Start the event loop
