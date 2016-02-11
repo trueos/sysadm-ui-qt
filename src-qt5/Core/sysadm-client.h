@@ -101,7 +101,7 @@ signals:
 	void clientDisconnected(); //Only emitted if the client could not automatically reconnect to the server
 	void clientUnauthorized(); //Only emitted if the user needs to re-authenticate with the server
 	void newReply(QString ID, QString namesp, QString name, QJsonValue args);
-	void NewEvent(EVENT_TYPE type, QJsonValue data);
+	void NewEvent(sysadm_client::EVENT_TYPE, QJsonValue);
 
 };
 

@@ -21,7 +21,7 @@ MenuItem::MenuItem(QWidget *parent, QString path, sysadm_client *core) : QMenu(p
     //Setup the core connections
     connect(core, SIGNAL(clientAuthorized()), this, SLOT(CoreActive()) );
     connect(core, SIGNAL(clientDisconnected()), this, SLOT(CoreClosed()) );
-    connect(core, SIGNAL(NewEvent(sysadm_client::EVENT_TYPE type, QJsonValue data)), this, SLOT(CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue data)) );
+    connect(core, SIGNAL(NewEvent(sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(CoreEvent(sysadm_client::EVENT_TYPE, QJsonValue)) );
   }
 	
 }
@@ -40,6 +40,7 @@ void MenuItem::addSubMenu(MenuItem *menu){
   connect(menu, SIGNAL(OpenCore(QString)), this, SIGNAL(OpenCore(QString)) );
   connect(menu, SIGNAL(OpenCoreLogs(QString)), this, SIGNAL(OpenCoreLogs(QString)) );
   connect(menu, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)), this, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)) );
+  QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
 }
 
 // === PUBLIC SLOTS ===
@@ -103,7 +104,7 @@ void MenuItem::UpdateMenu(){
 // === PRIVATE SLOTS ===
 void MenuItem::menuTriggered(QAction *act){
   //Don't handle non-child actions
-  if(act->parent()!=this){ qDebug() << "non-child action detected"; return; }
+  if(act->parent()!=this){ return; }
   //Now emit the proper signal for this button
   QString action = act->whatsThis();
   if(action=="open_conn_mgmt"){ emit OpenConnectionManager(); }
