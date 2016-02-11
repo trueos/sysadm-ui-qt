@@ -34,22 +34,65 @@ void C_Manager::LoadConnectionInfo(){
   ui->tree_conn->clear();
   //Load the files/settings and put it into the tree
   QStringList dirs = settings->allKeys().filter("C_Groups/");
-  dirs.sort();
-  
+  dirs.sort(); //this will ensure that we decend through the tree progressively
+  for(int i=0; i<dirs.length(); i++){
+    //Create the item for this dir
+    QTreeWidgetItem *item = new QTreeWidgetItem();
+      item->setText(0, dirs[i].section("/",-1)); //dirs only have the "text" field set
+    //Load all the connections within this dir
+    QStringList conns = settings->value(dirs[i]).toStringList();
+    for(int c=0; c<conns.length(); c++){
+       QTreeWidgetItem *tmp = new QTreeWidgetItem();
+	    tmp->setText(0, conns[c]); //this needs to be changed to a nickname/IP later
+	    tmp->setWhatsThis(0, conns[c]);
+	item->addChild(tmp);
+    }
+    //Now add the item to the proper parent
+    QTreeWidgetItem *parent = FindItemParent(dirs[i]);
+    if(parent==0){
+      ui->tree_conn->addTopLevelItem(item);
+    }else{
+      parent->addChild(item);
+    }
+  }
   on_tree_conn_itemSelectionChanged();
 }
 
 void C_Manager::SaveConnectionInfo(){
-	
+  
 }
 
 //Simplification functions for reading/writing tree widget paths
 QTreeWidgetItem* C_Manager::FindItemParent(QString path){
-	
+  QString ppath = path.section("/",1,-2); //Cut off the C_Groups/ and current dir from the ends
+  QList<QTreeWidgetItem*> found = ui->tree_conn->findItems(ppath.section("/",-1), Qt::MatchExactly);
+  for(int i=0; i<found.length(); i++){
+    QString check = found[i]->text(0);
+    QTreeWidgetItem *tmp = found[i];
+    while(tmp->parent()!=0){
+      tmp = tmp->parent();
+      check.prepend(tmp->text(0)+"/");
+    }
+    if(ppath==check){ return found[i]; } //found the parent item
+  }
+  return 0; //none found
 }
 
 void C_Manager::saveGroupItem(QTreeWidgetItem *group){
-	
+    //First assemble the full path of the group
+    QString path = group->text(0);
+    QTreeWidgetItem *tmp = group;
+    while(tmp->parent()!=0){
+      tmp = tmp->parent();
+      path.prepend(tmp->text(0)+"/");
+    }
+    path.prepend("C_Groups/");
+    //Now get all the children of this group which are not groups themselves
+    QStringList conns;
+    for(int i=0; i<group->childCount(); i++){
+      if(group->child(i)->whatsThis(0).isEmpty()){ continue; }
+      conns << group->child(i)->whatsThis(0);
+    }
 }
 
 

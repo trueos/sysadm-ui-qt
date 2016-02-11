@@ -86,7 +86,10 @@ void sysadm_tray::ClientClosed(MainUI* client){
 
 //Menu Actions
 void sysadm_tray::OpenConnectionManager(){
-  if(CMAN==0){ CMAN = new C_Manager(); }
+  if(CMAN==0){ 
+    CMAN = new C_Manager(); 
+    connect(CMAN, SIGNAL(SettingsChanged()), menu, SLOT(UpdateMenu()) ); 
+  }
   CMAN->showNormal();
 }
 
