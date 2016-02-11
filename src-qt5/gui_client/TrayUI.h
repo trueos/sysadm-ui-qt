@@ -10,6 +10,7 @@
 #include "globals.h"
 #include "mainUI.h"
 #include "MenuItem.h"
+#include "C_Manager.h"
 
 class sysadm_tray : public QSystemTrayIcon{
 	Q_OBJECT
@@ -21,6 +22,7 @@ private:
 	//Lists of open cores/windows
 	//QHash<QString,sysadm_client*> CORES; // hostIP / core
 	QList<MainUI*> CLIENTS; //currently open windows
+	C_Manager *CMAN; //current Connection manager window
 
 	//Menu's attached to the tray
 	MenuItem *menu; //the main menu

@@ -7,7 +7,6 @@
 #ifndef _PCBSD_SYSADM_CLIENT_MAIN_UI_H
 #define _PCBSD_SYSADM_CLIENT_MAIN_UI_H
 
-#include <QMainWindow>
 #include <globals.h>
 
 namespace Ui{

@@ -54,13 +54,15 @@ void control_panel::ItemClicked(QTreeWidgetItem *item, int col){
     if(item->isExpanded()){
       tree->collapseItem(item);
     }else{
-      tree->setAnimated(false);
       for(int i=0; i<tree->topLevelItemCount(); i++){
         if(tree->topLevelItem(i)!=item && tree->topLevelItem(i)->isExpanded()){
 	  tree->collapseItem(tree->topLevelItem(i));
+	  QTime time; time.start();
+	  while(time.elapsed() < 400){
+	    QApplication::processEvents();
+	  }
 	}
       }
-      tree->setAnimated(true);
       tree->expandItem(item);
     }
   }else if(!item->whatsThis(col).isEmpty()){
