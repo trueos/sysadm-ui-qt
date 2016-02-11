@@ -93,6 +93,8 @@ void C_Manager::saveGroupItem(QTreeWidgetItem *group){
       if(group->child(i)->whatsThis(0).isEmpty()){ continue; }
       conns << group->child(i)->whatsThis(0);
     }
+    //Now save the info to the settings file
+    settings->setValue(path, conns);
 }
 
 

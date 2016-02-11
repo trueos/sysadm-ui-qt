@@ -1,0 +1,10 @@
+*.o
+moc_*.cpp
+moc_*.o
+ui_*.h
+qrc_*.cpp
+src-qt5/Makefile
+src-qt5/cli_client/Makefile
+src-qt5/cli_client/sysadm
+src-qt5/gui_client/Makefile
+src-qt5/gui_client/sysadm-client
