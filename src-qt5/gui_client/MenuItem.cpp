@@ -45,10 +45,21 @@ void MenuItem::addSubMenu(MenuItem *menu){
 
 // === PUBLIC SLOTS ===
 void MenuItem::UpdateMenu(){
-  QStringList subdirs = settings->allKeys().filter("C_Groups/"+(this->whatsThis().isEmpty() ? "" : (this->whatsThis()+"/") ) );
+  QString pathkey = this->whatsThis();
+  if(!pathkey.startsWith("C_Groups/") && !pathkey.isEmpty()){pathkey.prepend("C_Groups/"); }
+  else if(pathkey.isEmpty()){ pathkey = "C_Groups"; }
+  QStringList subdirs = settings->allKeys().filter(pathkey);
+    subdirs.removeAll(pathkey); //don't allow a duplicate of this menu
+    if(!pathkey.endsWith("/")){ pathkey.append("/"); } //for consistency later
+    for(int i=0; i<subdirs.length(); i++){
+      //Remove any non-direct children dirs
+      if(subdirs[i].section(pathkey,0,0,QString::SectionSkipEmpty).contains("/")){ 
+	subdirs.removeAt(i); i--; 
+      }
+    }
   QStringList hosts = settings->value("C_Groups/"+this->whatsThis()).toStringList();
-  qDebug() << "Update Menu:" << this->whatsThis() << "Has Core:" << !host.isEmpty();
-  qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
+  //qDebug() << "Update Menu:" << this->whatsThis() << "Has Core:" << !host.isEmpty();
+  //qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
   //Now go through and update the menu
   this->clear();
   if(host.isEmpty()){

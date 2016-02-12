@@ -24,6 +24,8 @@ C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
   //Setup all the connections
   connect(ui->actionFinished, SIGNAL(triggered()), this, SLOT(close()) );
 	
+  LoadConnectionInfo();
+	
   //Show the ssl page by default
   ui->actionSetup_SSL->trigger();
 }
@@ -37,28 +39,37 @@ void C_Manager::LoadConnectionInfo(){
   ui->tree_conn->clear();
   //Load the files/settings and put it into the tree
   QStringList dirs = settings->allKeys().filter("C_Groups/");
+  dirs.prepend("C_Groups"); //also need the "base" dir
   dirs.sort(); //this will ensure that we decend through the tree progressively
+  qDebug() << "Load Dirs:" << dirs;
   for(int i=0; i<dirs.length(); i++){
     //Create the item for this dir
-    QTreeWidgetItem *item = new QTreeWidgetItem();
+    QTreeWidgetItem *item = 0;
+    if(dirs[i]!="C_Groups"){ //real sub-dir
+      item = new QTreeWidgetItem(); 
       item->setText(0, dirs[i].section("/",-1)); //dirs only have the "text" field set
       item->setIcon(0,QIcon(":/icons/black/box.svg") );
+      //Now add the item to the proper parent
+      QTreeWidgetItem *parent = FindItemParent(dirs[i]);
+      if(parent==0){
+        ui->tree_conn->addTopLevelItem(item);
+      }else{
+        parent->addChild(item);
+      }
+    }
     //Load all the connections within this dir
     QStringList conns = settings->value(dirs[i]).toStringList();
+    qDebug() << "Check Connections:" << dirs[i] << conns;
     for(int c=0; c<conns.length(); c++){
+      if(conns[c].simplified().isEmpty()){ continue; }
        QTreeWidgetItem *tmp = new QTreeWidgetItem();
 	    tmp->setText(0, conns[c]); //this needs to be changed to a nickname/IP later
 	    tmp->setWhatsThis(0, conns[c]);
 	    tmp->setIcon(0,QIcon(":/icons/black/globe.svg") );
-	item->addChild(tmp);
+        if(item==0){ ui->tree_conn->addTopLevelItem(tmp); }
+	else{ item->addChild(tmp); }
     }
-    //Now add the item to the proper parent
-    QTreeWidgetItem *parent = FindItemParent(dirs[i]);
-    if(parent==0){
-      ui->tree_conn->addTopLevelItem(item);
-    }else{
-      parent->addChild(item);
-    }
+    QApplication::processEvents();
   }
   on_tree_conn_itemSelectionChanged();
 }
@@ -85,7 +96,9 @@ void C_Manager::SaveConnectionInfo(){
 //Simplification functions for reading/writing tree widget paths
 QTreeWidgetItem* C_Manager::FindItemParent(QString path){
   QString ppath = path.section("/",1,-2); //Cut off the C_Groups/ and current dir from the ends
-  QList<QTreeWidgetItem*> found = ui->tree_conn->findItems(ppath.section("/",-1), Qt::MatchExactly);
+  qDebug() << "Item Parent:" << path << ppath;
+  QList<QTreeWidgetItem*> found = ui->tree_conn->findItems(ppath.section("/",-1), Qt::MatchExactly | Qt::MatchRecursive);
+  qDebug() << "Matches Found:" << found;
   for(int i=0; i<found.length(); i++){
     QString check = found[i]->text(0);
     QTreeWidgetItem *tmp = found[i];
@@ -93,6 +106,7 @@ QTreeWidgetItem* C_Manager::FindItemParent(QString path){
       tmp = tmp->parent();
       check.prepend(tmp->text(0)+"/");
     }
+    //qDebug() << "Check parent path:" << ppath << check;
     if(ppath==check){ return found[i]; } //found the parent item
   }
   return 0; //none found
@@ -144,7 +158,7 @@ void C_Manager::on_push_conn_add_clicked(){
   QTreeWidgetItem *sel = 0;
   if(!ui->tree_conn->selectedItems().isEmpty()){ sel = ui->tree_conn->selectedItems().first(); }
   QString gname = QInputDialog::getText(this, tr("New Connection Nickname"), tr("Name:"));
-  while(!gname.isEmpty() && !ui->tree_conn->findItems(gname+" (*)", Qt::MatchWildcard).isEmpty() ){
+  while(!gname.isEmpty() && !ui->tree_conn->findItems(gname+" (*)", Qt::MatchWildcard | Qt::MatchRecursive).isEmpty() ){
     gname = QInputDialog::getText(this, tr("Invalid Name"), tr("Name:"),QLineEdit::Normal,gname);
   }
   if(gname.isEmpty()){ return; } //cancelled
@@ -202,7 +216,7 @@ void C_Manager::on_push_group_add_clicked(){
   QTreeWidgetItem *sel = 0;
   if(!ui->tree_conn->selectedItems().isEmpty()){ sel = ui->tree_conn->selectedItems().first(); }
   QString gname = QInputDialog::getText(this, tr("New Group Name"), tr("Name:"));
-  while(!gname.isEmpty() && !ui->tree_conn->findItems(gname, Qt::MatchExactly).isEmpty()){
+  while(!gname.isEmpty() && !ui->tree_conn->findItems(gname, Qt::MatchExactly | Qt::MatchRecursive).isEmpty()){
     gname = QInputDialog::getText(this, tr("Invalid Group Name"), tr("Name:"),QLineEdit::Normal,gname);
   }
   if(gname.isEmpty()){ return; } //cancelled
@@ -243,7 +257,7 @@ void C_Manager::on_push_rename_clicked(){
   QString id = sel->whatsThis(0);
   if(!id.isEmpty()){ oname = oname.section("("+id,0,0); }
   QString name = QInputDialog::getText(this, tr("New Name"), tr("Name:"), QLineEdit::Normal, oname);
-  while(!name.isEmpty() && ( !ui->tree_conn->findItems(name, Qt::MatchExactly).isEmpty() || !ui->tree_conn->findItems(name+" (*)", Qt::MatchWildcard).isEmpty() ) ){
+  while(!name.isEmpty() && ( !ui->tree_conn->findItems(name, Qt::MatchExactly | Qt::MatchRecursive).isEmpty() || !ui->tree_conn->findItems(name+" (*)", Qt::MatchWildcard | Qt::MatchRecursive).isEmpty() ) ){
     name = QInputDialog::getText(this, tr("Invalid Name"), tr("Name:"),QLineEdit::Normal,name);
   }
   if(name.isEmpty()){ return; } //cancelled
