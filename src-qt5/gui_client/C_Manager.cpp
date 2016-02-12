@@ -7,6 +7,9 @@
 #include "C_Manager.h"
 #include "ui_C_Manager.h"
 
+#include "NewConnectionWizard.h"
+extern QHash<QString,sysadm_client*> CORES; // hostIP / core
+
 C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
   ui->setupUi(this);
   radio_acts = new QActionGroup(this);
@@ -138,11 +141,57 @@ void C_Manager::on_tree_conn_itemSelectionChanged(){
 }
 
 void C_Manager::on_push_conn_add_clicked(){
-	
+  QTreeWidgetItem *sel = 0;
+  if(!ui->tree_conn->selectedItems().isEmpty()){ sel = ui->tree_conn->selectedItems().first(); }
+  QString gname = QInputDialog::getText(this, tr("New Connection Nickname"), tr("Name:"));
+  while(!gname.isEmpty() && !ui->tree_conn->findItems(gname+" (*)", Qt::MatchWildcard).isEmpty() ){
+    gname = QInputDialog::getText(this, tr("Invalid Name"), tr("Name:"),QLineEdit::Normal,gname);
+  }
+  if(gname.isEmpty()){ return; } //cancelled
+  //Now run through the new connection wizard
+  NewConnectionWizard dlg(this, gname);
+  dlg.exec();
+  if(!dlg.success){ return; } //cancelled
+  CORES.insert(dlg.host, dlg.core);
+  //Create the new item
+  QTreeWidgetItem *item = new QTreeWidgetItem(QStringList() << (gname+" ("+dlg.host+")"));
+    item->setWhatsThis(0,dlg.host);
+    item->setIcon(0,QIcon(":/icons/black/globe.svg") );
+  //Now add the item in the proper place
+  if(sel==0 || !sel->whatsThis(0).isEmpty()){
+    //New Top-level connection
+    ui->tree_conn->addTopLevelItem(item);
+  }else{
+    //New Connection in a group
+    sel->addChild(item);
+    if(!sel->isExpanded()){ ui->tree_conn->expandItem(sel); }
+    sel->setSelected(false);
+  }
+  item->setSelected(true);
+  //Now update the buttons
+  on_tree_conn_itemSelectionChanged();
+  SaveConnectionInfo();
 }
 
 void C_Manager::on_push_conn_rem_clicked(){
-	
+  QTreeWidgetItem *sel = 0;
+  if(!ui->tree_conn->selectedItems().isEmpty()){ sel = ui->tree_conn->selectedItems().first(); }
+  if(sel==0 || sel->whatsThis(0).isEmpty()){ return; }
+  QString host = sel->whatsThis(0);
+  //Turn off the connection for this host first
+  if(CORES.contains(host)){ 
+    CORES[host]->closeConnection();
+    QApplication::processEvents();
+    delete CORES.take(host);
+  }
+  //Clean up the save info for this connection
+  settings->remove("Hosts/"+host);
+  settings->remove("Hosts/"+host+"/username");
+  //Remove the item from the tree
+  delete sel;
+  //update the buttons/tray
+  on_tree_conn_itemSelectionChanged();
+  SaveConnectionInfo();  
 }
 
 void C_Manager::on_push_conn_export_clicked(){
@@ -173,6 +222,7 @@ void C_Manager::on_push_group_add_clicked(){
   item->setSelected(true);
   //Now update the buttons
   on_tree_conn_itemSelectionChanged();
+  SaveConnectionInfo();
 }
 
 void C_Manager::on_push_group_rem_clicked(){
@@ -182,6 +232,7 @@ void C_Manager::on_push_group_rem_clicked(){
   delete sel;
   //Now update the buttons
   on_tree_conn_itemSelectionChanged();
+  SaveConnectionInfo();
 }
 
 void C_Manager::on_push_rename_clicked(){
@@ -196,8 +247,10 @@ void C_Manager::on_push_rename_clicked(){
     name = QInputDialog::getText(this, tr("Invalid Name"), tr("Name:"),QLineEdit::Normal,name);
   }
   if(name.isEmpty()){ return; } //cancelled
+  settings->setValue("Hosts/"+id, name);
   if(!id.isEmpty()){ name = name+" ("+id+")"; }
   sel->setText(0,name);
+  SaveConnectionInfo();
 }
 
 //SSL Page

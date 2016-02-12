@@ -28,6 +28,7 @@
 
 //GUI widgets
 #include <QMainWindow>
+#include <QDialog>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QPushButton>

@@ -45,8 +45,10 @@ void MenuItem::addSubMenu(MenuItem *menu){
 
 // === PUBLIC SLOTS ===
 void MenuItem::UpdateMenu(){
-  QStringList subdirs = settings->allKeys().filter("C_Groups/"+this->whatsThis()+"/");
+  QStringList subdirs = settings->allKeys().filter("C_Groups/"+(this->whatsThis().isEmpty() ? "" : (this->whatsThis()+"/") ) );
   QStringList hosts = settings->value("C_Groups/"+this->whatsThis()).toStringList();
+  qDebug() << "Update Menu:" << this->whatsThis() << "Has Core:" << !host.isEmpty();
+  qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
   //Now go through and update the menu
   this->clear();
   if(host.isEmpty()){
@@ -62,8 +64,7 @@ void MenuItem::UpdateMenu(){
       if(!this->isEmpty()){ this->addSeparator(); }
       for(int i=0; i<hosts.length(); i++){
         if(CORES.contains(hosts[i])){
-	  //TO-DO: Need to pass in the hosts[i] nickname instead
-	  addSubMenu( new MenuItem(this, hosts[i], CORES[ hosts[i] ]) );
+	  addSubMenu( new MenuItem(this, settings->value("Hosts/"+hosts[i], hosts[i]).toString(), CORES[ hosts[i] ]) );
 	}
       }
     }
@@ -97,7 +98,6 @@ void MenuItem::UpdateMenu(){
     tmp = this->addAction(QIcon(":/icons/black/document-text.svg"), tr("View Logs"));
 	tmp->setWhatsThis("open_host_logs");
   }
-  
 }
 
 
