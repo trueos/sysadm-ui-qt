@@ -41,6 +41,7 @@ private slots:
 	void on_push_conn_export_clicked();
 	void on_push_group_add_clicked();
 	void on_push_group_rem_clicked();
+	void on_push_rename_clicked();
 
 	//SSL Page
 	void on_push_ssl_create_clicked();

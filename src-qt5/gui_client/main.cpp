@@ -18,8 +18,7 @@
 #endif
 
 //Initialize the global variables (defined in globals.h)
-//sysadm_client *S_CORE = new sysadm_client();
-QSettings *settings = new QSettings("PCBSD","sysadm-client", 0);
+QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PCBSD","sysadm-client", 0);
 
 QString readfile(QString path){
   QFile file(path);
@@ -61,6 +60,7 @@ int main( int argc, char ** argv )
       return 1;
     }
     //Now start up the system tray
+    qDebug() << "Loading Settings From:" << settings->fileName();
     QString cstyle = settings->value("style","generic").toString();
     A.setStyleSheet( readfile(":/styles/"+cstyle+".qss") );
     sysadm_tray *T = new sysadm_tray();

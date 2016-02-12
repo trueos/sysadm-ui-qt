@@ -34,7 +34,8 @@
 #include <QVBoxLayout>
 #include <QActionGroup>
 #include <QAction>
-
+#include <QInputDialog>
+#include <QLineEdit>
 
 #include "../Core/sysadm-client.h"
 
