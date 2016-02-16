@@ -1,3 +1,19 @@
+QGroupBox {
+  background: #eaf0f8;
+  border-width: 1px;
+  border-style: hidden;
+  border-radius: 6px;
+  }
+
+
+QPushButton {
+  background: #bccee8;
+  }
+  
+QStackedWidget {
+  background: #a9c0e1;
+  }
+
 QTreeWidget {
   border-width: 1px;
   border-style: hidden;
