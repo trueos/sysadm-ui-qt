@@ -14,6 +14,7 @@
 //Initialize the global variables 
 sysadm_client *S_CORE = new sysadm_client();
 QSettings *settings = new QSettings("PCBSD","sysadm-client", 0);
+QSslConfiguration SSL_cfg;
 
 int main( int argc, char ** argv )
 {

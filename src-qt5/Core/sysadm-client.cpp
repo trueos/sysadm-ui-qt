@@ -5,9 +5,20 @@
 //  See the LICENSE file for full details
 //===========================================
 #include "sysadm-client.h"
-#include <globals.h>
+#include <QSslConfiguration>
+#include <QJsonArray>
+#include <QProcess>
+#include <QFile>
+#include <QTimer>
+#include <QSettings>
+#include <QSslKey>
+#include <QSslCertificate>
 
 #define SERVERPIDFILE QString("/var/run/sysadm-websocket.pid")
+
+extern QSettings *settings;
+//Unencrypted SSL objects (after loading them by user passphrase)
+extern QSslConfiguration SSL_cfg; //Check "isNull()" to see if the user settings have been loaded yet
 
 // === PUBLIC ===
 sysadm_client::sysadm_client(){
