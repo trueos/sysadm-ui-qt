@@ -18,7 +18,7 @@ control_panel::control_panel(QWidget *parent, sysadm_client *core) : PageWidget(
     tree->setHeaderHidden(true); // Don't show the column header (only 1 column)
     tree->setExpandsOnDoubleClick(false);
     tree->setItemsExpandable(true);
-    tree->setAllColumnsShowFocus(true);
+    tree->setAllColumnsShowFocus(false);
     tree->setMouseTracking(true); //make sure mouse-hover highlights items
     tree->setDragDropMode(QTreeView::NoDragDrop);
     tree->setDragEnabled(false);

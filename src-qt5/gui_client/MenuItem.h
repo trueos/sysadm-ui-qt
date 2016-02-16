@@ -38,6 +38,7 @@ signals:
 	void OpenConnectionManager();
 	void OpenSettings();
 	void CloseApplication();
+	void UnlockConnections();
 
 	// CORE Actions
 	void OpenCore(QString host);

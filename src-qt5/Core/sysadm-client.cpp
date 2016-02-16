@@ -5,21 +5,14 @@
 //  See the LICENSE file for full details
 //===========================================
 #include "sysadm-client.h"
-#include <QSslConfiguration>
-#include <QJsonArray>
-#include <QProcess>
-#include <QFile>
-#include <QTimer>
-#include <QSettings>
+#include <globals.h>
 
 #define SERVERPIDFILE QString("/var/run/sysadm-websocket.pid")
-
-extern QSettings *settings;
 
 // === PUBLIC ===
 sysadm_client::sysadm_client(){
   SOCKET = new QWebSocket("sysadm-client", QWebSocketProtocol::VersionLatest, this);
-    SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
+    //SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
     //SOCKET->ignoreSslErrors();
     //use the new Qt5 connection syntax for compile time checks that connections are valid
     connect(SOCKET, &QWebSocket::connected, this, &sysadm_client::socketConnected);
@@ -38,7 +31,7 @@ sysadm_client::~sysadm_client(){
 // Overall Connection functions (start/stop)
 void sysadm_client::openConnection(QString user, QString pass, QString hostIP){
   cuser = user; cpass = pass; chost = hostIP;
-  qDebug() << "Client: Setup connection:" << user << pass << hostIP;
+  //qDebug() << "Client: Setup connection:" << user << pass << hostIP;
   setupSocket();
 }
 
@@ -79,31 +72,6 @@ bool sysadm_client::localhostAvailable(){
   return false;
 }
 
-// Connection Hosts Database Access
-QStringList sysadm_client::knownHosts(){
-  //Returns: <Name>::::<IP>
-  QStringList hosts =settings->value("knownhosts",QStringList()).toStringList();
-  for(int i=0; i<hosts.length(); i++){
-    hosts[i].prepend(settings->value("hostnames/"+hosts[i],"").toString() +"::::");
-  }
-  return hosts;
-}
-
-void sysadm_client::saveHost(QString IP, QString name){
-  QStringList hosts = settings->value("knownhosts",QStringList()).toStringList();
-  hosts << IP;
-  hosts.removeDuplicates();
-  settings->setValue("knownhosts",hosts);
-  settings->setValue("hostnames/"+IP,name);
-}
-
-void sysadm_client::removeHost(QString IP){
-  QStringList hosts = settings->value("knownhosts",QStringList()).toStringList();
-  hosts.removeAll(IP);
-  settings->setValue("knownhosts",hosts);
-  settings->remove("hostnames/"+IP);
-}
-
 // Register for Event Notifications (no notifications by default)
 void sysadm_client::registerForEvents(EVENT_TYPE event, bool receive){
   bool set = events.contains(event);
@@ -115,9 +83,30 @@ void sysadm_client::registerForEvents(EVENT_TYPE event, bool receive){
   if(SOCKET->isValid()){
     sendEventSubscription(event, receive);
   }
-
 }
 	
+//Register the custom SSL Certificate with the server
+void sysadm_client::registerCustomCert(){
+  if(SSL_cfg.isNull() || SOCKET==0 || !SOCKET->isValid()){ return; }
+  //Get the custom cert
+  QSslConfiguration cfg = SOCKET->sslConfiguration();
+  QList<QSslCertificate> certs = cfg.localCertificateChain();
+  QString pubkey;
+  for(int i=0; i<certs.length(); i++){
+    if(certs[i].issuerInfo(QSslCertificate::Organization).contains("SysAdm-client")){
+      pubkey = QString(certs[i].publicKey().toPem());
+      break;
+    }
+  }
+  if(pubkey.isEmpty()){ return; } //no cert found
+  //Now assemble the request JSON
+  QJsonObject obj;
+    obj.insert("action","register_ssl_cert");
+    obj.insert("pub_key", pubkey);
+  this->communicate("sysadm-auto-cert-register","sysadm","settings", obj);
+  
+}
+
 // Messages which are still pending a response
 QStringList sysadm_client::pending(){ return PENDING; } //returns only the "id" for each 
 
@@ -137,6 +126,12 @@ QJsonValue sysadm_client::cachedReply(QString id){
 void sysadm_client::setupSocket(){
   //qDebug() << "Setup Socket:" << SOCKET->isValid();
   if(SOCKET->isValid()){ return; }
+  //Setup the SSL config as needed
+  if(SSL_cfg.isNull()){
+    SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
+  }else{
+    SOCKET->setSslConfiguration(SSL_cfg);
+  }
   //uses chost for setup
   // - assemble the host URL
   if(chost.contains("://")){ chost = chost.section("://",1,1); } //Chop off the custom http/ftp/other header (always need "wss://")

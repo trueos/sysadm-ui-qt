@@ -22,7 +22,7 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
   updateCoreList();
   
   //Setup the tray icon
-  this->setIcon( QIcon(":/icons/grey/disk2.svg") );
+  this->setIcon( QIcon(":/icons/grey/lock.svg") );
   connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayActivated()) );
 	
   //Setup the menu
@@ -34,7 +34,7 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
   connect(menu, SIGNAL(OpenCore(QString)), this, SLOT(OpenCore(QString)) );
   connect(menu, SIGNAL(OpenCoreLogs(QString)), this, SLOT(OpenCoreLogs(QString)) );
   connect(menu, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)), this, SLOT(showMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)) );
-
+  connect(menu, SIGNAL(UnlockConnections()), this, SLOT(UnlockConnections()) );
   QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
 }
 
@@ -59,22 +59,24 @@ sysadm_client* sysadm_tray::getCore(QString host){
 
 // === PRIVATE SLOTS ===
 void sysadm_tray::updateCoreList(){
-  bool firstrun = (this->contextMenu()==0);
   //First add the localhost to the top of the list (if available)
   if(sysadm_client::localhostAvailable() ){
     getCore(LOCALHOST);
   }
   //Now add any known hosts (including connection status)
-  QStringList known = sysadm_client::knownHosts();
+  if(!SSL_cfg.isNull()){
+    QStringList known = settings->allKeys().filter("Hosts/").filter("/username");
+    //syntax: Hosts/<hostIP>/username = <username>
     known.sort(); //sort by name
-  //Now add these hosts to the menu
-  for(int i=0; i<known.length(); i++){
-    getCore(known[i].section("::::",1,1));
-  }
-  
-  if(firstrun){
-    //Go ahead and run any auto-connection protocols
-    
+    //Now add these hosts to the menu
+    for(int i=0; i<known.length(); i++){
+      QString host = known[i].section("/",1,500).section("/username",0,0);
+      if(!CORES.contains(host)){
+	getCore(host);      
+	QString user = settings->value(known[i]).toString();
+	CORES[host]->openConnection(user, "", host);
+      }
+    }
   }
 }
 
@@ -135,4 +137,17 @@ void sysadm_tray::OpenCore(QString host){
 
 void sysadm_tray::OpenCoreLogs(QString host){
 	
+}
+
+void sysadm_tray::UnlockConnections(){
+  bool ok;
+  QString pass = QInputDialog::getText(0, tr("Unlock SysAdm Connections"), tr("SysAdm Password"), QLineEdit::Password, "", &ok, Qt::Popup | Qt::WindowStaysOnTopHint, Qt::ImhSensitiveData);
+  if(!ok || pass.isEmpty()){ return; } //cancelled
+  if(LoadSSLFile(pass)){
+    this->setIcon( QIcon(":/icons/grey/disk2.svg") );
+    //Open all the cores
+    updateCoreList();  
+    //Update the menu
+    QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
+  }
 }

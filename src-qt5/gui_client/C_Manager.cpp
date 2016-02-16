@@ -8,6 +8,9 @@
 #include "ui_C_Manager.h"
 
 #include "NewConnectionWizard.h"
+
+#include <globals.h>
+
 extern QHash<QString,sysadm_client*> CORES; // hostIP / core
 
 C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
@@ -25,9 +28,20 @@ C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
   connect(ui->actionFinished, SIGNAL(triggered()), this, SLOT(close()) );
 	
   LoadConnectionInfo();
+  verify_cert_inputs();
+  //Connect some signals/slots
+  connect(ui->line_cert_country, SIGNAL(textEdited(const QString&)), this, SLOT(verify_cert_inputs()) );
+  connect(ui->line_cert_state, SIGNAL(textEdited(const QString&)), this, SLOT(verify_cert_inputs()) );
+  connect(ui->line_cert_email, SIGNAL(textEdited(const QString&)), this, SLOT(verify_cert_inputs()) );
+  connect(ui->line_cert_nick, SIGNAL(textEdited(const QString&)), this, SLOT(verify_cert_inputs()) );
 	
-  //Show the ssl page by default
-  ui->actionSetup_SSL->trigger();
+  //Show the proper page
+  if( !QFile::exists(SSLFile()) ){
+    ui->actionView_Connections->setEnabled( false );
+    ui->actionSetup_SSL->trigger();
+  }else{
+    ui->actionView_Connections->trigger();
+  }
 }
 
 C_Manager::~C_Manager(){
@@ -41,7 +55,7 @@ void C_Manager::LoadConnectionInfo(){
   QStringList dirs = settings->allKeys().filter("C_Groups/");
   dirs.prepend("C_Groups"); //also need the "base" dir
   dirs.sort(); //this will ensure that we decend through the tree progressively
-  qDebug() << "Load Dirs:" << dirs;
+  //qDebug() << "Load Dirs:" << dirs;
   for(int i=0; i<dirs.length(); i++){
     //Create the item for this dir
     QTreeWidgetItem *item = 0;
@@ -59,7 +73,7 @@ void C_Manager::LoadConnectionInfo(){
     }
     //Load all the connections within this dir
     QStringList conns = settings->value(dirs[i]).toStringList();
-    qDebug() << "Check Connections:" << dirs[i] << conns;
+    //qDebug() << "Check Connections:" << dirs[i] << conns;
     for(int c=0; c<conns.length(); c++){
       if(conns[c].simplified().isEmpty()){ continue; }
        QTreeWidgetItem *tmp = new QTreeWidgetItem();
@@ -96,9 +110,9 @@ void C_Manager::SaveConnectionInfo(){
 //Simplification functions for reading/writing tree widget paths
 QTreeWidgetItem* C_Manager::FindItemParent(QString path){
   QString ppath = path.section("/",1,-2); //Cut off the C_Groups/ and current dir from the ends
-  qDebug() << "Item Parent:" << path << ppath;
+  //qDebug() << "Item Parent:" << path << ppath;
   QList<QTreeWidgetItem*> found = ui->tree_conn->findItems(ppath.section("/",-1), Qt::MatchExactly | Qt::MatchRecursive);
-  qDebug() << "Matches Found:" << found;
+  //qDebug() << "Matches Found:" << found;
   for(int i=0; i<found.length(); i++){
     QString check = found[i]->text(0);
     QTreeWidgetItem *tmp = found[i];
@@ -167,6 +181,7 @@ void C_Manager::on_push_conn_add_clicked(){
   dlg.exec();
   if(!dlg.success){ return; } //cancelled
   CORES.insert(dlg.host, dlg.core);
+  dlg.core->registerCustomCert();
   //Create the new item
   QTreeWidgetItem *item = new QTreeWidgetItem(QStringList() << (gname+" ("+dlg.host+")"));
     item->setWhatsThis(0,dlg.host);
@@ -268,8 +283,70 @@ void C_Manager::on_push_rename_clicked(){
 }
 
 //SSL Page
-void C_Manager::on_push_ssl_create_clicked(){
+void C_Manager::verify_cert_inputs(){
+  bool ok = false;
+  // Check country code
+  ok = (ui->line_cert_country->text().length()==2);
+  //Check state
+  QString tmp = ui->line_cert_state->text();
+    tmp.replace(" ","_");
+    ui->line_cert_state->setText(tmp);
+  ok = ok && !tmp.isEmpty();
+  //Check email
+  tmp = ui->line_cert_email->text();
+    tmp.replace(" ","_");
+    ui->line_cert_email->setText(tmp);
+  ok = ok && !tmp.isEmpty() && tmp.contains("@");
+  // Check Nickname
+  tmp = ui->line_cert_nick->text();
+    tmp.replace(" ","_");
+    ui->line_cert_nick->setText(tmp);
+  ok = ok && !tmp.isEmpty();
 	
+  ui->push_ssl_create->setEnabled(ok);	
+}
+
+void C_Manager::on_push_ssl_create_clicked(){
+  //First find the proper openssl binary
+  QString bin = "openssl";
+  #ifdef __FreeBSD__
+    //use the ports/pkg version (LibreSSL?) instead, falling back on the OS-version as needed
+    if(QFile::exists("/usr/local/bin/openssl")){ bin = "/usr/local/bin/openssl"; }
+  #endif
+  //Now generate the temporary file paths
+  QDir tempdir = QDir::temp();
+  QString keypath = tempdir.absoluteFilePath("sysadm_ssl.key");
+  QString certpath = tempdir.absoluteFilePath("sysadm_ssl.crt");
+  //Now get a user-defined passphrase
+  QString pass = QInputDialog::getText(this, tr("SSL Passphrase"), tr("Create Password"), QLineEdit::Password);
+  if(pass.isEmpty()){ return; }
+  QString pass2 = QInputDialog::getText(this, tr("SSL Passphrase"), tr("Retype Password"), QLineEdit::Password );
+  while(pass2!=pass && !pass2.isEmpty()){
+    pass2 = QInputDialog::getText(this, tr("SSL Passphrase"), tr("(Did not Match) Retype Password"), QLineEdit::Password );
+  }
+  if(pass2.isEmpty()){ return; }
+  qDebug() << "New SSL Files:" << bin << keypath << certpath << pass;
+  //Now generate the key/crt files
+  QString subject =  "/C="+ui->line_cert_country->text()+"/ST="+ui->line_cert_state->text()+"/L=NULL/O=SysAdm-client/OU=SysAdm-client/CN="+ui->line_cert_nick->text()+"/emailAddress="+ui->line_cert_email->text();
+  bool ok = (0==QProcess::execute(bin, QStringList() << "req" << "-batch" << "-newkey" << "rsa:2048" << "-nodes" << "-keyout" << keypath << "-new" << "-x509" << "-out" << certpath << "-subj" << subject) );
+  if(!ok){ qDebug() << "[ERROR] Could not generate key/crt files"; return;}
+  //Now package them as a PKCS12 file with passphrase-encryption
+  // - need a temporary file for passing in the encryption key/phrase
+  QTemporaryFile tmpfile(tempdir.absoluteFilePath(".XXXXXXXXXXXXXXXXXXX"));
+    tmpfile.open();
+    QTextStream in(&tmpfile); in << pass; 
+    tmpfile.close();
+  qDebug() << "Temporary File:" << tmpfile.fileName();
+  ok = (0==QProcess::execute(bin, QStringList() << "pkcs12" << "-inkey" << keypath <<"-in" << certpath << "-export" << "-passout" << "file:"+tmpfile.fileName() << "-out" << SSLFile() ) );
+  QFile::remove(keypath); QFile::remove(certpath);
+  if(!ok){ qDebug() << "Could Not package key/cert files"; return;}
+  else{ LoadSSLFile(pass); }//go ahead and load the package into memory for instant usage
+  emit SettingsChanged();
+  
+  //Now update the UI as needed
+    //Show the proper page
+  ui->actionView_Connections->setEnabled(ok);
+  if(ok){ ui->actionView_Connections->trigger(); }
 }
 
 void C_Manager::on_push_ssl_import_clicked(){

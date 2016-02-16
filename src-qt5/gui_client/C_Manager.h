@@ -44,6 +44,7 @@ private slots:
 	void on_push_rename_clicked();
 
 	//SSL Page
+	void verify_cert_inputs();
 	void on_push_ssl_create_clicked();
 	void on_push_ssl_import_clicked();
 

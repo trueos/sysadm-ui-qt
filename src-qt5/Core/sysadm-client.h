@@ -41,14 +41,12 @@ public:
 	
 	//Check if the sysadm server is running on the local system
 	static bool localhostAvailable();
-	
-	// Connection Hosts Database Access
-	static QStringList knownHosts(); //Returns: <IP>::::<Name>
-	static void saveHost(QString IP, QString name);
-	static void removeHost(QString IP);
 
 	// Register for Event Notifications (no notifications by default)
 	void registerForEvents(EVENT_TYPE event, bool receive = true);
+	
+	//Register the custom SSL Certificate with the server
+	void registerCustomCert();
 	
 	// Messages which are still pending a response
 	QStringList pending(); //returns only the "id" for each 

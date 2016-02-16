@@ -19,6 +19,7 @@
 
 //Initialize the global variables (defined in globals.h)
 QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PCBSD","sysadm-client", 0);
+QSslConfiguration SSL_cfg; //null-loaded config object
 
 QString readfile(QString path){
   QFile file(path);
@@ -61,6 +62,7 @@ int main( int argc, char ** argv )
     }
     //Now start up the system tray
     qDebug() << "Loading Settings From:" << settings->fileName();
+    qDebug() << " - Encrypted SSL Cert Bundle:" << SSLFile();
     QString cstyle = settings->value("style","generic").toString();
     A.setStyleSheet( readfile(":/styles/"+cstyle+".qss") );
     sysadm_tray *T = new sysadm_tray();
@@ -85,6 +87,7 @@ int main( int argc, char ** argv )
   //Clean up any global classes before exiting
   settings->sync();
   //Now fully-close the global classes
-  delete settings;
+  settings->deleteLater();
+  qDebug() << "Returning:" << ret;
   return ret;
 }

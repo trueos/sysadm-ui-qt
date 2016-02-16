@@ -71,7 +71,7 @@ void MenuItem::UpdateMenu(){
     }
     
     //Now add any other direct hosts
-    if(!hosts.isEmpty()){
+    if(!hosts.isEmpty() && !SSL_cfg.isNull() ){
       if(!this->isEmpty()){ this->addSeparator(); }
       for(int i=0; i<hosts.length(); i++){
         if(CORES.contains(hosts[i])){
@@ -80,7 +80,7 @@ void MenuItem::UpdateMenu(){
       }
     }
     //Now add any other sub-groups
-    if(!subdirs.isEmpty()){
+    if(!subdirs.isEmpty() && !SSL_cfg.isNull() ){
       if(!this->isEmpty()){ this->addSeparator(); }
       for(int i=0; i<subdirs.length(); i++){
 	//skip any non-direct child subdirs
@@ -89,13 +89,19 @@ void MenuItem::UpdateMenu(){
 	addSubMenu( new MenuItem(this, subdirs[i]) );
       }
     }
+    
     //Now add any more top-level items
     if(this->whatsThis().isEmpty()){
       //top-level menu - add the main tray options at the bottom
       if(!this->isEmpty()){ this->addSeparator(); }
-      QAction *tmp = this->addAction(QIcon(":/icons/black/globe.svg"),tr("Manage Connections"));
+      if(SSL_cfg.isNull() && QFile::exists(SSLFile()) ){
+	QAction* tmp = this->addAction(QIcon(":/icons/black/lock.svg"), "<B>"+tr("Unlock Connections")+"</B>");
+        tmp->setWhatsThis("unlock_conns");      
+      }else{
+        QAction *tmp = this->addAction(QIcon(":/icons/black/globe.svg"),tr("Manage Connections"));
         tmp->setWhatsThis("open_conn_mgmt");
-      tmp = this->addAction(QIcon(":/icons/black/preferences.svg"),tr("Settings"));
+      }
+      QAction *tmp = this->addAction(QIcon(":/icons/black/preferences.svg"),tr("Settings"));
         tmp->setWhatsThis("open_settings");
       this->addSeparator();
       tmp = this->addAction(QIcon(":/icons/black/off.svg"),tr("Close SysAdm Client"));
@@ -123,6 +129,7 @@ void MenuItem::menuTriggered(QAction *act){
   else if(action=="close_app"){ emit CloseApplication(); }
   else if(action=="open_host"){ emit OpenCore(host); }
   else if(action=="open_host_logs"){ emit OpenCoreLogs(host); }
+  else if(action=="unlock_conns"){ emit UnlockConnections(); }
 }
 
 void MenuItem::CoreClosed(){
