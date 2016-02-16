@@ -95,8 +95,11 @@ void MenuItem::UpdateMenu(){
       //top-level menu - add the main tray options at the bottom
       if(!this->isEmpty()){ this->addSeparator(); }
       if(SSL_cfg.isNull() && QFile::exists(SSLFile()) ){
-	QAction* tmp = this->addAction(QIcon(":/icons/black/lock.svg"), "<B>"+tr("Unlock Connections")+"</B>");
+	QAction* tmp = this->addAction(QIcon(":/icons/black/lock.svg"), tr("Unlock Connections"));
         tmp->setWhatsThis("unlock_conns");      
+	QFont fnt = tmp->font();
+	  fnt.setBold(true);
+	tmp->setFont(fnt);
       }else{
         QAction *tmp = this->addAction(QIcon(":/icons/black/globe.svg"),tr("Manage Connections"));
         tmp->setWhatsThis("open_conn_mgmt");
