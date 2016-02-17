@@ -31,6 +31,7 @@ QStackedWidget {
   }
 
 QTreeWidget {
+  outline: none;
   border-style: hidden;
   background: transparent; 
   selection-background-color: transparent;
@@ -55,12 +56,12 @@ QTreeWidget::item:hover {
 	stop: 0 #83a4d4, stop: 0.4 #a9c0e1,
 	stop: 0.5 #bccee8, stop: 1.0 #eaf0f8);
 }
-QTreeWidget::item:selected:!active, QTreeWidget::item:selected:active, QTreeWidget::item:selected{
-  background: transparent;
-  /*border-color: darkgrey;
+
+QTreeWidget::item:selected{
+  border-color: black;
   background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
 	stop: 0 #83a4d4, stop: 0.4 #a9c0e1,
-	stop: 0.5 #bccee8, stop: 1.0 #eaf0f8);*/
+	stop: 0.5 #bccee8, stop: 1.0 #eaf0f8);
 }
 
 QToolBar {
