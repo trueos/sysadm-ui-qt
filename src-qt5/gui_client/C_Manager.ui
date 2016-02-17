@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>427</width>
-    <height>404</height>
+    <width>428</width>
+    <height>514</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -174,7 +174,7 @@
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;sysadm uses an encrypted SSL key/certificate bundle for automatically connecting to all the systems which are registered in this client. Once created, these files may later be exported from this client and imported into any other sysadm client on another machine.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;SSL Configuration&lt;/span&gt;&lt;/p&gt;&lt;p&gt;sysadm uses an encrypted SSL key/certificate bundle for automatically connecting to all the systems which are registered in this client. Once created, these files may later be exported from this client and imported into any other sysadm client on another machine.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="wordWrap">
            <bool>true</bool>
@@ -223,17 +223,17 @@
          </layout>
         </item>
         <item>
-         <spacer name="verticalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
+         <widget class="QLabel" name="label_6">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
+          <property name="text">
+           <string>Create new SSL Certificate</string>
           </property>
-         </spacer>
+         </widget>
         </item>
         <item>
          <widget class="QGroupBox" name="group_ssl_create">
@@ -244,7 +244,7 @@
            </sizepolicy>
           </property>
           <property name="title">
-           <string>Create  new SSL Certificate</string>
+           <string/>
           </property>
           <layout class="QFormLayout" name="formLayout">
            <property name="labelAlignment">
@@ -260,16 +260,16 @@
             <number>2</number>
            </property>
            <property name="bottomMargin">
-            <number>2</number>
+            <number>0</number>
            </property>
-           <item row="0" column="0">
+           <item row="3" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
               <string>Country Code (2-letter)</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="3" column="1">
             <widget class="QLineEdit" name="line_cert_country">
              <property name="inputMethodHints">
               <set>Qt::ImhUppercaseOnly</set>
@@ -288,14 +288,14 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
+           <item row="4" column="0">
             <widget class="QLabel" name="label_3">
              <property name="text">
               <string>State/Province</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
+           <item row="4" column="1">
             <widget class="QLineEdit" name="line_cert_state">
              <property name="inputMethodHints">
               <set>Qt::ImhLowercaseOnly|Qt::ImhUppercaseOnly</set>
@@ -308,14 +308,14 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
+           <item row="5" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">
               <string>Email Address</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
+           <item row="5" column="1">
             <widget class="QLineEdit" name="line_cert_email">
              <property name="inputMethodHints">
               <set>Qt::ImhEmailCharactersOnly</set>
@@ -325,14 +325,14 @@
              </property>
             </widget>
            </item>
-           <item row="3" column="0">
+           <item row="6" column="0">
             <widget class="QLabel" name="label_5">
              <property name="text">
               <string>Certificate Nickname</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="6" column="1">
             <widget class="QLineEdit" name="line_cert_nick">
              <property name="inputMethodHints">
               <set>Qt::ImhDigitsOnly|Qt::ImhLowercaseOnly|Qt::ImhUppercaseOnly</set>
@@ -345,7 +345,20 @@
              </property>
             </widget>
            </item>
-           <item row="5" column="0" colspan="2">
+           <item row="7" column="0">
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="8" column="0" colspan="2">
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
               <spacer name="horizontalSpacer">
@@ -386,21 +399,21 @@
              </item>
             </layout>
            </item>
-           <item row="4" column="0">
-            <spacer name="verticalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>0</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
          </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
