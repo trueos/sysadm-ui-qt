@@ -1,23 +1,28 @@
 QGroupBox {
-  background: #eaf0f8;
+  padding: 7px;
+  background: #DDE6F3;
+  border-color: #83A4D4;
   border-width: 1px;
-  border-style: hidden;
+  border-style: outset;
   border-radius: 6px;
   }
-
 
 QPushButton {
   background: #bccee8;
   padding: 5px;
   margin: 7px;
   }
-  
-QPushButton::push_ssl_create {
+
+QLineEdit {
+  border-width: 1px;
+  border-style: inset;
+  border-color: #535353;
+  border-radius: 4px;   
   }
   
 QStackedWidget {
   padding:3px 3px 3px 3px;
-  background: #a9c0e1;
+  background: #EEF3F9;
   }
 
 QTreeWidget {
@@ -32,9 +37,9 @@ QTreeWidget {
 QTreeWidget::item {
   padding:3px 3px 3px 3px;
   border-width: 1px;
-  border-style: inset;
-  border-color: #535353;
-  border-radius: 6px;
+  border-style: outset;
+  border-color: #83A4D4;
+  border-radius: 8px;
   background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
 	stop: 0 #83a4d4, stop: 0.4 #a9c0e1,
 	stop: 0.5 #bccee8, stop: 1.0 #eaf0f8);
@@ -47,6 +52,9 @@ QToolBar {
   }
 
 QStatusBar {
+  border-color: #83A4D4;
+  border-width: 1px;
+  border-style: outset;
   background: #bccee8;
   color: black;
   }
