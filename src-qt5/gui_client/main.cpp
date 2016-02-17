@@ -10,6 +10,7 @@
 #include "globals.h"
 #include "TrayUI.h"
 #include "mainUI.h"
+#include "SettingsDialog.h"
 
 #ifdef __FreeBSD__
 #include <sys/types.h>
@@ -20,17 +21,6 @@
 //Initialize the global variables (defined in globals.h)
 QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PCBSD","sysadm-client", 0);
 QSslConfiguration SSL_cfg; //null-loaded config object
-
-QString readfile(QString path){
-  QFile file(path);
-  QString out;
-  if(file.open(QIODevice::ReadOnly) ){
-    QTextStream in(&file);
-    out = in.readAll();
-    file.close();
-  }
-  return out;
-}
 
 int main( int argc, char ** argv )
 {
@@ -63,8 +53,7 @@ int main( int argc, char ** argv )
     //Now start up the system tray
     qDebug() << "Loading Settings From:" << settings->fileName();
     qDebug() << " - Encrypted SSL Cert Bundle:" << SSLFile();
-    QString cstyle = settings->value("style","generic").toString();
-    A.setStyleSheet( readfile(":/styles/"+cstyle+".qss") );
+    SettingsDialog::InitSettings();
     sysadm_tray *T = new sysadm_tray();
     T->show();
     //Start the event loop

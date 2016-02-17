@@ -16,7 +16,7 @@ QHash<QString,sysadm_client*> CORES; // hostIP / core
 
 // === PUBLIC ===
 sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
-  CMAN = 0;
+  CMAN = 0; SDLG = 0;
 	
   //Load any CORES
   updateCoreList();
@@ -40,6 +40,7 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
 
 sysadm_tray::~sysadm_tray(){
   if(CMAN!=0){ delete CMAN; }
+  if(SDLG!=0){ delete SDLG; }
   delete this->contextMenu(); //Note in docs that the tray does not take ownership of this menu
 }
 
@@ -96,7 +97,10 @@ void sysadm_tray::OpenConnectionManager(){
 }
 
 void sysadm_tray::OpenSettings(){
-	
+  if(SDLG==0){ 
+    SDLG = new SettingsDialog(); 
+  }
+  SDLG->showNormal();	
 }
 
 void sysadm_tray::CloseApplication(){

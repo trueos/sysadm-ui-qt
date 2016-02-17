@@ -20,7 +20,8 @@ SOURCES	+= main.cpp \
 		MenuItem.cpp \
 		mainUI.cpp \
 		C_Manager.cpp \
-		NewConnectionWizard.cpp
+		NewConnectionWizard.cpp \
+		SettingsDialog.cpp
 		
 HEADERS += globals.h \
 		TrayUI.h \
@@ -28,11 +29,13 @@ HEADERS += globals.h \
 		PageWidget.h \
 		mainUI.h \
 		C_Manager.h \
-		NewConnectionWizard.h
+		NewConnectionWizard.h \
+		SettingsDialog.h
 
 FORMS += mainUI.ui \
 		C_Manager.ui \
-		NewConnectionWizard.ui
+		NewConnectionWizard.ui \
+		SettingsDialog.ui
 
 include(../Core/core.pri)
 include(pages/pages.pri)

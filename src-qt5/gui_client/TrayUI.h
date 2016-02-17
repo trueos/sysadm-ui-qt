@@ -11,6 +11,7 @@
 #include "mainUI.h"
 #include "MenuItem.h"
 #include "C_Manager.h"
+#include "SettingsDialog.h"
 
 class sysadm_tray : public QSystemTrayIcon{
 	Q_OBJECT
@@ -23,6 +24,7 @@ private:
 	//QHash<QString,sysadm_client*> CORES; // hostIP / core
 	QList<MainUI*> CLIENTS; //currently open windows
 	C_Manager *CMAN; //current Connection manager window
+	SettingsDialog *SDLG; //current settings dialog
 
 	//Menu's attached to the tray
 	MenuItem *menu; //the main menu
