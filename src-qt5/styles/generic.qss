@@ -1,16 +1,21 @@
 QGroupBox {
+  margin-top: 1em;
   padding: 7px;
   background: #DDE6F3;
   border-color: #83A4D4;
   border-width: 1px;
   border-style: outset;
   border-radius: 6px;
-  }
+}
+
+QGroupBox::title{
+  font-weight: bold;
+}
 
 QPushButton {
   background: #bccee8;
   padding: 5px;
-  margin: 7px;
+  /*margin: 7px;*/
   }
 
 QLineEdit {
@@ -26,25 +31,37 @@ QStackedWidget {
   }
 
 QTreeWidget {
-  border-width: 1px;
   border-style: hidden;
-  border-color: #535353;
-  border-bottom-right-radius: 6;
-  border-bottom-left-radius: 6;
-  background: #EEF3F9; 
+  background: transparent; 
+  selection-background-color: transparent;
+  selection-color: black;
+  show-decoration-selected: 0;
   }
 
-QTreeWidget::item {
+QTreeWidget::item{
+  margin-top: 3px;
+  margin-bottom: 3px;
   padding:3px 3px 3px 3px;
   border-width: 1px;
   border-style: outset;
-  border-color: #83A4D4;
+  border-color: transparent;
   border-radius: 8px;
-  background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+  background: transparent;
+  color: black;
+}
+QTreeWidget::item:hover {
+  border-color: #83A4D4;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
 	stop: 0 #83a4d4, stop: 0.4 #a9c0e1,
 	stop: 0.5 #bccee8, stop: 1.0 #eaf0f8);
-  color: black;
-  }
+}
+QTreeWidget::item:selected:!active, QTreeWidget::item:selected:active, QTreeWidget::item:selected{
+  background: transparent;
+  /*border-color: darkgrey;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+	stop: 0 #83a4d4, stop: 0.4 #a9c0e1,
+	stop: 0.5 #bccee8, stop: 1.0 #eaf0f8);*/
+}
 
 QToolBar {
   background: #bccee8;
