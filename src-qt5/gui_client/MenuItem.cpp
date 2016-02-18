@@ -57,9 +57,9 @@ void MenuItem::UpdateMenu(){
 	subdirs.removeAt(i); i--; 
       }
     }
-  QStringList hosts = settings->value("C_Groups/"+this->whatsThis()).toStringList();
-  //qDebug() << "Update Menu:" << this->whatsThis() << "Has Core:" << !host.isEmpty();
-  //qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
+  QStringList hosts = settings->value(pathkey).toStringList();
+  qDebug() << "Update Menu:" << this->whatsThis() << "Has Core:" << !host.isEmpty();
+  qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
   //Now go through and update the menu
   this->clear();
   if(host.isEmpty()){
@@ -75,7 +75,7 @@ void MenuItem::UpdateMenu(){
       if(!this->isEmpty()){ this->addSeparator(); }
       for(int i=0; i<hosts.length(); i++){
         if(CORES.contains(hosts[i])){
-	  addSubMenu( new MenuItem(this, settings->value("Hosts/"+hosts[i], hosts[i]).toString(), CORES[ hosts[i] ]) );
+	  addSubMenu( new MenuItem(this, settings->value("Hosts/"+hosts[i], hosts[i]).toString(), CORES[hosts[i]]) );
 	}
       }
     }
