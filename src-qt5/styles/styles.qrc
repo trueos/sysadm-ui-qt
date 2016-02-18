@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="/styles">
     <file>generic.qss</file>
+    <file>air.qss</file>
+    <file>modern.qss</file>
   </qresource>
 </RCC>
