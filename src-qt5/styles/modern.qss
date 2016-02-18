@@ -1,0 +1,139 @@
+QMenuBar {
+  background: #c8c8c8;
+  color: black;
+}
+
+QGroupBox, QAbstractButton, QStackedWidget, QTreeWidget, QStatusBar { 
+  font-family: "Noto Sans";
+  font-size: 10pt;
+  color: black;
+}
+
+QAbstractButton:!enabled{
+  color:grey;
+}
+QAbstractButton:enabled{
+  color:black;
+}
+
+QGroupBox, QAbstractButton, QStackedWidget, QTreeWidget, QStatusBar, QLabel:!active { 
+  font-family: "Noto Sans";
+  font-size: 10pt;
+}
+
+QDialog {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #161616;
+  border-radius: 2px;
+  background-color: #e6e6e6;
+}
+
+QGroupBox {
+  margin-top: 1em;
+  padding: 7px;
+  font-weight: bold;
+  font-color: black;
+  background: #e6e6e6;
+  border-color: #161616;
+  border-width: 1px;
+  border-style: outset;
+  border-radius: 6px;
+}
+
+QGroupBox::title{
+  subcontrol-origin: margin;
+  background: transparent;
+  border-color: transparent;
+}
+
+QAbstractButton {
+  min-width: 60px;
+  padding: 5px;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+	stop: 0 #FFFFFF, stop: 0.4 #e6e6e6,
+	stop: 0.5 #c8c8c8, stop: 1.0 #c8c8c8);
+  border-style: solid;
+  border-width: 1px;
+  border-color: #315382;
+  border-radius: 6px;
+  padding-right: 1ex;
+  padding-left: 1ex;
+  /*margin: 7px;*/
+  }
+QAbstractButton:checked{
+  background: #gray;
+  border-color: #83A4D4;
+  border-width: 1px;
+  border-style: outset;  
+}
+QToolButton:!checked{
+  background: transparent;
+  border: 1px solid transparent;
+}
+QToolButton:!checked:hover{
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+QLineEdit {
+  border-width: 1px;
+  border-style: inset;
+  border-color: #315382;
+  border-radius: 4px;   
+}
+
+  
+QStackedWidget {
+  padding:3px 3px 3px 3px;
+  background: #FFFFFF;
+}
+
+QTreeWidget {
+  outline: none;
+  padding: 7px;
+  border-style: hidden;
+  background: #FFFFFF; 
+  selection-background-color: transparent;
+  selection-color: black;
+  show-decoration-selected: 0;
+}
+
+QTreeWidget::item{
+  margin-top: 3px;
+  margin-bottom: 3px;
+  padding:3px 3px 3px 3px;
+  border-width: 1px;
+  border-style: outset;
+  border-color: #315382;
+  border-radius: 8px;
+  background: #F2F2F2;
+  color: black;
+}
+
+QTreeWidget::item:hover, QAbstractButton:hover {
+  border-color: #315382;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+	stop: 0 #FFFFFF, stop: 0.4 #e6e6e6,
+	stop: 0.5 #e6e6e6, stop: 1.0 #c8c8c8);
+}
+
+QTreeWidget::item:selected{
+  border-color: black;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+	stop: 0 #FFFFFF, stop: 0.4 #e6e6e6,
+	stop: 0.5 #e6e6e6, stop: 1.0 #CFCFCF);
+}
+
+QToolBar {
+  background: #e6e6e6;
+  color: black;
+}
+
+QStatusBar {
+  background: #FFFFFF;
+  color: black;
+}
+
+
+
