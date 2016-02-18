@@ -77,7 +77,7 @@ void C_Manager::LoadConnectionInfo(){
     for(int c=0; c<conns.length(); c++){
       if(conns[c].simplified().isEmpty()){ continue; }
        QTreeWidgetItem *tmp = new QTreeWidgetItem();
-	    tmp->setText(0, conns[c]); //this needs to be changed to a nickname/IP later
+	    tmp->setText(0, settings->value("Hosts/"+conns[c],conns[c]).toString() + " ("+conns[c]+")");
 	    tmp->setWhatsThis(0, conns[c]);
 	    tmp->setIcon(0,QIcon(":/icons/black/globe.svg") );
         if(item==0){ ui->tree_conn->addTopLevelItem(tmp); }
@@ -93,12 +93,12 @@ void C_Manager::SaveConnectionInfo(){
   QStringList dirs = settings->allKeys().filter("C_Groups/");
   for(int i=0; i<dirs.length(); i++){ settings->remove(dirs[i]); }
   //Now go through the top-level item and let it save down through the tree
-  QString topConns;
+  QStringList topConns;
   for(int i=0; i<ui->tree_conn->topLevelItemCount(); i++){
     if(ui->tree_conn->topLevelItem(i)->whatsThis(0).isEmpty()){
       saveGroupItem(ui->tree_conn->topLevelItem(i)); //will recursively go through dirs
     }else{
-      topConns = ui->tree_conn->topLevelItem(i)->whatsThis(0);
+      topConns << ui->tree_conn->topLevelItem(i)->whatsThis(0);
     }
   }
   //Now save these top-level items
