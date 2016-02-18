@@ -19,7 +19,6 @@ QAbstractButton:enabled{
 QGroupBox, QAbstractButton, QStackedWidget, QTreeWidget, QStatusBar, QLabel:!active { 
   font-family: "Noto Sans";
   font-size: 10pt;
-  color: gray;
 }
 
 QDialog {
@@ -34,6 +33,7 @@ QGroupBox {
   margin-top: 1em;
   padding: 7px;
   font-weight: bold;
+  font-color: black;
   background: #e6e6e6;
   border-color: #161616;
   border-width: 1px;
