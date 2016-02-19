@@ -14,6 +14,15 @@
 #include <QSslKey>
 #include <QSslCertificate>
 
+//SSL Stuff
+#include <openssl/pem.h>
+#include <openssl/ssl.h>
+#include <openssl/rsa.h>
+#include <openssl/evp.h>
+#include <openssl/bio.h>
+#include <openssl/err.h>
+
+
 #define SERVERPIDFILE QString("/var/run/sysadm-websocket.pid")
 
 extern QSettings *settings;
@@ -48,6 +57,11 @@ void sysadm_client::openConnection(QString user, QString pass, QString hostIP){
 
 void sysadm_client::openConnection(QString authkey, QString hostIP){
   cauthkey = authkey; chost = hostIP;
+  setupSocket();
+}
+
+void sysadm_client::openConnection(QString hostIP){
+  chost = hostIP;
   setupSocket();
 }
 
@@ -100,12 +114,13 @@ void sysadm_client::registerForEvents(EVENT_TYPE event, bool receive){
 void sysadm_client::registerCustomCert(){
   if(SSL_cfg.isNull() || SOCKET==0 || !SOCKET->isValid()){ return; }
   //Get the custom cert
-  QSslConfiguration cfg = SOCKET->sslConfiguration();
-  QList<QSslCertificate> certs = cfg.localCertificateChain();
-  QString pubkey;
+  QList<QSslCertificate> certs = SSL_cfg.localCertificateChain();
+  QString pubkey, email, nickname;
   for(int i=0; i<certs.length(); i++){
     if(certs[i].issuerInfo(QSslCertificate::Organization).contains("SysAdm-client")){
       pubkey = QString(certs[i].publicKey().toPem());
+      email = certs[i].issuerInfo(QSslCertificate::EmailAddress).join("");
+      nickname = certs[i].issuerInfo(QSslCertificate::Organization).join("");
       break;
     }
   }
@@ -114,6 +129,8 @@ void sysadm_client::registerCustomCert(){
   QJsonObject obj;
     obj.insert("action","register_ssl_cert");
     obj.insert("pub_key", pubkey);
+    obj.insert("email",email);
+    obj.insert("nickname",nickname);
   this->communicate("sysadm-auto-cert-register","sysadm","settings", obj);
   
 }
@@ -138,11 +155,7 @@ void sysadm_client::setupSocket(){
   //qDebug() << "Setup Socket:" << SOCKET->isValid();
   if(SOCKET->isValid()){ return; }
   //Setup the SSL config as needed
-  if(SSL_cfg.isNull()){
-    SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
-  }else{
-    SOCKET->setSslConfiguration(SSL_cfg);
-  }
+  SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
   //uses chost for setup
   // - assemble the host URL
   if(chost.contains("://")){ chost = chost.section("://",1,1); } //Chop off the custom http/ftp/other header (always need "wss://")
@@ -165,11 +178,15 @@ void sysadm_client::performAuth(QString user, QString pass){
   obj.insert("id","sysadm-client-auth-auto");
   bool noauth = false;
   if(user.isEmpty()){
-    if(cauthkey.isEmpty()){
+    if(cauthkey.isEmpty() && SOCKET->isValid()){
       //Nothing to authenticate - de-auth the connection instead
       obj.insert("name","auth_clear");
       obj.insert("args","");
       noauth = true;
+    }else if(cauthkey.isEmpty()){
+      //SSL Authentication (Stage 1)
+      obj.insert("name","auth_ssl");
+      obj.insert("args","");
     }else{
       //Saved token authentication
       obj.insert("name","auth_token");
@@ -204,7 +221,7 @@ void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
 
 void sysadm_client::sendSocketMessage(QJsonObject msg){
   QJsonDocument doc(msg);
-  //qDebug() << "Send Socket Message:" << doc.toJson(QJsonDocument::Compact);
+  qDebug() << "Send Socket Message:" << doc.toJson(QJsonDocument::Compact);
   SOCKET->sendTextMessage(doc.toJson(QJsonDocument::Compact));
 }
 
@@ -215,6 +232,22 @@ QJsonObject sysadm_client::convertServerReply(QString reply){
   else{ return QJsonObject(); }
 }
 
+QString sysadm_client::SSL_Encode_String(QString str){
+  //Get the private key
+  QByteArray privkey = SSL_cfg.privateKey().toPem();
+  
+  //Now use this private key to encode the given string
+  unsigned char encode[4098] = {};
+  RSA *rsa= NULL;
+  BIO *keybio = NULL;
+  keybio = BIO_new_mem_buf(privkey.data(), -1);
+  if(keybio==NULL){ return ""; }
+  rsa = PEM_read_bio_RSAPrivateKey(keybio, &rsa,NULL, NULL);
+  bool ok = (-1 != RSA_private_encrypt(str.length(), (unsigned char*)(str.toLatin1().data()), encode, rsa, RSA_PKCS1_PADDING) );
+  if(!ok){ return ""; }
+  else{ return QString::fromLatin1( (char *)(encode) ).simplified(); }
+
+}
 // === PUBLIC SLOTS ===
 // Communications with server (send message, get response via signal later)
 void sysadm_client::communicate(QString ID, QString namesp, QString name, QJsonValue args){
@@ -298,7 +331,7 @@ void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: er
 
 // - Main message input parsing
 void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
-  //qDebug() << "New Reply From Server:" << msg;
+  qDebug() << "New Reply From Server:" << msg;
   //Convert this into a JSON object
   QJsonObject obj = convertServerReply(msg);
   QString ID = obj.value("id").toString();
@@ -313,10 +346,23 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
     }else{
       QJsonValue args = obj.value("args");
       if(args.isArray()){ 
-	  cauthkey = args.toArray().first().toString();
-	  emit clientAuthorized();
-	  //Now automatically re-subscribe to events as needed
-	  for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }
+	      cauthkey = args.toArray().first().toString();
+	      emit clientAuthorized();
+	      //Now automatically re-subscribe to events as needed
+	      for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }
+      }else if(args.isObject()){
+        //SSL Auth Stage 2
+        QString randomkey = args.toObject().value("test_string").toString();
+        if(!randomkey.isEmpty()){
+          QJsonObject obj;
+          obj.insert("name","auth_ssl");
+          obj.insert("namespace","rpc");
+          obj.insert("id",ID); //re-use this special ID
+          QJsonObject args;
+          args.insert("encrypted_string", SSL_Encode_String(randomkey));
+          obj.insert("args",args);
+          this->communicate(obj);
+        }
       }
     }
   }else if(ID=="sysadm-client-event-auto"){

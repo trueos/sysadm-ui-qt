@@ -34,6 +34,7 @@ public:
 	// Overall Connection functions (start/stop)
 	void openConnection(QString user, QString pass, QString hostIP);
 	void openConnection(QString authkey, QString hostIP);
+	void openConnection(QString hostIP); //uses SSL auth if possible
 	void closeConnection();
 	
 	QString currentHost();
@@ -65,7 +66,7 @@ private:
 	int num_fail; //number of server connection failures
 
 	//Functions to do the initial socket setup
-        void setupSocket(); //uses chost/cport for setup
+    void setupSocket(); //uses chost/cport for setup
 	void performAuth(QString user="", QString pass=""); //uses cauthkey if empty inputs
 
 	//Communication subroutines with the server (block until message comes back)
@@ -74,6 +75,7 @@ private:
 
 	//Simplification functions
 	QJsonObject convertServerReply(QString reply);
+	QString SSL_Encode_String(QString str);
 
 public slots:
 	// Overloaded Communication functions
