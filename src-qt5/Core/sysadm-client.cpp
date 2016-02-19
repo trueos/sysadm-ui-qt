@@ -70,7 +70,7 @@ void sysadm_client::closeConnection(){
   //de-authorize the current auth token
   if(!cauthkey.isEmpty()){
     cauthkey.clear(); 
-    performAuth();
+    clearAuth();
   }
   //Now close the connection
   SOCKET->close(QWebSocketProtocol::CloseCodeNormal, "sysadm-client closed");
@@ -164,7 +164,7 @@ void sysadm_client::setupSocket(){
   url.section(":",-1).toInt(&hasport); //check if the last piece of the url is a valid number
   //Could add a check for a valid port number as well - but that is a bit overkill right now
   if(!hasport){ url.append(":"+QString::number(WSPORTDEFAULT)); }
-  qDebug() << " - URL:" << url;
+  qDebug() << " Open WebSocket:  URL:" << url;
   QTimer::singleShot(0,SOCKET, SLOT(ignoreSslErrors()) );
   SOCKET->open(QUrl(url));
     //QList<QSslError> ignored; ignored << QSslError(QSslError::SelfSignedCertificate) << QSslError(QSslError::HostNameMismatch);
@@ -178,12 +178,7 @@ void sysadm_client::performAuth(QString user, QString pass){
   obj.insert("id","sysadm-client-auth-auto");
   bool noauth = false;
   if(user.isEmpty()){
-    if(cauthkey.isEmpty() && SOCKET->isValid()){
-      //Nothing to authenticate - de-auth the connection instead
-      obj.insert("name","auth_clear");
-      obj.insert("args","");
-      noauth = true;
-    }else if(cauthkey.isEmpty()){
+    if(cauthkey.isEmpty()){
       //SSL Authentication (Stage 1)
       obj.insert("name","auth_ssl");
       obj.insert("args","");
@@ -204,6 +199,16 @@ void sysadm_client::performAuth(QString user, QString pass){
   }
   sendSocketMessage(obj);
   if(noauth){ emit clientUnauthorized(); }
+}
+
+void sysadm_client::clearAuth(){
+  QJsonObject obj;
+  obj.insert("namespace","rpc");
+  obj.insert("id","sysadm-client-auth-auto");
+  obj.insert("name","auth_clear");
+  obj.insert("args","");	
+  sendSocketMessage(obj);
+  emit clientUnauthorized();
 }
 
 //Communication subroutines with the server (block until message comes back)

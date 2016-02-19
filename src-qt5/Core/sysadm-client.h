@@ -66,8 +66,9 @@ private:
 	int num_fail; //number of server connection failures
 
 	//Functions to do the initial socket setup
-    void setupSocket(); //uses chost/cport for setup
+        void setupSocket(); //uses chost/cport for setup
 	void performAuth(QString user="", QString pass=""); //uses cauthkey if empty inputs
+	void clearAuth();
 
 	//Communication subroutines with the server (block until message comes back)
 	void sendEventSubscription(EVENT_TYPE event, bool subscribe = true);
