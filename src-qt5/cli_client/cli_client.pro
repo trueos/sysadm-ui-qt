@@ -8,7 +8,7 @@ QMAKE_LIBDIR = /usr/local/lib/qt5 /usr/local/lib
 LIBS += -lssl -lcrypto
 
 macx-*{ 
-  INCLUDE += /usr/local/ssl/include
+  INCLUDEPATH += /usr/local/ssl/include
 }
 
 TARGET=sysadm
