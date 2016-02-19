@@ -250,7 +250,10 @@ QString sysadm_client::SSL_Encode_String(QString str){
   rsa = PEM_read_bio_RSAPrivateKey(keybio, &rsa,NULL, NULL);
   bool ok = (-1 != RSA_private_encrypt(str.length(), (unsigned char*)(str.toLatin1().data()), encode, rsa, RSA_PKCS1_PADDING) );
   if(!ok){ return ""; }
-  else{ return QString::fromLatin1( (char *)(encode) ).simplified(); }
+  else{ 
+    //Now return this as a base64 encoded string
+    return QString( QByteArray( (char*)(encode) ).toBase64() ); 
+  }
 
 }
 // === PUBLIC SLOTS ===
