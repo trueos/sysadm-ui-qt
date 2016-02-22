@@ -22,8 +22,9 @@
 #include <openssl/bio.h>
 #include <openssl/err.h>
 
-
 #define SERVERPIDFILE QString("/var/run/sysadm.pid")
+
+#define DEBUG 0
 
 extern QSettings *settings;
 //Unencrypted SSL objects (after loading them by user passphrase)
@@ -87,7 +88,7 @@ bool sysadm_client::isActive(){
 //Check if the sysadm server is running on the local system
 bool sysadm_client::localhostAvailable(){
   #ifdef __FreeBSD__
-  qDebug() << "Checking for Local Host:" << SERVERPIDFILE;
+  if(DEBUG){ qDebug() << "Checking for Local Host:" << SERVERPIDFILE; }
   //Check if the local socket can connect
   if(QFile::exists(SERVERPIDFILE)){
     //int ret = QProcess::execute("pgrep -f \""+SERVERPIDFILE+"\"");
@@ -227,7 +228,7 @@ void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
 
 void sysadm_client::sendSocketMessage(QJsonObject msg){
   QJsonDocument doc(msg);
-  //qDebug() << "Send Socket Message:" << doc.toJson(QJsonDocument::Compact);
+  if(DEBUG){ qDebug() << "Send Socket Message:" << doc.toJson(QJsonDocument::Compact); }
   SOCKET->sendTextMessage(doc.toJson(QJsonDocument::Compact));
 }
 
@@ -302,6 +303,7 @@ void sysadm_client::socketConnected(){ //Signal: connected()
 }
 
 void sysadm_client::socketClosed(){ //Signal: disconnected()
+  qDebug() << " - Connection Closed:" << chost;
   /*if(keepActive && num_fail < FAIL_MAX){ 
     //Socket closed due to timeout? 
     // Go ahead and re-open it if possible with the last-used settings/auth
@@ -340,7 +342,7 @@ void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: er
 
 // - Main message input parsing
 void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
-  //qDebug() << "New Reply From Server:" << msg;
+  if(DEBUG){ qDebug() << "New Reply From Server:" << msg; }
   //Convert this into a JSON object
   QJsonObject obj = convertServerReply(msg);
   QString ID = obj.value("id").toString();
