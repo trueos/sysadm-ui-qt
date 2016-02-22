@@ -23,7 +23,7 @@
 #include <openssl/err.h>
 
 
-#define SERVERPIDFILE QString("/var/run/sysadm-websocket.pid")
+#define SERVERPIDFILE QString("/var/run/sysadm.pid")
 
 extern QSettings *settings;
 //Unencrypted SSL objects (after loading them by user passphrase)
@@ -87,6 +87,7 @@ bool sysadm_client::isActive(){
 //Check if the sysadm server is running on the local system
 bool sysadm_client::localhostAvailable(){
   #ifdef __FreeBSD__
+  //qDebug() << "Checking for Local Host:" << SERVERPIDFILE;
   //Check if the local socket can connect
   if(QFile::exists(SERVERPIDFILE)){
     //int ret = QProcess::execute("pgrep -f \""+SERVERPIDFILE+"\"");
@@ -226,7 +227,7 @@ void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
 
 void sysadm_client::sendSocketMessage(QJsonObject msg){
   QJsonDocument doc(msg);
-  qDebug() << "Send Socket Message:" << doc.toJson(QJsonDocument::Compact);
+  //qDebug() << "Send Socket Message:" << doc.toJson(QJsonDocument::Compact);
   SOCKET->sendTextMessage(doc.toJson(QJsonDocument::Compact));
 }
 
@@ -339,7 +340,7 @@ void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: er
 
 // - Main message input parsing
 void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
-  qDebug() << "New Reply From Server:" << msg;
+  //qDebug() << "New Reply From Server:" << msg;
   //Convert this into a JSON object
   QJsonObject obj = convertServerReply(msg);
   QString ID = obj.value("id").toString();
