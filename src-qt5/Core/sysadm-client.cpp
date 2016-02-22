@@ -87,7 +87,7 @@ bool sysadm_client::isActive(){
 //Check if the sysadm server is running on the local system
 bool sysadm_client::localhostAvailable(){
   #ifdef __FreeBSD__
-  //qDebug() << "Checking for Local Host:" << SERVERPIDFILE;
+  qDebug() << "Checking for Local Host:" << SERVERPIDFILE;
   //Check if the local socket can connect
   if(QFile::exists(SERVERPIDFILE)){
     //int ret = QProcess::execute("pgrep -f \""+SERVERPIDFILE+"\"");
@@ -119,7 +119,7 @@ void sysadm_client::registerCustomCert(){
   QString pubkey, email, nickname;
   for(int i=0; i<certs.length(); i++){
     if(certs[i].issuerInfo(QSslCertificate::Organization).contains("SysAdm-client")){
-      pubkey = QString(certs[i].publicKey().toPem());
+      pubkey = QString(certs[i].publicKey().toPem().toBase64());
       email = certs[i].issuerInfo(QSslCertificate::EmailAddress).join("");
       nickname = certs[i].issuerInfo(QSslCertificate::Organization).join("");
       break;
