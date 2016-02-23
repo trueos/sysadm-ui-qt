@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>taskmanager_ui</class>
+ <widget class="QWidget" name="taskmanager_ui">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>972</width>
+    <height>668</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Running Programs</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QTableWidget" name="tableWidget">
+        <column>
+         <property name="text">
+          <string>PID</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>USER</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>THR</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>PRI</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>NICE</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>SIZE</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>RES</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>STATE</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>C</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>WCPU</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>COMMAND</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Resource Usage</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../icons/icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>
