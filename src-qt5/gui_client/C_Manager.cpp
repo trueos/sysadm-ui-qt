@@ -15,6 +15,10 @@ extern QHash<QString,sysadm_client*> CORES; // hostIP / core
 
 C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
   ui->setupUi(this);
+  treeTimer = new QTimer(this);
+    treeTimer->setSingleShot(true);
+    treeTimer->setInterval(500); // 1/2 second
+	
   radio_acts = new QActionGroup(this);
     radio_acts->addAction(ui->actionView_Connections);
     radio_acts->addAction(ui->actionSetup_SSL);
@@ -26,6 +30,8 @@ C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
 	
   //Setup all the connections
   connect(ui->actionFinished, SIGNAL(triggered()), this, SLOT(close()) );
+  connect(treeTimer, SIGNAL(timeout()), this, SLOT(SaveConnectionInfo()) );
+  connect(ui->tree_conn->model(), SIGNAL(rowsInserted(const QModelIndex&,int,int)), this, SLOT(tree_items_changed()) );
 	
   LoadConnectionInfo();
   verify_cert_inputs();
@@ -105,6 +111,8 @@ void C_Manager::SaveConnectionInfo(){
   settings->setValue("C_Groups",topConns);
   //Let the tray know about the changes
   emit SettingsChanged();
+  //Make sure the buttons are updated as needed
+  on_tree_conn_itemSelectionChanged(); 
 }
 
 //Simplification functions for reading/writing tree widget paths
@@ -166,6 +174,12 @@ void C_Manager::on_tree_conn_itemSelectionChanged(){
     ui->push_conn_rem->setEnabled(!sel->whatsThis(0).isEmpty());
     ui->push_group_rem->setEnabled(sel->whatsThis(0).isEmpty() && sel->childCount()==0);
   }
+}
+
+void C_Manager::tree_items_changed(){
+  //Don't care about inputs
+  if(treeTimer->isActive()){ treeTimer->stop(); }
+  treeTimer->start();
 }
 
 void C_Manager::on_push_conn_add_clicked(){

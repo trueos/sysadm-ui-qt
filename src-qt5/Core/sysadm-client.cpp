@@ -14,7 +14,17 @@
 #include <QSslKey>
 #include <QSslCertificate>
 
-#define SERVERPIDFILE QString("/var/run/sysadm-websocket.pid")
+//SSL Stuff
+#include <openssl/pem.h>
+#include <openssl/ssl.h>
+#include <openssl/rsa.h>
+#include <openssl/evp.h>
+#include <openssl/bio.h>
+#include <openssl/err.h>
+
+#define SERVERPIDFILE QString("/var/run/sysadm.pid")
+#define LOCALHOST QString("127.0.0.1")
+#define DEBUG 0
 
 extern QSettings *settings;
 //Unencrypted SSL objects (after loading them by user passphrase)
@@ -51,12 +61,17 @@ void sysadm_client::openConnection(QString authkey, QString hostIP){
   setupSocket();
 }
 
+void sysadm_client::openConnection(QString hostIP){
+  chost = hostIP;
+  setupSocket();
+}
+
 void sysadm_client::closeConnection(){
   keepActive = false;
   //de-authorize the current auth token
   if(!cauthkey.isEmpty()){
     cauthkey.clear(); 
-    performAuth();
+    clearAuth();
   }
   //Now close the connection
   SOCKET->close(QWebSocketProtocol::CloseCodeNormal, "sysadm-client closed");
@@ -73,6 +88,7 @@ bool sysadm_client::isActive(){
 //Check if the sysadm server is running on the local system
 bool sysadm_client::localhostAvailable(){
   #ifdef __FreeBSD__
+  if(DEBUG){ qDebug() << "Checking for Local Host:" << SERVERPIDFILE; }
   //Check if the local socket can connect
   if(QFile::exists(SERVERPIDFILE)){
     //int ret = QProcess::execute("pgrep -f \""+SERVERPIDFILE+"\"");
@@ -100,12 +116,13 @@ void sysadm_client::registerForEvents(EVENT_TYPE event, bool receive){
 void sysadm_client::registerCustomCert(){
   if(SSL_cfg.isNull() || SOCKET==0 || !SOCKET->isValid()){ return; }
   //Get the custom cert
-  QSslConfiguration cfg = SOCKET->sslConfiguration();
-  QList<QSslCertificate> certs = cfg.localCertificateChain();
-  QString pubkey;
+  QList<QSslCertificate> certs = SSL_cfg.localCertificateChain();
+  QString pubkey, email, nickname;
   for(int i=0; i<certs.length(); i++){
     if(certs[i].issuerInfo(QSslCertificate::Organization).contains("SysAdm-client")){
-      pubkey = QString(certs[i].publicKey().toPem());
+      pubkey = QString(certs[i].publicKey().toPem().toBase64());
+      email = certs[i].issuerInfo(QSslCertificate::EmailAddress).join("");
+      nickname = certs[i].issuerInfo(QSslCertificate::Organization).join("");
       break;
     }
   }
@@ -114,6 +131,8 @@ void sysadm_client::registerCustomCert(){
   QJsonObject obj;
     obj.insert("action","register_ssl_cert");
     obj.insert("pub_key", pubkey);
+    obj.insert("email",email);
+    obj.insert("nickname",nickname);
   this->communicate("sysadm-auto-cert-register","sysadm","settings", obj);
   
 }
@@ -134,30 +153,6 @@ QJsonValue sysadm_client::cachedReply(QString id){
 
 // === PRIVATE ===
 //Functions to do the initial socket setup
-void sysadm_client::setupSocket(){
-  //qDebug() << "Setup Socket:" << SOCKET->isValid();
-  if(SOCKET->isValid()){ return; }
-  //Setup the SSL config as needed
-  if(SSL_cfg.isNull()){
-    SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
-  }else{
-    SOCKET->setSslConfiguration(SSL_cfg);
-  }
-  //uses chost for setup
-  // - assemble the host URL
-  if(chost.contains("://")){ chost = chost.section("://",1,1); } //Chop off the custom http/ftp/other header (always need "wss://")
-  QString url = "wss://"+chost;
-  bool hasport = false;
-  url.section(":",-1).toInt(&hasport); //check if the last piece of the url is a valid number
-  //Could add a check for a valid port number as well - but that is a bit overkill right now
-  if(!hasport){ url.append(":"+QString::number(WSPORTDEFAULT)); }
-  qDebug() << " - URL:" << url;
-  QTimer::singleShot(0,SOCKET, SLOT(ignoreSslErrors()) );
-  SOCKET->open(QUrl(url));
-    //QList<QSslError> ignored; ignored << QSslError(QSslError::SelfSignedCertificate) << QSslError(QSslError::HostNameMismatch);
-    //SOCKET->ignoreSslErrors(ignored);
-}
-
 void sysadm_client::performAuth(QString user, QString pass){
   //uses cauthkey if empty inputs
   QJsonObject obj;
@@ -166,10 +161,9 @@ void sysadm_client::performAuth(QString user, QString pass){
   bool noauth = false;
   if(user.isEmpty()){
     if(cauthkey.isEmpty()){
-      //Nothing to authenticate - de-auth the connection instead
-      obj.insert("name","auth_clear");
+      //SSL Authentication (Stage 1)
+      obj.insert("name","auth_ssl");
       obj.insert("args","");
-      noauth = true;
     }else{
       //Saved token authentication
       obj.insert("name","auth_token");
@@ -189,6 +183,16 @@ void sysadm_client::performAuth(QString user, QString pass){
   if(noauth){ emit clientUnauthorized(); }
 }
 
+void sysadm_client::clearAuth(){
+  QJsonObject obj;
+  obj.insert("namespace","rpc");
+  obj.insert("id","sysadm-client-auth-auto");
+  obj.insert("name","auth_clear");
+  obj.insert("args","");	
+  sendSocketMessage(obj);
+  emit clientUnauthorized();
+}
+
 //Communication subroutines with the server (block until message comes back)
 void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
   QJsonObject obj;
@@ -204,7 +208,7 @@ void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
 
 void sysadm_client::sendSocketMessage(QJsonObject msg){
   QJsonDocument doc(msg);
-  //qDebug() << "Send Socket Message:" << doc.toJson(QJsonDocument::Compact);
+  if(DEBUG){ qDebug() << "Send Socket Message:" << doc.toJson(QJsonDocument::Compact); }
   SOCKET->sendTextMessage(doc.toJson(QJsonDocument::Compact));
 }
 
@@ -215,6 +219,33 @@ QJsonObject sysadm_client::convertServerReply(QString reply){
   else{ return QJsonObject(); }
 }
 
+QString sysadm_client::SSL_Encode_String(QString str){
+  //Get the private key
+  QByteArray privkey = SSL_cfg.privateKey().toPem();
+  
+  //Now use this private key to encode the given string
+  unsigned char encode[4098] = {};
+  RSA *rsa= NULL;
+  BIO *keybio = NULL;
+  keybio = BIO_new_mem_buf(privkey.data(), -1);
+  if(keybio==NULL){ return ""; }
+  rsa = PEM_read_bio_RSAPrivateKey(keybio, &rsa,NULL, NULL);
+  if(rsa==NULL){ return ""; }
+  int len = RSA_private_encrypt(str.length(), (unsigned char*)(str.toLatin1().data()), encode, rsa, RSA_PKCS1_PADDING);
+  if(len <0){ return ""; }
+  else{ 
+    //Now return this as a base64 encoded string
+    QByteArray str_encode( (char*)(encode), len);
+    /*qDebug() << "Encoded String Info";
+    qDebug() << " - Raw string:" << str << "Length:" << str.length();
+    qDebug() << " - Encoded string:" << str_encode << "Length:" << str_encode.length();*/
+    str_encode = str_encode.toBase64();
+    /*qDebug() << " - Enc string (base64):" << str_encode << "Length:" << str_encode.length();
+    qDebug() << " - Enc string (QString):" << QString(str_encode);*/
+    return QString( str_encode ); 
+  }
+
+}
 // === PUBLIC SLOTS ===
 // Communications with server (send message, get response via signal later)
 void sysadm_client::communicate(QString ID, QString namesp, QString name, QJsonValue args){
@@ -250,27 +281,44 @@ void sysadm_client::communicate(QList<QJsonObject> requests){
 }
 	
 // === PRIVATE SLOTS ===
+void sysadm_client::setupSocket(){
+  //qDebug() << "Setup Socket:" << SOCKET->isValid();
+  if(SOCKET->isValid()){ return; }
+  //Setup the SSL config as needed
+  SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
+  //uses chost for setup
+  // - assemble the host URL
+  if(chost.contains("://")){ chost = chost.section("://",1,1); } //Chop off the custom http/ftp/other header (always need "wss://")
+  QString url = "wss://"+chost;
+  bool hasport = false;
+  url.section(":",-1).toInt(&hasport); //check if the last piece of the url is a valid number
+  //Could add a check for a valid port number as well - but that is a bit overkill right now
+  if(!hasport){ url.append(":"+QString::number(WSPORTDEFAULT)); }
+  qDebug() << " Open WebSocket:  URL:" << url;
+  QTimer::singleShot(0,SOCKET, SLOT(ignoreSslErrors()) );
+  SOCKET->open(QUrl(url));
+}
+
 //Socket signal/slot connections
 void sysadm_client::socketConnected(){ //Signal: connected()
-  keepActive = true; //got a valid connection - try to keep this open automatically
-  num_fail = 0; //reset fail counter - got a valid connection
+  keepActive = true; //got a valid connection - try to keep this open automatically unless the user closes it
   emit clientConnected();
   performAuth(cuser, cpass);
-  cuser.clear(); cpass.clear(); //just to ensure no trace left in memory
+  cpass.clear(); //just to ensure no trace left in memory
+  //Ensure SSL connection to non-localhost (only user needed for localhost)
+  if(chost!=LOCALHOST && !chost.startsWith(LOCALHOST+":") ){ cuser.clear(); }
 }
 
 void sysadm_client::socketClosed(){ //Signal: disconnected()
-  /*if(keepActive && num_fail < FAIL_MAX){ 
-    //Socket closed due to timeout? 
-    // Go ahead and re-open it if possible with the last-used settings/auth
-    num_fail++;
-    setupSocket();
-  }else{*/
-    num_fail = 0; //reset back to nothing
-    emit clientDisconnected();
-    //Server cache is now invalid - completely lost connection
-    SENT.clear(); BACK.clear(); PENDING.clear(); 
-  //}	  
+  qDebug() << " - Connection Closed:" << chost;
+  if(keepActive){ 
+    //Socket closed due to timeout/server
+    // Go ahead and re-open it in one minute if possible with the last-used settings/auth
+    QTimer::singleShot(60000, this, SLOT(setupSocket()) );
+  }
+  emit clientDisconnected();
+  //Server cache is now invalid - completely lost connection
+  SENT.clear(); BACK.clear(); PENDING.clear(); 
 }
 
 void sysadm_client::socketSslErrors(const QList<QSslError>&errlist){ //Signal: sslErrors()
@@ -298,7 +346,7 @@ void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: er
 
 // - Main message input parsing
 void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
-  //qDebug() << "New Reply From Server:" << msg;
+  if(DEBUG){ qDebug() << "New Reply From Server:" << msg; }
   //Convert this into a JSON object
   QJsonObject obj = convertServerReply(msg);
   QString ID = obj.value("id").toString();
@@ -313,10 +361,23 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
     }else{
       QJsonValue args = obj.value("args");
       if(args.isArray()){ 
-	  cauthkey = args.toArray().first().toString();
-	  emit clientAuthorized();
-	  //Now automatically re-subscribe to events as needed
-	  for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }
+	      cauthkey = args.toArray().first().toString();
+	      emit clientAuthorized();
+	      //Now automatically re-subscribe to events as needed
+	      for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }
+      }else if(args.isObject()){
+        //SSL Auth Stage 2
+        QString randomkey = args.toObject().value("test_string").toString();
+        if(!randomkey.isEmpty()){
+          QJsonObject obj;
+          obj.insert("name","auth_ssl");
+          obj.insert("namespace","rpc");
+          obj.insert("id",ID); //re-use this special ID
+          QJsonObject args;
+          args.insert("encrypted_string", SSL_Encode_String(randomkey));
+          obj.insert("args",args);
+          this->communicate(obj);
+        }
       }
     }
   }else if(ID=="sysadm-client-event-auto"){

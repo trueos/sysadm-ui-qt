@@ -9,6 +9,8 @@
 extern QHash<QString,sysadm_client*> CORES; // hostIP / core
 
 MenuItem::MenuItem(QWidget *parent, QString path, sysadm_client *core) : QMenu(parent){
+  line_pass = 0;
+  lineA = 0;
   this->setWhatsThis(path);
   this->setTitle(path.section("/",-1));
   //Now setup connections
@@ -27,8 +29,9 @@ MenuItem::MenuItem(QWidget *parent, QString path, sysadm_client *core) : QMenu(p
 }
 
 MenuItem::~MenuItem(){
-	
+  lineA->deleteLater();
 }
+
 // === PRIVATE ===
 void MenuItem::addSubMenu(MenuItem *menu){
   //Add the submenu to this one
@@ -58,8 +61,8 @@ void MenuItem::UpdateMenu(){
       }
     }
   QStringList hosts = settings->value(pathkey).toStringList();
-  qDebug() << "Update Menu:" << this->whatsThis() << "Has Core:" << !host.isEmpty();
-  qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
+  //qDebug() << "Update Menu:" << this->whatsThis() << "Has Core:" << !host.isEmpty();
+  //qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
   //Now go through and update the menu
   this->clear();
   if(host.isEmpty()){
@@ -95,11 +98,20 @@ void MenuItem::UpdateMenu(){
       //top-level menu - add the main tray options at the bottom
       if(!this->isEmpty()){ this->addSeparator(); }
       if(SSL_cfg.isNull() && QFile::exists(SSLFile()) ){
-	QAction* tmp = this->addAction(QIcon(":/icons/black/lock.svg"), tr("Unlock Connections"));
-        tmp->setWhatsThis("unlock_conns");      
-	QFont fnt = tmp->font();
-	  fnt.setBold(true);
-	tmp->setFont(fnt);
+	if(lineA==0){ 
+	  lineA = new QWidgetAction(this); 
+	  lineA->setWhatsThis("password entry");
+	}
+	if(line_pass==0){
+	  line_pass = new QLineEdit(this);
+	  line_pass->setEchoMode(QLineEdit::Password);
+	  line_pass->setPlaceholderText( tr("Password") );
+	  connect(line_pass, SIGNAL(editingFinished()), this, SLOT(PasswordReady()) );
+	}
+	line_pass->setText("");
+	lineA->setDefaultWidget(line_pass);
+	this->addAction(lineA);
+	line_pass->setFocus();
       }else{
         QAction *tmp = this->addAction(QIcon(":/icons/black/globe.svg"),tr("Manage Connections"));
         tmp->setWhatsThis("open_conn_mgmt");
@@ -138,13 +150,25 @@ void MenuItem::menuTriggered(QAction *act){
 void MenuItem::CoreClosed(){
   this->setIcon( QIcon(":/icons/grey/disk.svg") );
   this->setToolTip( tr("Connection Closed") );
+  emit ShowMessage(tr("Disconnected"), QString(tr("%1: Lost Connection")).arg(this->title()), QSystemTrayIcon::Warning, 3000);
 }
 
 void MenuItem::CoreActive(){
   this->setIcon( QIcon(":/icons/black/disk.svg") );
   this->setToolTip( tr("Connection Active") );
+  emit ShowMessage(tr("Connected"), QString(tr("%1: Now Connected")).arg(this->title()), QSystemTrayIcon::Information, 3000);
 }
 
 void MenuItem::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue data){
 	
+}
+
+void MenuItem::PasswordReady(){
+  if(line_pass==0){ return; }
+  QString pass = line_pass->text();
+  line_pass->setText("");
+  if(LoadSSLFile(pass)){
+    this->hide();
+    emit UnlockConnections();
+  }
 }

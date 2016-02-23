@@ -22,20 +22,24 @@ public:
 private:
 	Ui::C_Manager *ui;
 	QActionGroup *radio_acts;
+	QTimer *treeTimer;
 
 	void LoadConnectionInfo();
-	void SaveConnectionInfo();
+
 
 	//Simplification functions for reading/writing tree widget paths
 	QTreeWidgetItem* FindItemParent(QString path);
 	void saveGroupItem(QTreeWidgetItem *group); 
 
 private slots:
+	void SaveConnectionInfo();
+
 	//Page Changes
 	void changePage(QAction*);
 
 	//Connections Page
 	void on_tree_conn_itemSelectionChanged();
+	void tree_items_changed();
 	void on_push_conn_add_clicked();
 	void on_push_conn_rem_clicked();
 	void on_push_conn_export_clicked();
