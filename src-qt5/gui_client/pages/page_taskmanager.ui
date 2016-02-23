@@ -21,7 +21,13 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="QTableWidget" name="tableWidget">
+       <widget class="QTreeWidget" name="taskWidget">
+        <attribute name="headerDefaultSectionSize">
+         <number>75</number>
+        </attribute>
+        <attribute name="headerMinimumSectionSize">
+         <number>55</number>
+        </attribute>
         <column>
          <property name="text">
           <string>PID</string>
@@ -69,12 +75,17 @@
         </column>
         <column>
          <property name="text">
+          <string>TIME</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
           <string>WCPU</string>
          </property>
         </column>
         <column>
          <property name="text">
-          <string>COMMAND</string>
+          <string>USER</string>
          </property>
         </column>
        </widget>
