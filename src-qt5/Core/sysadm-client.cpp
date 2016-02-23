@@ -250,6 +250,7 @@ QString sysadm_client::SSL_Encode_String(QString str){
   keybio = BIO_new_mem_buf(privkey.data(), -1);
   if(keybio==NULL){ return ""; }
   rsa = PEM_read_bio_RSAPrivateKey(keybio, &rsa,NULL, NULL);
+  if(rsa==NULL){ return ""; }
   bool ok = (-1 != RSA_private_encrypt(str.length(), (unsigned char*)(str.toLatin1().data()), encode, rsa, RSA_PKCS1_PADDING) );
   if(!ok){ return ""; }
   else{ 
