@@ -66,7 +66,6 @@ private:
 	int num_fail; //number of server connection failures
 
 	//Functions to do the initial socket setup
-        void setupSocket(); //uses chost/cport for setup
 	void performAuth(QString user="", QString pass=""); //uses cauthkey if empty inputs
 	void clearAuth();
 
@@ -86,6 +85,8 @@ public slots:
 	void communicate(QList<QJsonObject>);
 
 private slots:
+        void setupSocket(); //uses chost/cport for setup
+
 	//Socket signal/slot connections
 	void socketConnected(); //Signal: connected()
 	void socketClosed(); //Signal: disconnected()

@@ -58,8 +58,8 @@ void MenuItem::UpdateMenu(){
       }
     }
   QStringList hosts = settings->value(pathkey).toStringList();
-  qDebug() << "Update Menu:" << this->whatsThis() << "Has Core:" << !host.isEmpty();
-  qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
+  //qDebug() << "Update Menu:" << this->whatsThis() << "Has Core:" << !host.isEmpty();
+  //qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
   //Now go through and update the menu
   this->clear();
   if(host.isEmpty()){
@@ -138,11 +138,13 @@ void MenuItem::menuTriggered(QAction *act){
 void MenuItem::CoreClosed(){
   this->setIcon( QIcon(":/icons/grey/disk.svg") );
   this->setToolTip( tr("Connection Closed") );
+  emit ShowMessage(tr("Disconnected"), QString(tr("%1: Lost Connection")).arg(this->title()), QSystemTrayIcon::Warning, 3000);
 }
 
 void MenuItem::CoreActive(){
   this->setIcon( QIcon(":/icons/black/disk.svg") );
   this->setToolTip( tr("Connection Active") );
+  emit ShowMessage(tr("Connected"), QString(tr("%1: Now Connected")).arg(this->title()), QSystemTrayIcon::Information, 3000);
 }
 
 void MenuItem::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue data){
