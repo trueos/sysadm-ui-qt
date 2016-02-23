@@ -1,8 +1,10 @@
 
 HEADERS	+= 	$${PWD}/getPage.h \
-				$${PWD}/control_panel.h
+		$${PWD}/control_panel.h \
+		$${PWD}/TaskManager.h
 
-SOURCES	+=	$${PWD}/control_panel.cpp
+SOURCES	+=	$${PWD}/TaskManager.cpp \
+		$${PWD}/control_panel.cpp
 
-#FORMS		+=  
+#FORMS		+=  $${PWD}/TaskManager.ui
 
