@@ -10,33 +10,39 @@
 #include "../globals.h"
 #include "../PageWidget.h"
 
-
 static QStringList ValidPages(){
     //*** Add a page ID for each type of subpage here ***
     // Format: "<group>::ID" where ID is "<namespace>/<name>" of the server subsystem
     // Groups: ["appmgmt", "sysmgmt", "connect", "utils"]
     QStringList known;
     //Add more pages here
-    known << "appmgmt::rpc/dispatcher";
+    /*known << "appmgmt::rpc/dispatcher";
     known << "appmgmt::rpc/syscache";
     known << "utils::sysadm/iocage";
     known << "utils::sysadm/lifepreserver";
     known << "connect::sysadm/network";
     known << "sysmgmt::sysadm/systemmanager";
-    known << "sysmgmt::sysadm/update";
+    known << "sysmgmt::sysadm/update";*/
+    known << "sysmgmt::sysadm/beadm";
+    known << "sysmgmt::sysadm/systemmanager";
+	
     //return the known pages
     return known;	
 }
 
 static void setupPageButton(QString id, QTreeWidgetItem *item){
   //*** Setup an icon/text for this page ***
-  /*if(id=="something"){
-    item->setText( tr("Something") );
-    item->setIcon(QIcon(":/icons/Black/
-  }*/
-  //just assign some random icon for the moment
-  item->setText(0,id);
-  item->setIcon(0,QIcon(":/icons/black/inboxes.svg"));
+  if(id=="sysadm/beadm"){
+    item->setText(0, QObject::tr("Boot Environment Manager") );
+    item->setIcon(0, QIcon(":/icons/black/disk.svg"));
+  }else if(id=="sysadm/systemmanager"){
+    item->setText(0, QObject::tr("Task Manager") );
+    item->setIcon(0, QIcon(":/icons/black/flag.svg"));
+  }else{
+    //just assign some random icon for the moment
+    item->setText(0,id);
+    item->setIcon(0,QIcon(":/icons/black/inboxes.svg"));
+  }
 }
 
 static void setupCategoryButton(QString cat, QTreeWidgetItem *item){
@@ -63,10 +69,13 @@ static void setupCategoryButton(QString cat, QTreeWidgetItem *item){
 
 //Add any sub-pages here
 #include "control_panel.h"
+#include "page_beadm.h"
+#include "page_taskmanager.h"
 
 static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   //Find the page that matches this "id"
-  if(id=="sample"){} //do something
+  if(id=="sysadm/beadm"){ return new beadm_page(parent, core); }
+  if(id=="sysadm/systemmanager"){ return new taskmanager_page(parent, core); }
 	  
   //Return the main control_panel page as the fallback/default
   return new control_panel(parent, core);
