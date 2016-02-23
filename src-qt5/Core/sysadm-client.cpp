@@ -23,7 +23,7 @@
 #include <openssl/err.h>
 
 #define SERVERPIDFILE QString("/var/run/sysadm.pid")
-
+#define LOCALHOST QString("127.0.0.1")
 #define DEBUG 0
 
 extern QSettings *settings;
@@ -153,26 +153,6 @@ QJsonValue sysadm_client::cachedReply(QString id){
 
 // === PRIVATE ===
 //Functions to do the initial socket setup
-void sysadm_client::setupSocket(){
-  //qDebug() << "Setup Socket:" << SOCKET->isValid();
-  if(SOCKET->isValid()){ return; }
-  //Setup the SSL config as needed
-  SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
-  //uses chost for setup
-  // - assemble the host URL
-  if(chost.contains("://")){ chost = chost.section("://",1,1); } //Chop off the custom http/ftp/other header (always need "wss://")
-  QString url = "wss://"+chost;
-  bool hasport = false;
-  url.section(":",-1).toInt(&hasport); //check if the last piece of the url is a valid number
-  //Could add a check for a valid port number as well - but that is a bit overkill right now
-  if(!hasport){ url.append(":"+QString::number(WSPORTDEFAULT)); }
-  qDebug() << " Open WebSocket:  URL:" << url;
-  QTimer::singleShot(0,SOCKET, SLOT(ignoreSslErrors()) );
-  SOCKET->open(QUrl(url));
-    //QList<QSslError> ignored; ignored << QSslError(QSslError::SelfSignedCertificate) << QSslError(QSslError::HostNameMismatch);
-    //SOCKET->ignoreSslErrors(ignored);
-}
-
 void sysadm_client::performAuth(QString user, QString pass){
   //uses cauthkey if empty inputs
   QJsonObject obj;
@@ -301,28 +281,44 @@ void sysadm_client::communicate(QList<QJsonObject> requests){
 }
 	
 // === PRIVATE SLOTS ===
+void sysadm_client::setupSocket(){
+  //qDebug() << "Setup Socket:" << SOCKET->isValid();
+  if(SOCKET->isValid()){ return; }
+  //Setup the SSL config as needed
+  SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
+  //uses chost for setup
+  // - assemble the host URL
+  if(chost.contains("://")){ chost = chost.section("://",1,1); } //Chop off the custom http/ftp/other header (always need "wss://")
+  QString url = "wss://"+chost;
+  bool hasport = false;
+  url.section(":",-1).toInt(&hasport); //check if the last piece of the url is a valid number
+  //Could add a check for a valid port number as well - but that is a bit overkill right now
+  if(!hasport){ url.append(":"+QString::number(WSPORTDEFAULT)); }
+  qDebug() << " Open WebSocket:  URL:" << url;
+  QTimer::singleShot(0,SOCKET, SLOT(ignoreSslErrors()) );
+  SOCKET->open(QUrl(url));
+}
+
 //Socket signal/slot connections
 void sysadm_client::socketConnected(){ //Signal: connected()
-  keepActive = true; //got a valid connection - try to keep this open automatically
-  num_fail = 0; //reset fail counter - got a valid connection
+  keepActive = true; //got a valid connection - try to keep this open automatically unless the user closes it
   emit clientConnected();
   performAuth(cuser, cpass);
-  cuser.clear(); cpass.clear(); //just to ensure no trace left in memory
+  cpass.clear(); //just to ensure no trace left in memory
+  //Ensure SSL connection to non-localhost (only user needed for localhost)
+  if(chost!=LOCALHOST && !chost.startsWith(LOCALHOST+":") ){ cuser.clear(); }
 }
 
 void sysadm_client::socketClosed(){ //Signal: disconnected()
   qDebug() << " - Connection Closed:" << chost;
-  /*if(keepActive && num_fail < FAIL_MAX){ 
-    //Socket closed due to timeout? 
-    // Go ahead and re-open it if possible with the last-used settings/auth
-    num_fail++;
-    setupSocket();
-  }else{*/
-    num_fail = 0; //reset back to nothing
-    emit clientDisconnected();
-    //Server cache is now invalid - completely lost connection
-    SENT.clear(); BACK.clear(); PENDING.clear(); 
-  //}	  
+  if(keepActive){ 
+    //Socket closed due to timeout/server
+    // Go ahead and re-open it in one minute if possible with the last-used settings/auth
+    QTimer::singleShot(60000, this, SLOT(setupSocket()) );
+  }
+  emit clientDisconnected();
+  //Server cache is now invalid - completely lost connection
+  SENT.clear(); BACK.clear(); PENDING.clear(); 
 }
 
 void sysadm_client::socketSslErrors(const QList<QSslError>&errlist){ //Signal: sslErrors()
