@@ -166,6 +166,7 @@ void MenuItem::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue data){
 void MenuItem::PasswordReady(){
   if(line_pass==0){ return; }
   QString pass = line_pass->text();
+  if(pass.isEmpty()){ return; }
   line_pass->setText("");
   if(LoadSSLFile(pass)){
     this->hide();

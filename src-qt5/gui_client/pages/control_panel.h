@@ -21,6 +21,10 @@ public:
 	
 private:
 	QTreeWidget *tree;
+	QList<PAGEINFO> pages;
+
+	void setupCategoryButton(QString cat, QTreeWidgetItem *item);
+	void setupPageButton(QString id, QTreeWidgetItem *item);
 
 private slots:
 	//GUI userevent handling

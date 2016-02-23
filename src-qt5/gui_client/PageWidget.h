@@ -15,6 +15,13 @@
 // 3) Setup any CORE connections in the "setupCore()" function
 // 4) Start any CORE requests in the "startPage()" function
 //===============================
+
+//Structure of all information needed for a page
+struct PAGEINFO{
+  QString name, title,  icon, comment, category, id;
+  QStringList req_systems;
+};
+
 class PageWidget : public QWidget{
 	Q_OBJECT
 public:

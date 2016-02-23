@@ -29,12 +29,26 @@ public:
 	//Page embedded, go ahead and startup any core requests
 	void startPage();
 		
-	QString pageID(){ return "sample"; } //ID is used to identify which type of page this is
+	QString pageID(){ return "sysadm/beadm"; } //ID is used to identify which type of page this is
 	
 private:
 	Ui::page_beadm_ui *ui;
 
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
+
+	//GUI enable/disable based on selection
+	void updateButtons();
+
+	//GUI Buttons
+	void create_be();
+	void delete_be();
+	void rename_be();
+	void mount_be();
+	void unmount_be();
+	void activate_be();
+
+	void updateList();
+
 };
 #endif
