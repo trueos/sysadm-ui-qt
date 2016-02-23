@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>page_beadm_ui</class>
+ <widget class="QWidget" name="page_beadm_ui">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>804</width>
+    <height>388</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="0">
+    <widget class="QTreeWidget" name="tree_BE">
+     <property name="minimumSize">
+      <size>
+       <width>40</width>
+       <height>180</height>
+      </size>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="indentation">
+      <number>0</number>
+     </property>
+     <attribute name="headerDefaultSectionSize">
+      <number>100</number>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Running</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Default</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Date</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Mountpoints</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Space</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="createBE">
+       <property name="text">
+        <string>Create BE</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../icons/icons.qrc">
+         <normaloff>:/icons/black/plus.svg</normaloff>:/icons/black/plus.svg</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="deleteBE">
+       <property name="text">
+        <string>Delete BE</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../icons/icons.qrc">
+         <normaloff>:/icons/black/minus.svg</normaloff>:/icons/black/minus.svg</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="renameBE">
+       <property name="text">
+        <string>Rename BE</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../icons/icons.qrc">
+         <normaloff>:/icons/black/box.svg</normaloff>:/icons/black/box.svg</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="mountBE">
+       <property name="text">
+        <string>Mount BE</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../icons/icons.qrc">
+         <normaloff>:/icons/black/action-right-2.svg</normaloff>:/icons/black/action-right-2.svg</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="unmountBE">
+       <property name="text">
+        <string>Unmount BE</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../icons/icons.qrc">
+         <normaloff>:/icons/black/action-left.svg</normaloff>:/icons/black/action-left.svg</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="activateBE">
+       <property name="text">
+        <string>Activate BE</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../icons/icons.qrc">
+         <normaloff>:/icons/black/triangle-right.svg</normaloff>:/icons/black/triangle-right.svg</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../icons/icons.qrc"/>
+  <include location="../../../../pcbsd/src-qt5/pc-bootconfig/pc-bootconfig.qrc"/>
+ </resources>
+ <connections/>
+</ui>
