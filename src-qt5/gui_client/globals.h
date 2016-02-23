@@ -45,6 +45,7 @@
 #include <QAction>
 #include <QInputDialog>
 #include <QLineEdit>
+#include <QWidgetAction>
 
 #include "../Core/sysadm-client.h"
 

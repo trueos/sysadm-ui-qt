@@ -22,6 +22,8 @@ public slots:
 
 private:
 	QString host;
+	QLineEdit *line_pass;
+	QWidgetAction *lineA;
 
 	void addSubMenu(MenuItem *menu);
 
@@ -31,6 +33,8 @@ private slots:
 	void CoreClosed();
 	void CoreActive();
 	void CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue data);
+
+	void PasswordReady();
 
 signals:
 	//Recursive Signals (will travel up the chain until it gets to the main tray)
