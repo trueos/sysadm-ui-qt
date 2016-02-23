@@ -72,11 +72,11 @@ int main( int argc, char ** argv )
     CORE.closeConnection();
   }
   
-  qDebug() << "Cleanly Closing Client...";
+  //qDebug() << "Cleanly Closing Client...";
   //Clean up any global classes before exiting
   settings->sync();
   //Now fully-close the global classes
   settings->deleteLater();
-  qDebug() << "Returning:" << ret;
+  //qDebug() << "Returning:" << ret;
   return ret;
 }

@@ -26,7 +26,7 @@
 class sysadm_client : public QObject{
 	Q_OBJECT
 public:
-	enum EVENT_TYPE{ DISPATCHER, LIFEPRESERVER};
+	enum EVENT_TYPE{ DISPATCHER, LIFEPRESERVER, SYSSTATE};
 	
 	sysadm_client();
 	~sysadm_client();

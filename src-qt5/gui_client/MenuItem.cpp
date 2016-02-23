@@ -105,7 +105,7 @@ void MenuItem::UpdateMenu(){
 	if(line_pass==0){
 	  line_pass = new QLineEdit(this);
 	  line_pass->setEchoMode(QLineEdit::Password);
-	  line_pass->setPlaceholderText( tr("Password") );
+	  line_pass->setPlaceholderText( tr("Unlock Connections") );
 	  connect(line_pass, SIGNAL(editingFinished()), this, SLOT(PasswordReady()) );
 	}
 	line_pass->setText("");

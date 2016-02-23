@@ -386,6 +386,7 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
     //Event notification - not tied to any particular request
     if(name=="dispatcher"){ emit NewEvent(DISPATCHER, obj.value("args")); }
     else if(name=="life-preserver"){ emit NewEvent(LIFEPRESERVER, obj.value("args")); }
+    else if(name=="system-state"){ emit NewEvent(SYSSTATE, obj.value("args")); }
   }else{
     //Now save this message into the cache for use later (if not an auth reply)
     if(!ID.isEmpty()){ 
