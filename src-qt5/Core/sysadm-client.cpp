@@ -251,11 +251,18 @@ QString sysadm_client::SSL_Encode_String(QString str){
   if(keybio==NULL){ return ""; }
   rsa = PEM_read_bio_RSAPrivateKey(keybio, &rsa,NULL, NULL);
   if(rsa==NULL){ return ""; }
-  bool ok = (-1 != RSA_private_encrypt(str.length(), (unsigned char*)(str.toLatin1().data()), encode, rsa, RSA_PKCS1_PADDING) );
-  if(!ok){ return ""; }
+  int len = RSA_private_encrypt(str.length(), (unsigned char*)(str.toLatin1().data()), encode, rsa, RSA_PKCS1_PADDING);
+  if(len <0){ return ""; }
   else{ 
     //Now return this as a base64 encoded string
-    return QString( QByteArray( (char*)(encode) ).toBase64() ); 
+    QByteArray str_encode( (char*)(encode), len);
+    /*qDebug() << "Encoded String Info";
+    qDebug() << " - Raw string:" << str << "Length:" << str.length();
+    qDebug() << " - Encoded string:" << str_encode << "Length:" << str_encode.length();*/
+    str_encode = str_encode.toBase64();
+    /*qDebug() << " - Enc string (base64):" << str_encode << "Length:" << str_encode.length();
+    qDebug() << " - Enc string (QString):" << QString(str_encode);*/
+    return QString( str_encode ); 
   }
 
 }
