@@ -41,6 +41,11 @@ void MainUI::InitializeUI(){
   connect(ui->actionClose_Application, SIGNAL(triggered()), this, SLOT(close()) );
   connect(ui->actionBack, SIGNAL(triggered()), this, SLOT(loadPage()) );
   connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(SavePage()) );
+  //Now set the initial window size based on the last saved setting
+  QSize orig = settings->value("preferences/MainWindowSize", QSize()).toSize();
+  if(!orig.isEmpty() && orig.isValid()){
+    this->resize(orig);
+  }
 }
 
 // === PRIVATE SLOTS ===

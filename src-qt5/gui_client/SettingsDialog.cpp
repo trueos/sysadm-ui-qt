@@ -20,7 +20,7 @@ SettingsDialog::~SettingsDialog(){
 
 void SettingsDialog::InitSettings(){ //used on app startup *only*
   //Style
-  QString style = settings->value("preferences/style").toString();
+  QString style = settings->value("preferences/style","").toString();
   qDebug() << "Initial Style:" << style;
   if(!style.isEmpty()){
     style = SettingsDialog::readfile(":/styles/"+style+".qss");
@@ -34,19 +34,15 @@ void SettingsDialog::InitSettings(){ //used on app startup *only*
 void SettingsDialog::loadCurrentSettings(){
   ui->combo_styles->clear();
   ui->combo_styles->addItem(tr("None"),"");
-  QString current = settings->value("preferences/style","").toString();
   QDir rsc(":/styles");
   QStringList styles = rsc.entryList(QStringList() << "*.qss", QDir::Files | QDir::NoDotAndDotDot, QDir::Name);
-  qDebug() << "Found Styles:" << styles;
   bool found = false;
   for(int i=0; i<styles.length(); i++){
     ui->combo_styles->addItem( styles[i].section(".qss",0,0), rsc.absoluteFilePath(styles[i]) );
-    if(styles[i]==(current+".qss")){ 
-      found = true; 
-      ui->combo_styles->setCurrentIndex(ui->combo_styles->count()); 
-    }
   }
-  if(!found || ui->combo_styles->currentIndex()<0 ){ ui->combo_styles->setCurrentIndex(0); }
+  int cur = ui->combo_styles->findText(settings->value("preferences/style","").toString() );
+  if(cur<0){ cur = 0; }
+  ui->combo_styles->setCurrentIndex(cur);
 }
 
 QString SettingsDialog::readfile(QString path){
