@@ -21,7 +21,7 @@ SettingsDialog::~SettingsDialog(){
 
 void SettingsDialog::InitSettings(){ //used on app startup *only*
   //Style
-  QString style = settings->value("preferences/style","generic").toString();
+  QString style = settings->value("preferences/style","").toString();
   qDebug() << "Initial Style:" << style;
   if(!style.isEmpty()){
     style = SettingsDialog::readfile(":/styles/"+style+".qss");
@@ -41,7 +41,7 @@ void SettingsDialog::InitSettings(){ //used on app startup *only*
 void SettingsDialog::loadCurrentSettings(){
   // - styles
   ui->combo_styles->clear();
-  ui->combo_styles->addItem(tr("None"),"generic");
+  ui->combo_styles->addItem(tr("None"),"");
   QDir rsc(":/styles");
   QStringList styles = rsc.entryList(QStringList() << "*.qss", QDir::Files | QDir::NoDotAndDotDot, QDir::Name);
   for(int i=0; i<styles.length(); i++){

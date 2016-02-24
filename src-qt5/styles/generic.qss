@@ -1,14 +1,11 @@
 /* === GROUP BOX === */
 QGroupBox {
   margin-top: 1em;
-  padding: 7px;
   font-weight: bold;
   color: black;
   background: #e6e6e6;
-  border-color: #161616;
-  border-width: 1px;
-  border-style: outset;
-  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,150);
+  border-radius: 3px;
 }
 
 QGroupBox::title{
