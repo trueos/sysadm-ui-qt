@@ -33,8 +33,6 @@ extern QSslConfiguration SSL_cfg; //Check "isNull()" to see if the user settings
 // === PUBLIC ===
 sysadm_client::sysadm_client(){
   SOCKET = new QWebSocket("sysadm-client", QWebSocketProtocol::VersionLatest, this);
-    //SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
-    //SOCKET->ignoreSslErrors();
     //use the new Qt5 connection syntax for compile time checks that connections are valid
     connect(SOCKET, &QWebSocket::connected, this, &sysadm_client::socketConnected);
     connect(SOCKET, &QWebSocket::disconnected, this, &sysadm_client::socketClosed);
@@ -86,6 +84,10 @@ QString sysadm_client::currentHost(){
 
 bool sysadm_client::isActive(){
   return ((SOCKET!=0) && SOCKET->isValid());	
+}
+
+bool sysadm_client::isLocalHost(){
+  return (chost==LOCALHOST || chost.startsWith(LOCALHOST+":"));
 }
 
 //Check if the sysadm server is running on the local system

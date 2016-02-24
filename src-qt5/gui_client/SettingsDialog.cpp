@@ -51,10 +51,10 @@ void SettingsDialog::loadCurrentSettings(){
   if(cur<0){ cur = 0; }
   ui->combo_styles->setCurrentIndex(cur);
   // - font
-  QFont curF = QApplication::font();
-  qDebug() << "Loaded current font:" << curF.toString();
-  ui->spin_font_pt->setValue( curF.pointSize() );
-  ui->combo_font->setCurrentFont(curF);
+  QFont custom;
+    custom.fromString(settings->value("preferences/CustomFont").toString());
+  ui->spin_font_pt->setValue( custom.pointSize() );
+  ui->combo_font->setCurrentFont(custom);
   ui->group_font->setChecked( settings->value("preferences/useCustomFont",false).toBool() );
   
   //Now setup the signals/slots
@@ -87,17 +87,18 @@ void SettingsDialog::on_combo_styles_activated(int index){
 }
 
 void SettingsDialog::fontchanged(){
+  QFont sel = ui->combo_font->currentFont();
+  sel.setPointSize(ui->spin_font_pt->value());
+  
   if(ui->group_font->isChecked()){
-    QFont sel = ui->combo_font->currentFont();
-    sel.setPointSize(ui->spin_font_pt->value());
-    qDebug() << "Setting Font:" << sel.toString();
+    //qDebug() << "Setting Font:" << sel.toString();
     QApplication::setFont(sel);
     settings->setValue("preferences/useCustomFont", true);
     settings->setValue("preferences/CustomFont", sel.toString() );
   }else{
-    settings->setValue("preferences/useCustomFont", false);
-    qDebug() << "Setting Font (system):" << sys_font.toString();
     QApplication::setFont(sys_font);
+    settings->setValue("preferences/useCustomFont", false);
+    //qDebug() << "Setting Font (system):" << sys_font.toString();
   }
   ui->setupUi(this); //re-load the designer form
   loadCurrentSettings(); //re-load the contents of the form

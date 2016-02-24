@@ -17,7 +17,7 @@ QHash<QString,sysadm_client*> CORES; // hostIP / core
 // === PUBLIC ===
 sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
   CMAN = 0; SDLG = 0;
-	
+  showNotices = false;
   //Load any CORES
   updateCoreList();
   
@@ -32,7 +32,7 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
   connect(menu, SIGNAL(OpenSettings()), this, SLOT(OpenSettings()) );
   connect(menu, SIGNAL(CloseApplication()),this, SLOT(CloseApplication()) );
   connect(menu, SIGNAL(OpenCore(QString)), this, SLOT(OpenCore(QString)) );
-  connect(menu, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)), this, SLOT(showMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)) );
+  connect(menu, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)), this, SLOT(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)) );
   connect(menu, SIGNAL(UnlockConnections()), this, SLOT(UnlockConnections()) );
   QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
 }
@@ -69,6 +69,7 @@ void sysadm_tray::UpdateWindows(){
 }
 
 void sysadm_tray::updateCoreList(){
+  showNotices = false;
   //First add the localhost to the top of the list (if available)
   if(sysadm_client::localhostAvailable() ){
     getCore(LOCALHOST);
@@ -88,6 +89,7 @@ void sysadm_tray::updateCoreList(){
       }
     }
   }
+  QTimer::singleShot(1000, this, SLOT(allowPopups()) );
 }
 
 void sysadm_tray::ClientClosed(MainUI* client){
@@ -150,10 +152,18 @@ void sysadm_tray::OpenCore(QString host){
 }
 
 void sysadm_tray::UnlockConnections(){
-    this->setIcon( QIcon(":/icons/grey/disk2.svg") );
-    //Open all the cores
-    updateCoreList();  
-    //Update the menu
-    QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
-    QTimer::singleShot(50, this, SLOT(trayActivated()) );
+  this->setIcon( QIcon(":/icons/grey/disk2.svg") );
+  //Open all the cores
+  updateCoreList();  
+  //Update the menu
+  QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
+  QTimer::singleShot(50, this, SLOT(trayActivated()) );
+}
+
+//Popup Notifications
+void sysadm_tray::ShowMessage(QString title, QString text, QSystemTrayIcon::MessageIcon icon, int ms){
+  if(!showNotices){ return; } //skip this popup
+  
+  //Default popup notification system for systray icons
+  this->showMessage(title, text, icon,ms);
 }

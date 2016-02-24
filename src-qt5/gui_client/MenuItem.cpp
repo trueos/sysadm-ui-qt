@@ -17,7 +17,7 @@ CoreAction::CoreAction(sysadm_client*core, QObject *parent) : QAction(parent){
   this->setWhatsThis("core::"+core->currentHost());
   nickname = settings->value("Hosts/"+core->currentHost(),"").toString();
   if(nickname.isEmpty()){
-    if(core->currentHost()==LOCALHOST){ nickname = tr("Local System"); }
+    if( core->isLocalHost() ){ nickname = tr("Local System"); }
     else{ nickname = core->currentHost(); }
     this->setText(nickname);
   }else{ 

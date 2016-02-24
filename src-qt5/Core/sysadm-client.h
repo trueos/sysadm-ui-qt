@@ -40,6 +40,7 @@ public:
 	
 	QString currentHost();
 	bool isActive();
+	bool isLocalHost(); //special case, checks currentHost for the localhost definitions
 	
 	//Check if the sysadm server is running on the local system
 	static bool localhostAvailable();

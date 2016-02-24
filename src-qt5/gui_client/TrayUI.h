@@ -20,8 +20,10 @@ public:
 	~sysadm_tray();
 
 private:
-	//Lists of open cores/windows
-	//QHash<QString,sysadm_client*> CORES; // hostIP / core
+	//Flag for determining whether popups are allowed
+	bool showNotices;
+
+	//Lists of open windows
 	QList<MainUI*> CLIENTS; //currently open windows
 	C_Manager *CMAN; //current Connection manager window
 	SettingsDialog *SDLG; //current settings dialog
@@ -34,7 +36,11 @@ private:
 private slots:
 	//Tray activated
 	void trayActivated(){
-	  this->contextMenu()->popup( QCursor::pos() );
+	  this->contextMenu()->popup( this->geometry().center()); //QCursor::pos() );
+	}
+	//Allow popups
+	void allowPopups(){
+	  showNotices = true;
 	}
 	//Application-wide setting changed
 	void UpdateWindows();
@@ -49,6 +55,8 @@ private slots:
 	void CloseApplication();
 	void OpenCore(QString);
 	void UnlockConnections();
+	//Popup Notifications
+	void ShowMessage(QString title, QString text, QSystemTrayIcon::MessageIcon icon, int ms);
 
 };
 
