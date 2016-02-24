@@ -30,6 +30,10 @@ private:
 
 private slots:
 	void on_combo_styles_activated(int);
+	void fontchanged();
+
+signals:
+	void updateWindows();
 
 };
 

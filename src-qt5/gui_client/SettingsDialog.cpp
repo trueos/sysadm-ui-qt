@@ -7,10 +7,11 @@
 #include "SettingsDialog.h"
 #include "ui_SettingsDialog.h"
 
+QFont sys_font;
+
 SettingsDialog::SettingsDialog() : QMainWindow(), ui(new Ui::SettingsDialog){
   ui->setupUi(this);
   loadCurrentSettings();
-  connect(ui->push_finished, SIGNAL(clicked()), this, SLOT(close()) );
 }
 
 SettingsDialog::~SettingsDialog(){
@@ -25,13 +26,20 @@ void SettingsDialog::InitSettings(){ //used on app startup *only*
   if(!style.isEmpty()){
     style = SettingsDialog::readfile(":/styles/"+style+".qss");
   }
-  static_cast<QApplication*>(QApplication::instance())->setStyleSheet(style);
-  
+  qApp->setStyleSheet(style);
+  //Fonts
+  sys_font = QApplication::font(); //save this for later
+  if(settings->value("preferences/useCustomFont",false).toBool()){
+    QFont custom;
+    custom.fromString(settings->value("preferences/CustomFont").toString());
+    QApplication::setFont(custom);
+  }
   
 }
 
 // === PRIVATE ===
 void SettingsDialog::loadCurrentSettings(){
+  // - styles
   ui->combo_styles->clear();
   ui->combo_styles->addItem(tr("None"),"generic");
   QDir rsc(":/styles");
@@ -42,6 +50,18 @@ void SettingsDialog::loadCurrentSettings(){
   int cur = ui->combo_styles->findText(settings->value("preferences/style","").toString() );
   if(cur<0){ cur = 0; }
   ui->combo_styles->setCurrentIndex(cur);
+  // - font
+  QFont curF = QApplication::font();
+  qDebug() << "Loaded current font:" << curF.toString();
+  ui->spin_font_pt->setValue( curF.pointSize() );
+  ui->combo_font->setCurrentFont(curF);
+  ui->group_font->setChecked( settings->value("preferences/useCustomFont",false).toBool() );
+  
+  //Now setup the signals/slots
+  connect(ui->push_finished, SIGNAL(clicked()), this, SLOT(close()) );
+  connect(ui->combo_font, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(fontchanged()) );
+  connect(ui->spin_font_pt, SIGNAL(valueChanged(int)), this, SLOT(fontchanged()) );
+  connect(ui->group_font, SIGNAL(toggled(bool)), this, SLOT(fontchanged()) );
 }
 
 QString SettingsDialog::readfile(QString path){
@@ -63,5 +83,24 @@ void SettingsDialog::on_combo_styles_activated(int index){
   if(!style.isEmpty()){
     style = SettingsDialog::readfile(style);
   }
-  static_cast<QApplication*>(QApplication::instance())->setStyleSheet(style);
+  qApp->setStyleSheet(style);
+}
+
+void SettingsDialog::fontchanged(){
+  if(ui->group_font->isChecked()){
+    QFont sel = ui->combo_font->currentFont();
+    sel.setPointSize(ui->spin_font_pt->value());
+    qDebug() << "Setting Font:" << sel.toString();
+    QApplication::setFont(sel);
+    settings->setValue("preferences/useCustomFont", true);
+    settings->setValue("preferences/CustomFont", sel.toString() );
+  }else{
+    settings->setValue("preferences/useCustomFont", false);
+    qDebug() << "Setting Font (system):" << sys_font.toString();
+    QApplication::setFont(sys_font);
+  }
+  ui->setupUi(this); //re-load the designer form
+  loadCurrentSettings(); //re-load the contents of the form
+  //Also update any other windows which are visible
+  emit updateWindows();
 }

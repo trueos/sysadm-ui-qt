@@ -36,6 +36,8 @@ private slots:
 	void trayActivated(){
 	  this->contextMenu()->popup( QCursor::pos() );
 	}
+	//Application-wide setting changed
+	void UpdateWindows();
 	
 	//Update function for when a core is added/removed
 	void updateCoreList();

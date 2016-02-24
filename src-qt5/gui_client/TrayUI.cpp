@@ -59,6 +59,16 @@ sysadm_client* sysadm_tray::getCore(QString host){
 }
 
 // === PRIVATE SLOTS ===
+// - Application-wide setting changed
+void sysadm_tray::UpdateWindows(){
+  //First check for any of the special windows (skip settings window)
+  //if(CMAN!=0){ QTimer::singleShot(0, CMAN, SLOT(UpdateWindow()) ); }
+  //Now do all the open client windows
+  /*for(int i=0; i<CLIENTS.length(); i++){
+    QTimer::singleShot(0, CLIENTS[i], SLOT(UpdateUI()) );
+  }*/
+}
+
 void sysadm_tray::updateCoreList(){
   //First add the localhost to the top of the list (if available)
   if(sysadm_client::localhostAvailable() ){
@@ -99,6 +109,7 @@ void sysadm_tray::OpenConnectionManager(){
 void sysadm_tray::OpenSettings(){
   if(SDLG==0){ 
     SDLG = new SettingsDialog(); 
+    connect(SDLG, SIGNAL(updateWindows()), this, SLOT(UpdateWindows()) );
   }
   SDLG->showNormal();	
 }
