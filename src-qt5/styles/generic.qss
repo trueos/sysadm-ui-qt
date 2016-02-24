@@ -1,34 +1,4 @@
-QMenuBar {
-  background: #c8c8c8;
-  color: black;
-}
-
-QGroupBox, QAbstractButton, QStackedWidget, QTreeWidget, QStatusBar { 
-  font-family: "Noto Sans";
-  font-size: 10pt;
-  color: black;
-}
-
-QAbstractButton:!enabled{
-  color:grey;
-}
-QAbstractButton:enabled{
-  color:black;
-}
-
-QGroupBox, QAbstractButton, QStackedWidget, QTreeWidget, QStatusBar, QLabel:!active { 
-  font-family: "Noto Sans";
-  font-size: 10pt;
-}
-
-QDialog {
-  border-width: 1px;
-  border-style: solid;
-  border-color: #161616;
-  border-radius: 2px;
-  background-color: #e6e6e6;
-}
-
+/* === GROUP BOX === */
 QGroupBox {
   margin-top: 1em;
   padding: 7px;
@@ -47,6 +17,7 @@ QGroupBox::title{
   border-color: transparent;
 }
 
+/* === BUTTONS ===  */
 QAbstractButton {
   padding: 5px;
   background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
@@ -54,6 +25,12 @@ QAbstractButton {
 	stop: 0.5 #c8c8c8, stop: 1.0 #c8c8c8);
   border: 1px solid darkgrey;
   border-radius: 3px;
+}
+QAbstractButton:!enabled{
+  color:grey;
+}
+QAbstractButton:enabled{
+  color:black;
 }
 QAbstractButton:checked{
   background: gray;
@@ -74,19 +51,8 @@ QAbstractButton:flat, QToolButton{
   border-color: transparent;
   background: transparent;
 }
-QLineEdit {
-  border-width: 1px;
-  border-style: inset;
-  border-color: #315382;
-  border-radius: 4px;   
-}
 
-  
-QStackedWidget {
-  padding:3px 3px 3px 3px;
-  background: #FFFFFF;
-}
-
+/* === TREE WIDGET === */
 QTreeWidget {
   outline: none;
   padding: 7px;
@@ -118,13 +84,36 @@ QTreeWidget::item:selected{
 	stop: 0.5 #e6e6e6, stop: 1.0 #CFCFCF);
 }
 
+/* === OTHER RANDOM WIDGETS === */
+QMenuBar {
+  background: #c8c8c8;
+  color: black;
+}
 QToolBar {
   background: #e6e6e6;
   color: black;
 }
-
 QStatusBar {
   background: #FFFFFF;
   color: black;
 }
 
+QLineEdit {
+  border-width: 1px;
+  border-style: inset;
+  border-color: #315382;
+  border-radius: 4px;   
+}
+
+QStackedWidget {
+  padding:3px 3px 3px 3px;
+  background: #FFFFFF;
+}
+
+QDialog {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #161616;
+  border-radius: 2px;
+  background-color: #e6e6e6;
+}

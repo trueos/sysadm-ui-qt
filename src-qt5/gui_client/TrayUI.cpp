@@ -144,14 +144,10 @@ void sysadm_tray::OpenCoreLogs(QString host){
 }
 
 void sysadm_tray::UnlockConnections(){
-  /*bool ok;
-  QString pass = QInputDialog::getText(0, tr("Unlock SysAdm Connections"), tr("SysAdm Password"), QLineEdit::Password, "", &ok, Qt::Popup | Qt::WindowStaysOnTopHint, Qt::ImhSensitiveData);
-  if(!ok || pass.isEmpty()){ return; } //cancelled
-  if(LoadSSLFile(pass)){*/
     this->setIcon( QIcon(":/icons/grey/disk2.svg") );
     //Open all the cores
     updateCoreList();  
     //Update the menu
     QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
-  //}
+    QTimer::singleShot(50, this, SLOT(trayActivated()) );
 }
