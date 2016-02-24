@@ -25,6 +25,7 @@ private:
 	Ui::MainUI *ui;
 	void InitializeUI();
 	sysadm_client *CORE;
+	QShortcut *s_quit;
 
 private slots:
 	//Page Management

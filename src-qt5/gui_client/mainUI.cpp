@@ -11,6 +11,7 @@
 
 // === PUBLIC ===
 MainUI::MainUI(sysadm_client *core) : QMainWindow(), ui(new Ui::MainUI){
+  CORE = core;
   ui->setupUi(this); //load the designer form
   //Need to tinker with the toolbar a bit to get actions in the proper places
   //  -- insert a spacer so that the title/save actions are aligned right
@@ -18,8 +19,10 @@ MainUI::MainUI(sysadm_client *core) : QMainWindow(), ui(new Ui::MainUI){
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   ui->toolBar->insertWidget(ui->actionTitle, spacer);
   ui->actionTitle->setEnabled(false);
+  //Create the shortcut for closing the window
+  s_quit = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+  connect(s_quit, SIGNAL(activated()), this, SLOT(close()) );
   //Now finish up the rest of the init
-  CORE = core;
   InitializeUI();
   if(!CORE->isActive()){
     CORE->openConnection();
@@ -41,7 +44,6 @@ void MainUI::InitializeUI(){
   connect(CORE, SIGNAL(clientUnauthorized()), this, SLOT(NoAuthorization()) );
   connect(CORE, SIGNAL(clientDisconnected()), this, SLOT(Disconnected()) );
 
-  connect(ui->actionClose_Application, SIGNAL(triggered()), this, SLOT(close()) );
   connect(ui->actionBack, SIGNAL(triggered()), this, SLOT(loadPage()) );
   connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(SavePage()) );
 	

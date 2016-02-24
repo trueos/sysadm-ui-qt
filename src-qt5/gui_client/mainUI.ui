@@ -16,23 +16,6 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout"/>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>503</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionClose_Application"/>
-   </widget>
-   <addaction name="menuFile"/>
-  </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="contextMenuPolicy">
@@ -63,15 +46,6 @@
    <addaction name="actionTitle"/>
    <addaction name="actionSave"/>
   </widget>
-  <action name="actionClose_Application">
-   <property name="icon">
-    <iconset resource="../icons/icons.qrc">
-     <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Close Application</string>
-   </property>
-  </action>
   <action name="actionBack">
    <property name="icon">
     <iconset resource="../icons/icons.qrc">

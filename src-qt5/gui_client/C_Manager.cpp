@@ -36,8 +36,6 @@ C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
   LoadConnectionInfo();
   verify_cert_inputs();
   //Connect some signals/slots
-  connect(ui->line_cert_country, SIGNAL(textEdited(const QString&)), this, SLOT(verify_cert_inputs()) );
-  connect(ui->line_cert_state, SIGNAL(textEdited(const QString&)), this, SLOT(verify_cert_inputs()) );
   connect(ui->line_cert_email, SIGNAL(textEdited(const QString&)), this, SLOT(verify_cert_inputs()) );
   connect(ui->line_cert_nick, SIGNAL(textEdited(const QString&)), this, SLOT(verify_cert_inputs()) );
 	
@@ -48,6 +46,7 @@ C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
   }else{
     ui->actionView_Connections->trigger();
   }
+  this->resize(this->sizeHint());
 }
 
 C_Manager::~C_Manager(){
@@ -298,16 +297,9 @@ void C_Manager::on_push_rename_clicked(){
 
 //SSL Page
 void C_Manager::verify_cert_inputs(){
-  bool ok = false;
-  // Check country code
-  ok = (ui->line_cert_country->text().length()==2);
-  //Check state
-  QString tmp = ui->line_cert_state->text();
-    tmp.replace(" ","_");
-    ui->line_cert_state->setText(tmp);
-  ok = ok && !tmp.isEmpty();
+  bool ok = true;
   //Check email
-  tmp = ui->line_cert_email->text();
+  QString tmp = ui->line_cert_email->text();
     tmp.replace(" ","_");
     ui->line_cert_email->setText(tmp);
   ok = ok && !tmp.isEmpty() && tmp.contains("@");
@@ -341,7 +333,7 @@ void C_Manager::on_push_ssl_create_clicked(){
   if(pass2.isEmpty()){ return; }
   qDebug() << "New SSL Files:" << bin << keypath << certpath << pass;
   //Now generate the key/crt files
-  QString subject =  "/C="+ui->line_cert_country->text()+"/ST="+ui->line_cert_state->text()+"/L=NULL/O=SysAdm-client/OU=SysAdm-client/CN="+ui->line_cert_nick->text()+"/emailAddress="+ui->line_cert_email->text();
+  QString subject =  "/C=US/ST=Somewhere/L=NULL/O=SysAdm-client/OU=SysAdm-client/CN="+ui->line_cert_nick->text()+"/emailAddress="+ui->line_cert_email->text();
   bool ok = (0==QProcess::execute(bin, QStringList() << "req" << "-batch" << "-newkey" << "rsa:2048" << "-nodes" << "-keyout" << keypath << "-new" << "-x509" << "-out" << certpath << "-subj" << subject) );
   if(!ok){ qDebug() << "[ERROR] Could not generate key/crt files"; return;}
   //Now package them as a PKCS12 file with passphrase-encryption

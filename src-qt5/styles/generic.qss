@@ -54,7 +54,7 @@ QTreeWidget {
   outline: none;
   padding: 7px;
   border-style: hidden;
-  background: #FFFFFF; 
+  background: transparent; 
   selection-background-color: transparent;
   selection-color: black;
   show-decoration-selected: 0;
@@ -82,29 +82,29 @@ QTreeWidget::item:selected{
 }
 
 /* === OTHER RANDOM WIDGETS === */
-QMenuBar {
-  background: #c8c8c8;
+QMenuBar{
+  background: transparent;
   color: black;
 }
+/*QMenuBar::item{
+  background: transparent;
+}*/
 QToolBar {
   background: #e6e6e6;
   color: black;
 }
 QStatusBar {
-  background: #FFFFFF;
+  background: #e6e6e6;
   color: black;
 }
-
+QMainWindow{
+  background: white;
+}
 QLineEdit {
   border-width: 1px;
   border-style: inset;
   border-color: #315382;
   border-radius: 4px;   
-}
-
-QStackedWidget {
-  padding:3px 3px 3px 3px;
-  background: #FFFFFF;
 }
 
 QDialog {

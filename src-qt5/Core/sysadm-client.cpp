@@ -125,7 +125,7 @@ void sysadm_client::registerCustomCert(){
     if(certs[i].issuerInfo(QSslCertificate::Organization).contains("SysAdm-client")){
       pubkey = QString(certs[i].publicKey().toPem().toBase64());
       email = certs[i].issuerInfo(QSslCertificate::EmailAddress).join("");
-      nickname = certs[i].issuerInfo(QSslCertificate::Organization).join("");
+      nickname = certs[i].issuerInfo(QSslCertificate::CommonName).join("");
       break;
     }
   }
