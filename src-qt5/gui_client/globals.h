@@ -47,6 +47,7 @@
 #include <QLineEdit>
 #include <QWidgetAction>
 #include <QResizeEvent>
+#include <QDesktopWidget>
 
 #include "../Core/sysadm-client.h"
 

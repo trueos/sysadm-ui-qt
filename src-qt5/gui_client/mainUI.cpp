@@ -21,6 +21,9 @@ MainUI::MainUI(sysadm_client *core) : QMainWindow(), ui(new Ui::MainUI){
   //Now finish up the rest of the init
   CORE = core;
   InitializeUI();
+  if(!CORE->isActive()){
+    CORE->openConnection();
+  }
   loadPage();
 }
 
@@ -41,11 +44,27 @@ void MainUI::InitializeUI(){
   connect(ui->actionClose_Application, SIGNAL(triggered()), this, SLOT(close()) );
   connect(ui->actionBack, SIGNAL(triggered()), this, SLOT(loadPage()) );
   connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(SavePage()) );
+	
   //Now set the initial window size based on the last saved setting
   QSize orig = settings->value("preferences/MainWindowSize", QSize()).toSize();
   if(!orig.isEmpty() && orig.isValid()){
+    //Make sure the old size is larger than the default size hint
+    if(orig.width() < this->sizeHint().width()){ orig.setWidth(this->sizeHint().width()); }
+    if(orig.height() < this->sizeHint().height()){ orig.setHeight(this->sizeHint().height()); }    
+    //Also ensure the old size is smaller than the current screen size
+    QSize screen = QApplication::desktop()->availableGeometry(this).size();
+    if(orig.width() > screen.width()){ orig.setWidth(screen.width()); }
+    if(orig.height() > screen.height()){ orig.setHeight(screen.height()); }
+    //Now resize the window
     this->resize(orig);
   }
+  
+  //Now setup the window title/icon
+  QString host = settings->value("Host/"+CORE->currentHost(),"").toString();
+  if(host.isEmpty()){ host = CORE->currentHost(); }
+  else{ host.append(" ("+CORE->currentHost()+")" ); }
+  this->setWindowTitle("SysAdm: "+host );
+  this->setWindowIcon( QIcon(":/icons/black/desktop.svg") );
 }
 
 // === PRIVATE SLOTS ===

@@ -65,6 +65,9 @@ void sysadm_client::openConnection(QString hostIP){
   chost = hostIP;
   setupSocket();
 }
+void sysadm_client::openConnection(){
+  setupSocket();
+}
 
 void sysadm_client::closeConnection(){
   keepActive = false;

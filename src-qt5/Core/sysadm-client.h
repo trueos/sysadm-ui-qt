@@ -35,6 +35,7 @@ public:
 	void openConnection(QString user, QString pass, QString hostIP);
 	void openConnection(QString authkey, QString hostIP);
 	void openConnection(QString hostIP); //uses SSL auth if possible
+	void openConnection(); //uses last valid auth settings
 	void closeConnection();
 	
 	QString currentHost();
