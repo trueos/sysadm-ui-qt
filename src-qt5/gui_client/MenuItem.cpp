@@ -8,23 +8,58 @@
 
 extern QHash<QString,sysadm_client*> CORES; // hostIP / core
 
-MenuItem::MenuItem(QWidget *parent, QString path, sysadm_client *core) : QMenu(parent){
+//=================
+//      CORE ACTION
+//=================
+CoreAction::CoreAction(sysadm_client*core, QObject *parent) : QAction(parent){
+ 
+  //Load the current core settings into the action
+  this->setWhatsThis("core::"+core->currentHost());
+  nickname = settings->value("Hosts/"+core->currentHost(),"").toString();
+  if(nickname.isEmpty()){
+    if(core->currentHost()==LOCALHOST){ nickname = tr("Local System"); }
+    else{ nickname = core->currentHost(); }
+    this->setText(nickname);
+  }else{ 
+    this->setText(nickname); 
+    nickname.append(" ("+core->currentHost()+")"); 
+  }
+  
+  //Update the icon as needed
+  if(core->isActive()){ CoreActive(); }
+  else{ CoreClosed(); }
+  //Setup the core connections
+  connect(core, SIGNAL(clientAuthorized()), this, SLOT(CoreActive()) );
+  connect(core, SIGNAL(clientDisconnected()), this, SLOT(CoreClosed()) );
+  connect(core, SIGNAL(NewEvent(sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(CoreEvent(sysadm_client::EVENT_TYPE, QJsonValue)) );
+}
+CoreAction::~CoreAction(){
+	
+}
+void CoreAction::CoreClosed(){
+  this->setIcon( QIcon(":/icons/grey/disk.svg") );
+  this->setToolTip( tr("Connection Closed") );
+  emit ShowMessage(tr("Disconnected"), QString(tr("%1: Lost Connection")).arg(nickname), QSystemTrayIcon::Warning, 1500);
+}
+void CoreAction::CoreActive(){
+  this->setIcon( QIcon(":/icons/black/disk.svg") );
+  this->setToolTip( tr("Connection Active") );
+  emit ShowMessage(tr("Connected"), QString(tr("%1: Connected")).arg(nickname), QSystemTrayIcon::Information, 1500);	
+}
+void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue data){
+	
+}
+
+//=================
+//       MENU ITEM
+//=================
+MenuItem::MenuItem(QWidget *parent, QString path) : QMenu(parent){
   line_pass = 0;
   lineA = 0;
   this->setWhatsThis(path);
   this->setTitle(path.section("/",-1));
   //Now setup connections
   connect(this, SIGNAL(triggered(QAction*)), this, SLOT(menuTriggered(QAction*)) );
-  if(core!=0){
-    //Load the current core settings
-    host = core->currentHost();
-    if(core->isActive()){ CoreActive(); }
-    else{ CoreClosed(); }
-    //Setup the core connections
-    connect(core, SIGNAL(clientAuthorized()), this, SLOT(CoreActive()) );
-    connect(core, SIGNAL(clientDisconnected()), this, SLOT(CoreClosed()) );
-    connect(core, SIGNAL(NewEvent(sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(CoreEvent(sysadm_client::EVENT_TYPE, QJsonValue)) );
-  }
 	
 }
 
@@ -41,9 +76,16 @@ void MenuItem::addSubMenu(MenuItem *menu){
   connect(menu, SIGNAL(OpenSettings()), this, SIGNAL(OpenSettings()) );
   connect(menu, SIGNAL(CloseApplication()),this, SIGNAL(CloseApplication()) );
   connect(menu, SIGNAL(OpenCore(QString)), this, SIGNAL(OpenCore(QString)) );
-  connect(menu, SIGNAL(OpenCoreLogs(QString)), this, SIGNAL(OpenCoreLogs(QString)) );
   connect(menu, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)), this, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)) );
   QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
+}
+
+void MenuItem::addCoreAction(QString host){
+  //Find the core associated with the host
+  if(!CORES.contains(host)){ return; }
+  CoreAction *act = new CoreAction(CORES[host], this);
+  this->addAction(act);
+  connect(act, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)), this, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)) );
 }
 
 // === PUBLIC SLOTS ===
@@ -65,21 +107,17 @@ void MenuItem::UpdateMenu(){
   //qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
   //Now go through and update the menu
   this->clear();
-  if(host.isEmpty()){
-    //This is a general menu (not associated with a particular core)
 	
     //Check for the localhost first
-    if(this->whatsThis().isEmpty() && CORES.contains(LOCALHOST) ){
-      addSubMenu( new MenuItem(this, tr("Local System"), CORES[LOCALHOST]) );
+    if(this->whatsThis().isEmpty()){
+      addCoreAction(LOCALHOST); //will only add if the localhost is available
     }
     
     //Now add any other direct hosts
     if(!hosts.isEmpty() && !SSL_cfg.isNull() ){
       if(!this->isEmpty()){ this->addSeparator(); }
       for(int i=0; i<hosts.length(); i++){
-        if(CORES.contains(hosts[i])){
-	  addSubMenu( new MenuItem(this, settings->value("Hosts/"+hosts[i], hosts[i]).toString(), CORES[hosts[i]]) );
-	}
+	addCoreAction(hosts[i]);
       }
     }
     //Now add any other sub-groups
@@ -123,13 +161,6 @@ void MenuItem::UpdateMenu(){
         tmp->setWhatsThis("close_app");
     }
     
-  }else{
-    //Special Menu: Has an associated core file - only list options for accessing it
-    QAction *tmp = this->addAction(QIcon(":/icons/black/desktop.svg"), tr("Manage System"));
-	tmp->setWhatsThis("open_host");
-    tmp = this->addAction(QIcon(":/icons/black/document-text.svg"), tr("View Logs"));
-	tmp->setWhatsThis("open_host_logs");
-  }
 }
 
 
@@ -139,28 +170,11 @@ void MenuItem::menuTriggered(QAction *act){
   if(act->parent()!=this){ return; }
   //Now emit the proper signal for this button
   QString action = act->whatsThis();
-  if(action=="open_conn_mgmt"){ emit OpenConnectionManager(); }
+  if(action.startsWith("core::")){ emit OpenCore(action.section("core::",0,-1,QString::SectionSkipEmpty)); }
+  else if(action=="open_conn_mgmt"){ emit OpenConnectionManager(); }
   else if(action=="open_settings"){ emit OpenSettings(); }
   else if(action=="close_app"){ emit CloseApplication(); }
-  else if(action=="open_host"){ emit OpenCore(host); }
-  else if(action=="open_host_logs"){ emit OpenCoreLogs(host); }
   else if(action=="unlock_conns"){ emit UnlockConnections(); }
-}
-
-void MenuItem::CoreClosed(){
-  this->setIcon( QIcon(":/icons/grey/disk.svg") );
-  this->setToolTip( tr("Connection Closed") );
-  emit ShowMessage(tr("Disconnected"), QString(tr("%1: Lost Connection")).arg(this->title()), QSystemTrayIcon::Warning, 3000);
-}
-
-void MenuItem::CoreActive(){
-  this->setIcon( QIcon(":/icons/black/disk.svg") );
-  this->setToolTip( tr("Connection Active") );
-  emit ShowMessage(tr("Connected"), QString(tr("%1: Now Connected")).arg(this->title()), QSystemTrayIcon::Information, 3000);
-}
-
-void MenuItem::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue data){
-	
 }
 
 void MenuItem::PasswordReady(){

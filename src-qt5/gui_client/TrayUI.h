@@ -48,7 +48,6 @@ private slots:
 	void OpenSettings();
 	void CloseApplication();
 	void OpenCore(QString);
-	void OpenCoreLogs(QString);
 	void UnlockConnections();
 
 };

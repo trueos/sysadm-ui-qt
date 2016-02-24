@@ -11,28 +11,43 @@
 
 #include "globals.h"
 
+class CoreAction : public QAction{
+	Q_OBJECT
+private:
+	QString nickname;
+
+public:
+	CoreAction(sysadm_client*core, QObject *parent=0);
+	~CoreAction();
+		
+private slots:
+	void CoreClosed();
+	void CoreActive();
+	void CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue data);
+
+signals:
+	//Show a tray message popup
+	void ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int);
+};
+
 class MenuItem : public QMenu{
 	Q_OBJECT
 public:
-	MenuItem(QWidget *parent = 0, QString path="", sysadm_client *core = 0);
+	MenuItem(QWidget *parent = 0, QString path="");
 	~MenuItem();
 
 public slots:
 	void UpdateMenu();
 
 private:
-	QString host;
 	QLineEdit *line_pass;
 	QWidgetAction *lineA;
 
 	void addSubMenu(MenuItem *menu);
+	void addCoreAction(QString host);
 
 private slots:
 	void menuTriggered(QAction*);
-
-	void CoreClosed();
-	void CoreActive();
-	void CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue data);
 
 	void PasswordReady();
 
@@ -46,7 +61,6 @@ signals:
 
 	// CORE Actions
 	void OpenCore(QString host);
-	void OpenCoreLogs(QString host);
 
 	//Show a tray message popup
 	void ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int);

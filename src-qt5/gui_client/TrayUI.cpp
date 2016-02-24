@@ -32,7 +32,6 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
   connect(menu, SIGNAL(OpenSettings()), this, SLOT(OpenSettings()) );
   connect(menu, SIGNAL(CloseApplication()),this, SLOT(CloseApplication()) );
   connect(menu, SIGNAL(OpenCore(QString)), this, SLOT(OpenCore(QString)) );
-  connect(menu, SIGNAL(OpenCoreLogs(QString)), this, SLOT(OpenCoreLogs(QString)) );
   connect(menu, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)), this, SLOT(showMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)) );
   connect(menu, SIGNAL(UnlockConnections()), this, SLOT(UnlockConnections()) );
   QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
@@ -148,10 +147,6 @@ void sysadm_tray::OpenCore(QString host){
   tmp->showNormal();
   connect(tmp, SIGNAL(ClientClosed(MainUI*)), this, SLOT(ClientClosed(MainUI*)) );
   CLIENTS << tmp;	
-}
-
-void sysadm_tray::OpenCoreLogs(QString host){
-	
 }
 
 void sysadm_tray::UnlockConnections(){
