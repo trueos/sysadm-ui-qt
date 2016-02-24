@@ -10,10 +10,10 @@ QGroupBox, QAbstractButton, QStackedWidget, QTreeWidget, QStatusBar {
 }
 
 QAbstractButton:!enabled{
-  color:grey;
+  color: grey;
 }
 QAbstractButton:enabled{
-  color:black;
+  color: black;
 }
 
 QGroupBox, QAbstractButton, QStackedWidget, QTreeWidget, QStatusBar, QLabel:!active { 
@@ -62,7 +62,7 @@ QAbstractButton {
   /*margin: 7px;*/
   }
 QAbstractButton:checked{
-  background: #gray;
+  background: gray;
   border-color: #83A4D4;
   border-width: 1px;
   border-style: outset;  
