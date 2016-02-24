@@ -43,8 +43,9 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionBack"/>
-   <addaction name="actionTitle"/>
    <addaction name="actionSave"/>
+   <addaction name="actionTitle"/>
+   <addaction name="actionPower"/>
   </widget>
   <action name="actionBack">
    <property name="icon">
@@ -67,6 +68,24 @@
   <action name="actionTitle">
    <property name="text">
     <string notr="true"/>
+   </property>
+  </action>
+  <action name="actionPower">
+   <property name="icon">
+    <iconset resource="../icons/icons.qrc">
+     <normaloff>:/icons/black/off.svg</normaloff>:/icons/black/off.svg</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="iconText">
+    <string/>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
  </widget>

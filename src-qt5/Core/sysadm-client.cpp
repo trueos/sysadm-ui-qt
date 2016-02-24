@@ -212,6 +212,7 @@ void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
 }
 
 void sysadm_client::sendSocketMessage(QJsonObject msg){
+  if(!isActive()){ return; }
   QJsonDocument doc(msg);
   if(DEBUG){ qDebug() << "Send Socket Message:" << doc.toJson(QJsonDocument::Compact); }
   SOCKET->sendTextMessage(doc.toJson(QJsonDocument::Compact));

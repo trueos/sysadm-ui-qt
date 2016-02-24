@@ -14,14 +14,20 @@ MainUI::MainUI(sysadm_client *core) : QMainWindow(), ui(new Ui::MainUI){
   CORE = core;
   ui->setupUi(this); //load the designer form
   //Need to tinker with the toolbar a bit to get actions in the proper places
-  //  -- insert a spacer so that the title/save actions are aligned right
   QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  ui->toolBar->insertWidget(ui->actionTitle, spacer);
+  ui->toolBar->insertWidget(ui->actionPower, spacer);
   ui->actionTitle->setEnabled(false);
   //Create the shortcut for closing the window
   s_quit = new QShortcut(QKeySequence(Qt::Key_Escape), this);
   connect(s_quit, SIGNAL(activated()), this, SLOT(close()) );
+  //Create the menu of power options for the server/connection
+  ui->actionPower->setMenu(new QMenu(this));
+    ui->actionPower->menu()->addAction(QIcon(":/icons/black/eject.svg"), tr("Disconnect From System"), this, SLOT(ServerDisconnect())	);
+    ui->actionPower->menu()->addSeparator();
+    ui->actionPower->menu()->addAction(QIcon(":/icons/black/sync-circled.svg"), tr("Reboot System"), this, SLOT(ServerReboot()) );
+    ui->actionPower->menu()->addAction(QIcon(":/icons/black/circled-off.svg"), tr("Shutdown System"), this, SLOT(ServerShutdown()) );
+  connect(ui->actionPower, SIGNAL(triggered()), this, SLOT(ShowPowerPopup()) );
   //Now finish up the rest of the init
   InitializeUI();
   if(!CORE->isActive()){
@@ -70,6 +76,19 @@ void MainUI::InitializeUI(){
 }
 
 // === PRIVATE SLOTS ===
+void MainUI::ShowPowerPopup(){
+  ui->actionPower->menu()->popup(this->mapToGlobal(ui->toolBar->widgetForAction(ui->actionPower)->geometry().bottomLeft()) );
+}
+void MainUI::ServerDisconnect(){
+  qDebug() << "- User Request Disconnect";
+  CORE->closeConnection();
+}
+void MainUI::ServerReboot(){
+  qDebug() << "- User Request Reboot";	
+}
+void MainUI::ServerShutdown(){
+  qDebug() << "- User Request Shutdown";
+}
 
 //Page Management
 void MainUI::loadPage(QString id){

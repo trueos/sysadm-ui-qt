@@ -28,6 +28,12 @@ private:
 	QShortcut *s_quit;
 
 private slots:
+	//Simple UI slots
+	void ShowPowerPopup();
+	void ServerDisconnect();
+	void ServerReboot();
+	void ServerShutdown();
+
 	//Page Management
 	void loadPage(QString id = "");
 	void ShowPageTitle(QString);
