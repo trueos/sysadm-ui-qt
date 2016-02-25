@@ -30,10 +30,10 @@ void taskmanager_page::startPage(){
   jsobj.insert("action", "procinfo");
   CORE->communicate("taskquery", "sysadm", "systemmanager", jsobj);
   
-  // Get PID info every 5 seconds
+  // Get PID info every 3 seconds
   proctimer = new QTimer(this);
   connect(proctimer, SIGNAL(timeout()), this, SLOT(slotRequestProcInfo()));
-  proctimer->start(5000);
+  proctimer->start(3000);
 
   qDebug() << "Start page!";
 }
@@ -42,7 +42,7 @@ void taskmanager_page::startPage(){
 // === PRIVATE SLOTS ===
 void taskmanager_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
 
-  qDebug() << "reply" << id;
+ // qDebug() << "reply" << id;
 
   // Read in the PID list
   if ( id == "taskquery")
@@ -56,9 +56,9 @@ void taskmanager_page::ParseReply(QString id, QString namesp, QString name, QJso
 
 void taskmanager_page::parsePIDS(QJsonObject jsobj)
 {
-  ui->taskWidget->clear();
+  //ui->taskWidget->clear();
 
-  qDebug() << "KEYS" << jsobj.keys();
+  //qDebug() << "KEYS" << jsobj.keys();
   QStringList keys = jsobj.keys();
   if (keys.contains("message") ) {
     qDebug() << "MESSAGE" << jsobj.value("message").toString();
@@ -72,20 +72,47 @@ void taskmanager_page::parsePIDS(QJsonObject jsobj)
   {
     QString PID = pids.at(i);
     QJsonObject pidinfo = procobj.value(PID).toObject();
-    // Create the new taskWidget item
-    new QTreeWidgetItem(ui->taskWidget, QStringList() << PID
-        << pidinfo.value("username").toString()
-        << pidinfo.value("thr").toString()
-        << pidinfo.value("pri").toString()
-        << pidinfo.value("nice").toString()
-        << pidinfo.value("size").toString()
-        << pidinfo.value("res").toString()
-        << pidinfo.value("state").toString()
-        << pidinfo.value("cpu").toString()
-        << pidinfo.value("time").toString()
-        << pidinfo.value("wcpu").toString()
-        << pidinfo.value("command").toString()
-        );
+
+    // Check if we have this PID already
+    QList<QTreeWidgetItem *> foundItems = ui->taskWidget->findItems(PID, Qt::MatchExactly, 0);
+    if ( ! foundItems.isEmpty() )
+    {
+      foundItems.at(0)->setText(1, pidinfo.value("username").toString());
+      foundItems.at(0)->setText(2, pidinfo.value("thr").toString());
+      foundItems.at(0)->setText(3, pidinfo.value("pri").toString());
+      foundItems.at(0)->setText(4, pidinfo.value("nice").toString());
+      foundItems.at(0)->setText(5, pidinfo.value("size").toString());
+      foundItems.at(0)->setText(6, pidinfo.value("res").toString());
+      foundItems.at(0)->setText(7, pidinfo.value("state").toString());
+      foundItems.at(0)->setText(8, pidinfo.value("cpu").toString());
+      foundItems.at(0)->setText(9, pidinfo.value("time").toString());
+      foundItems.at(0)->setText(10, pidinfo.value("wcpu").toString());
+      foundItems.at(0)->setText(11, pidinfo.value("command").toString());
+    } else {
+      // Create the new taskWidget item
+      new QTreeWidgetItem(ui->taskWidget, QStringList() << PID
+          << pidinfo.value("username").toString()
+          << pidinfo.value("thr").toString()
+          << pidinfo.value("pri").toString()
+          << pidinfo.value("nice").toString()
+          << pidinfo.value("size").toString()
+          << pidinfo.value("res").toString()
+          << pidinfo.value("state").toString()
+          << pidinfo.value("cpu").toString()
+          << pidinfo.value("time").toString()
+          << pidinfo.value("wcpu").toString()
+          << pidinfo.value("command").toString()
+          );
+    }
+  }
+
+  // Now loop through the UI and look for pids to remove
+  for ( int i=0; i<ui->taskWidget->topLevelItemCount(); i++ ) {
+    // Check if this item exists in the PID list
+    if ( ! pids.contains(ui->taskWidget->topLevelItem(i)->text(0)) ) {
+      // No? Remove it
+      ui->taskWidget->takeTopLevelItem(i);
+    }
   }
 
   // Resize the widget to the new contents
