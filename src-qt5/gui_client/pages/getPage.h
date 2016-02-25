@@ -27,6 +27,8 @@ static QList<PAGEINFO> KnownPages(){
   //Reminder: <ID>, <name>, <title>, <icon>, <comment>, <category>, <server subsytem list>
   list << PageInfo("page_beadm", QObject::tr("Boot Environment Manager"), QObject::tr("Boot Environment Manager"),":/icons/black/disk.svg",QObject::tr("Manage operating system snapshots"),"sysmgmt",QStringList() << "sysadm/beadm");
   list << PageInfo("page_taskmanager", QObject::tr("Task Manager"), QObject::tr("Task Manager"), ":/icons/black/flag.svg", QObject::tr("Monitor system tasks"), "sysmgmt", QStringList() << "sysadm/systemmanager");
+  list << PageInfo("page_ssl_auth", QObject::tr("Manage SSL Keys"), QObject::tr("SSL Key Manager"), ":/icons/black/lock.svg",QObject::tr("List and Revoke SSL key registrations"), "servermgmt", QStringList() << "sysadm/settings");
+	
   return list;
 }
 
@@ -34,12 +36,14 @@ static QList<PAGEINFO> KnownPages(){
 #include "control_panel.h"
 #include "page_beadm.h"
 #include "page_taskmanager.h"
+#include "page_ssl_auth.h"
 
 static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   //Find the page that matches this "id"
   if(id=="page_beadm"){ return new beadm_page(parent, core); }
   else if(id=="page_taskmanager"){ return new taskmanager_page(parent, core); }
-	  
+  else if(id=="page_ssl_auth"){ return new ssl_auth_page(parent, core); }
+  
   //Return the main control_panel page as the fallback/default
   return new control_panel(parent, core);
 }

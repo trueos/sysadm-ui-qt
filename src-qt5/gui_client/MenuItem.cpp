@@ -145,11 +145,14 @@ void MenuItem::UpdateMenu(){
 	  line_pass->setEchoMode(QLineEdit::Password);
 	  line_pass->setPlaceholderText( tr("Unlock Connections") );
 	  connect(line_pass, SIGNAL(editingFinished()), this, SLOT(PasswordReady()) );
+	  connect(line_pass, SIGNAL(textEdited(const QString&)), this, SLOT(PasswordTyping()) );
 	}
 	line_pass->setText("");
 	lineA->setDefaultWidget(line_pass);
 	this->addAction(lineA);
-	line_pass->setFocus();
+	this->setDefaultAction(lineA);  
+	this->setActiveAction(lineA);
+	line_pass->setFocus(); //give this widget keyboard focus by default
       }else{
         QAction *tmp = this->addAction(QIcon(":/icons/black/globe.svg"),tr("Manage Connections"));
         tmp->setWhatsThis("open_conn_mgmt");
@@ -186,4 +189,8 @@ void MenuItem::PasswordReady(){
     this->hide();
     emit UnlockConnections();
   }
+}
+
+void MenuItem::PasswordTyping(){
+  this->setActiveAction(lineA);
 }

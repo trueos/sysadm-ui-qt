@@ -68,9 +68,11 @@ void MainUI::InitializeUI(){
   }
   
   //Now setup the window title/icon
-  QString host = settings->value("Host/"+CORE->currentHost(),"").toString();
-  if(host.isEmpty()){ host = CORE->currentHost(); }
-  else{ host.append(" ("+CORE->currentHost()+")" ); }
+  QString host = settings->value("Hosts/"+CORE->currentHost(),"").toString();
+  if(host.isEmpty()){ 
+    if(CORE->isLocalHost()){ host = tr("Local System"); }
+    else{ host = CORE->currentHost(); }
+  }else{ host.append(" ("+CORE->currentHost()+")" ); }
   this->setWindowTitle("SysAdm: "+host );
   this->setWindowIcon( QIcon(":/icons/black/desktop.svg") );
 }

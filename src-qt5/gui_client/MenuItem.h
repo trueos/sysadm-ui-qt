@@ -50,6 +50,7 @@ private slots:
 	void menuTriggered(QAction*);
 
 	void PasswordReady();
+	void PasswordTyping();
 
 signals:
 	//Recursive Signals (will travel up the chain until it gets to the main tray)
