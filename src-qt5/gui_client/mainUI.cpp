@@ -82,14 +82,20 @@ void MainUI::ShowPowerPopup(){
   ui->actionPower->menu()->popup(this->mapToGlobal(ui->toolBar->widgetForAction(ui->actionPower)->geometry().bottomLeft()) );
 }
 void MainUI::ServerDisconnect(){
-  qDebug() << "- User Request Disconnect";
+  qDebug() << "- User Request Disconnect:" << CORE->currentHost();
   CORE->closeConnection();
 }
 void MainUI::ServerReboot(){
-  qDebug() << "- User Request Reboot";	
+  qDebug() << "- User Request Reboot:" << CORE->currentHost();
+  QJsonObject obj;
+    obj.insert("action","reboot");
+  CORE->communicate("client_power_action","sysadm","systemmanager",obj);
 }
 void MainUI::ServerShutdown(){
-  qDebug() << "- User Request Shutdown";
+  qDebug() << "- User Request Shutdown:" << CORE->currentHost();
+  QJsonObject obj;
+    obj.insert("action","halt");
+  CORE->communicate("client_power_action","sysadm","systemmanager",obj);
 }
 
 //Page Management
