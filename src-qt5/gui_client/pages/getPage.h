@@ -22,7 +22,7 @@ static PAGEINFO PageInfo(QString ID, QString i_name, QString i_title, QString i_
 //List all the known pages
 // **** Add new page entries here ****
 static QList<PAGEINFO> KnownPages(){
-  // Valid Groups: ["appmgmt", "sysmgmt", "connect", "utils"]
+  // Valid Groups: ["appmgmt", "sysmgmt", "connect", "utils", "servermgmt"]
   QList<PAGEINFO> list;
   //Reminder: <ID>, <name>, <title>, <icon>, <comment>, <category>, <server subsytem list>
   list << PageInfo("page_beadm", QObject::tr("Boot Environment Manager"), QObject::tr("Boot Environment Manager"),":/icons/black/disk.svg",QObject::tr("Manage operating system snapshots"),"sysmgmt",QStringList() << "sysadm/beadm");

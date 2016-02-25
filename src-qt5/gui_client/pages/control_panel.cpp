@@ -76,9 +76,12 @@ void control_panel::setupCategoryButton(QString cat, QTreeWidgetItem *item){
   }else if(cat=="connect"){
     item->setText(0, QObject::tr("Connection")); 
     item->setIcon(0, QIcon(":/icons/black/globe.svg")); 
+  }else if(cat=="servermgmt"){
+    item->setText(0, QObject::tr("SysAdm Server Settings")); 
+    item->setIcon(0, QIcon(":/icons/black/preferences2.svg")); 	
   }else{ //utils
     item->setText(0, QObject::tr("Utilities")); 
-    item->setIcon(0, QIcon(":/icons/black/preferences.svg")); 
+    item->setIcon(0, QIcon(":/icons/black/grid.svg")); 
   }
 }
 

@@ -22,12 +22,16 @@ MainUI::MainUI(sysadm_client *core) : QMainWindow(), ui(new Ui::MainUI){
   s_quit = new QShortcut(QKeySequence(Qt::Key_Escape), this);
   connect(s_quit, SIGNAL(activated()), this, SLOT(close()) );
   //Create the menu of power options for the server/connection
-  ui->actionPower->setMenu(new QMenu(this));
+  if(!CORE->isLocalHost()){
+    ui->actionPower->setMenu(new QMenu(this));
     ui->actionPower->menu()->addAction(QIcon(":/icons/black/eject.svg"), tr("Disconnect From System"), this, SLOT(ServerDisconnect())	);
     ui->actionPower->menu()->addSeparator();
     ui->actionPower->menu()->addAction(QIcon(":/icons/black/sync-circled.svg"), tr("Reboot System"), this, SLOT(ServerReboot()) );
     ui->actionPower->menu()->addAction(QIcon(":/icons/black/circled-off.svg"), tr("Shutdown System"), this, SLOT(ServerShutdown()) );
-  connect(ui->actionPower, SIGNAL(triggered()), this, SLOT(ShowPowerPopup()) );
+    connect(ui->actionPower, SIGNAL(triggered()), this, SLOT(ShowPowerPopup()) );
+  }else{
+    ui->toolBar->removeAction(ui->actionPower);
+  }
   //Now finish up the rest of the init
   InitializeUI();
   if(!CORE->isActive()){
