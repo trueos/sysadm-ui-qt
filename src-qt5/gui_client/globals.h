@@ -45,6 +45,8 @@
 #include <QActionGroup>
 #include <QAction>
 #include <QInputDialog>
+#include <QFileDialog>
+#include <QMessageBox>
 #include <QLineEdit>
 #include <QWidgetAction>
 #include <QResizeEvent>
@@ -91,7 +93,6 @@ inline bool LoadSSLFile(QString pass){
   }
   return imported;
 }
-
 
 
 #define LOCALHOST QString("127.0.0.1")
