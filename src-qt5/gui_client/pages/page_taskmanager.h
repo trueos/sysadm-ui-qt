@@ -43,5 +43,10 @@ private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
 	void slotRequestProcInfo();
 	void slotRequestMemInfo();
+	void slotRequestCPUInfo();
+	void slotRequestCPUTempInfo();
+
+	void slot_kill_proc();
+
 };
 #endif

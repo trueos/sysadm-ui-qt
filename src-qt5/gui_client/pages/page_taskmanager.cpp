@@ -11,6 +11,7 @@
 
 taskmanager_page::taskmanager_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::taskmanager_ui){
   ui->setupUi(this);	
+  connect(ui->push_kill, SIGNAL(clicked()), this, SLOT(slot_kill_proc()) );
 }
 
 taskmanager_page::~taskmanager_page(){
@@ -30,11 +31,13 @@ void taskmanager_page::startPage(){
   //Now run any CORE communications
   slotRequestProcInfo();
   slotRequestMemInfo();
-  
+  slotRequestCPUInfo();
+	
   // Get info every 3 seconds
   proctimer = new QTimer(this);
   connect(proctimer, SIGNAL(timeout()), this, SLOT(slotRequestProcInfo()));
   connect(proctimer, SIGNAL(timeout()), this, SLOT(slotRequestMemInfo()));
+  connect(proctimer, SIGNAL(timeout()), this, SLOT(slotRequestCPUInfo()));
   proctimer->start(3000);
 
   qDebug() << "Start page!";
@@ -43,11 +46,11 @@ void taskmanager_page::startPage(){
 
 // === PRIVATE SLOTS ===
 void taskmanager_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
-
+  if( !id.startsWith("page_task_man_")){ return; }
  // qDebug() << "reply" << id;
 
   // Read in the PID list
-  if ( id == "taskquery")
+  if ( id == "page_task_man_taskquery")
   {
     if ( ! args.isObject() )
       return;
@@ -68,6 +71,18 @@ void taskmanager_page::ParseReply(QString id, QString namesp, QString name, QJso
 	ShowMemInfo(active, cache, freeM, inactive, wired);
       }
     }
+    
+  }else if(id=="page_task_man_cpu_check" && name!="error" && namesp!="error" ){
+    //CPU usage
+    qDebug() << "Got CPU Usage:" << args;
+	  
+    slotRequestCPUTempInfo(); //always make sure the general CPU info comes back first
+  }else if(id=="page_task_man_cputemp_check" && name!="error" && namesp!="error" ){
+    //CPU Temperature
+    qDebug() << "Got CPU Temps:" << args;
+  }else{
+    //Reply to a process action - go ahead and update the list now
+    slotRequestProcInfo();
   }
 }
 
@@ -180,15 +195,39 @@ void taskmanager_page::ShowMemInfo(int active, int cache, int freeM, int inactiv
   ui->label_mem_stats->setStyleSheet(style);
 }
 
-void taskmanager_page::slotRequestProcInfo()
-{
+void taskmanager_page::slotRequestProcInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "procinfo");
-  CORE->communicate("taskquery", "sysadm", "systemmanager", jsobj);
+  CORE->communicate("page_task_man_taskquery", "sysadm", "systemmanager", jsobj);
 }
 
 void taskmanager_page::slotRequestMemInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "memorystats");
   CORE->communicate("page_task_man_mem_check", "sysadm", "systemmanager", jsobj);
+}
+
+void taskmanager_page::slotRequestCPUInfo(){
+  QJsonObject jsobj;
+  jsobj.insert("action", "cpupercentage");
+  CORE->communicate("page_task_man_cpu_check", "sysadm", "systemmanager", jsobj);	
+}
+
+void taskmanager_page::slotRequestCPUTempInfo(){
+  QJsonObject jsobj;
+  jsobj.insert("action", "cputemps");
+  CORE->communicate("page_task_man_cputemp_check", "sysadm", "systemmanager", jsobj);	
+}
+
+void taskmanager_page::slot_kill_proc(){
+  //get the currently-selected PID
+  QTreeWidgetItem *tmp = ui->taskWidget->currentItem();
+  if(tmp==0){ return; }
+  QString pid = tmp->text(0); //column 0 is the PID
+  //Now send the request
+  QJsonObject jsobj;
+  jsobj.insert("action", "killproc");
+  jsobj.insert("pid",pid);
+  jsobj.insert("signal","KILL");
+  CORE->communicate("page_task_man_kill_proc", "sysadm", "systemmanager", jsobj);	  
 }
