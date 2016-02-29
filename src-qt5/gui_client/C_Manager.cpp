@@ -48,7 +48,7 @@ C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
   }else{
     ui->actionView_Connections->trigger();
   }
-  this->resize(this->sizeHint());
+  //this->resize(this->sizeHint());
 }
 
 C_Manager::~C_Manager(){
@@ -170,9 +170,11 @@ void C_Manager::on_tree_conn_itemSelectionChanged(){
     ui->push_conn_rem->setEnabled(false);
     ui->push_group_rem->setEnabled(false);
     ui->push_rename->setEnabled(false);
+    ui->push_conn_reset->setEnabled(false);
   }else{
     ui->push_rename->setEnabled(true);
     ui->push_conn_rem->setEnabled(!sel->whatsThis(0).isEmpty());
+    ui->push_conn_reset->setEnabled(!sel->whatsThis(0).isEmpty());
     ui->push_group_rem->setEnabled(sel->whatsThis(0).isEmpty() && sel->childCount()==0);
   }
 }
@@ -215,6 +217,30 @@ void C_Manager::on_push_conn_add_clicked(){
   //Now update the buttons
   on_tree_conn_itemSelectionChanged();
   SaveConnectionInfo();
+}
+
+void C_Manager::on_push_conn_reset_clicked(){
+  //Get the currently-selected host
+  QTreeWidgetItem *sel = 0;
+  if(!ui->tree_conn->selectedItems().isEmpty()){ sel = ui->tree_conn->selectedItems().first(); }
+  if(sel==0 || sel->whatsThis(0).isEmpty()){ return; }
+  QString host = sel->whatsThis(0);
+  QString nick = settings->value("Hosts/"+host).toString();
+  QString user = settings->value("Hosts/"+host+"/username").toString();
+  NewConnectionWizard dlg(this, nick);
+    dlg.LoadPrevious(host, user);
+  dlg.exec();
+  if(!dlg.success){ return; } //cancelled
+  //Replace the old core
+  if(CORES.contains(dlg.host)){
+    CORES[dlg.host]->closeConnection();
+    CORES.remove(dlg.host);
+  }
+  CORES.insert(dlg.host, dlg.core);
+  dlg.core->registerCustomCert();
+  //update the buttons/tray
+  on_tree_conn_itemSelectionChanged();
+  SaveConnectionInfo();  
 }
 
 void C_Manager::on_push_conn_rem_clicked(){

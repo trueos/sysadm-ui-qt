@@ -27,7 +27,13 @@ NewConnectionWizard::NewConnectionWizard(QWidget *parent, QString nickname) : QD
 NewConnectionWizard::~NewConnectionWizard(){
 	
 }
-	
+
+void NewConnectionWizard::LoadPrevious(QString host, QString user){
+  ui->line_host->setText(host);
+  ui->line_host->setEnabled(false); //when loading a previous connection - don't allow changing the host
+  ui->line_user->setText(user);
+}
+
 // === PRIVATE SLOTS ===
 void NewConnectionWizard::checkInputs(){
   ui->push_start_test->setEnabled( !ui->line_host->text().isEmpty() && !ui->line_user->text().isEmpty() && !ui->line_pass->text().isEmpty() );

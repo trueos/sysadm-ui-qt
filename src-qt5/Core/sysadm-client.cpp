@@ -40,7 +40,11 @@ sysadm_client::sysadm_client(){
     //Old connect syntax for the "error" signal (special note about issues in the docs)
     connect(SOCKET, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)) );
     connect(SOCKET, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(socketSslErrors(const QList<QSslError>&)) );
-  keepActive=false; //not setup yet
+  keepActive=SSLsuccess=usedSSL=false; //not setup yet
+  //Timer for events while possibly attempting a connection for 30s->1minute
+  connectTimer = new QTimer(this);
+    connectTimer->setInterval(1000); //1 second intervals
+    connect(connectTimer, SIGNAL(timeout()), this, SIGNAL(clientReconnecting()) );
 }
 
 sysadm_client::~sysadm_client(){
@@ -90,6 +94,15 @@ bool sysadm_client::isLocalHost(){
   return (chost==LOCALHOST || chost.startsWith(LOCALHOST+":"));
 }
 
+bool sysadm_client::needsBaseAuth(){
+  return !SSLsuccess;
+}
+
+bool sysadm_client::isConnecting(){
+  //returns true if it is currently trying to establish a connection
+  return connectTimer->isActive();
+}
+
 //Check if the sysadm server is running on the local system
 bool sysadm_client::localhostAvailable(){
   #ifdef __FreeBSD__
@@ -133,6 +146,7 @@ void sysadm_client::registerCustomCert(){
   }
   if(pubkey.isEmpty()){ return; } //no cert found
   //Now assemble the request JSON
+  SSLsuccess = true; //set the internal flag to use SSL on next attempt
   QJsonObject obj;
     obj.insert("action","register_ssl_cert");
     obj.insert("pub_key", pubkey);
@@ -163,10 +177,12 @@ void sysadm_client::performAuth(QString user, QString pass){
   QJsonObject obj;
   obj.insert("namespace","rpc");
   obj.insert("id","sysadm-client-auth-auto");
+  usedSSL = false;
   bool noauth = false;
   if(user.isEmpty()){
     if(cauthkey.isEmpty()){
       //SSL Authentication (Stage 1)
+      usedSSL = true;
       obj.insert("name","auth_ssl");
       obj.insert("args","");
     }else{
@@ -292,6 +308,7 @@ void sysadm_client::setupSocket(){
   if(SOCKET->isValid()){ return; }
   //Setup the SSL config as needed
   SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
+  SSLsuccess = false;
   //uses chost for setup
   // - assemble the host URL
   if(chost.contains("://")){ chost = chost.section("://",1,1); } //Chop off the custom http/ftp/other header (always need "wss://")
@@ -303,10 +320,12 @@ void sysadm_client::setupSocket(){
   qDebug() << " Open WebSocket:  URL:" << url;
   QTimer::singleShot(0,SOCKET, SLOT(ignoreSslErrors()) );
   SOCKET->open(QUrl(url));
+  connectTimer->start();
 }
 
 //Socket signal/slot connections
 void sysadm_client::socketConnected(){ //Signal: connected()
+  if(connectTimer->isActive()){ connectTimer->stop(); }
   keepActive = true; //got a valid connection - try to keep this open automatically unless the user closes it
   emit clientConnected();
   performAuth(cuser, cpass);
@@ -317,6 +336,7 @@ void sysadm_client::socketConnected(){ //Signal: connected()
 
 void sysadm_client::socketClosed(){ //Signal: disconnected()
   qDebug() << " - Connection Closed:" << chost;
+  if(connectTimer->isActive()){ connectTimer->stop(); }
   if(keepActive){ 
     //Socket closed due to timeout/server
     // Go ahead and re-open it in one minute if possible with the last-used settings/auth
@@ -367,10 +387,12 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
     }else{
       QJsonValue args = obj.value("args");
       if(args.isArray()){ 
-	      cauthkey = args.toArray().first().toString();
-	      emit clientAuthorized();
-	      //Now automatically re-subscribe to events as needed
-	      for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }
+	//Successful authorization
+	if(cuser.isEmpty()){ SSLsuccess = true; }
+	cauthkey = args.toArray().first().toString();
+	emit clientAuthorized();
+	//Now automatically re-subscribe to events as needed
+	for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }
       }else if(args.isObject()){
         //SSL Auth Stage 2
         QString randomkey = args.toObject().value("test_string").toString();

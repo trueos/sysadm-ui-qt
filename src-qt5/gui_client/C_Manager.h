@@ -41,6 +41,7 @@ private slots:
 	void on_tree_conn_itemSelectionChanged();
 	void tree_items_changed();
 	void on_push_conn_add_clicked();
+	void on_push_conn_reset_clicked();
 	void on_push_conn_rem_clicked();
 	void on_push_conn_export_clicked();
 	void on_push_group_add_clicked();

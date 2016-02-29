@@ -35,7 +35,16 @@ MainUI::MainUI(sysadm_client *core) : QMainWindow(), ui(new Ui::MainUI){
   //Now finish up the rest of the init
   InitializeUI();
   if(!CORE->isActive()){
-    CORE->openConnection();
+    if(CORE->needsBaseAuth() && !CORE->isLocalHost()){
+      QMessageBox *dlg = new QMessageBox(QMessageBox::Warning, tr("Authentication Settings Invalid"), tr("Please reset your authentication procedures for this server within the connection manager."),QMessageBox::Ok, this);
+      dlg->setModal(true);
+      connect(dlg, SIGNAL(finished(int)), this, SLOT(close()) );
+      dlg->show();
+      //this->close();
+      //return;
+    }else{
+      CORE->openConnection();
+    }
   }
   loadPage();
 }
