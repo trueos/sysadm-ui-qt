@@ -93,6 +93,10 @@
        <property name="text">
         <string>cloneBE</string>
        </property>
+       <property name="icon">
+        <iconset resource="../../icons/icons.qrc">
+         <normaloff>:/icons/black/pages-view4.svg</normaloff>:/icons/black/pages-view4.svg</iconset>
+       </property>
       </widget>
      </item>
      <item>

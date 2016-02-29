@@ -85,10 +85,10 @@ void beadm_page::updateButtons(){
   QTreeWidgetItem *curr = ui->tree_BE->currentItem();
   ui->deleteBE->setEnabled(curr!=0 && (curr->text(2)=="-") );
   ui->cloneBE->setEnabled(curr!=0);
-  ui->renameBE->setEnabled(curr!=0);
-  ui->mountBE->setEnabled(curr!=0);
+  ui->renameBE->setEnabled(curr!=0 && (curr->text(2)=="-"));
+  ui->mountBE->setEnabled(curr!=0 && (curr->text(2)=="-") && (curr->text(4)=="-") );
   ui->unmountBE->setEnabled(curr!=0 && (curr->text(2)=="-") && (curr->text(4)!="-"));
-  ui->activateBE->setEnabled(curr!=0);
+  ui->activateBE->setEnabled(curr!=0 && !curr->text(2).contains("R") );
 }
 
 //GUI Buttons
@@ -132,35 +132,48 @@ void beadm_page::delete_be(){
 }
 
 void beadm_page::rename_be(){
+  if(ui->tree_BE->currentItem()==0){ return; } //nothing selected
+  QString selbe = ui->tree_BE->currentItem()->text(0); //currently selected BE
+  //Get the new name from the user
+  QString newname = QInputDialog::getText(this, tr("Rename Boot Environment"), tr("Name:"), QLineEdit::Normal, selbe);
+  if(newname.isEmpty() || newname==selbe){ return; }
+  //Also verify that the name is not already used
+  if( !ui->tree_BE->findItems(newname, Qt::MatchExactly, 0).isEmpty() ){ rename_be(); return;}
   QJsonObject obj;
     obj.insert("action","renamebe");
-    obj.insert("source",""); //TODO
-    obj.insert("target",""); //TODO
+    obj.insert("source",selbe);
+    obj.insert("target",newname);
   CORE->communicate("beadm_auto_page_rename", "sysadm", "beadm", obj);
   startingRequest(tr("Renaming Boot Environment...") );	
 }
 
 void beadm_page::mount_be(){
+  if(ui->tree_BE->currentItem()==0){ return; } //nothing selected
+  QString selbe = ui->tree_BE->currentItem()->text(0); //currently selected BE
   QJsonObject obj;
     obj.insert("action","mountbe");
-    obj.insert("be",""); //TODO
-    //obj.insert("mountpoint",""); //TODO
+    obj.insert("be",selbe);
+    //obj.insert("mountpoint",""); 
   CORE->communicate("beadm_auto_page_mount", "sysadm", "beadm", obj);
   startingRequest(tr("Mounting Boot Environment...") );
 }
 
 void beadm_page::unmount_be(){
+  if(ui->tree_BE->currentItem()==0){ return; } //nothing selected
+  QString selbe = ui->tree_BE->currentItem()->text(0); //currently selected BE
   QJsonObject obj;
     obj.insert("action","unmountbe");
-    obj.insert("be",""); //TODO
+    obj.insert("be",selbe);
   CORE->communicate("beadm_auto_page_unmount", "sysadm", "beadm", obj);
   startingRequest(tr("Unmounting Boot Environment...") );
 }
 
 void beadm_page::activate_be(){
+  if(ui->tree_BE->currentItem()==0){ return; } //nothing selected
+  QString selbe = ui->tree_BE->currentItem()->text(0); //currently selected BE
   QJsonObject obj;
     obj.insert("action","activate");
-    obj.insert("target",""); //TODO
+    obj.insert("target",selbe);
   CORE->communicate("beadm_auto_page_activate", "sysadm", "beadm", obj);
   startingRequest(tr("Activating Boot Environment...") );	
 }
