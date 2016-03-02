@@ -34,6 +34,7 @@ private slots:
 
 signals:
 	void updateWindows();
+	void updateStyleSheet(QString);
 
 };
 

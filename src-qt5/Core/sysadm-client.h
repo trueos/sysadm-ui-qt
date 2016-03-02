@@ -16,6 +16,7 @@
 #include <QSslError>
 #include <QHash>
 #include <QDebug>
+#include <QTimer>
 
 //NOTE: The default port will be used unless the host IP has ":<port>" appended on the end
 //NOTE-2: The host IP can be either a number (127.0.0.1) or a URL address-only  (mysystem.net)
@@ -41,6 +42,8 @@ public:
 	QString currentHost();
 	bool isActive();
 	bool isLocalHost(); //special case, checks currentHost for the localhost definitions
+	bool needsBaseAuth(); //returns if a base user/password auth is required(always true until an SSL auth is attempted)
+	bool isConnecting(); //returns true if it is currently trying to establish a connection
 	
 	//Check if the sysadm server is running on the local system
 	static bool localhostAvailable();
@@ -64,8 +67,9 @@ private:
 	QList<EVENT_TYPE> events;
 	QHash<QString, QJsonObject> SENT, BACK; //small cache of sent/received messages
 	QStringList PENDING; //ID's for sent but not received messages
-	bool keepActive;
+	bool keepActive, SSLsuccess, usedSSL;
 	int num_fail; //number of server connection failures
+	QTimer *connectTimer;
 
 	//Functions to do the initial socket setup
 	void performAuth(QString user="", QString pass=""); //uses cauthkey if empty inputs
@@ -102,6 +106,7 @@ private slots:
 signals:
 	void clientConnected(); //Stage 1 - host address is valid
 	void clientAuthorized(); //Stage 2 - user is authorized to continue
+	void clientReconnecting(); //emitted periodically while attempting to establish a connection to the server
 	void clientDisconnected(); //Only emitted if the client could not automatically reconnect to the server
 	void clientUnauthorized(); //Only emitted if the user needs to re-authenticate with the server
 	void newReply(QString ID, QString namesp, QString name, QJsonValue args);

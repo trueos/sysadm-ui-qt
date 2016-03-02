@@ -35,10 +35,18 @@ private:
 	Ui::taskmanager_ui *ui;
 
 	void parsePIDS(QJsonObject);
+	void ShowMemInfo(int active, int cache, int freeM, int inactive, int wired);
+
 	QTimer *proctimer;
 
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
 	void slotRequestProcInfo();
+	void slotRequestMemInfo();
+	void slotRequestCPUInfo();
+	void slotRequestCPUTempInfo();
+
+	void slot_kill_proc();
+
 };
 #endif

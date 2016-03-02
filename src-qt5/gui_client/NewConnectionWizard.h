@@ -19,6 +19,9 @@ public:
 	NewConnectionWizard(QWidget *parent, QString nickname);
 	~NewConnectionWizard();
 
+	//Optional - changing/testing a pre-existing connection
+	void LoadPrevious(QString host, QString user);
+
 	sysadm_client *core;
 	bool success;
 	QString host;

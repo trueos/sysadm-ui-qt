@@ -144,6 +144,7 @@ void sysadm_tray::OpenCore(QString host){
       return;
     }
   }
+  if(getCore(host)->isConnecting()){ return; } //wait - still trying to connect
   //Open a new window for this host
   MainUI *tmp = new MainUI(getCore(host));
   tmp->showNormal();

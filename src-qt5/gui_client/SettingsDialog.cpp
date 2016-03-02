@@ -12,6 +12,7 @@ QFont sys_font;
 SettingsDialog::SettingsDialog() : QMainWindow(), ui(new Ui::SettingsDialog){
   ui->setupUi(this);
   loadCurrentSettings();
+  connect(this, SIGNAL(updateStyleSheet(QString)), qApp, SLOT(setStyleSheet(const QString&)) );
 }
 
 SettingsDialog::~SettingsDialog(){
@@ -83,7 +84,8 @@ void SettingsDialog::on_combo_styles_activated(int index){
   if(!style.isEmpty()){
     style = SettingsDialog::readfile(style);
   }
-  qApp->setStyleSheet(style);
+  emit updateStyleSheet(style);
+  //qApp->setStyleSheet(style);
 }
 
 void SettingsDialog::fontchanged(){

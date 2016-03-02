@@ -33,6 +33,7 @@ public:
 	
 private:
 	Ui::page_beadm_ui *ui;
+	void startingRequest(QString notice);
 
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
@@ -42,6 +43,7 @@ private slots:
 
 	//GUI Buttons
 	void create_be();
+	void clone_be();
 	void delete_be();
 	void rename_be();
 	void mount_be();

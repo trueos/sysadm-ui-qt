@@ -22,16 +22,29 @@ MainUI::MainUI(sysadm_client *core) : QMainWindow(), ui(new Ui::MainUI){
   s_quit = new QShortcut(QKeySequence(Qt::Key_Escape), this);
   connect(s_quit, SIGNAL(activated()), this, SLOT(close()) );
   //Create the menu of power options for the server/connection
-  ui->actionPower->setMenu(new QMenu(this));
+  if(!CORE->isLocalHost()){
+    ui->actionPower->setMenu(new QMenu(this));
     ui->actionPower->menu()->addAction(QIcon(":/icons/black/eject.svg"), tr("Disconnect From System"), this, SLOT(ServerDisconnect())	);
     ui->actionPower->menu()->addSeparator();
     ui->actionPower->menu()->addAction(QIcon(":/icons/black/sync-circled.svg"), tr("Reboot System"), this, SLOT(ServerReboot()) );
     ui->actionPower->menu()->addAction(QIcon(":/icons/black/circled-off.svg"), tr("Shutdown System"), this, SLOT(ServerShutdown()) );
-  connect(ui->actionPower, SIGNAL(triggered()), this, SLOT(ShowPowerPopup()) );
+    connect(ui->actionPower, SIGNAL(triggered()), this, SLOT(ShowPowerPopup()) );
+  }else{
+    ui->toolBar->removeAction(ui->actionPower);
+  }
   //Now finish up the rest of the init
   InitializeUI();
   if(!CORE->isActive()){
-    CORE->openConnection();
+    if(CORE->needsBaseAuth() && !CORE->isLocalHost()){
+      QMessageBox *dlg = new QMessageBox(QMessageBox::Warning, tr("Authentication Settings Invalid"), tr("Please reset your authentication procedures for this server within the connection manager."),QMessageBox::Ok, this);
+      dlg->setModal(true);
+      connect(dlg, SIGNAL(finished(int)), this, SLOT(close()) );
+      dlg->show();
+      //this->close();
+      //return;
+    }else{
+      CORE->openConnection();
+    }
   }
   loadPage();
 }
@@ -68,9 +81,11 @@ void MainUI::InitializeUI(){
   }
   
   //Now setup the window title/icon
-  QString host = settings->value("Host/"+CORE->currentHost(),"").toString();
-  if(host.isEmpty()){ host = CORE->currentHost(); }
-  else{ host.append(" ("+CORE->currentHost()+")" ); }
+  QString host = settings->value("Hosts/"+CORE->currentHost(),"").toString();
+  if(host.isEmpty()){ 
+    if(CORE->isLocalHost()){ host = tr("Local System"); }
+    else{ host = CORE->currentHost(); }
+  }else{ host.append(" ("+CORE->currentHost()+")" ); }
   this->setWindowTitle("SysAdm: "+host );
   this->setWindowIcon( QIcon(":/icons/black/desktop.svg") );
 }
@@ -80,14 +95,20 @@ void MainUI::ShowPowerPopup(){
   ui->actionPower->menu()->popup(this->mapToGlobal(ui->toolBar->widgetForAction(ui->actionPower)->geometry().bottomLeft()) );
 }
 void MainUI::ServerDisconnect(){
-  qDebug() << "- User Request Disconnect";
+  qDebug() << "- User Request Disconnect:" << CORE->currentHost();
   CORE->closeConnection();
 }
 void MainUI::ServerReboot(){
-  qDebug() << "- User Request Reboot";	
+  qDebug() << "- User Request Reboot:" << CORE->currentHost();
+  QJsonObject obj;
+    obj.insert("action","reboot");
+  CORE->communicate("client_power_action","sysadm","systemmanager",obj);
 }
 void MainUI::ServerShutdown(){
-  qDebug() << "- User Request Shutdown";
+  qDebug() << "- User Request Shutdown:" << CORE->currentHost();
+  QJsonObject obj;
+    obj.insert("action","halt");
+  CORE->communicate("client_power_action","sysadm","systemmanager",obj);
 }
 
 //Page Management

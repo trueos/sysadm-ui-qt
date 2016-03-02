@@ -22,6 +22,7 @@ public:
 		
 private slots:
 	void CoreClosed();
+	void CoreConnecting();
 	void CoreActive();
 	void CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue data);
 
@@ -50,6 +51,7 @@ private slots:
 	void menuTriggered(QAction*);
 
 	void PasswordReady();
+	void PasswordTyping();
 
 signals:
 	//Recursive Signals (will travel up the chain until it gets to the main tray)

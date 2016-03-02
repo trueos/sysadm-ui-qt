@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>New sysadm connection setup</string>
+   <string>SysAdm connection setup</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../icons/icons.qrc">
+    <normaloff>:/icons/black/computer.svg</normaloff>:/icons/black/computer.svg</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

@@ -16,7 +16,7 @@ sample_page::~sample_page(){
 }
 
 //Initialize the CORE <-->Page connections
-void sample:page::setupCore(){
+void sample_page::setupCore(){
   connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(ParseReply(QString, QString, QString, QJsonValue)) );
 }
 
@@ -25,8 +25,11 @@ void sample_page::startPage(){
   //Let the main window know the name of this page
   emit ChangePageTitle( tr("Sample") );
   //Now run any CORE communications
-  //CORE->communicate("someID", "rpc", "query", QJsonValue("simple-query"));
-  
+  /*
+  QJsonObject obj;
+    obj.insert("sampleVariable","sampleValue");
+  CORE->communicate("someID", "rpc", "query",obj);
+  */
 }
 
 

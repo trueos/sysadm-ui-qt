@@ -11,6 +11,8 @@
 
 #include <globals.h>
 
+#define EXPORTFILEDELIM "____^^^^^^^__^^^^^^^_____" //Don't care if this is unreadable - nobody should be viewing this file directly anyway
+
 extern QHash<QString,sysadm_client*> CORES; // hostIP / core
 
 C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
@@ -46,7 +48,7 @@ C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
   }else{
     ui->actionView_Connections->trigger();
   }
-  this->resize(this->sizeHint());
+  //this->resize(this->sizeHint());
 }
 
 C_Manager::~C_Manager(){
@@ -155,7 +157,7 @@ void C_Manager::saveGroupItem(QTreeWidgetItem *group){
 
 // === PRIVATE SLOTS ===
 void C_Manager::changePage(QAction *act){
-  if(act==ui->actionView_Connections){ ui->stackedWidget->setCurrentWidget(ui->page_connections); on_tree_conn_itemSelectionChanged(); }
+  if(act==ui->actionView_Connections){ LoadConnectionInfo(); ui->stackedWidget->setCurrentWidget(ui->page_connections); on_tree_conn_itemSelectionChanged(); }
   else{ ui->stackedWidget->setCurrentWidget(ui->page_ssl); }
 }
 
@@ -168,9 +170,11 @@ void C_Manager::on_tree_conn_itemSelectionChanged(){
     ui->push_conn_rem->setEnabled(false);
     ui->push_group_rem->setEnabled(false);
     ui->push_rename->setEnabled(false);
+    ui->push_conn_reset->setEnabled(false);
   }else{
     ui->push_rename->setEnabled(true);
     ui->push_conn_rem->setEnabled(!sel->whatsThis(0).isEmpty());
+    ui->push_conn_reset->setEnabled(!sel->whatsThis(0).isEmpty());
     ui->push_group_rem->setEnabled(sel->whatsThis(0).isEmpty() && sel->childCount()==0);
   }
 }
@@ -215,6 +219,30 @@ void C_Manager::on_push_conn_add_clicked(){
   SaveConnectionInfo();
 }
 
+void C_Manager::on_push_conn_reset_clicked(){
+  //Get the currently-selected host
+  QTreeWidgetItem *sel = 0;
+  if(!ui->tree_conn->selectedItems().isEmpty()){ sel = ui->tree_conn->selectedItems().first(); }
+  if(sel==0 || sel->whatsThis(0).isEmpty()){ return; }
+  QString host = sel->whatsThis(0);
+  QString nick = settings->value("Hosts/"+host).toString();
+  QString user = settings->value("Hosts/"+host+"/username").toString();
+  NewConnectionWizard dlg(this, nick);
+    dlg.LoadPrevious(host, user);
+  dlg.exec();
+  if(!dlg.success){ return; } //cancelled
+  //Replace the old core
+  if(CORES.contains(dlg.host)){
+    CORES[dlg.host]->closeConnection();
+    CORES.remove(dlg.host);
+  }
+  CORES.insert(dlg.host, dlg.core);
+  dlg.core->registerCustomCert();
+  //update the buttons/tray
+  on_tree_conn_itemSelectionChanged();
+  SaveConnectionInfo();  
+}
+
 void C_Manager::on_push_conn_rem_clicked(){
   QTreeWidgetItem *sel = 0;
   if(!ui->tree_conn->selectedItems().isEmpty()){ sel = ui->tree_conn->selectedItems().first(); }
@@ -237,7 +265,43 @@ void C_Manager::on_push_conn_rem_clicked(){
 }
 
 void C_Manager::on_push_conn_export_clicked(){
-	
+  //Read in the settings/key files (raw bytes)
+  QByteArray sFile, keyFile;
+  QFile file(settings->fileName());
+  bool ok = false;
+  if(file.open(QIODevice::ReadOnly) ){
+    sFile = file.readAll();
+    file.close();
+    ok = true;
+  }
+  file.setFileName(SSLFile());
+  if(file.open(QIODevice::ReadOnly) ){
+    keyFile = file.readAll();
+    file.close();
+    ok = ok && true;
+  }else{
+    ok = false;
+  }
+  if(!ok){
+    QMessageBox::warning(this, tr("Export Error"), tr("Could not read settings and SSL files") );
+    return;
+  }
+  //Base64 encode the files
+  sFile = sFile.toBase64();
+  keyFile = keyFile.toBase64();
+  //Save the encoded bytes/strings to the new file
+  file.setFileName(QDir::homePath()+"/sysadm_client.export");
+  if(!file.open(QIODevice::WriteOnly)){
+    //Error - could not open file
+    QMessageBox::warning(this, tr("Export Error"), QString(tr("Could not create export file: %1")).arg(file.fileName()) );
+    return;
+  }
+  file.write(sFile);
+  file.write(EXPORTFILEDELIM);
+  file.write(keyFile);
+  file.close();
+  //Now alert the user about the new export file
+  QMessageBox::information(this, tr("Export Finished"), QString(tr("SysAdm settings export successful.\nFile Location: %1")).arg(file.fileName()) );
 }
 
 void C_Manager::on_push_group_add_clicked(){
@@ -356,5 +420,48 @@ void C_Manager::on_push_ssl_create_clicked(){
 }
 
 void C_Manager::on_push_ssl_import_clicked(){
-	
+  QString filepath = QFileDialog::getOpenFileName(this, tr("Select sysadm export file"), QDir::homePath(), tr("SysAdm settings (*.export)") );
+  if(filepath.isEmpty()){ return; } //cancelled
+  QFile file(filepath);
+  if(!file.open(QIODevice::ReadOnly)){ 
+    //Unable to open file (permissions?)
+    QMessageBox::warning(this, tr("Import Error"), tr("Could not read selected file. (Check file permissions?)") );	  
+    return;
+  }
+  QByteArray raw = file.readAll();
+  file.close();
+  //Now split up the raw bytes into the respective files
+  if(!raw.contains(EXPORTFILEDELIM)){
+    //Invalid file
+    QMessageBox::warning(this, tr("Import Error"), tr("File Contents are invalid. This does not appear to be a sysadm export file.") );
+    return;
+  }
+  int delstart = raw.indexOf(EXPORTFILEDELIM);
+  QByteArray sFile = raw.left(delstart);
+  QByteArray keyFile = raw.mid(delstart+QString(EXPORTFILEDELIM).length()); //everything after the delimiter
+  //Convert the bytes back from base64 encoding
+  sFile = QByteArray::fromBase64(sFile);
+  keyFile = QByteArray::fromBase64(keyFile);
+  //Now save the files into their proper places
+  // - settings file
+  file.setFileName(settings->fileName());
+  if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate) ){
+    //Could not save settings file (should never happen - this file is always read/write capable in this app by definition)
+    QMessageBox::warning(this, tr("Import Error"), tr("Could not overwrite sysadm settings") );
+    return; 
+  }
+  file.write(sFile);
+  file.close();
+  // - key file
+  file.setFileName(SSLFile());
+  if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate) ){
+    //Could not save SSL key file (should never happen - this file is always read/write capable in this app by definition)
+    QMessageBox::warning(this, tr("Import Error"), tr("Could not overwrite sysadm SSL bundle") );
+    return; 
+  }
+  file.write(keyFile);
+  file.close();  
+  //Now restart the client completely (lots of various things which changed and need to be completely re-loaded)
+  QProcess::startDetached(QApplication::arguments()[0], QApplication::arguments());
+  QApplication::exit(0);
 }

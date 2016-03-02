@@ -27,10 +27,12 @@ CoreAction::CoreAction(sysadm_client*core, QObject *parent) : QAction(parent){
   
   //Update the icon as needed
   if(core->isActive()){ CoreActive(); }
+  else if(core->isConnecting()){ CoreConnecting(); }
   else{ CoreClosed(); }
   //Setup the core connections
   connect(core, SIGNAL(clientAuthorized()), this, SLOT(CoreActive()) );
   connect(core, SIGNAL(clientDisconnected()), this, SLOT(CoreClosed()) );
+  connect(core, SIGNAL(clientReconnecting()), this, SLOT(CoreConnecting()) );
   connect(core, SIGNAL(NewEvent(sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(CoreEvent(sysadm_client::EVENT_TYPE, QJsonValue)) );
 }
 CoreAction::~CoreAction(){
@@ -39,11 +41,18 @@ CoreAction::~CoreAction(){
 void CoreAction::CoreClosed(){
   this->setIcon( QIcon(":/icons/grey/disk.svg") );
   this->setToolTip( tr("Connection Closed") );
+  this->setEnabled(true);
   emit ShowMessage(tr("Disconnected"), QString(tr("%1: Lost Connection")).arg(nickname), QSystemTrayIcon::Warning, 1500);
+}
+void CoreAction::CoreConnecting(){
+  this->setIcon( QIcon(":/icons/black/sync.svg") );
+  this->setToolTip( tr("Trying to connect....") );	
+  this->setEnabled(false);
 }
 void CoreAction::CoreActive(){
   this->setIcon( QIcon(":/icons/black/disk.svg") );
   this->setToolTip( tr("Connection Active") );
+  this->setEnabled(true);
   emit ShowMessage(tr("Connected"), QString(tr("%1: Connected")).arg(nickname), QSystemTrayIcon::Information, 1500);	
 }
 void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue data){
@@ -145,11 +154,14 @@ void MenuItem::UpdateMenu(){
 	  line_pass->setEchoMode(QLineEdit::Password);
 	  line_pass->setPlaceholderText( tr("Unlock Connections") );
 	  connect(line_pass, SIGNAL(editingFinished()), this, SLOT(PasswordReady()) );
+	  connect(line_pass, SIGNAL(textEdited(const QString&)), this, SLOT(PasswordTyping()) );
 	}
 	line_pass->setText("");
 	lineA->setDefaultWidget(line_pass);
 	this->addAction(lineA);
-	line_pass->setFocus();
+	this->setDefaultAction(lineA);  
+	this->setActiveAction(lineA);
+	line_pass->setFocus(); //give this widget keyboard focus by default
       }else{
         QAction *tmp = this->addAction(QIcon(":/icons/black/globe.svg"),tr("Manage Connections"));
         tmp->setWhatsThis("open_conn_mgmt");
@@ -186,4 +198,8 @@ void MenuItem::PasswordReady(){
     this->hide();
     emit UnlockConnections();
   }
+}
+
+void MenuItem::PasswordTyping(){
+  this->setActiveAction(lineA);
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>426</width>
-    <height>323</height>
+    <width>531</width>
+    <height>358</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -17,7 +17,11 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>sysadm: Connections</string>
+   <string>SysAdm: Connections</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../icons/icons.qrc">
+    <normaloff>:/icons/black/globe.svg</normaloff>:/icons/black/globe.svg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -36,7 +40,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_connections">
        <layout class="QGridLayout" name="gridLayout">
@@ -126,6 +130,17 @@
             <property name="icon">
              <iconset resource="../icons/icons.qrc">
               <normaloff>:/icons/black/minus-circled.svg</normaloff>:/icons/black/minus-circled.svg</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="push_conn_reset">
+            <property name="text">
+             <string>Reset Settings</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../icons/icons.qrc">
+              <normaloff>:/icons/black/sync-circled.svg</normaloff>:/icons/black/sync-circled.svg</iconset>
             </property>
            </widget>
           </item>
@@ -411,6 +426,12 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/black/globe.svg</normaloff>:/icons/black/globe.svg</iconset>
    </property>
    <property name="text">
+    <string/>
+   </property>
+   <property name="toolTip">
+    <string>View Connections</string>
+   </property>
+   <property name="statusTip">
     <string>View Connections</string>
    </property>
   </action>
@@ -423,6 +444,15 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/black/lock.svg</normaloff>:/icons/black/lock.svg</iconset>
    </property>
    <property name="text">
+    <string/>
+   </property>
+   <property name="iconText">
+    <string/>
+   </property>
+   <property name="toolTip">
+    <string>Setup SSL</string>
+   </property>
+   <property name="statusTip">
     <string>Setup SSL</string>
    </property>
   </action>
