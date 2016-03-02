@@ -49,6 +49,7 @@
 #include <QWidgetAction>
 #include <QResizeEvent>
 #include <QDesktopWidget>
+#include <QMessageBox>
 
 #include "../Core/sysadm-client.h"
 

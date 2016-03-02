@@ -27,6 +27,7 @@ static QList<PAGEINFO> KnownPages(){
   //Reminder: <ID>, <name>, <title>, <icon>, <comment>, <category>, <server subsytem list>
   list << PageInfo("page_beadm", QObject::tr("Boot Environment Manager"), QObject::tr("Boot Environment Manager"),":/icons/black/disk.svg",QObject::tr("Manage operating system snapshots"),"sysmgmt",QStringList() << "sysadm/beadm");
   list << PageInfo("page_taskmanager", QObject::tr("Task Manager"), QObject::tr("Task Manager"), ":/icons/black/flag.svg", QObject::tr("Monitor system tasks"), "sysmgmt", QStringList() << "sysadm/systemmanager");
+  list << PageInfo("page_iohyve",QObject::tr("iohyve"), QObject::tr("iohyve VM Manager"), ":/icons/black/desktop.svg", QObject::tr("Manage virtual OS instances"), "utils", QStringList() << "sysadm/iohyve" << "sysadm/network" << "sysadm/zfs");
   return list;
 }
 
@@ -34,12 +35,13 @@ static QList<PAGEINFO> KnownPages(){
 #include "control_panel.h"
 #include "page_beadm.h"
 #include "page_taskmanager.h"
+#include "page_iohyve.h"
 
 static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   //Find the page that matches this "id"
   if(id=="page_beadm"){ return new beadm_page(parent, core); }
   else if(id=="page_taskmanager"){ return new taskmanager_page(parent, core); }
-	  
+  else if(id=="page_iohyve"){ return new iohyve_page(parent, core); }
   //Return the main control_panel page as the fallback/default
   return new control_panel(parent, core);
 }
