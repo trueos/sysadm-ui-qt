@@ -9,7 +9,6 @@ HEADERS	+= 	$${PWD}/getPage.h \
 SOURCES	+=	$${PWD}/control_panel.cpp \
 		$${PWD}/page_beadm.cpp \
 		$${PWD}/page_taskmanager.cpp \
-		$${PWD}/control_panel.cpp \
 		$${PWD}/page_iohyve.cpp \
 		$${PWD}/page_ssl_auth.cpp
 		
