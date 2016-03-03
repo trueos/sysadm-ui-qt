@@ -51,7 +51,7 @@ void iohyve_page::startPage(){
 // === PRIVATE SLOTS ===
 void iohyve_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
   if(!id.startsWith(PAGETAG) || namesp=="error" || name=="error"){ return; } //not from this page
-  qDebug() << "New Reply:" << namesp << name << args;
+  //qDebug() << "New Reply:" << namesp << name << args;
   if(id==PAGETAG+"setup"){
     request_is_setup(); //make sure it got setup properly
   }else if(id==PAGETAG+"setup_options_zfs"){

@@ -216,15 +216,12 @@ void sysadm_client::clearAuth(){
 
 //Communication subroutines with the server (block until message comes back)
 void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
-  QJsonObject obj;
-  obj.insert("namespace","events");
-  obj.insert("name", subscribe ? "subscribe" : "unsubscribe");
-  obj.insert("id", "sysadm-client-event-auto");
   QString arg;
   if(event == DISPATCHER){ arg = "dispatcher"; }
   else if(event == LIFEPRESERVER){ arg = "life-preserver"; }
-  obj.insert("args", arg);
-  sendSocketMessage(obj);
+  else if(event== SYSSTATE){ arg = "system-state"; }
+  qDebug() << "Send Event Subscription:" << event << arg << subscribe;
+  this->communicate("sysadm-client-event-auto","events", subscribe ? "subscribe" : "unsubscribe", arg);
 }
 
 void sysadm_client::sendSocketMessage(QJsonObject msg){
