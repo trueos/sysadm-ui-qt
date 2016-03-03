@@ -90,9 +90,10 @@ QStackedWidget {
 }
 
 QTreeWidget {
-  outline: none;
   padding: 7px;
-  border-style: hidden;
+  border: 3px;
+  border-style: inset;
+  border-color: grey;
   background: #FFFFFF; 
   selection-background-color: transparent;
   selection-color: black;
@@ -105,8 +106,8 @@ QTreeWidget::item{
   padding:3px 3px 3px 3px;
   border-width: 1px;
   border-style: outset;
-  border-color: #315382;
-  border-radius: 8px;
+  border-color: #3D3C3A;
+  border-radius: 0px;
   background: #F2F2F2;
   color: black;
 }
