@@ -126,8 +126,16 @@ void iohyve_page::ParseReply(QString id, QString namesp, QString name, QJsonValu
 }
 
 void iohyve_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
-  if(evtype==sysadm_client::DISPATCHER){
+  if(evtype==sysadm_client::DISPATCHER && val.isObject()){
     qDebug() << "Got Dispatcher Event:" << val;
+    if(val.toObject().value("event_system").toString()=="sysadm/iohyve"){
+      if(val.toObject().value("state").toString()=="finished"){
+        //Reload the lists
+	request_vm_list();
+	request_iso_list();
+      }
+    }
+    
   }
 }
 
