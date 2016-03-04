@@ -133,6 +133,19 @@ void iohyve_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
         //Reload the lists
 	request_vm_list();
 	request_iso_list();
+      }else{
+        QString iso = val.toObject().value("filename").toString();
+	QString percent = val.toObject().value("percent_done").toString();
+	QString rate = val.toObject().value("download_rate").toString();
+	if(iso.isEmpty()){ return; }
+	QTreeWidgetItem *it = 0;
+	if(!ui->tree_iso->findItems(iso+" *", Qt::MatchWildcard,0).isEmpty()){
+	  it = ui->tree_iso->findItems(iso+" *", Qt::MatchWildcard,0).first();
+	}else{
+	  it = new QTreeWidgetItem();
+	  ui->tree_iso->addTopLevelItem(it);
+	}
+	it->setText(0,QString(tr("%1 (%2, %3)")).arg(iso, percent, rate) );
       }
     }
     
@@ -245,9 +258,11 @@ void iohyve_page::checkSetupOptions(){
 }
 
 void iohyve_page::checkVMSelection(){
+  //Note:  vmm/running/rcboot options are typically [YES/NO]
   QTreeWidgetItem *it = ui->tree_vms->currentItem();
-  ui->push_vm_start->setEnabled(it!=0);
-  ui->push_vm_stop->setEnabled(it!=0);
+  ui->push_vm_start->setEnabled(it!=0 && it->text(2).toLower()=="no"); //if not running
+  ui->push_vm_stop->setEnabled(it!=0 && it->text(2).toLower()!="no"); // if running
+  ui->push_vm_create->setEnabled(false); //TO-DO - not available yet
 }
 
 void iohyve_page::checkISOSelection(){
