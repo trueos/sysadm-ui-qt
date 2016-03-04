@@ -33,6 +33,7 @@ public:
 	
 private:
 	Ui::iohyve_ui *ui;
+	QTimer *refreshT;
 
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);

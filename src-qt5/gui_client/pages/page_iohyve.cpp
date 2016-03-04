@@ -11,6 +11,9 @@
 
 iohyve_page::iohyve_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::iohyve_ui){
   ui->setupUi(this);	
+  refreshT = new QTimer(this);
+    refreshT->setInterval(3000);
+    connect(refreshT, SIGNAL(timeout()), this, SLOT(request_vm_list()) );
   //Connect the ui signals/slots
   // - setup page
   connect(ui->push_setup, SIGNAL(clicked()), this, SLOT(request_setup()) );
@@ -83,18 +86,35 @@ void iohyve_page::ParseReply(QString id, QString namesp, QString name, QJsonValu
 	  ui->stackedWidget->setCurrentWidget(ui->page_vms);
 	  request_vm_list();
 	  request_iso_list();
+	  if(!refreshT->isActive()){ refreshT->start(); }
 	}else{
 	  ui->stackedWidget->setCurrentWidget(ui->page_setup);
 	  request_setup_options();
+	  if(refreshT->isActive()){ refreshT->stop(); }
 	}
       }
     }
   }else if(id==PAGETAG+"list_vm"){
-    ui->tree_vms->clear();
     if(args.isObject() && args.toObject().contains("listvms")){
       QJsonObject VMO = args.toObject().value("listvms").toObject();
       QStringList vms = VMO.keys();
       vms.sort();
+      //First update any existing items
+      for(int i=0; i<ui->tree_vms->topLevelItemCount(); i++){
+	QString name = ui->tree_vms->topLevelItem(i)->text(0);
+	if( vms.contains(name) ){
+	  ui->tree_vms->topLevelItem(i)->setText(1,VMO.value(vms[i]).toObject().value("vmm").toString() );
+	  ui->tree_vms->topLevelItem(i)->setText(2,VMO.value(vms[i]).toObject().value("running").toString() );
+	  ui->tree_vms->topLevelItem(i)->setText(3,VMO.value(vms[i]).toObject().value("rcboot").toString() );
+	  ui->tree_vms->topLevelItem(i)->setText(4,VMO.value(vms[i]).toObject().value("description").toString() );
+	  vms.removeAll(name); //already handled
+	}else{
+	  //No longer available
+	  delete ui->tree_vms->takeTopLevelItem(i);
+	  i--;
+	}
+      }
+      //Now create any new items
       for(int i=0; i<vms.length(); i++){
 	QString vmm, running, rcboot, desc;
 	vmm = VMO.value(vms[i]).toObject().value("vmm").toString();
@@ -104,7 +124,6 @@ void iohyve_page::ParseReply(QString id, QString namesp, QString name, QJsonValu
         ui->tree_vms->addTopLevelItem( new QTreeWidgetItem( QStringList()<< vms[i] << vmm << running << rcboot << desc ) );
       }
       ui->tree_vms->header()->resizeSections(QHeaderView::ResizeToContents);
-      ui->tree_vms->sortItems(0, Qt::AscendingOrder);
     }
     checkVMSelection();
   }else if(id==PAGETAG+"list_iso"){
