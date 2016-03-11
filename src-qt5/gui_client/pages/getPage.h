@@ -31,6 +31,7 @@ static QList<PAGEINFO> KnownPages(){
   list << PageInfo("page_ssl_auth", QObject::tr("Manage SSL Keys"), QObject::tr("SSL Key Manager"), ":/icons/black/lock.svg",QObject::tr("List and Revoke SSL key registrations"), "servermgmt", QStringList() << "sysadm/settings");
   list << PageInfo("page_about", QObject::tr("About PC-BSD"), QObject::tr("About PC-BSD"), ":/icons/black/magnifyingglass.svg",QObject::tr("More information on PC-BSD"), "utils", QStringList() << "sysadm/about");
   list << PageInfo("page_lp", QObject::tr("Life Preserver"), QObject::tr("Life Preserver"), ":/icons/black/circledplus.svg",QObject::tr("Manage Local and Remote Backups"), "utils", QStringList() << "sysadm/lp");
+  list << PageInfo("page_system", QObject::tr("System Manager"), QObject::tr("System Manager"), ":/icons/black/boxfilled.svg",QObject::tr("Information on your System"), "utils", QStringList() << "sysadm/system");
 	return list;
 }
 
@@ -42,6 +43,7 @@ static QList<PAGEINFO> KnownPages(){
 #include "page_ssl_auth.h"
 #include "page_about.h"
 #include "page_lp.h"
+#include "page_system.h"
 
 
 static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
@@ -51,7 +53,8 @@ static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   else if(id=="page_iohyve"){ return new iohyve_page(parent, core); }
   else if(id=="page_ssl_auth"){ return new ssl_auth_page(parent, core); }
   else if(id=="page_about"){ return new about_page(parent, core); } 
-  else if(id=="page_lp"){ return new lp_page(parent, core); }    
+  else if(id=="page_lp"){ return new lp_page(parent, core); }
+  else if(id=="page_system"){ return new system_page(parent, core); }      
   //Return the main control_panel page as the fallback/default
   return new control_panel(parent, core);
 }
