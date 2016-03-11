@@ -29,7 +29,9 @@ static QList<PAGEINFO> KnownPages(){
   list << PageInfo("page_taskmanager", QObject::tr("Task Manager"), QObject::tr("Task Manager"), ":/icons/black/flag.svg", QObject::tr("Monitor system tasks"), "sysmgmt", QStringList() << "sysadm/systemmanager");
   list << PageInfo("page_iohyve",QObject::tr("iohyve"), QObject::tr("iohyve VM Manager"), ":/icons/black/desktop.svg", QObject::tr("Manage virtual OS instances"), "utils", QStringList() << "sysadm/iohyve" << "sysadm/network" << "sysadm/zfs");
   list << PageInfo("page_ssl_auth", QObject::tr("Manage SSL Keys"), QObject::tr("SSL Key Manager"), ":/icons/black/lock.svg",QObject::tr("List and Revoke SSL key registrations"), "servermgmt", QStringList() << "sysadm/settings");
-  return list;
+  list << PageInfo("page_about", QObject::tr("About PC-BSD"), QObject::tr("About PC-BSD"), ":/icons/black/magnifyingglass.svg",QObject::tr("More information on PC-BSD"), "utils", QStringList() << "sysadm/about");
+  list << PageInfo("page_lp", QObject::tr("Life Preserver"), QObject::tr("Life Preserver"), ":/icons/black/circledplus.svg",QObject::tr("Manage Local and Remote Backups"), "utils", QStringList() << "sysadm/lp");
+	return list;
 }
 
 //Add any sub-pages here
@@ -38,6 +40,9 @@ static QList<PAGEINFO> KnownPages(){
 #include "page_taskmanager.h"
 #include "page_iohyve.h"
 #include "page_ssl_auth.h"
+#include "page_about.h"
+#include "page_lp.h"
+
 
 static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   //Find the page that matches this "id"
@@ -45,7 +50,8 @@ static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   else if(id=="page_taskmanager"){ return new taskmanager_page(parent, core); }
   else if(id=="page_iohyve"){ return new iohyve_page(parent, core); }
   else if(id=="page_ssl_auth"){ return new ssl_auth_page(parent, core); }
-  
+  else if(id=="page_about"){ return new about_page(parent, core); } 
+  else if(id=="page_lp"){ return new lp_page(parent, core); }    
   //Return the main control_panel page as the fallback/default
   return new control_panel(parent, core);
 }

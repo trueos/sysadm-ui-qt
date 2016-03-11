@@ -9,7 +9,7 @@
 
 about_page::about_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::page_about_ui){
   ui->setupUi(this);	
-  connect(ui->tree_BE, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(updateButtons()) );
+  //connect(ui->tree_BE, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(updateButtons()) );
 }
 
 about_page::~about_page(){
@@ -27,19 +27,21 @@ void about_page::startPage(){
   emit ChangePageTitle( tr("About PC-BSD") );
   //Connect any signals/slots
 	
-  connect(ui->tree_BE, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(updateButtons()) );
+  //connect(ui->tree_BE, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(updateButtons()) );
   //Now run any CORE communications
-  updateList();
+  //updateList();
 }
 
 // === PRIVATE ===
 void about_page::startingRequest(QString notice){
-  this->setEnabled(false);
-  ui->label_status->setText(notice);
-  ui->label_status->setVisible(true);
+  //this->setEnabled(false);
+  //ui->label_status->setText(notice);
+  //ui->label_status->setVisible(true);
 }
 
 // === PRIVATE SLOTS ===
-
+void about_page::ParseReply(QString, QString, QString, QJsonValue){
+	
+}
 //GUI Buttons
 
