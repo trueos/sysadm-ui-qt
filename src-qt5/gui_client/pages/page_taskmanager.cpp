@@ -7,6 +7,8 @@
 #include "page_taskmanager.h"
 #include "ui_page_taskmanager.h" //auto-generated from the .ui file
 
+#define refreshRate 3000
+
 #define memStyle QString("QLabel{background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:%1p rgb(100,100,200), stop:%2pa rgb(200,100,100), stop:%2pb rgb(200,100,100), stop:%3pa rgb(100,200,100), stop:%3pb rgb(100,200,100), stop:%4pa rgb(230, 230, 230), stop:%4pb rgb(230, 230, 230), stop:%5p white);\nborder: 1px solid black;\nborder-radius: 3px;}")
 
 taskmanager_page::taskmanager_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::taskmanager_ui){
@@ -32,13 +34,7 @@ void taskmanager_page::startPage(){
   slotRequestProcInfo();
   slotRequestMemInfo();
   slotRequestCPUInfo();
-	
-  // Get info every 3 seconds
-  proctimer = new QTimer(this);
-  connect(proctimer, SIGNAL(timeout()), this, SLOT(slotRequestProcInfo()));
-  connect(proctimer, SIGNAL(timeout()), this, SLOT(slotRequestMemInfo()));
-  connect(proctimer, SIGNAL(timeout()), this, SLOT(slotRequestCPUInfo()));
-  proctimer->start(3000);
+  slotRequestCPUTempInfo();
 
   qDebug() << "Start page!";
 }
@@ -76,13 +72,9 @@ void taskmanager_page::ParseReply(QString id, QString namesp, QString name, QJso
     //CPU usage
     qDebug() << "Got CPU Usage:" << args;
 	  
-    slotRequestCPUTempInfo(); //always make sure the general CPU info comes back first
   }else if(id=="page_task_man_cputemp_check" && name!="error" && namesp!="error" ){
     //CPU Temperature
     qDebug() << "Got CPU Temps:" << args;
-  }else{
-    //Reply to a process action - go ahead and update the list now
-    slotRequestProcInfo();
   }
 }
 
@@ -100,8 +92,14 @@ void taskmanager_page::parsePIDS(QJsonObject jsobj)
   // Look for procinfo
   QJsonObject procobj = jsobj.value("procinfo").toObject();
   QStringList pids = procobj.keys();
+  int doEvents = 0;
   for ( int i=0; i < pids.size(); i++ )
   {
+    doEvents++;
+    if ( doEvents > 50 ) {
+      doEvents=0;
+      QApplication::processEvents();
+    }
     QString PID = pids.at(i);
     QJsonObject pidinfo = procobj.value(PID).toObject();
 
@@ -199,24 +197,28 @@ void taskmanager_page::slotRequestProcInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "procinfo");
   CORE->communicate("page_task_man_taskquery", "sysadm", "systemmanager", jsobj);
+  QTimer::singleShot(refreshRate, this, SLOT(slotRequestProcInfo()) );
 }
 
 void taskmanager_page::slotRequestMemInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "memorystats");
   CORE->communicate("page_task_man_mem_check", "sysadm", "systemmanager", jsobj);
+  QTimer::singleShot(refreshRate, this, SLOT(slotRequestMemInfo()) );
 }
 
 void taskmanager_page::slotRequestCPUInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "cpupercentage");
   CORE->communicate("page_task_man_cpu_check", "sysadm", "systemmanager", jsobj);	
+  QTimer::singleShot(refreshRate, this, SLOT(slotRequestCPUInfo()) );
 }
 
 void taskmanager_page::slotRequestCPUTempInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "cputemps");
   CORE->communicate("page_task_man_cputemp_check", "sysadm", "systemmanager", jsobj);	
+  QTimer::singleShot(refreshRate, this, SLOT(slotRequestCPUTempInfo()) );
 }
 
 void taskmanager_page::slot_kill_proc(){
