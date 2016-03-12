@@ -1,0 +1,39 @@
+//===========================================
+//  PC-BSD source code
+//  Copyright (c) 2016, PC-BSD Software/iXsystems
+//  Available under the 3-clause BSD license
+//  See the LICENSE file for full details
+//===========================================
+#include "page_system.h"
+#include "ui_page_system.h" //auto-generated from the .ui file
+
+system_page::system_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::page_system_ui){
+  ui->setupUi(this);	
+}
+
+system_page::~system_page(){
+  
+}
+
+//Initialize the CORE <-->Page connections
+void system_page::setupCore(){
+  connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(ParseReply(QString, QString, QString, QJsonValue)) );
+}
+
+//Page embedded, go ahead and startup any core requests
+void system_page::startPage(){
+  //Let the main window know the name of this page
+  emit ChangePageTitle( tr("System Manager") );
+  //Now run any CORE communications
+  /*
+  QJsonObject obj;
+    obj.insert("sampleVariable","sampleValue");
+  CORE->communicate("someID", "rpc", "query",obj);
+  */
+}
+
+
+// === PRIVATE SLOTS ===
+void system_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
+	
+}

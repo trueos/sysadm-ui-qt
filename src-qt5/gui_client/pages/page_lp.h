@@ -4,8 +4,8 @@
 //  Available under the 3-clause BSD license
 //  See the LICENSE file for full details
 //===========================================
-#ifndef _PCBSD_SYSADM_CLIENT_ABOUT_PAGE_H
-#define _PCBSD_SYSADM_CLIENT_ABOUT_PAGE_H
+#ifndef _PCBSD_SYSADM_CLIENT_LP_PAGE_H
+#define _PCBSD_SYSADM_CLIENT_LP_PAGE_H
 #include "../globals.h"
 #include "../PageWidget.h"
 
@@ -15,33 +15,26 @@
 //==============================================================
 
 namespace Ui{
-	class page_about_ui; //this is the name of the main widget/object in the QtDesigner form
+	class lp_ui; //this is the name of the main widget/object in the QtDesigner form
 };
 
-class about_page : public PageWidget{
+class lp_page : public PageWidget{
 	Q_OBJECT
 public:
-	about_page(QWidget *parent, sysadm_client *core);
-	~about_page();
+	lp_page(QWidget *parent, sysadm_client *core);
+	~lp_page();
 
 	//Initialize the CORE <-->Page connections
 	void setupCore();
 	//Page embedded, go ahead and startup any core requests
 	void startPage();
 		
-	QString pageID(){ return "sysadm/about"; } //ID is used to identify which type of page this is
+	QString pageID(){ return "Life Preserver"; } //ID is used to identify which type of page this is
 	
 private:
-	Ui::page_about_ui *ui;
-	void startingRequest(QString notice);
+	Ui::lp_ui *ui;
 
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
-
-	//GUI enable/disable based on selection
-	//void updateButtons();
-
-	//GUI Buttons
-
 };
 #endif
