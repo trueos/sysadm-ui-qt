@@ -51,6 +51,7 @@ void taskmanager_page::ParseReply(QString id, QString namesp, QString name, QJso
     if ( ! args.isObject() )
       return;
     parsePIDS(args.toObject());
+    QTimer::singleShot(refreshRate, this, SLOT(slotRequestProcInfo()) );
   }
   else if(id=="page_task_man_mem_check"){
     if(name!="error" && namesp!="error"){
@@ -67,14 +68,15 @@ void taskmanager_page::ParseReply(QString id, QString namesp, QString name, QJso
 	ShowMemInfo(active, cache, freeM, inactive, wired);
       }
     }
-    
+    QTimer::singleShot(refreshRate, this, SLOT(slotRequestMemInfo()) );
   }else if(id=="page_task_man_cpu_check" && name!="error" && namesp!="error" ){
     //CPU usage
     qDebug() << "Got CPU Usage:" << args;
-	  
+    QTimer::singleShot(refreshRate, this, SLOT(slotRequestCPUInfo()) );
   }else if(id=="page_task_man_cputemp_check" && name!="error" && namesp!="error" ){
     //CPU Temperature
     qDebug() << "Got CPU Temps:" << args;
+    QTimer::singleShot(refreshRate, this, SLOT(slotRequestCPUTempInfo()) );
   }
 }
 
@@ -197,28 +199,24 @@ void taskmanager_page::slotRequestProcInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "procinfo");
   CORE->communicate("page_task_man_taskquery", "sysadm", "systemmanager", jsobj);
-  QTimer::singleShot(refreshRate, this, SLOT(slotRequestProcInfo()) );
 }
 
 void taskmanager_page::slotRequestMemInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "memorystats");
   CORE->communicate("page_task_man_mem_check", "sysadm", "systemmanager", jsobj);
-  QTimer::singleShot(refreshRate, this, SLOT(slotRequestMemInfo()) );
 }
 
 void taskmanager_page::slotRequestCPUInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "cpupercentage");
   CORE->communicate("page_task_man_cpu_check", "sysadm", "systemmanager", jsobj);	
-  QTimer::singleShot(refreshRate, this, SLOT(slotRequestCPUInfo()) );
 }
 
 void taskmanager_page::slotRequestCPUTempInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "cputemps");
   CORE->communicate("page_task_man_cputemp_check", "sysadm", "systemmanager", jsobj);	
-  QTimer::singleShot(refreshRate, this, SLOT(slotRequestCPUTempInfo()) );
 }
 
 void taskmanager_page::slot_kill_proc(){
