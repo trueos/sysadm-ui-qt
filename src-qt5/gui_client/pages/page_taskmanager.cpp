@@ -11,7 +11,7 @@
 
 #define memStyle QString("QLabel{background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:%1p rgb(100,100,200), stop:%2pa rgb(200,100,100), stop:%2pb rgb(200,100,100), stop:%3pa rgb(100,200,100), stop:%3pb rgb(100,200,100), stop:%4pa rgb(230, 230, 230), stop:%4pb rgb(230, 230, 230), stop:%5p white);\nborder: 1px solid black;\nborder-radius: 3px;}")
 #define cpuGlobalStyle QString("QLabel{background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0 %1); border: 1px solid black; border-radius: 3px;}")
-#define cpuStopStyle QString(", stop:%1a %2, stop:%1b %2, stop:%1c rgb(255,255,255), stop:%1d rgb(255,255,255)")
+#define cpuStopStyle QString(", stop:%1a %2, stop:%1b %2, stop:%1c rgb(255,255,255), stop:%1d rgb(255,255,255), stop:%1e black, stop:%1f black")
 
 taskmanager_page::taskmanager_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::taskmanager_ui){
   ui->setupUi(this);	
@@ -228,10 +228,12 @@ void taskmanager_page::ShowCPUInfo(int tot, QList<int> percs){
     double start = ((double) i) / ((double) percs.length());
     double end = ((double) i+1) / ((double) percs.length());
     double mid = start + ((end-start)*percs[i])/100.0;
-    stop.replace("%1a",QString::number(start+0.00001) );
-    stop.replace("%1b",QString::number(mid-0.00001) );
-    stop.replace("%1c",QString::number(mid+0.00001) );
-    stop.replace("%1d",QString::number(end-0.00001) );
+    stop.replace("%1a",QString::number(start+0.00001) );	//color
+    stop.replace("%1b",QString::number(mid-0.00001) ); 	//color
+    stop.replace("%1c",QString::number(mid+0.00001) ); 	//white
+    stop.replace("%1d",QString::number(end-0.001) ); 		//white
+    stop.replace("%1e",QString::number(end-0.0009) ); 	//black
+    stop.replace("%1f",QString::number(end) ); 			//black
     //Now set the color based on the percentage
     QString color;
     if(percs[i]<50){ color = "rgb(50,205,50)"; } //Green
@@ -239,13 +241,13 @@ void taskmanager_page::ShowCPUInfo(int tot, QList<int> percs){
     else{ color = "rgb(220,20,60)"; } //Red
     stop.replace("%2",color);
     //Now add this stop to the style
-    qDebug() << "Stop:" << stop;
+    //qDebug() << "Stop:" << stop;
     style.append(stop);
     TT << QString(tr("CPU %1: %2%")).arg(QString::number(i), QString::number(percs[i]));
   }
-  qDebug() << "All Stops:" << style;
+  //qDebug() << "All Stops:" << style;
   style = cpuGlobalStyle.arg(style);
-  qDebug() << "Full Style:" << style;
+  //qDebug() << "Full Style:" << style;
   ui->label_cpu_stats->setStyleSheet(style);
   ui->label_cpu_stats->setToolTip(TT.join("\n"));
 }
