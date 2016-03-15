@@ -36,7 +36,8 @@ private:
 
 	void parsePIDS(QJsonObject);
 	void ShowMemInfo(int active, int cache, int freeM, int inactive, int wired);
-
+	void ShowCPUInfo(int tot, QList<int> percs); //all values are 0-100
+	void ShowCPUTempInfo(QStringList temps); //Temperature info
 	QTimer *proctimer;
 
 private slots:
