@@ -10,8 +10,7 @@
 #define refreshRate 3000
 
 #define memStyle QString("QLabel{background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:%1p rgb(100,100,200), stop:%2pa rgb(200,100,100), stop:%2pb rgb(200,100,100), stop:%3pa rgb(100,200,100), stop:%3pb rgb(100,200,100), stop:%4pa rgb(230, 230, 230), stop:%4pb rgb(230, 230, 230), stop:%5p white);\nborder: 1px solid black;\nborder-radius: 3px;}")
-#define cpuGlobalStyle QString("QLabel{background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0 %1); border: 1px solid black; border-radius: 3px;}")
-#define cpuStopStyle QString(", stop:%1a %2, stop:%1b %2, stop:%1c rgb(255,255,255), stop:%1d rgb(255,255,255), stop:%1e black, stop:%1f black")
+#define cpuGlobalStyle QString("QLabel{background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 %2, stop:%1a %2, stop:%1b rgb(255,255,255), stop:1 rgb(255,255,255)); border: 1px solid black; border-radius: 3px;}")
 
 taskmanager_page::taskmanager_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::taskmanager_ui){
   ui->setupUi(this);	
@@ -84,6 +83,7 @@ void taskmanager_page::ParseReply(QString id, QString namesp, QString name, QJso
       }
       ShowCPUInfo(tot, percs);
     }
+    QTimer::singleShot(0, this, SLOT(slotRequestCPUTempInfo()) ); //Always get CPU rate before temperatures
     QTimer::singleShot(refreshRate, this, SLOT(slotRequestCPUInfo()) );
   }else if(id=="page_task_man_cputemp_check" && name!="error" && namesp!="error" ){
     //CPU Temperature
@@ -97,7 +97,6 @@ void taskmanager_page::ParseReply(QString id, QString namesp, QString name, QJso
       }
       ShowCPUTempInfo(temps);
     }
-    QTimer::singleShot(refreshRate, this, SLOT(slotRequestCPUTempInfo()) ); //CPU % always comes in before CPU Temp
   }
 }
 
@@ -218,44 +217,62 @@ void taskmanager_page::ShowMemInfo(int active, int cache, int freeM, int inactiv
 
 void taskmanager_page::ShowCPUInfo(int tot, QList<int> percs){
   //all values are 0-100
-  qDebug() << "Got CPU Info:" << tot << percs;
-  ui->label_cpu_stats->setText( QString(tr("Total Usage: %1%")).arg(QString::number(tot)) );
-  QString style;
-  QStringList TT;
+  //qDebug() << "Got CPU Info:" << tot << percs;
+  //ui->label_cpu_stats->setText( QString(tr("Total Usage: %1%")).arg(QString::number(tot)) );
   for(int i=0; i<percs.length(); i++){
-    QString stop = cpuStopStyle;
+    QLabel *tmp=0;
+    //Find the existing widget (if there is one)
+    for(int j=0; j<ui->grid_cpu->count(); j++){
+      if( ui->grid_cpu->itemAt(j)->widget()->whatsThis().toInt()==i){
+        tmp = static_cast<QLabel*>(ui->grid_cpu->itemAt(j)->widget());
+	break;
+      }
+    }
+    if(tmp==0){
+      //Need to create a new widget
+      tmp = new QLabel(this);
+      tmp->setAlignment(Qt::AlignCenter);
+      tmp->setWhatsThis(QString::number(i));
+      //Now add this label to the grid
+      ui->grid_cpu->addWidget(tmp, i/4, i%4);
+    }
+      
+    QString style = cpuGlobalStyle;
     //First setup all the stops
-    double start = ((double) i) / ((double) percs.length());
-    double end = ((double) i+1) / ((double) percs.length());
-    double mid = start + ((end-start)*percs[i])/100.0;
-    stop.replace("%1a",QString::number(start+0.00001) );	//color
-    stop.replace("%1b",QString::number(mid-0.00001) ); 	//color
-    stop.replace("%1c",QString::number(mid+0.00001) ); 	//white
-    stop.replace("%1d",QString::number(end-0.001) ); 		//white
-    stop.replace("%1e",QString::number(end-0.0009) ); 	//black
-    stop.replace("%1f",QString::number(end) ); 			//black
+    double mid = (percs[i])/100.0;
+    style.replace("%1a",QString::number(mid-0.00001) ); 	//color
+    style.replace("%1b",QString::number(mid+0.00001) ); 	//white
     //Now set the color based on the percentage
     QString color;
     if(percs[i]<50){ color = "rgb(50,205,50)"; } //Green
     else if(percs[i]<80){ color = "rgb(255,255,0)"; } //Yellow
     else{ color = "rgb(220,20,60)"; } //Red
-    stop.replace("%2",color);
+    style.replace("%2",color);
     //Now add this stop to the style
-    //qDebug() << "Stop:" << stop;
-    style.append(stop);
-    TT << QString(tr("CPU %1: %2%")).arg(QString::number(i), QString::number(percs[i]));
+    tmp->setStyleSheet(style);
+    tmp->setToolTip( QString(tr("CPU %1: %2%")).arg(QString::number(i), QString::number(percs[i])) );
+    tmp->setText(QString::number(percs[i])+"%");
+
   }
-  //qDebug() << "All Stops:" << style;
-  style = cpuGlobalStyle.arg(style);
-  //qDebug() << "Full Style:" << style;
-  ui->label_cpu_stats->setStyleSheet(style);
-  ui->label_cpu_stats->setToolTip(TT.join("\n"));
+
 }
 
 void taskmanager_page::ShowCPUTempInfo(QStringList temps){
   //Temperature info
-  qDebug() << "Got Temperature Info:" << temps;
-  ui->label_cpu_tstats->setText(temps.join("\t    \t"));
+  if(temps.isEmpty()){ return; } //some systems don't return any temperature info
+  //qDebug() << "Got Temperature Info:" << temps;
+  for(int i=0; i<temps.length(); i++){
+    QLabel *tmp=0;
+    //Find the existing widget (if there is one)
+    for(int j=0; j<ui->grid_cpu->count(); j++){
+      if( ui->grid_cpu->itemAt(j)->widget()->whatsThis().toInt()==i){
+        tmp = static_cast<QLabel*>(ui->grid_cpu->itemAt(j)->widget());
+	break;
+      }
+    }
+    if(tmp==0){ continue; }
+    tmp->setText( tmp->text()+" ("+temps[i]+")" );
+  }
 }
 
 void taskmanager_page::slotRequestProcInfo(){
