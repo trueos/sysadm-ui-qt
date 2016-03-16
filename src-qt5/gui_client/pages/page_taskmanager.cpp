@@ -251,8 +251,11 @@ void taskmanager_page::ShowCPUInfo(int tot, QList<int> percs){
     //Now add this stop to the style
     tmp->setStyleSheet(style);
     tmp->setToolTip( QString(tr("CPU %1: %2%")).arg(QString::number(i), QString::number(percs[i])) );
-    tmp->setText(QString::number(percs[i])+"%");
-
+    //Now update the text
+    QString txt = tmp->text();
+    if(txt.contains("(")){ txt = QString::number(percs[i])+"% ("+txt.section("(",1,1); }
+    else{ txt = QString::number(percs[i])+"%"; }
+    tmp->setText(txt);
   }
 
 }
@@ -262,6 +265,7 @@ void taskmanager_page::ShowCPUTempInfo(QStringList temps){
   if(temps.isEmpty()){ return; } //some systems don't return any temperature info
   //qDebug() << "Got Temperature Info:" << temps;
   for(int i=0; i<temps.length(); i++){
+    if(temps[i].isEmpty()){continue; }
     QLabel *tmp=0;
     //Find the existing widget (if there is one)
     for(int j=0; j<ui->grid_cpu->count(); j++){
@@ -271,7 +275,11 @@ void taskmanager_page::ShowCPUTempInfo(QStringList temps){
       }
     }
     if(tmp==0){ continue; }
-    tmp->setText( tmp->text()+" ("+temps[i]+")" );
+    //Now update the text
+    QString txt = tmp->text();
+    if(txt.contains("(")){ txt = txt.section("(",0,0)+"("+temps[i]+")"; }
+    else{ txt.append(" ("+temps[i]+")"); }
+    tmp->setText( txt );
   }
 }
 
