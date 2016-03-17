@@ -32,6 +32,7 @@ static QList<PAGEINFO> KnownPages(){
   list << PageInfo("page_about", QObject::tr("About PC-BSD"), QObject::tr("About PC-BSD"), ":/icons/black/magnifyingglass.svg",QObject::tr("More information on PC-BSD"), "utils", QStringList() << "sysadm/about");
   list << PageInfo("page_lp", QObject::tr("Life Preserver"), QObject::tr("Life Preserver"), ":/icons/black/circledplus.svg",QObject::tr("Manage Local and Remote Backups"), "utils", QStringList() << "sysadm/lp");
   list << PageInfo("page_system", QObject::tr("System Manager"), QObject::tr("System Manager"), ":/icons/black/boxfilled.svg",QObject::tr("Information on your System"), "utils", QStringList() << "sysadm/system");
+  list << PageInfo("page_updates", QObject::tr("Update Manager"), QObject::tr("Update Manager"), ":/icons/black/sync.svg",QObject::tr("Perform Updates on the System"), "sysmgmt", QStringList() << "sysadm/update");
 	return list;
 }
 
@@ -44,7 +45,7 @@ static QList<PAGEINFO> KnownPages(){
 #include "page_about.h"
 #include "page_lp.h"
 #include "page_system.h"
-
+#include "page_updates.h"
 
 static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   //Find the page that matches this "id"
@@ -54,7 +55,8 @@ static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   else if(id=="page_ssl_auth"){ return new ssl_auth_page(parent, core); }
   else if(id=="page_about"){ return new about_page(parent, core); } 
   else if(id=="page_lp"){ return new lp_page(parent, core); }
-  else if(id=="page_system"){ return new system_page(parent, core); }      
+  else if(id=="page_system"){ return new system_page(parent, core); }
+  else if(id=="page_updates"){ return new updates_page(parent, core); }
   //Return the main control_panel page as the fallback/default
   return new control_panel(parent, core);
 }
