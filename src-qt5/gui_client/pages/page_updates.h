@@ -34,7 +34,19 @@ public:
 private:
 	Ui::updates_ui *ui;
 
+	//UI Update routines
+	void updateBranchList(QString active, QStringList avail);
+
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
+
+	//Core communications
+	void send_list_branches();
+	void send_change_branch();
+	void send_check_updates();
+
+	//UI slots
+	void check_current_branch();
+	void check_current_update();
 };
 #endif
