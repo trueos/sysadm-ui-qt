@@ -23,6 +23,8 @@ updates_page::~updates_page(){
 //Initialize the CORE <-->Page connections
 void updates_page::setupCore(){
   connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(ParseReply(QString, QString, QString, QJsonValue)) );
+  connect(CORE, SIGNAL(NewEvent(sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue)) );
+  CORE->registerForEvents(sysadm_client::DISPATCHER, true);
 }
 
 //Page embedded, go ahead and startup any core requests
@@ -60,12 +62,25 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
     QString stat = args.toObject().value("checkupdates").toObject().value("status").toString();
     ui->tree_updates->clear();
     if(stat=="noupdates"){
-      qDebug() << "No Updates Available";
+      ui->stacked_updates->setCurrentWidget(ui->page_stat);
+      ui->label_uptodate->setVisible(true);
+      ui->label_rebootrequired->setVisible(false);
+      ui->group_up_log->setVisible(false);
     }else if(stat=="rebootrequired"){
-      qDebug() << "Reboot Required";
-    }else if(stat=="noupdates"){
-      qDebug() << "No Updates";
+      ui->stacked_updates->setCurrentWidget(ui->page_stat);
+      ui->label_uptodate->setVisible(false);
+      ui->label_rebootrequired->setVisible(true);
+      ui->group_up_log->setVisible(false);
+    }else if(stat=="updaterunning"){
+      ui->stacked_updates->setCurrentWidget(ui->page_stat);
+      ui->label_uptodate->setVisible(false);
+      ui->label_rebootrequired->setVisible(false);
+      ui->group_up_log->setVisible(true);	    
     }else if(stat=="updatesavailable"){
+      ui->stacked_updates->setCurrentWidget(ui->page_updates);
+      ui->label_uptodate->setVisible(false);
+      ui->label_rebootrequired->setVisible(false);
+      ui->group_up_log->setVisible(false);
       QStringList types = args.toObject().keys();
 	types.removeAll("status");
 	for(int i=0; i<types.length(); i++){
@@ -78,12 +93,12 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
 	      tmp->setCheckState(0,Qt::Unchecked);
 	    ui->tree_updates->addTopLevelItem(tmp);
 	  }else if(types[i]=="majorupgrade"){
-	    QString txt = tr("Major OS Update");
+	    QString txt = tr("Major OS Update"); QString tag = tname;
 	    if(type.contains("version")){ txt.append(": "+type.value("version").toString()); }
-	    if(type.contains("tag")){ txt.append(" -- "+type.value("tag").toString()); }
+	    if(type.contains("tag")){ tag = type.value("tag").toString(); txt.append(" -- "+tag); }
 	    QTreeWidgetItem *tmp = new QTreeWidgetItem();
 	      tmp->setText(0, txt );
-	      tmp->setWhatsThis(0, tname);
+	      tmp->setWhatsThis(0, "standalone-major::"+tag);
 	      tmp->setCheckState(0,Qt::Unchecked);
 	    ui->tree_updates->addTopLevelItem(tmp);
 	  }else if(types[i].startsWith("patch")){
@@ -98,14 +113,15 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
 	      ui->tree_updates->addTopLevelItem(cat);
 	    }
 	    //Now create the child patch
-	    QString txt;
+	    QString txt, tag;
 	    if(type.contains("size")){ txt = "("+type.value("size").toString()+")"; }
 	    if(type.contains("date")){ txt.prepend("-"+type.value("date").toString()); }
-	    if(type.contains("tag")){ txt.prepend( type.value("tag").toString()); }
+	    if(type.contains("tag")){ tag = type.value("tag").toString(); txt.prepend(tag); }
 	    if(txt.isEmpty()){ txt = tname; }
+	    if(tag.isEmpty()){ tag = tname; }
 	    QTreeWidgetItem *tmp = new QTreeWidgetItem();
 	      tmp->setText(0,txt);
-	      tmp->setWhatsThis(0,tname);
+	      tmp->setWhatsThis(0,"standalone::"+tag);
 	      tmp->setCheckState(0,Qt::Unchecked);
 	      if(type.contains("details")){ tmp->setToolTip(0, type.value("details").toString() ); }
 	    cat->addChild(tmp);
@@ -117,12 +133,30 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
 	    ui->tree_updates->addTopLevelItem(tmp);
 	  }
 	}
-    }
+    } //end status update type
     check_current_update();
   }else{
     send_list_branches();
     send_check_updates();
   }
+}
+
+void updates_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
+  if(evtype==sysadm_client::DISPATCHER && val.isObject()){
+    qDebug() << "Got Dispatcher Event:" << val;
+    if(val.toObject().value("event_system").toString()=="sysadm/update"){
+      QString state = val.toObject().value("state").toString();
+      if(state=="finished"){
+        send_start_updates(); //see if there is another update waiting to start, refresh otherwise
+      }
+      //Update the log widget 
+      ui->text_up_log->setPlainText( val.toObject().value("update_log").toString() ); //text
+      ui->stacked_updates->setCurrentWidget(ui->page_stat);
+      ui->label_uptodate->setVisible(false);
+      ui->label_rebootrequired->setVisible(false);
+      ui->group_up_log->setVisible(true);	   
+    } //end sysadm/update check
+  } //end dispatcher event check
 }
 
 void updates_page::send_list_branches(){
@@ -149,6 +183,64 @@ void updates_page::send_check_updates(){
   CORE->communicate(IDTAG+"checkup", "sysadm", "update",obj);
 }
 
+void updates_page::check_start_updates(){
+  //Get the list of all selected updates
+  QStringList sel;
+  for(int i=0; i<ui->tree_updates->topLevelItemCount(); i++){
+    //Top level Items
+    if(ui->tree_updates->topLevelItem(i)->checkState(0) != Qt::Unchecked){
+      sel << ui->tree_updates->topLevelItem(i)->whatsThis(0);
+    }
+    for(int j=0; j<ui->tree_updates->topLevelItem(i)->childCount(); j++){
+      //Child items (only need to go one level deep)
+      if(ui->tree_updates->topLevelItem(i)->child(j)->checkState(0) != Qt::Unchecked){
+	sel << ui->tree_updates->topLevelItem(i)->child(j)->whatsThis(0);
+      }
+    }
+  }
+  sel.removeAll("");
+  if(sel.isEmpty()){ return; }
+  //Now determine the update command(s) to run
+  qDebug() << "Selected Updates:" << sel;
+  //  - Run any patches first (might fix any issues in the update system - and they are incredibly fast)
+  for(int i=0; i<sel.length(); i++){
+    if(sel[i].startsWith("standalone::")){ run_updates << sel[i]; }
+  }
+  //Now check for any major updates (does everything else)
+  if(!sel.filter("standalone-major::").isEmpty()){
+    sel = sel.filter("standalone-major::");
+    for(int i=0; i<sel.length(); i++){
+      run_updates << "standalone::"+sel[i].section("standalone-major::",-1);
+    }
+  }
+  //Now check for any fbsd/pkg combos
+  else if(sel.contains("pkgupdate") && sel.contains("fbsdupdate")){
+    run_updates << "fbsdupdatepkgs";
+  }
+  //Now check for any fbsd/pkg singles
+  else if(sel.contains("pkgupdate")){
+    run_updates << "pkgupdate";
+  }else if(sel.contains("fbsdupdate")){
+    run_updates << "fbsdupdate";
+  }
+  
+  send_start_updates();
+}
+
+void updates_page::send_start_updates(){
+  if(run_updates.isEmpty()){ send_check_updates(); return; }
+  QString  up = run_updates.takeFirst();
+   QJsonObject obj;
+    obj.insert("action","startupdate");
+    if(up.startsWith("standalone::")){
+      obj.insert("target","standalone");
+      obj.insert("tag", up.section("standalone::",-1));
+    }else{
+      obj.insert("target", up);
+    }
+  CORE->communicate(IDTAG+"startup", "sysadm", "update",obj);
+}
+
 void updates_page::check_current_branch(){
   bool ok = true;
   if(ui->list_branches->currentItem()==0 || ui->list_branches->currentItem()->whatsThis().isEmpty()){ ok = false; }
@@ -168,8 +260,16 @@ void updates_page::check_current_update(){
     ui->group_up_details->setVisible( false );
   }
   //Now figure out if any updates are checked, and enable the button as needed
-  ui->push_start_updates->setEnabled(false);
-  
+  bool sel = false;
+  for(int i=0; i<ui->tree_updates->topLevelItemCount() && !sel; i++){
+    //Top level Items
+    sel = (ui->tree_updates->topLevelItem(i)->checkState(0) != Qt::Unchecked);
+    for(int j=0; j<ui->tree_updates->topLevelItem(i)->childCount() && !sel; j++){
+      //Child items (only need to go one level deep)
+      sel = (ui->tree_updates->topLevelItem(i)->child(j)->checkState(0) != Qt::Unchecked);
+    }
+  }
+  ui->push_start_updates->setEnabled(sel);
 }
 
 // === PRIVATE ===

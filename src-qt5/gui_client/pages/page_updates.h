@@ -33,18 +33,21 @@ public:
 	
 private:
 	Ui::updates_ui *ui;
+	QStringList run_updates;
 
 	//UI Update routines
 	void updateBranchList(QString active, QStringList avail);
 
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
+	void ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue);
 
 	//Core communications
 	void send_list_branches();
 	void send_change_branch();
 	void send_check_updates();
-
+	void check_start_updates();
+	void send_start_updates();
 	//UI slots
 	void check_current_branch();
 	void check_current_update();
