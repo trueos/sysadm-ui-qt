@@ -11,7 +11,7 @@
 
 updates_page::updates_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::updates_ui){
   ui->setupUi(this);
-  ui->page_stat_layout->setStretchFactor(ui->text_up_log, 1);
+  ui->page_stat_layout->setStretchFactor(ui->text_up_log, 2);
   connect(ui->push_start_updates, SIGNAL(clicked()), this, SLOT(check_start_updates()) );
   connect(ui->push_chbranch, SIGNAL(clicked()), this, SLOT(send_change_branch()) );
   connect(ui->list_branches, SIGNAL(currentRowChanged(int)), this, SLOT(check_current_branch()) );
