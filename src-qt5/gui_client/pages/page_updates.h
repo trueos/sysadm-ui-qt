@@ -51,5 +51,6 @@ private slots:
 	//UI slots
 	void check_current_branch();
 	void check_current_update();
+	void check_current_update_item(QTreeWidgetItem*);
 };
 #endif

@@ -11,9 +11,13 @@
 
 updates_page::updates_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::updates_ui){
   ui->setupUi(this);
+  ui->page_stat_layout->setStretchFactor(ui->text_up_log, 1);
+  connect(ui->push_start_updates, SIGNAL(clicked()), this, SLOT(check_start_updates()) );
   connect(ui->push_chbranch, SIGNAL(clicked()), this, SLOT(send_change_branch()) );
   connect(ui->list_branches, SIGNAL(currentRowChanged(int)), this, SLOT(check_current_branch()) );
   connect(ui->tree_updates, SIGNAL(itemSelectionChanged()), this, SLOT(check_current_update()) );
+  connect(ui->tree_updates, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(check_current_update_item(QTreeWidgetItem*)) );
+  connect(ui->group_up_details, SIGNAL(toggled(bool)), this, SLOT(check_current_update()) );
 }
 
 updates_page::~updates_page(){
@@ -56,7 +60,8 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
       }
     }
     updateBranchList(active, avail);
-    
+  }else if(id==IDTAG+"startup" && name!="error"){
+    //update started successfully - wait for the dispatcher event to do the next UI update
   }else if(id==IDTAG+"checkup"){
     if(name=="error" || !args.isObject() || !args.toObject().contains("checkupdates") ){ return; }
     QString stat = args.toObject().value("checkupdates").toObject().value("status").toString();
@@ -81,15 +86,16 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
       ui->label_uptodate->setVisible(false);
       ui->label_rebootrequired->setVisible(false);
       ui->group_up_log->setVisible(false);
-      QStringList types = args.toObject().keys();
+      QStringList types = args.toObject().value("checkupdates").toObject().keys();
 	types.removeAll("status");
+	qDebug() << "Types:" << types;
 	for(int i=0; i<types.length(); i++){
 	  QJsonObject type = args.toObject().value("checkupdates").toObject().value(types[i]).toObject();
 	  QString tname = type.value("name").toString();
 	  if(types[i]=="security"){
 	    QTreeWidgetItem *tmp = new QTreeWidgetItem();
 	      tmp->setText(0, tr("FreeBSD Security Updates"));
-	      tmp->setWhatsThis(0, tname);
+	      tmp->setWhatsThis(0, "fbsdupdate");
 	      tmp->setCheckState(0,Qt::Unchecked);
 	    ui->tree_updates->addTopLevelItem(tmp);
 	  }else if(types[i]=="majorupgrade"){
@@ -128,7 +134,7 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
 	  }else if(types[i]=="packageupdate"){
 	    QTreeWidgetItem *tmp = new QTreeWidgetItem();
 	      tmp->setText(0, tr("Package Updates"));
-	      tmp->setWhatsThis(0, tname);
+	      tmp->setWhatsThis(0, "pkgupdate");
 	      tmp->setCheckState(0,Qt::Unchecked);
 	    ui->tree_updates->addTopLevelItem(tmp);
 	  }
@@ -143,7 +149,7 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
 
 void updates_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
   if(evtype==sysadm_client::DISPATCHER && val.isObject()){
-    qDebug() << "Got Dispatcher Event:" << val;
+    //qDebug() << "Got Dispatcher Event:" << val;
     if(val.toObject().value("event_system").toString()=="sysadm/update"){
       QString state = val.toObject().value("state").toString();
       if(state=="finished"){
@@ -151,6 +157,8 @@ void updates_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
       }
       //Update the log widget 
       ui->text_up_log->setPlainText( val.toObject().value("update_log").toString() ); //text
+      ui->text_up_log->moveCursor(QTextCursor::End);
+      ui->text_up_log->ensureCursorVisible();
       ui->stacked_updates->setCurrentWidget(ui->page_stat);
       ui->label_uptodate->setVisible(false);
       ui->label_rebootrequired->setVisible(false);
@@ -238,7 +246,14 @@ void updates_page::send_start_updates(){
     }else{
       obj.insert("target", up);
     }
-  CORE->communicate(IDTAG+"startup", "sysadm", "update",obj);
+  //qDebug() << "Send update request:" << obj;
+  CORE->communicate(IDTAG+"startup", "sysadm", "update",obj);	
+  //Update the UI right away (so the user knows it is working)
+    ui->stacked_updates->setCurrentWidget(ui->page_stat);
+    ui->label_uptodate->setVisible(false);
+    ui->label_rebootrequired->setVisible(false);
+    ui->group_up_log->setVisible(true);
+    ui->text_up_log->clear();
 }
 
 void updates_page::check_current_branch(){
@@ -254,8 +269,8 @@ void updates_page::check_current_update(){
   //Update the details box for the current selection
   ui->text_details->setVisible(ui->group_up_details->isChecked());
   if(it!=0){
-    ui->group_up_details->setVisible( !it->whatsThis(0).isEmpty() );
     ui->text_details->setPlainText(it->toolTip(0));
+    ui->group_up_details->setVisible( !ui->text_details->toPlainText().simplified().isEmpty() );
   }else{
     ui->group_up_details->setVisible( false );
   }
@@ -270,6 +285,17 @@ void updates_page::check_current_update(){
     }
   }
   ui->push_start_updates->setEnabled(sel);
+}
+
+void updates_page::check_current_update_item(QTreeWidgetItem *it){
+  if(it!=0){
+    //If this item has children - make sure they all have the same checkstate
+    for(int i=0; i<it->childCount(); i++){
+      it->child(i)->setCheckState(0, it->checkState(0));
+    }
+  }
+  //Also update this widget itself
+  check_current_update();  
 }
 
 // === PRIVATE ===
