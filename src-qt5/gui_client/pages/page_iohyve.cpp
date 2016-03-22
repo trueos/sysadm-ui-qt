@@ -59,8 +59,8 @@ void iohyve_page::ParseReply(QString id, QString namesp, QString name, QJsonValu
     request_is_setup(); //make sure it got setup properly
   }else if(id==PAGETAG+"setup_options_zfs"){
     ui->combo_zpool->clear();
-    if(args.isObject()){
-      QStringList pools = args.toObject().keys(); //don't need all the extra pool info, just the list
+    if(args.isObject() && args.toObject().contains("list_pools")){
+      QStringList pools = args.toObject().value("list_pools").toObject().keys(); //don't need all the extra pool info, just the list
       pools.sort();
       ui->combo_zpool->addItems(pools);
     }
