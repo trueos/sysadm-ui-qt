@@ -30,13 +30,18 @@ private:
 
 	//Menu's attached to the tray
 	MenuItem *menu; //the main menu
-	
+	//Timers/flags to control the icon "flash" frequency
+	QTimer *iconTimer;
+	bool iconreset;
+	int cPriority;
+
+	//Function to create/retrieve a core
 	sysadm_client* getCore(QString host);
 
 private slots:
 	//Tray activated
 	void trayActivated(){
-	  this->contextMenu()->popup( this->geometry().center()); //QCursor::pos() );
+	  this->contextMenu()->popup( this->geometry().center());
 	}
 	//Allow popups
 	void allowPopups(){
@@ -57,6 +62,9 @@ private slots:
 	void UnlockConnections();
 	//Popup Notifications
 	void ShowMessage(QString title, QString text, QSystemTrayIcon::MessageIcon icon, int ms);
+	//Icon Updates
+	void UpdateIconPriority();
+	void UpdateIcon();
 
 };
 

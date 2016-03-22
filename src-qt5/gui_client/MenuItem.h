@@ -24,11 +24,12 @@ private slots:
 	void CoreClosed();
 	void CoreConnecting();
 	void CoreActive();
-	void CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue data);
+	void priorityChanged(int);
 
 signals:
 	//Show a tray message popup
 	void ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int);
+	void UpdateTrayIcon();
 };
 
 class MenuItem : public QMenu{
@@ -66,11 +67,8 @@ signals:
 
 	//Show a tray message popup
 	void ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int);
-	
+	void UpdateTrayIcon();
 
-	
-	
-	
 };
 
 #endif

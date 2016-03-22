@@ -199,6 +199,8 @@ void C_Manager::on_push_conn_add_clicked(){
   if(!dlg.success){ return; } //cancelled
   CORES.insert(dlg.host, dlg.core);
   dlg.core->registerCustomCert();
+  dlg.core->registerForEvents(sysadm_client::SYSSTATE);
+  
   //Create the new item
   QTreeWidgetItem *item = new QTreeWidgetItem(QStringList() << (gname+" ("+dlg.host+")"));
     item->setWhatsThis(0,dlg.host);

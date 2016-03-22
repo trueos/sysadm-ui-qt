@@ -18,6 +18,11 @@ QHash<QString,sysadm_client*> CORES; // hostIP / core
 sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
   CMAN = 0; SDLG = 0;
   showNotices = false;
+  iconreset = true;
+  cPriority = 0;
+  iconTimer = new QTimer(this);
+    iconTimer->setInterval(1500); //1.5 seconds
+    connect(iconTimer, SIGNAL(timeout()), this, SLOT(UpdateIcon()) );
   //Load any CORES
   updateCoreList();
   
@@ -34,6 +39,7 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
   connect(menu, SIGNAL(OpenCore(QString)), this, SLOT(OpenCore(QString)) );
   connect(menu, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)), this, SLOT(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)) );
   connect(menu, SIGNAL(UnlockConnections()), this, SLOT(UnlockConnections()) );
+  connect(menu, SIGNAL(UpdateTrayIcon()), this, SLOT(UpdateIconPriority()) );
   QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
 }
 
@@ -48,6 +54,7 @@ sysadm_client* sysadm_tray::getCore(QString host){
   //simplification to ensure that core always exists fot the given host
   if(!CORES.contains(host)){ 
     CORES.insert(host, new sysadm_client()); 
+    CORES[host]->registerForEvents(sysadm_client::SYSSTATE);
     #ifdef __FreeBSD__
      //Also load the currently-running user for this process and place that into the UI automatically
       //Note: This will only be valid on FreeBSD systems (since the server is only for FreeBSD)
@@ -167,4 +174,34 @@ void sysadm_tray::ShowMessage(QString title, QString text, QSystemTrayIcon::Mess
   
   //Default popup notification system for systray icons
   this->showMessage(title, text, icon,ms);
+}
+
+//Icon Updates
+void sysadm_tray::UpdateIconPriority(){
+  //A core's priority changed - go through and re-update the current max priority
+  QStringList cores = CORES.keys();
+  cPriority = 0;
+  for(int i=0; i<cores.length(); i++){
+    if(CORES[ cores[i] ]->statePriority() > cPriority){ cPriority = CORES[ cores[i] ]->statePriority(); }
+  }
+  //Update the icon right now
+  if(iconTimer->isActive()){ iconTimer->stop(); }
+  iconreset = false;
+  UpdateIcon();
+  //Now setup the automatic flashing 
+  if(cPriority >= 3 && cPriority < 9){ iconTimer->start();  }
+}
+
+void sysadm_tray::UpdateIcon(){
+  QString icon;
+  if(iconreset || cPriority <3){
+    if(SSL_cfg.isNull()){ icon = ":/icons/grey/lock.svg"; }
+    else{ icon = ":/icons/grey/disk2.svg"; }
+  }else if(cPriority < 6){  icon = ":/icons/grey/exclamationmark.svg"; }
+  else if(cPriority < 9){  icon = ":/icons/grey/warning.svg"; }
+  else{  icon = ":/icons/grey/attention.svg"; }
+  this->setIcon(QIcon(icon));
+  //Reset the icon flag as needed (for next run)
+  iconreset = !iconreset;
+
 }

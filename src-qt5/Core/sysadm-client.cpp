@@ -41,6 +41,8 @@ sysadm_client::sysadm_client(){
     connect(SOCKET, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)) );
     connect(SOCKET, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(socketSslErrors(const QList<QSslError>&)) );
   keepActive=SSLsuccess=usedSSL=false; //not setup yet
+  events << SYSSTATE; //always pre-register for this type of event
+  cPriority = 0;
   //Timer for events while possibly attempting a connection for 30s->1minute
   connectTimer = new QTimer(this);
     connectTimer->setInterval(1000); //1 second intervals
@@ -120,16 +122,22 @@ bool sysadm_client::localhostAvailable(){
 // Register for Event Notifications (no notifications by default)
 void sysadm_client::registerForEvents(EVENT_TYPE event, bool receive){
   bool set = events.contains(event);
+  //qDebug() << "Register for event:" << event << events << set << receive;
   if( set && receive){ return; } //already registered
   else if(!set && !receive){ return; } //already unregistered
-  else if(set){ events << event; }
+  else if(!set){ events << event; }
   else{ events.removeAll(event); }
   //Since this can be setup before the socket is connected - see if we can send this message right away
   if(SOCKET->isValid()){
     sendEventSubscription(event, receive);
   }
 }
-	
+
+int sysadm_client::statePriority(){
+  if( isActive() ){ return cPriority; }
+  else{ return 0; }  
+}
+
 //Register the custom SSL Certificate with the server
 void sysadm_client::registerCustomCert(){
   if(SSL_cfg.isNull() || SOCKET==0 || !SOCKET->isValid()){ return; }
@@ -214,13 +222,13 @@ void sysadm_client::clearAuth(){
   emit clientUnauthorized();
 }
 
-//Communication subroutines with the server (block until message comes back)
+//Communication subroutines with the server
 void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
   QString arg;
   if(event == DISPATCHER){ arg = "dispatcher"; }
   else if(event == LIFEPRESERVER){ arg = "life-preserver"; }
   else if(event== SYSSTATE){ arg = "system-state"; }
-  qDebug() << "Send Event Subscription:" << event << arg << subscribe;
+  //qDebug() << "Send Event Subscription:" << event << arg << subscribe;
   this->communicate("sysadm-client-event-auto","events", subscribe ? "subscribe" : "unsubscribe", arg);
 }
 
@@ -389,6 +397,7 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
 	cauthkey = args.toArray().first().toString();
 	emit clientAuthorized();
 	//Now automatically re-subscribe to events as needed
+	//qDebug() << "Re-subscribe to events:" << events;
 	for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }
       }else if(args.isObject()){
         //SSL Auth Stage 2
@@ -411,7 +420,14 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
     //Event notification - not tied to any particular request
     if(name=="dispatcher"){ emit NewEvent(DISPATCHER, obj.value("args")); }
     else if(name=="life-preserver"){ emit NewEvent(LIFEPRESERVER, obj.value("args")); }
-    else if(name=="system-state"){ emit NewEvent(SYSSTATE, obj.value("args")); }
+    else if(name=="system-state"){ 
+      QString pri = obj.value("args").toObject().value("priority").toString();
+      int priority = pri.section("-",0,0).simplified().toInt();
+      qDebug() << "Got System State Event:" << priority << "Formerly:" << cPriority;
+      if(cPriority!=priority){ emit statePriorityChanged(priority); }
+      cPriority = priority;
+      emit NewEvent(SYSSTATE, obj.value("args")); 
+    }
   }else{
     //Now save this message into the cache for use later (if not an auth reply)
     if(!ID.isEmpty()){ 

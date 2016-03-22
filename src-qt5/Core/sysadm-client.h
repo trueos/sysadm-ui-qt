@@ -50,7 +50,8 @@ public:
 
 	// Register for Event Notifications (no notifications by default)
 	void registerForEvents(EVENT_TYPE event, bool receive = true);
-	
+	//Return the current priority for the system state (0-9)
+	int statePriority();
 	//Register the custom SSL Certificate with the server
 	void registerCustomCert();
 	
@@ -69,6 +70,7 @@ private:
 	QStringList PENDING; //ID's for sent but not received messages
 	bool keepActive, SSLsuccess, usedSSL;
 	int num_fail; //number of server connection failures
+	int cPriority;
 	QTimer *connectTimer;
 
 	//Functions to do the initial socket setup
@@ -111,6 +113,7 @@ signals:
 	void clientUnauthorized(); //Only emitted if the user needs to re-authenticate with the server
 	void newReply(QString ID, QString namesp, QString name, QJsonValue args);
 	void NewEvent(sysadm_client::EVENT_TYPE, QJsonValue);
+	void statePriorityChanged(int);
 
 };
 
