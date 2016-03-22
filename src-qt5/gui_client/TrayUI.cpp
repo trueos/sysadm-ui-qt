@@ -189,7 +189,7 @@ void sysadm_tray::UpdateIconPriority(){
   iconreset = false;
   UpdateIcon();
   //Now setup the automatic flashing 
-  if(cPriority >= 3 && cPriority < 9){ iconTimer->start();  }
+  if(cPriority >2 && cPriority < 9){ iconTimer->start();  }
 }
 
 void sysadm_tray::UpdateIcon(){

@@ -42,7 +42,7 @@ sysadm_client::sysadm_client(){
     connect(SOCKET, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(socketSslErrors(const QList<QSslError>&)) );
   keepActive=SSLsuccess=usedSSL=false; //not setup yet
   events << SYSSTATE; //always pre-register for this type of event
-  cPriority = 0;
+  cPriority = -1;
   //Timer for events while possibly attempting a connection for 30s->1minute
   connectTimer = new QTimer(this);
     connectTimer->setInterval(1000); //1 second intervals
@@ -349,6 +349,7 @@ void sysadm_client::socketClosed(){ //Signal: disconnected()
   }
   emit clientDisconnected();
   //Server cache is now invalid - completely lost connection
+  cPriority = -1;
   SENT.clear(); BACK.clear(); PENDING.clear(); 
 }
 
@@ -423,9 +424,11 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
     else if(name=="system-state"){ 
       QString pri = obj.value("args").toObject().value("priority").toString();
       int priority = pri.section("-",0,0).simplified().toInt();
-      qDebug() << "Got System State Event:" << priority << "Formerly:" << cPriority;
-      if(cPriority!=priority){ emit statePriorityChanged(priority); }
-      cPriority = priority;
+      //qDebug() << "Got System State Event:" << priority << "Formerly:" << cPriority;
+      if(cPriority!=priority){ 
+	cPriority = priority;
+	emit statePriorityChanged(cPriority); 
+      }
       emit NewEvent(SYSSTATE, obj.value("args")); 
     }
   }else{

@@ -42,6 +42,7 @@ void CoreAction::CoreClosed(){
   this->setIcon( QIcon(":/icons/grey/disk.svg") );
   this->setToolTip( tr("Connection Closed") );
   this->setEnabled(true);
+  emit UpdateTrayIcon(); //let the main tray icon know it needs to update as needed
   emit ShowMessage(tr("Disconnected"), QString(tr("%1: Lost Connection")).arg(nickname), QSystemTrayIcon::Warning, 1500);
 }
 void CoreAction::CoreConnecting(){
@@ -59,9 +60,9 @@ void CoreAction::CoreActive(){
 void CoreAction::priorityChanged(int priority){
   QString icon;
   if(priority <3){ icon = ":/icons/black/disk.svg"; } //Information - do nothing
-  else if(priority < 6){  icon = ":/icons/grey/exclamationmark.svg"; } //Warning - change icon
-  else if(priority < 9){  icon = ":/icons/grey/warning.svg"; } //Critical - change icon and popup message
-  else{  icon = ":/icons/grey/attention.svg"; } //Urgent - change icon and popup client window 
+  else if(priority < 6){  icon = ":/icons/black/exclamationmark.svg"; } //Warning - change icon
+  else if(priority < 9){  icon = ":/icons/black/warning.svg"; } //Critical - change icon and popup message
+  else{  icon = ":/icons/black/attention.svg"; } //Urgent - change icon and popup client window 
   this->setIcon(QIcon(icon));
   emit UpdateTrayIcon(); //let the main tray icon know it needs to update as needed
 }
