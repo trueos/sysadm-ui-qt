@@ -36,7 +36,8 @@ HEADERS += globals.h \
 		mainUI.h \
 		C_Manager.h \
 		NewConnectionWizard.h \
-		SettingsDialog.h
+		SettingsDialog.h \ 
+		Messages.h
 
 FORMS += mainUI.ui \
 		C_Manager.ui \

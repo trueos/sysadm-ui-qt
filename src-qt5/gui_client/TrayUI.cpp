@@ -37,7 +37,7 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
   connect(menu, SIGNAL(OpenSettings()), this, SLOT(OpenSettings()) );
   connect(menu, SIGNAL(CloseApplication()),this, SLOT(CloseApplication()) );
   connect(menu, SIGNAL(OpenCore(QString)), this, SLOT(OpenCore(QString)) );
-  connect(menu, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)), this, SLOT(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)) );
+  connect(menu, SIGNAL(ShowMessage(HostMessage)), this, SLOT(ShowMessage(HostMessage)) );
   connect(menu, SIGNAL(UnlockConnections()), this, SLOT(UnlockConnections()) );
   connect(menu, SIGNAL(UpdateTrayIcon()), this, SLOT(UpdateIconPriority()) );
   QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
@@ -169,11 +169,13 @@ void sysadm_tray::UnlockConnections(){
 }
 
 //Popup Notifications
-void sysadm_tray::ShowMessage(QString title, QString text, QSystemTrayIcon::MessageIcon icon, int ms){
-  if(!showNotices){ return; } //skip this popup
-  
-  //Default popup notification system for systray icons
-  this->showMessage(title, text, icon,ms);
+void sysadm_tray::ShowMessage(HostMessage msg){
+  if(showNotices){ 
+    //Default popup notification system for systray icons
+    this->showMessage(msg.host_id, msg.message, QSystemTrayIcon::Information ,1500);	  
+  }
+  //Add the message to the current list/queue
+  // TO-DO
 }
 
 //Icon Updates

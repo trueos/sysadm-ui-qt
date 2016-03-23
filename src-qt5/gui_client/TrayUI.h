@@ -12,6 +12,7 @@
 #include "MenuItem.h"
 #include "C_Manager.h"
 #include "SettingsDialog.h"
+#include "Messages.h"
 
 class sysadm_tray : public QSystemTrayIcon{
 	Q_OBJECT
@@ -61,7 +62,7 @@ private slots:
 	void OpenCore(QString);
 	void UnlockConnections();
 	//Popup Notifications
-	void ShowMessage(QString title, QString text, QSystemTrayIcon::MessageIcon icon, int ms);
+	void ShowMessage(HostMessage);
 	//Icon Updates
 	void UpdateIconPriority();
 	void UpdateIcon();

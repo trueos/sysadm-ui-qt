@@ -10,6 +10,7 @@
 #define _SYSADM_CLIENT_TRAY_MENU_ITEM_H
 
 #include "globals.h"
+#include "Messages.h"
 
 class CoreAction : public QAction{
 	Q_OBJECT
@@ -28,7 +29,7 @@ private slots:
 
 signals:
 	//Show a tray message popup
-	void ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int);
+	void ShowMessage(HostMessage);
 	void UpdateTrayIcon();
 };
 
@@ -66,7 +67,7 @@ signals:
 	void OpenCore(QString host);
 
 	//Show a tray message popup
-	void ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int);
+	void ShowMessage(HostMessage);
 	void UpdateTrayIcon();
 
 };

@@ -43,18 +43,20 @@ void CoreAction::CoreClosed(){
   this->setToolTip( tr("Connection Closed") );
   this->setEnabled(true);
   emit UpdateTrayIcon(); //let the main tray icon know it needs to update as needed
-  emit ShowMessage(tr("Disconnected"), QString(tr("%1: Lost Connection")).arg(nickname), QSystemTrayIcon::Warning, 1500);
+  emit ShowMessage( createMessage(this->whatsThis().section("::",1,-1), QString(tr("%1: Lost Connection")).arg(nickname), ":/icons/grey/off.svg") );
+  //emit ShowMessage(tr("Disconnected"), QString(tr("%1: Lost Connection")).arg(nickname), QSystemTrayIcon::Warning, 1500);
 }
 void CoreAction::CoreConnecting(){
   this->setIcon( QIcon(":/icons/black/sync.svg") );
-  this->setToolTip( tr("Trying to connect....") );	
+  this->setToolTip( tr("Trying to connect....") );
   this->setEnabled(false);
 }
 void CoreAction::CoreActive(){
   this->setIcon( QIcon(":/icons/black/disk.svg") );
   this->setToolTip( tr("Connection Active") );
   this->setEnabled(true);
-  emit ShowMessage(tr("Connected"), QString(tr("%1: Connected")).arg(nickname), QSystemTrayIcon::Information, 1500);	
+  emit ShowMessage( createMessage(this->whatsThis().section("::",1,-1), QString(tr("%1: Connected")).arg(nickname), ":/icons/black/off.svg") );
+  //emit ShowMessage(tr("Connected"), QString(tr("%1: Connected")).arg(nickname), QSystemTrayIcon::Information, 1500);	
 }
 
 void CoreAction::priorityChanged(int priority){
@@ -94,7 +96,7 @@ void MenuItem::addSubMenu(MenuItem *menu){
   connect(menu, SIGNAL(CloseApplication()),this, SIGNAL(CloseApplication()) );
   connect(menu, SIGNAL(OpenCore(QString)), this, SIGNAL(OpenCore(QString)) );
   connect(menu, SIGNAL(UpdateTrayIcon()), this, SIGNAL(UpdateTrayIcon()) );
-  connect(menu, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)), this, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)) );
+  connect(menu, SIGNAL(ShowMessage(HostMessage)), this, SIGNAL(ShowMessage(HostMessage)) );
   QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
 }
 
@@ -103,7 +105,7 @@ void MenuItem::addCoreAction(QString host){
   if(!CORES.contains(host)){ return; }
   CoreAction *act = new CoreAction(CORES[host], this);
   this->addAction(act);
-  connect(act, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)), this, SIGNAL(ShowMessage(QString, QString, QSystemTrayIcon::MessageIcon, int)) );
+  connect(act, SIGNAL(ShowMessage(HostMessage)), this, SIGNAL(ShowMessage(HostMessage)) );
   connect(act, SIGNAL(UpdateTrayIcon()), this, SIGNAL(UpdateTrayIcon()) );
 }
 
