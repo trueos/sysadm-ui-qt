@@ -119,17 +119,17 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
 	      ui->tree_updates->addTopLevelItem(cat);
 	    }
 	    //Now create the child patch
-	    QString txt, tag;
-	    if(type.contains("size")){ txt = "("+type.value("size").toString()+")"; }
-	    if(type.contains("date")){ txt.prepend("-"+type.value("date").toString()); }
-	    if(type.contains("tag")){ tag = type.value("tag").toString(); txt.prepend(tag); }
-	    if(txt.isEmpty()){ txt = tname; }
+	    QStringList txt; QString tag;
+	    if(type.contains("size")){ txt << QString(tr("Size: %1")).arg( type.value("size").toString()); }
+	    if(type.contains("date")){ txt << QString(tr("Date: %1")).arg(type.value("date").toString()); }
+	    if(type.contains("tag")){ tag = type.value("tag").toString(); txt << QString(tr("Tag: %1")).arg(tag); }
+	    if(type.contains("details")){txt << QString(tr("Additional Details: %1")).arg(type.value("details").toString()); }
 	    if(tag.isEmpty()){ tag = tname; }
 	    QTreeWidgetItem *tmp = new QTreeWidgetItem();
-	      tmp->setText(0,txt);
+	      tmp->setText(0,tname);
 	      tmp->setWhatsThis(0,"standalone::"+tag);
 	      tmp->setCheckState(0,Qt::Unchecked);
-	      if(type.contains("details")){ tmp->setToolTip(0, type.value("details").toString() ); }
+	      tmp->setToolTip(0, txt.join("\n"));
 	    cat->addChild(tmp);
 	  }else if(types[i]=="packageupdate"){
 	    QTreeWidgetItem *tmp = new QTreeWidgetItem();
@@ -140,6 +140,9 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
 	  }
 	}
     } //end status update type
+    ui->tree_updates->sortItems(0,Qt::AscendingOrder);
+    ui->page_updates->setEnabled(true);
+    ui->label_checking->setVisible(false);
     check_current_update();
   }else{
     send_list_branches();
@@ -189,6 +192,8 @@ void updates_page::send_check_updates(){
   QJsonObject obj;
     obj.insert("action","checkupdates");
   CORE->communicate(IDTAG+"checkup", "sysadm", "update",obj);
+  ui->page_updates->setEnabled(false);
+  ui->label_checking->setVisible(true);
 }
 
 void updates_page::check_start_updates(){
@@ -231,7 +236,7 @@ void updates_page::check_start_updates(){
   }else if(sel.contains("fbsdupdate")){
     run_updates << "fbsdupdate";
   }
-  
+  qDebug() << "Starting Updates:" << run_updates;
   send_start_updates();
 }
 
@@ -246,7 +251,7 @@ void updates_page::send_start_updates(){
     }else{
       obj.insert("target", up);
     }
-  //qDebug() << "Send update request:" << obj;
+  qDebug() << "Send update request:" << obj;
   CORE->communicate(IDTAG+"startup", "sysadm", "update",obj);	
   //Update the UI right away (so the user knows it is working)
     ui->stacked_updates->setCurrentWidget(ui->page_stat);
