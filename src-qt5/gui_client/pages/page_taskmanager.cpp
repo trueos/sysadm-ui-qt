@@ -142,7 +142,7 @@ void taskmanager_page::parsePIDS(QJsonObject jsobj)
       foundItems.at(0)->setText(11, pidinfo.value("command").toString());
     } else {
       // Create the new taskWidget item
-      new QTreeWidgetItem(ui->taskWidget, QStringList() << PID
+      new CQTreeWidgetItem(ui->taskWidget, QStringList() << PID
           << pidinfo.value("username").toString()
           << pidinfo.value("thr").toString()
           << pidinfo.value("pri").toString()
