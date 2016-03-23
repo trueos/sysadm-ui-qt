@@ -240,6 +240,8 @@ void taskmanager_page::ShowCPUInfo(int tot, QList<int> percs){
     QString style = cpuGlobalStyle;
     //First setup all the stops
     double mid = (percs[i])/100.0;
+    if(mid<0.00001){ mid = 0.00001; } //ensure we always have a number between 0-1
+    else if(mid>9.99999){ mid = 9.99999; } //ensure we always have a number between 0-1
     style.replace("%1a",QString::number(mid-0.00001) ); 	//color
     style.replace("%1b",QString::number(mid+0.00001) ); 	//white
     //Now set the color based on the percentage
@@ -250,6 +252,7 @@ void taskmanager_page::ShowCPUInfo(int tot, QList<int> percs){
     style.replace("%2",color);
     //Now add this stop to the style
     tmp->setStyleSheet(style);
+    //qDebug() << "CPU Style:" << style;
     tmp->setToolTip( QString(tr("CPU %1: %2%")).arg(QString::number(i), QString::number(percs[i])) );
     //Now update the text
     QString txt = tmp->text();
