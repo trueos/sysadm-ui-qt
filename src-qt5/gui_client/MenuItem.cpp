@@ -14,15 +14,16 @@ extern QHash<QString,sysadm_client*> CORES; // hostIP / core
 CoreAction::CoreAction(sysadm_client*core, QObject *parent) : QAction(parent){
  
   //Load the current core settings into the action
-  this->setWhatsThis("core::"+core->currentHost());
-  nickname = settings->value("Hosts/"+core->currentHost(),"").toString();
+  host = core->currentHost();
+  this->setWhatsThis("core::"+host);
+  nickname = settings->value("Hosts/"+host,"").toString();
   if(nickname.isEmpty()){
     if( core->isLocalHost() ){ nickname = tr("Local System"); }
-    else{ nickname = core->currentHost(); }
+    else{ nickname = host; }
     this->setText(nickname);
   }else{ 
     this->setText(nickname); 
-    nickname.append(" ("+core->currentHost()+")"); 
+    nickname.append(" ("+host+")"); 
   }
   
   //Update the icon as needed
@@ -33,6 +34,7 @@ CoreAction::CoreAction(sysadm_client*core, QObject *parent) : QAction(parent){
   connect(core, SIGNAL(clientAuthorized()), this, SLOT(CoreActive()) );
   connect(core, SIGNAL(clientDisconnected()), this, SLOT(CoreClosed()) );
   connect(core, SIGNAL(clientReconnecting()), this, SLOT(CoreConnecting()) );
+  connect(core, SIGNAL(NewEvent(sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(CoreEvent(sysadm_client::EVENT_TYPE, QJsonValue)) );
   connect(core, SIGNAL(statePriorityChanged(int)), this, SLOT(priorityChanged(int)) );
 }
 CoreAction::~CoreAction(){
@@ -43,8 +45,7 @@ void CoreAction::CoreClosed(){
   this->setToolTip( tr("Connection Closed") );
   this->setEnabled(true);
   emit UpdateTrayIcon(); //let the main tray icon know it needs to update as needed
-  emit ShowMessage( createMessage(this->whatsThis().section("::",1,-1), QString(tr("%1: Lost Connection")).arg(nickname), ":/icons/grey/off.svg") );
-  //emit ShowMessage(tr("Disconnected"), QString(tr("%1: Lost Connection")).arg(nickname), QSystemTrayIcon::Warning, 1500);
+  emit ShowMessage( createMessage(host, "connection", QString(tr("%1: Lost Connection")).arg(nickname), ":/icons/grey/off.svg") );
 }
 void CoreAction::CoreConnecting(){
   this->setIcon( QIcon(":/icons/black/sync.svg") );
@@ -55,8 +56,45 @@ void CoreAction::CoreActive(){
   this->setIcon( QIcon(":/icons/black/disk.svg") );
   this->setToolTip( tr("Connection Active") );
   this->setEnabled(true);
-  emit ShowMessage( createMessage(this->whatsThis().section("::",1,-1), QString(tr("%1: Connected")).arg(nickname), ":/icons/black/off.svg") );
-  //emit ShowMessage(tr("Connected"), QString(tr("%1: Connected")).arg(nickname), QSystemTrayIcon::Information, 1500);	
+  emit ShowMessage( createMessage(host, "connection", QString(tr("%1: Connected")).arg(nickname), ":/icons/black/off.svg") );
+}
+
+void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
+  if(type!=sysadm_client::SYSSTATE || !val.isObject()){ return; }
+  //Update notices
+  if(val.toObject().contains("updating")){
+    QString stat = val.toObject().value("updating").toObject().value("status").toString();
+    if(stat=="noupdates"){ emit ClearMessage(host,"updates"); }
+    else{
+      QString msg, icon;
+      if(stat=="rebootrequired"){ msg = tr("%1: Reboot required to finish updates"); icon = ":/icons/black/sync-circled.svg"; }
+      else if(stat=="updaterunning"){ msg = tr("%1: Updates in progress"); icon = ":/icons/grey/sync.svg"; }
+      else if(stat=="updatesavailable"){ msg = tr("%1: Updates available"); icon = ":/icons/black/sync.svg"; }
+      if(!msg.isEmpty()){ emit ShowMessage( createMessage(host,"updates", msg.arg(nickname), icon) ); }
+    }
+  }
+  //ZFS notices
+  if(val.toObject().contains("zpools")){
+    //Scan the pool notices and see if any need attention
+    QJsonObject zpool = val.toObject().value("zpools").toObject();
+    QStringList pools = zpool.keys();
+    int priority = -1;
+    for(int i=0; i<pools.length(); i++){
+      if(zpool.value(pools[i]).toObject().contains("priority") ){
+        int pri = zpool.value(pools[i]).toObject().value("priority").toString().section("-",0,0).simplified().toInt();
+        if(pri > priority){ priority = pri; }
+      }
+    }
+    if(priority>2){
+      QString msg = tr("%1: zpool needs attention");
+      //update the message for known issues
+      if(priority==6){ msg = tr("%1: zpool running low on disk space"); }
+      else if(priority==9){ msg = tr("%1: zpool degraded - possible hardware issue"); }
+      emit ShowMessage( createMessage(host, "zfs", msg.arg(nickname), ":/icons/black/disk.svg") );
+    }else{
+      emit ClearMessage(host, "zfs");
+    }
+  }
 }
 
 void CoreAction::priorityChanged(int priority){
@@ -72,9 +110,10 @@ void CoreAction::priorityChanged(int priority){
 //=================
 //       MENU ITEM
 //=================
-MenuItem::MenuItem(QWidget *parent, QString path) : QMenu(parent){
+MenuItem::MenuItem(QWidget *parent, QString path, QMenu *msgmenu) : QMenu(parent){
   line_pass = 0;
   lineA = 0;
+  msgMenu = msgmenu;
   this->setWhatsThis(path);
   this->setTitle(path.section("/",-1));
   //Now setup connections
@@ -97,6 +136,7 @@ void MenuItem::addSubMenu(MenuItem *menu){
   connect(menu, SIGNAL(OpenCore(QString)), this, SIGNAL(OpenCore(QString)) );
   connect(menu, SIGNAL(UpdateTrayIcon()), this, SIGNAL(UpdateTrayIcon()) );
   connect(menu, SIGNAL(ShowMessage(HostMessage)), this, SIGNAL(ShowMessage(HostMessage)) );
+  connect(menu, SIGNAL(ClearMessage(QString, QString)), this, SIGNAL(ClearMessage(QString, QString)) );
   QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
 }
 
@@ -106,6 +146,7 @@ void MenuItem::addCoreAction(QString host){
   CoreAction *act = new CoreAction(CORES[host], this);
   this->addAction(act);
   connect(act, SIGNAL(ShowMessage(HostMessage)), this, SIGNAL(ShowMessage(HostMessage)) );
+  connect(act, SIGNAL(ClearMessage(QString, QString)), this, SIGNAL(ClearMessage(QString, QString)) );
   connect(act, SIGNAL(UpdateTrayIcon()), this, SIGNAL(UpdateTrayIcon()) );
 }
 
@@ -181,6 +222,11 @@ void MenuItem::UpdateMenu(){
       QAction *tmp = this->addAction(QIcon(":/icons/black/preferences.svg"),tr("Settings"));
         tmp->setWhatsThis("open_settings");
       this->addSeparator();
+      if(msgMenu!=0){
+	//qDebug() << "Inserting MessageMenu";
+        this->addMenu(msgMenu);
+	this->addSeparator();
+      }
       tmp = this->addAction(QIcon(":/icons/black/off.svg"),tr("Close SysAdm Client"));
         tmp->setWhatsThis("close_app");
     }

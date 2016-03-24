@@ -15,7 +15,7 @@
 class CoreAction : public QAction{
 	Q_OBJECT
 private:
-	QString nickname;
+	QString nickname, host;
 
 public:
 	CoreAction(sysadm_client*core, QObject *parent=0);
@@ -25,18 +25,20 @@ private slots:
 	void CoreClosed();
 	void CoreConnecting();
 	void CoreActive();
+	void CoreEvent(sysadm_client::EVENT_TYPE, QJsonValue);
 	void priorityChanged(int);
 
 signals:
 	//Show a tray message popup
 	void ShowMessage(HostMessage);
+	void ClearMessage(QString, QString); //host ID, message ID
 	void UpdateTrayIcon();
 };
 
 class MenuItem : public QMenu{
 	Q_OBJECT
 public:
-	MenuItem(QWidget *parent = 0, QString path="");
+	MenuItem(QWidget *parent = 0, QString path="", QMenu *msgmenu = 0);
 	~MenuItem();
 
 public slots:
@@ -45,6 +47,7 @@ public slots:
 private:
 	QLineEdit *line_pass;
 	QWidgetAction *lineA;
+	QMenu *msgMenu;
 
 	void addSubMenu(MenuItem *menu);
 	void addCoreAction(QString host);
@@ -68,6 +71,7 @@ signals:
 
 	//Show a tray message popup
 	void ShowMessage(HostMessage);
+	void ClearMessage(QString, QString);
 	void UpdateTrayIcon();
 
 };

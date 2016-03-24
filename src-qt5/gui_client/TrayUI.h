@@ -31,6 +31,8 @@ private:
 
 	//Menu's attached to the tray
 	MenuItem *menu; //the main menu
+	QMenu *msgMenu; //The submenu for showing current messages
+
 	//Timers/flags to control the icon "flash" frequency
 	QTimer *iconTimer;
 	bool iconreset;
@@ -38,7 +40,7 @@ private:
 
 	//Function to create/retrieve a core
 	sysadm_client* getCore(QString host);
-
+	
 private slots:
 	//Tray activated
 	void trayActivated(){
@@ -61,8 +63,11 @@ private slots:
 	void CloseApplication();
 	void OpenCore(QString);
 	void UnlockConnections();
-	//Popup Notifications
+	//Message Notifications
 	void ShowMessage(HostMessage);
+	void ClearMessage(QString,QString);
+	void MessageTriggered(QAction*);
+	void updateMessageMenu();
 	//Icon Updates
 	void UpdateIconPriority();
 	void UpdateIcon();
