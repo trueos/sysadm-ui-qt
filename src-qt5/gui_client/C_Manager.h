@@ -31,6 +31,9 @@ private:
 	QTreeWidgetItem* FindItemParent(QString path);
 	void saveGroupItem(QTreeWidgetItem *group); 
 
+	//SSL Library functions for generating the SSL bundle
+	bool generateKeyCertBundle(QString bundlefile, QString nickname, QString email, QString passphrase);
+
 private slots:
 	void SaveConnectionInfo();
 
