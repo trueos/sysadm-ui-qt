@@ -37,16 +37,21 @@ private:
 	//Internal flags
 	bool local_showall, local_advmode, local_hasupdates; //Local tab options
 	QMenu *local_viewM;
+	QNetworkAccessManager *NMAN;
+	QHash<QLabel*, QNetworkReply*> pendingIcons;
 
 	//Core requests
+	void send_list_repos();
 	void send_local_update();
 	void send_local_audit();
 	void send_local_check_upgrade();
+	void send_repo_app_info(QString origin, QString repo);
 
 	//Parsing Core Replies
 	void update_local_list(QJsonObject obj);
 	void update_local_audit(QJsonObject obj);
 	void update_pending_process(QJsonObject obj);
+	void update_repo_app_info(QJsonObject obj);
 
 	//Bytes to human-readable conversion
 	QString BtoHR(double bytes);
@@ -56,6 +61,10 @@ private:
 	void updateStatusIcon( QTreeWidgetItem *it );
 	//Status icon list update
 	bool updateStatusList(QStringList *list, QString stat, bool enabled); //returns: changed (true/false);
+	//Load an image from a URL
+	void LoadImageFromURL(QLabel *widget, QString url);
+	//ScreenShot Loading
+	void showScreenshot(int num);
 	
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
@@ -70,14 +79,24 @@ private slots:
 	void goto_browser_from_local(QTreeWidgetItem *it);
 	// - repo tab
 	void browser_goto_pkg(QString origin, QString repo);
+	void update_repo_changed();
+	void icon_available(QNetworkReply*);
+	void browser_last_ss();
+	void browser_next_ss();
+	void browser_prev_ss();
+	void browser_first_ss();
 	// - pending tab
 	void pending_show_log(bool);
 
 
 	//GUI -> Core Requests
+	// - local tab
 	void send_local_rmpkgs();
 	void send_local_lockpkgs();
 	void send_local_unlockpkgs();
 	void send_local_upgradepkgs();
+	// - repo tab
+	void send_repo_rmpkg();
+	void send_repo_installpkg();
 };
 #endif

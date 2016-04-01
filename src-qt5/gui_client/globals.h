@@ -28,11 +28,16 @@
 #include <QDir>
 #include <QProcess>
 #include <QTemporaryFile>
+//#include <QtConcurrent>
 
 // SSL Objects
 #include <QSslConfiguration>
 #include <QSslKey>
 #include <QSslCertificate>
+
+//Network objects
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 //GUI widgets
 #include <QMainWindow>

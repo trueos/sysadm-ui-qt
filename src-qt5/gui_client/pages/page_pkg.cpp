@@ -11,6 +11,7 @@
 
 pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::pkg_page_ui){
   ui->setupUi(this);
+  NMAN = new QNetworkAccessManager();
   local_showall = local_advmode = local_hasupdates = false;
   local_viewM = new QMenu(this);
     ui->tool_local_filter->setMenu(local_viewM);
@@ -28,6 +29,7 @@ pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, co
   int lineheight = ui->tree_local->fontMetrics().lineSpacing();
   ui->tree_local->setIconSize( QSize(lineheight*3, lineheight) );
   //Setup the GUI connections
+  connect(NMAN, SIGNAL(finished(QNetworkReply*)), this, SLOT(icon_available(QNetworkReply*)) );
   connect(ui->check_local_all, SIGNAL(toggled(bool)), this, SLOT(update_local_pkg_check(bool)) );
   connect(ui->tree_local, SIGNAL(itemSelectionChanged()), this, SLOT(update_local_buttons()) );
   connect(ui->tree_local, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(update_local_buttons()) );
@@ -37,6 +39,17 @@ pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, co
   connect(ui->tool_local_unlock, SIGNAL(clicked()), this, SLOT(send_local_unlockpkgs()) );
   connect(ui->tool_local_upgrade, SIGNAL(clicked()), this, SLOT(send_local_upgradepkgs()) );
   connect(ui->group_pending_log, SIGNAL(toggled(bool)), this, SLOT(pending_show_log(bool)) );
+  connect(ui->combo_repo, SIGNAL(activated(const QString&)), this, SLOT(update_repo_changed()) );
+  connect(ui->tool_app_install, SIGNAL(clicked()), this, SLOT(send_repo_installpkg()) );
+  connect(ui->tool_app_uninstall, SIGNAL(clicked()), this, SLOT(send_repo_rmpkg()) );
+  connect(ui->tool_app_firstss, SIGNAL(clicked()), this, SLOT(browser_first_ss()) );
+  connect(ui->tool_app_prevss, SIGNAL(clicked()), this, SLOT(browser_prev_ss()) );
+  connect(ui->tool_app_nextss, SIGNAL(clicked()), this, SLOT(browser_next_ss()) );
+  connect(ui->tool_app_lastss, SIGNAL(clicked()), this, SLOT(browser_last_ss()) );
+  //Ensure that the proper pages/tabs are initially visible
+  ui->tabWidget->setCurrentWidget(ui->tab_repo);
+  ui->stacked_repo->setCurrentWidget(ui->page_home);
+  ui->tabWidget_app->setCurrentWidget(ui->tab_app_description);
   update_local_buttons();
 }
 
@@ -57,11 +70,18 @@ void pkg_page::startPage(){
   //Now run any CORE communications
   CORE->registerForEvents(sysadm_client::DISPATCHER);
 
+  send_list_repos();
   send_local_update();
   send_local_check_upgrade();
 }
 
 //Core requests
+void pkg_page::send_list_repos(){
+  QJsonObject obj;
+    obj.insert("action","list_repos");
+  CORE->communicate(TAG+"list_repos", "sysadm", "pkg",obj);
+}
+
 void pkg_page::send_local_update(){
   ui->tab_local->setEnabled(false);
   ui->label_local_loading->setVisible(true);
@@ -69,7 +89,7 @@ void pkg_page::send_local_update(){
     obj.insert("action","pkg_info");
     obj.insert("repo","local");
     obj.insert("result","full");
-  CORE->communicate(TAG+"list_local", "sysadm", "pkg",obj);	
+  CORE->communicate(TAG+"list_local", "sysadm", "pkg",obj);
 }
 
 void pkg_page::send_local_audit(){
@@ -82,6 +102,18 @@ void pkg_page::send_local_check_upgrade(){
   QJsonObject obj;
     obj.insert("action","pkg_check_upgrade");
   CORE->communicate(TAG+"check_upgrade", "sysadm", "pkg",obj);	  	
+}
+
+void pkg_page::send_repo_app_info(QString origin, QString repo){
+  ui->page_pkg->setEnabled(false);
+  qDebug() << "Send app info request:" << origin << repo;
+  if(repo.isEmpty()){ repo = "local"; }
+  QJsonObject obj;
+    obj.insert("action","pkg_info");
+    obj.insert("repo",repo);
+    obj.insert("result","full");
+    obj.insert("pkg_origins",origin);
+  CORE->communicate(TAG+"list_app_info", "sysadm", "pkg",obj);	
 }
 
 //Parsing Core Replies
@@ -184,29 +216,33 @@ void pkg_page::update_pending_process(QJsonObject obj){
   QString stat = obj.value("state").toString();
   QJsonObject details = obj.value("process_details").toObject();
   QString id = details.value("proc_id").toString();
-  qDebug() << "Update Proc:" << id << stat << obj.keys();
+  //qDebug() << "Update Proc:" << id << stat << obj.keys();
   QTreeWidgetItem *it = 0;
   for(int i=0; i<ui->tree_pending->topLevelItemCount(); i++){
     if(ui->tree_pending->topLevelItem(i)->whatsThis(0) == id){ it = ui->tree_pending->topLevelItem(i); break;}
   }
   if(it!=0 && stat=="finished"){
-    qDebug() << " - Got Finished";
+    //qDebug() << " - Got Finished";
     delete ui->tree_pending->takeTopLevelItem( ui->tree_pending->indexOfTopLevelItem(it) );
     it = 0;
   }else if(it==0 && stat!="finished"){
-    qDebug() << " - Create item";
+    //qDebug() << " - Create item";
     //Need to create a new entry for this process
     it = new QTreeWidgetItem(ui->tree_pending);
       it->setWhatsThis(0, id);
       it->setText(1, obj.value("action").toString());
       it->setText(2, obj.value("proc_cmd").toString());
+    //See if the current pkg page needs the status updated as well
+    if(it->text(2).contains( ui->page_pkg->whatsThis())){
+      send_repo_app_info(ui->page_pkg->whatsThis(), ui->combo_repo->currentText());
+    }
   }
   
   if(it!=0){
-    qDebug() << " - Update item";
+    //qDebug() << " - Update item";
     it->setText(0, stat);
     if(stat=="running"){ 
-      qDebug() << " - got running";
+      //qDebug() << " - got running";
       ui->tree_pending->setCurrentItem(it); 
       ui->text_proc_running->setPlainText(obj.value("pkg_log").toString());
       QTextCursor cur = ui->text_proc_running->textCursor();
@@ -215,12 +251,196 @@ void pkg_page::update_pending_process(QJsonObject obj){
       ui->text_proc_running->ensureCursorVisible();
     }
   }else{ 
-    qDebug() << " - Clear log";
+    //qDebug() << " - Clear log";
     ui->text_proc_running->clear();
   }
-  qDebug() << " - Update title";
+  //qDebug() << " - Update title";
   QString title = QString(tr("(%1) Pending")).arg(ui->tree_pending->topLevelItemCount());
   ui->tabWidget->setTabText( ui->tabWidget->indexOf(ui->tab_queue), title);
+}
+
+void pkg_page::update_repo_app_info(QJsonObject obj){
+  //qDebug() << "Got app Info:" << obj;
+  if(obj.isEmpty()){ return; }
+  QString origin = obj.keys().first();
+  if(origin.isEmpty()){ return; }
+  ui->page_pkg->setWhatsThis(origin);
+  obj = obj.value(origin).toObject(); //simplification - go one level deeper for easy access to info
+  QString repo = obj.value("repository").toString();
+  
+  //Update the History/buttons
+  // AddToHistory("app", origin, repo);
+  
+  //Now update all the info on the page
+  // - General Info Tab
+  if(obj.contains("icon")){
+    LoadImageFromURL( ui->label_app_icon, obj.value("icon").toString());
+    ui->label_app_icon->setVisible(true);
+  }else{ ui->label_app_icon->setVisible(false); }
+  QString name = obj.value("name").toString();
+  if(obj.contains("www")){ name = "<a href=\""+obj.value("www").toString()+"\">"+name+"</a>"; }
+  ui->label_app_name->setText(name);
+  ui->label_app_comment->setText(obj.value("comment").toString());
+  ui->label_app_version->setText(obj.value("version").toString());
+  ui->label_app_maintainer->setText(obj.value("maintainer").toString());
+  ui->label_app_arch->setText(obj.value("arch").toString());
+  if(obj.contains("osversion")){
+    ui->label_app_os->setText(obj.value("osversion").toString());
+    ui->label_app_os->setVisible(true); ui->label_9->setVisible(true);
+  }else{
+    ui->label_app_os->setVisible(false); ui->label_9->setVisible(false);
+  }
+  if(obj.contains("pkgsize")){
+    ui->label_app_dlsize->setText( BtoHR(obj.value("pkgsize").toString().toDouble()) );
+    ui->label_app_dlsize->setVisible(true); ui->label_10->setVisible(true);
+  }else{
+    ui->label_app_dlsize->setVisible(false); ui->label_10->setVisible(false);
+  }
+  ui->label_app_isize->setText( BtoHR(obj.value("flatsize").toString().toDouble()) );
+  ui->label_app_license->setText(ArrayToStringList(obj.value("licenses").toArray()).join(", ") );
+  // - Description Tab
+  ui->text_app_description->setPlainText( obj.value("desc").toString() );
+  // - Screenshots Tab
+  QStringList screens = obj.keys().filter("screen");
+  if(screens.isEmpty() && ui->tabWidget_app->currentWidget()==ui->tab_app_screenshot){
+    ui->tabWidget_app->setCurrentWidget(ui->tab_app_description); //make sure screenshots tab is not visible
+  }else if(!screens.isEmpty()){
+    screens.sort();
+    //Turn the keys into URLS
+    for(int i=0; i<screens.length(); i++){ screens[i] = obj.value(screens[i]).toString(); } //replace key with value
+    ui->label_app_ssnum->setWhatsThis(screens.join("::::::") );
+    showScreenshot(1); //show the first screenshot
+  }
+  ui->tabWidget_app->setTabEnabled( ui->tabWidget_app->indexOf(ui->tab_app_screenshot), !screens.isEmpty());
+  // - Details Tab
+  ui->tree_app_details->clear();
+  if(obj.contains("options")){
+    QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Build Options"));
+    QStringList opts = obj.value("options").toObject().keys();
+    for(int i=0; i<opts.length(); i++){
+      QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
+	tmp->setText(0, opts[i]+" = "+obj.value("options").toObject().value(opts[i]).toString());
+    }
+  }
+  if(obj.contains("dependencies")){
+    QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Dependencies"));
+    QStringList tmpl = ArrayToStringList(obj.value("dependencies").toArray());
+    for(int i=0; i<tmpl.length(); i++){
+      QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
+	tmp->setText(0, tmpl[i]);
+    }	  
+  }
+  if(obj.contains("reverse_dependencies")){
+    QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Required By"));
+    QStringList tmpl = ArrayToStringList(obj.value("reverse_dependencies").toArray());
+    for(int i=0; i<tmpl.length(); i++){
+      QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
+	tmp->setText(0, tmpl[i]);
+    }	  	  
+  }
+  if(obj.contains("conflicts")){
+    QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Conflicts"));
+    QStringList tmpl = ArrayToStringList(obj.value("conflicts").toArray());
+    for(int i=0; i<tmpl.length(); i++){
+      QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
+	tmp->setText(0, tmpl[i]);
+    }	  	  
+  }
+  if(obj.contains("shlibs_required")){
+    QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Shared Libraries (Required)"));
+    QStringList tmpl = ArrayToStringList(obj.value("shlibs_required").toArray());
+    for(int i=0; i<tmpl.length(); i++){
+      QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
+	tmp->setText(0, tmpl[i]);
+    }	  	  	  
+  }
+  if(obj.contains("shlibs_provided")){
+    QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Shared Libraries (Provided)"));
+    QStringList tmpl = ArrayToStringList(obj.value("shlibs_provided").toArray());
+    for(int i=0; i<tmpl.length(); i++){
+      QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
+	tmp->setText(0, tmpl[i]);
+    }	  	  
+  }
+  if(obj.contains("provides")){
+    QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Provides"));
+    QStringList tmpl = ArrayToStringList(obj.value("provides").toArray());
+    for(int i=0; i<tmpl.length(); i++){
+      QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
+	tmp->setText(0, tmpl[i]);
+    }	  	  
+  }
+  if(obj.contains("requires")){
+    QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Requires"));
+    QStringList tmpl = ArrayToStringList(obj.value("requires").toArray());
+    for(int i=0; i<tmpl.length(); i++){
+      QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
+	tmp->setText(0, tmpl[i]);
+    }	  	  
+  }
+  if(obj.contains("users")){
+    QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Users"));
+    QStringList tmpl = ArrayToStringList(obj.value("users").toArray());
+    for(int i=0; i<tmpl.length(); i++){
+      QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
+	tmp->setText(0, tmpl[i]);
+    }	  	  
+  }
+  if(obj.contains("groups")){
+    QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Groups"));
+    QStringList tmpl = ArrayToStringList(obj.value("groups").toArray());
+    for(int i=0; i<tmpl.length(); i++){
+      QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
+	tmp->setText(0, tmpl[i]);
+    }	  	  	  
+  }
+  if(obj.contains("config_files")){
+    QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Configuration Files"));
+    QStringList tmpl = ArrayToStringList(obj.value("config_files").toArray());
+    for(int i=0; i<tmpl.length(); i++){
+      QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
+	tmp->setText(0, tmpl[i]);
+    }	  	  
+  }
+  if(obj.contains("files")){
+    QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Files"));
+    QStringList tmpl = ArrayToStringList(obj.value("files").toArray());
+    for(int i=0; i<tmpl.length(); i++){
+      QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
+	tmp->setText(0, tmpl[i]);
+    }	  	  
+  }
+  ui->tree_app_details->sortItems(0, Qt::AscendingOrder);
+  
+  //Now Update the install/remove/status widgets as needed
+  // - first see if there is a pending status for it
+  if( !ui->tree_pending->findItems(origin, Qt::MatchContains, 2).isEmpty() ){
+    QString act = ui->tree_pending->findItems(origin, Qt::MatchContains, 2).first()->text(1);
+    if(act=="pkg_remove"){ act = tr("Pending Removal.."); }
+    else if(act=="pkg_install"){ act = tr("Pending Install.."); }
+    else{ act.clear(); }
+    ui->label_app_status->setText(act);
+    ui->label_app_status->setVisible( !act.isEmpty() ) ;
+  }else{
+    ui->label_app_status->setText("");
+    ui->label_app_status->setVisible(false);
+  }
+  if(ui->label_app_status->text().isEmpty()){
+    //No pending status - check if it is installed or not
+    bool installed = false;
+    for(int i=0; i<ui->tree_local->topLevelItemCount() && !installed; i++){
+      if(ui->tree_local->topLevelItem(i)->whatsThis(0)==origin){ installed = true; }
+    }
+    ui->tool_app_install->setVisible(!installed);
+    ui->tool_app_uninstall->setVisible(installed);
+  }else{
+    ui->tool_app_install->setVisible(false);
+    ui->tool_app_uninstall->setVisible(false);
+  }
+  
+  //Now ensure this page is visible (since the info is only loaded on demand)
+  ui->tabWidget->setCurrentWidget(ui->tab_repo);
+  ui->stacked_repo->setCurrentWidget(ui->page_pkg);
 }
 
 // == SIMPLIFICATION FUNCTIONS ==
@@ -284,15 +504,59 @@ bool pkg_page::updateStatusList(QStringList *list, QString stat, bool enabled){
   }
 }
 
+//Load an image from a URL
+void pkg_page::LoadImageFromURL(QLabel *widget, QString url){
+  url = url.remove("\\\"");
+  qDebug() << "Try to load image from URL:" << url;
+  //Set a temporary image on the widget
+  widget->setPixmap( QPixmap(":/icons/black/photo.svg") );
+  //Remove any old images which are still loading for this same widget
+  if(pendingIcons.contains(widget)){
+    pendingIcons.take(widget)->abort();
+  }
+  //Start the download of the image
+  pendingIcons.insert(widget, NMAN->get( QNetworkRequest(QUrl(url)) ) );
+  
+}
+
+void pkg_page::showScreenshot(int num){
+  //NOTE: num should be 1-(length)
+  QStringList screens = ui->label_app_ssnum->whatsThis().split("::::::");
+  if(screens.isEmpty()){ return; } //just in case - should never happen though
+  if(num <=0){ num = screens.length(); } //wrap around
+  else if(num>screens.length()){ num = 1; } //wrap around
+  
+  //Update the label
+  ui->label_app_ssnum->setText( QString::number(num)+"/"+QString::number(screens.length()) );
+  //Now update the buttons
+  ui->tool_app_firstss->setEnabled(num>1);
+  ui->tool_app_prevss->setEnabled(num>1);
+  ui->tool_app_nextss->setEnabled(num<screens.length());
+  ui->tool_app_lastss->setEnabled(num<screens.length());
+  //Update the screenshot
+  ui->label_app_screenshot->setStatusTip(screens[num-1]); //show the URL on mouseover
+  LoadImageFromURL(ui->label_app_screenshot, screens[num-1]);
+}
+
 // === PRIVATE SLOTS ===
 void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
+  if(id.startsWith(TAG)){ qDebug() << "Got Reply:" << id << name << args.toObject().keys(); }
   if(!id.startsWith(TAG) || namesp=="error" || name=="error"){ return; }
-  qDebug() << "Got Reply:" << id << args.toObject().keys();
   if( id==TAG+"list_local" && args.isObject() ){
     //Got update to the list of locally installed packages
     ui->tab_local->setEnabled(true);
     ui->label_local_loading->setVisible(false);
     if(args.toObject().contains("pkg_info")){ update_local_list( args.toObject().value("pkg_info").toObject() ); }
+  }else if(id==TAG+"list_app_info" && args.isObject()){
+    ui->page_pkg->setEnabled(true);
+    update_repo_app_info(args.toObject().value("pkg_info").toObject());
+  }else if(id==TAG+"list_repos" && args.isObject()){
+    QStringList repos = ArrayToStringList(args.toObject().value("list_repos").toArray());
+    repos.removeAll("local");
+    ui->combo_repo->clear();
+    ui->combo_repo->addItems(repos);
+    //Now kick off loading the home page data
+    
   }else{
     qDebug() << " - arguments:" << args;
   }
@@ -310,6 +574,10 @@ void pkg_page::ParseEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
     if(finished){ 
       //Need to update the list of installed packages    
       send_local_update();
+      //See if the currently-shown pkg needs updating too
+      if(!ui->page_pkg->whatsThis().isEmpty()){
+        send_repo_app_info(ui->page_pkg->whatsThis(), ui->combo_repo->currentText());
+      }
     }
     // Need to update the list of pending processes
     update_pending_process(val.toObject());
@@ -355,14 +623,56 @@ void pkg_page::update_local_viewadv(bool checked){
 void pkg_page::goto_browser_from_local(QTreeWidgetItem *it){
   QString origin = it->whatsThis(0);
   QString repo = it->whatsThis(1);
-  browser_goto_pkg(origin, repo);
-  ui->tabWidget->setCurrentWidget(ui->tab_repo);
+  if(repo.isEmpty()){ repo = "local"; }
+  send_repo_app_info(origin, "local");
 }
 
 // - repo tab
 void pkg_page::browser_goto_pkg(QString origin, QString repo){
+  send_repo_app_info(origin, repo);
+}
+
+void pkg_page::update_repo_changed(){
 	
 }
+
+void pkg_page::icon_available(QNetworkReply *reply){
+  //Get the widget for this reply
+  QList<QLabel*> widgets = pendingIcons.keys();
+  QLabel *label = 0;
+  for(int i=0; i<widgets.length() && label==0; i++){
+    if(reply == pendingIcons[ widgets[i] ]){ 
+      label = widgets[i];
+      pendingIcons.remove(widgets[i]); //icon finished - remove it from pending list
+    }
+  }
+  if(label==0){ return; } //no widget found - throw it away
+  QImage img = QImage::fromData(reply->readAll());
+  QSize sz = label->size();
+  //qDebug() << "Size:" << sz << label->size() << label->sizeHint();
+  label->setPixmap( QPixmap::fromImage(img).scaled( sz, Qt::KeepAspectRatio, Qt::SmoothTransformation) );
+}
+
+void pkg_page::browser_last_ss(){
+ int num = ui->label_app_ssnum->text().section("/",-1).toInt();
+ showScreenshot(num);
+}
+
+void pkg_page::browser_next_ss(){
+ int num = ui->label_app_ssnum->text().section("/",0,0).toInt();
+ showScreenshot(num+1);	
+}
+
+void pkg_page::browser_prev_ss(){
+ int num = ui->label_app_ssnum->text().section("/",0,0).toInt();
+ showScreenshot(num-1);	
+}
+
+void pkg_page::browser_first_ss(){
+ showScreenshot(1);	
+}
+
+
 
 // - pending tab
 void pkg_page::pending_show_log(bool show){
@@ -370,6 +680,7 @@ void pkg_page::pending_show_log(bool show){
 }
 
 //GUI -> Core Requests
+// - local tab
 void pkg_page::send_local_rmpkgs(){
   QStringList pkgs;
   for(int i=0; i<ui->tree_local->topLevelItemCount(); i++){
@@ -414,4 +725,23 @@ void pkg_page::send_local_upgradepkgs(){
   ui->tabWidget->setCurrentWidget(ui->tab_queue);
   local_hasupdates = false;
   update_local_buttons();
+}
+
+// - repo tab
+void pkg_page::send_repo_rmpkg(){
+  QJsonObject obj;
+    obj.insert("action","pkg_remove");
+    obj.insert("recursive","true"); //cleanup orphaned packages
+    obj.insert("pkg_origins", ui->page_pkg->whatsThis() );
+  CORE->communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);	
+}
+
+void pkg_page::send_repo_installpkg(){
+  //This is called from the app page
+  QString repo = ui->combo_repo->currentText();
+  QJsonObject obj;
+    obj.insert("action","pkg_isntall");
+    obj.insert("pkg_origins", ui->page_pkg->whatsThis() );
+    if(!repo.isEmpty() && repo!="local"){ obj.insert("repo",repo); }
+  CORE->communicate(TAG+"pkg_unlock", "sysadm", "pkg",obj);
 }
