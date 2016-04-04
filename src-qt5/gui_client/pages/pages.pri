@@ -9,7 +9,8 @@ HEADERS	+= 	$${PWD}/getPage.h \
 		$${PWD}/page_lp.h \
 		$${PWD}/page_system.h \
 		$${PWD}/page_updates.h \
-		$${PWD}/page_pkg.h
+		$${PWD}/page_pkg.h \
+		$${PWD}/page_pkg-BrowserItem.h
 		
 
 SOURCES	+=	$${PWD}/control_panel.cpp \
@@ -21,7 +22,9 @@ SOURCES	+=	$${PWD}/control_panel.cpp \
 		$${PWD}/page_lp.cpp \
 		$${PWD}/page_system.cpp \
 		$${PWD}/page_updates.cpp \
-		$${PWD}/page_pkg.cpp
+		$${PWD}/page_pkg.cpp \
+		$${PWD}/page_pkg-extras.cpp \
+		$${PWD}/page_pkg-BrowserItem.cpp
 		
 FORMS	+=	$${PWD}/page_beadm.ui \
 		$${PWD}/page_taskmanager.ui \

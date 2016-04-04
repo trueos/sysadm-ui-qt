@@ -4,11 +4,11 @@
 //  Available under the 3-clause BSD license
 //  See the LICENSE file for full details
 //===========================================
-#ifndef _PCBSD_SYSADM_CLIENT_SAMPLE_PAGE_H
-#define _PCBSD_SYSADM_CLIENT_SAMPLE_PAGE_H
+#ifndef _PCBSD_SYSADM_CLIENT_PKG_PAGE_H
+#define _PCBSD_SYSADM_CLIENT_PKG_PAGE_H
 #include "../globals.h"
 #include "../PageWidget.h"
-
+#include "page_pkg-BrowserItem.h"
 
 //==============================================================
 //  DON"T FORGET TO ADD YOUR NEW PAGE TO THE "getPage.h" FILE!!!!
@@ -39,9 +39,12 @@ private:
 	QMenu *local_viewM;
 	QNetworkAccessManager *NMAN;
 	QHash<QLabel*, QNetworkReply*> pendingIcons;
+	//Internal lists of origins being handled
+	QStringList origin_installed, origin_pending;
 
 	//Core requests
 	void send_list_repos();
+	void send_list_cats(QString repo);
 	void send_local_update();
 	void send_local_audit();
 	void send_local_check_upgrade();
@@ -52,6 +55,7 @@ private:
 	void update_local_audit(QJsonObject obj);
 	void update_pending_process(QJsonObject obj);
 	void update_repo_app_info(QJsonObject obj);
+	void update_repo_app_lists(QScrollArea *scroll, QJsonObject obj); //can use this for both search/browse returns
 
 	//Bytes to human-readable conversion
 	QString BtoHR(double bytes);
@@ -65,6 +69,11 @@ private:
 	void LoadImageFromURL(QLabel *widget, QString url);
 	//ScreenShot Loading
 	void showScreenshot(int num);
+	//Browser Item Update
+	void updateBrowserItem(BrowserItem *it, QJsonObject data);
+	
+	//User-interface items (functions defined in page_pkg-extras.cpp)
+	QStringList catsToText(QStringList cats); //output: <translated name>::::<cat> (pre-sorted by translated names)
 	
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
@@ -78,13 +87,15 @@ private slots:
 	void update_local_viewadv(bool checked);
 	void goto_browser_from_local(QTreeWidgetItem *it);
 	// - repo tab
-	void browser_goto_pkg(QString origin, QString repo);
+	void browser_goto_pkg(QString origin, QString repo = "");
 	void update_repo_changed();
 	void icon_available(QNetworkReply*);
 	void browser_last_ss();
 	void browser_next_ss();
 	void browser_prev_ss();
 	void browser_first_ss();
+	void brower_filter_search_cat();
+
 	// - pending tab
 	void pending_show_log(bool);
 
@@ -95,6 +106,8 @@ private slots:
 	void send_local_lockpkgs();
 	void send_local_unlockpkgs();
 	void send_local_upgradepkgs();
+	void send_start_search(QString search = ""); //search term input (optional - will pull from 
+	
 	// - repo tab
 	void send_repo_rmpkg();
 	void send_repo_installpkg();
