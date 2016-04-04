@@ -70,17 +70,17 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
       ui->stacked_updates->setCurrentWidget(ui->page_stat);
       ui->label_uptodate->setVisible(true);
       ui->label_rebootrequired->setVisible(false);
-      ui->group_up_log->setVisible(false);
+      //ui->group_up_log->setVisible(false);
     }else if(stat=="rebootrequired"){
       ui->stacked_updates->setCurrentWidget(ui->page_stat);
       ui->label_uptodate->setVisible(false);
       ui->label_rebootrequired->setVisible(true);
-      ui->group_up_log->setVisible(false);
+      //ui->group_up_log->setVisible(false);
     }else if(stat=="updaterunning"){
-      ui->stacked_updates->setCurrentWidget(ui->page_stat);
-      ui->label_uptodate->setVisible(false);
+      ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
+      /*ui->label_uptodate->setVisible(false);
       ui->label_rebootrequired->setVisible(false);
-      ui->group_up_log->setVisible(true);	    
+      ui->group_up_log->setVisible(true);*/
     }else if(stat=="updatesavailable"){
       ui->stacked_updates->setCurrentWidget(ui->page_updates);
       ui->label_uptodate->setVisible(false);
@@ -162,10 +162,10 @@ void updates_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
       ui->text_up_log->setPlainText( val.toObject().value("update_log").toString() ); //text
       ui->text_up_log->moveCursor(QTextCursor::End);
       ui->text_up_log->ensureCursorVisible();
-      ui->stacked_updates->setCurrentWidget(ui->page_stat);
-      ui->label_uptodate->setVisible(false);
+      ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
+      /*ui->label_uptodate->setVisible(false);
       ui->label_rebootrequired->setVisible(false);
-      ui->group_up_log->setVisible(true);	   
+      ui->group_up_log->setVisible(true);*/
     } //end sysadm/update check
   } //end dispatcher event check
 }
@@ -254,10 +254,10 @@ void updates_page::send_start_updates(){
   qDebug() << "Send update request:" << obj;
   CORE->communicate(IDTAG+"startup", "sysadm", "update",obj);	
   //Update the UI right away (so the user knows it is working)
-    ui->stacked_updates->setCurrentWidget(ui->page_stat);
-    ui->label_uptodate->setVisible(false);
-    ui->label_rebootrequired->setVisible(false);
-    ui->group_up_log->setVisible(true);
+    ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
+    //ui->label_uptodate->setVisible(false);
+    //ui->label_rebootrequired->setVisible(false);
+    //ui->group_up_log->setVisible(true);
     ui->text_up_log->clear();
 }
 
