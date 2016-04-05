@@ -13,6 +13,13 @@ pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, co
   ui->setupUi(this);
   NMAN = new QNetworkAccessManager();
   local_showall = local_advmode = local_hasupdates = false;
+  //Create the special menus
+  repo_backM = new QMenu(this);
+    connect(repo_backM, SIGNAL(triggered(QAction*)), this, SLOT(browser_go_back(QAction*)) );
+    ui->tool_repo_back->setMenu(repo_backM);
+  repo_catM = new QMenu(this);
+    connect(repo_catM, SIGNAL(triggered(QAction*)), this, SLOT(browser_goto_cat(QAction*)) );
+    ui->tool_home_gotocat->setMenu(repo_catM);
   local_viewM = new QMenu(this);
     ui->tool_local_filter->setMenu(local_viewM);
     //Now populate the filter menu
@@ -48,7 +55,8 @@ pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, co
   connect(ui->tool_app_lastss, SIGNAL(clicked()), this, SLOT(browser_last_ss()) );
   connect(ui->line_repo_search, SIGNAL(returnPressed()), this, SLOT(send_start_search()) );
   connect(ui->tool_repo_search, SIGNAL(clicked()), this, SLOT(send_start_search()) );
-  connect(ui->combo_search_cat, SIGNAL(activated(int)), this, SLOT(brower_filter_search_cat()) );
+  connect(ui->combo_search_cat, SIGNAL(activated(int)), this, SLOT(browser_filter_search_cat()) );
+  connect(ui->tool_repo_back, SIGNAL(clicked()), this, SLOT(browser_go_back()) );
   //Ensure that the proper pages/tabs are initially visible
   ui->tabWidget->setCurrentWidget(ui->tab_repo);
   ui->stacked_repo->setCurrentWidget(ui->page_home);
@@ -278,6 +286,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
   if(origin.isEmpty()){ return; }
   ui->page_pkg->setWhatsThis(origin);
   obj = obj.value(origin).toObject(); //simplification - go one level deeper for easy access to info
+  qDebug() << "Show Package:" << origin << obj.keys();
   QString repo = obj.value("repository").toString();
   
   //Update the History/buttons
@@ -454,9 +463,13 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
 
 void pkg_page::update_repo_app_lists(QScrollArea *scroll, QJsonObject(obj) ){
   if(scroll->widget()==0){ scroll->setWidget( new QWidget(scroll) ); }
-  if(scroll->widget()->layout()==0){ scroll->widget()->setLayout( new QVBoxLayout(scroll->widget()) ); }
+  if(scroll->widget()->layout()==0){ 
+    scroll->widget()->setLayout( new QVBoxLayout(scroll->widget()) ); 
+    scroll->widget()->layout()->setContentsMargins(0,0,0,0);
+    scroll->widget()->layout()->setSpacing(6);
+  }
   QStringList origins = obj.keys(); //item ID's we need to show
-  if(scroll!=ui->scroll_search){ origins.sort(); } //don't sort search results
+  if(scroll!=ui->scroll_search){ origins.sort(Qt::CaseInsensitive); } //don't sort search results (ordered by priority)
   QStringList used;
   //Go through the the current widgets in the area and remove/update them
   for(int i=0; i<scroll->widget()->layout()->count(); i++){
@@ -478,10 +491,18 @@ void pkg_page::update_repo_app_lists(QScrollArea *scroll, QJsonObject(obj) ){
     if(used.contains(origins[i])){ continue; } //already handled
     BrowserItem *BI = new BrowserItem(scroll->widget(), origins[i]);
      connect(BI, SIGNAL(ItemClicked(QString)), this, SLOT(browser_goto_pkg(QString)) );
+     connect(BI, SIGNAL(InstallClicked(QString)), this, SLOT(send_repo_installpkg(QString)) );
+     connect(BI, SIGNAL(RemoveClicked(QString)), this, SLOT(send_repo_rmpkg(QString)) );
     updateBrowserItem(BI, obj.value(origins[i]).toObject());
     static_cast<QBoxLayout*>(scroll->widget()->layout())->insertWidget(i, BI); 
   }
-  
+  if(origins.isEmpty()){
+    scroll->widget()->layout()->addWidget( new QLabel("<i>"+tr("No Packages Found")+"</i>",scroll->widget()) );
+  }
+  //Now add a spacer to the bottom (always gets cleaned up by the routine above)
+  static_cast<QBoxLayout*>(scroll->widget()->layout())->addStretch();
+  //Now update the status tip for the scroll area to show some stats
+  scroll->setStatusTip( QString(tr("Number of packages: %1")).arg(QString::number(origins.length())) );
 }
 
 // == SIMPLIFICATION FUNCTIONS ==
@@ -591,13 +612,15 @@ void pkg_page::updateBrowserItem(BrowserItem *it, QJsonObject data){
   int stat = 1; //not installed
   if( origin_pending.contains(it->ID()) ){ stat = 2; }
   else if( origin_installed.contains(it->ID()) ){ stat = 0; }
+  //qDebug() << "Item Stat:" << it->ID() << stat << origin_pending;
   it->setInteraction(stat);
 }
 
 // === PRIVATE SLOTS ===
 void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
-  if(id.startsWith(TAG)){ qDebug() << "Got Reply:" << id << name << args.toObject().keys(); }
-  if(!id.startsWith(TAG) || namesp=="error" || name=="error"){ return; }
+  if(id.startsWith(TAG)){ qDebug() << "Got Reply:" << id << name  << namesp << args.toObject().keys(); }
+  if(!id.startsWith(TAG) ){ return; }
+  bool haserror = (namesp=="error" || name=="error");
   if( id==TAG+"list_local" && args.isObject() ){
     //Got update to the list of locally installed packages
     ui->tab_local->setEnabled(true);
@@ -606,6 +629,7 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
   }else if(id==TAG+"list_app_info" && args.isObject()){
     ui->page_pkg->setEnabled(true);
     update_repo_app_info(args.toObject().value("pkg_info").toObject());
+    browser_update_history();
   }else if(id==TAG+"list_repos" && args.isObject()){
     QStringList repos = ArrayToStringList(args.toObject().value("list_repos").toArray());
     repos.removeAll("local");
@@ -613,14 +637,27 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
     ui->combo_repo->addItems(repos);
     send_list_cats(ui->combo_repo->currentText());
     //Now kick off loading the home page data
-    
+    browser_update_history();
   }else if(id==TAG+"pkg_search" && args.isObject()){
     update_repo_app_lists(ui->scroll_search, args.toObject().value("pkg_search").toObject());
     ui->stacked_repo->setCurrentWidget(ui->page_search);
+    browser_update_history();
+  }else if(id==TAG+"list_browse" && args.isObject()){
+    update_repo_app_lists(ui->scroll_cat, args.toObject().value("pkg_info").toObject());
+    ui->stacked_repo->setCurrentWidget(ui->page_cat);
+    browser_update_history();
   }else if(id==TAG+"list_cats" && args.isObject()){
     QStringList cats = ArrayToStringList( args.toObject().value("list_categories").toArray() );
-    cats.sort();
-    
+    cats = catsToText(cats); //format: <translated string>::::<cat>
+    //Now add these categories to the widgets
+    ui->combo_search_cat->clear();
+    ui->combo_search_cat->addItem(tr("All Categories"));
+    repo_catM->clear();
+    for(int i=0; i<cats.length(); i++){ 
+      ui->combo_search_cat->addItem( cats[i].section("::::",0,0), cats[i].section("::::",1,1)); 
+      QAction *tmp = repo_catM->addAction(cats[i].section("::::",0,0));
+	tmp->setWhatsThis(cats[i].section("::::",1,1));
+    }
   }else{
     qDebug() << " - arguments:" << args;
   }
@@ -639,8 +676,10 @@ void pkg_page::ParseEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
       //Need to update the list of installed packages    
       send_local_update();
       //See if the currently-shown pkg needs updating too
-      if(!ui->page_pkg->whatsThis().isEmpty()){
+      if(!ui->page_pkg->whatsThis().isEmpty() && ui->stacked_repo->currentWidget()==ui->page_pkg){
         send_repo_app_info(ui->page_pkg->whatsThis(), ui->combo_repo->currentText());
+      }else if(ui->stacked_repo->currentWidget()==ui->page_search){
+	send_start_search(ui->label_search_term->text()); //re-run the last search and update items as needed
       }
     }
     // Need to update the list of pending processes
@@ -698,6 +737,13 @@ void pkg_page::browser_goto_pkg(QString origin, QString repo){
   send_repo_app_info(origin, repo);
 }
 
+void pkg_page::browser_goto_cat(QAction* act){
+  QString cat = ui->page_cat->whatsThis(); //current category
+  if(act!=0){ cat = act->whatsThis(); }
+  if(cat.isEmpty()){ return; } //nothing to do
+  send_start_browse(cat);
+}
+
 void pkg_page::update_repo_changed(){
 	
 }
@@ -738,10 +784,64 @@ void pkg_page::browser_first_ss(){
  showScreenshot(1);	
 }
 
-void pkg_page::brower_filter_search_cat(){
+void pkg_page::browser_filter_search_cat(){
   if(ui->stacked_repo->currentWidget()!=ui->page_search){ return; } //some other change (not from user)
   QString search = ui->label_search_term->text(); //last-used search
   send_start_search(search);
+}
+
+void pkg_page::browser_go_back(QAction *act){
+  QString go = "home";
+  if(act!=0){
+    go = act->whatsThis();
+    //Remove all the actions after this one
+    QList<QAction*> acts = repo_backM->actions();
+    for(int i=acts.indexOf(act); i<acts.length(); i++){
+      if(i<0){i=0;} //just in case - should never happen though
+      repo_backM->removeAction(acts[i]);
+    }
+  }else{
+    //use the last action in the history menu
+    QList<QAction*> acts = repo_backM->actions();
+    if(!acts.isEmpty()){
+      go = acts.last()->whatsThis();
+      repo_backM->removeAction(acts.last());
+    }
+  }
+  if(go.startsWith("cat::")){ send_start_browse(go.section("::",2,-1)); }
+  else if(go.startsWith("pkg::")){ browser_goto_pkg(go.section("::",2,-1), go.section("::",1,1)); }
+  else if(go.startsWith("search::")){ send_start_search(go.section("::",2,-1)); }
+  else{ ui->stacked_repo->setCurrentWidget(ui->page_home); }
+}
+
+void pkg_page::browser_update_history(){
+  QString go;
+  if(ui->stacked_repo->currentWidget()==ui->page_home){
+    go = "home";
+  }else if(ui->stacked_repo->currentWidget()==ui->page_cat){
+    go = "cat::%1::"+ui->page_cat->whatsThis();
+  }else if(ui->stacked_repo->currentWidget()==ui->page_pkg){
+    go = "pkg::%1::"+ui->page_pkg->whatsThis();
+  }else if(ui->stacked_repo->currentWidget()==ui->page_search){
+    go = "search::%1::"+ui->label_search_term->text();
+  }
+  if(go.contains("%1")){ go = go.arg(ui->combo_repo->currentText()); }
+  //Now make sure we don't duplicate any history items
+  QList<QAction*> acts = repo_backM->actions();
+  QString lastgo;
+  if(!acts.isEmpty()){ lastgo = acts.last()->whatsThis(); }
+  if(go!=lastgo){
+    QString txt;
+    if(go=="home"){ txt = tr("Home Page"); }
+    else{
+	if(go.startsWith("cat")){ txt = tr("Browse Category: %1"); }
+	else if(go.startsWith("pkg")){ txt = tr("View Package: %1"); }
+	else if(go.startsWith("search")){ txt = tr("Search: %1"); }
+	txt = txt.arg(go.section("::",2,-1));
+    }
+    QAction *tmp = repo_backM->addAction(txt);
+	tmp->setWhatsThis(go);
+  }
 }
 
 // - pending tab
@@ -798,20 +898,22 @@ void pkg_page::send_local_upgradepkgs(){
 }
 
 // - repo tab
-void pkg_page::send_repo_rmpkg(){
+void pkg_page::send_repo_rmpkg(QString origin){
+  if(origin.isEmpty()){ origin = ui->page_pkg->whatsThis(); }
   QJsonObject obj;
     obj.insert("action","pkg_remove");
     obj.insert("recursive","true"); //cleanup orphaned packages
-    obj.insert("pkg_origins", ui->page_pkg->whatsThis() );
+    obj.insert("pkg_origins", origin );
   CORE->communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);	
 }
 
-void pkg_page::send_repo_installpkg(){
-  //This is called from the app page
+void pkg_page::send_repo_installpkg(QString origin){
+  //This is called from the app page or the search/browse pages
+  if(origin.isEmpty()){ origin = ui->page_pkg->whatsThis(); } //app page used
   QString repo = ui->combo_repo->currentText();
   QJsonObject obj;
     obj.insert("action","pkg_install");
-    obj.insert("pkg_origins", ui->page_pkg->whatsThis() );
+    obj.insert("pkg_origins", origin );
     if(!repo.isEmpty() && repo!="local"){ obj.insert("repo",repo); }
   CORE->communicate(TAG+"pkg_unlock", "sysadm", "pkg",obj);
 }
@@ -834,5 +936,23 @@ void pkg_page::send_start_search(QString search){
     }
   CORE->communicate(TAG+"pkg_search", "sysadm", "pkg",obj);
   //Now update the search UI page
+  if(search!=ui->label_search_term->text()){ ui->scroll_search->verticalScrollBar()->setValue(0); } //new search - go to top
   ui->label_search_term->setText(search); //save this for later
+}
+
+void pkg_page::send_start_browse(QString cat){
+  //qDebug() << "Browse Category:" << cat;
+  if(cat.isEmpty()){ return; }
+  if(ui->page_cat->whatsThis()!=cat){
+    ui->page_cat->setWhatsThis(cat); //save this for later
+    //Reset the scroll widget to the top
+    ui->scroll_cat->verticalScrollBar()->setValue(0);
+  }
+  ui->label_cat->setText( catsToText(QStringList()<<cat).first().section("::::",0,0) );
+  QJsonObject obj;
+    obj.insert("action","pkg_info");
+    obj.insert("repo",ui->combo_repo->currentText());
+    obj.insert("category", cat);
+  CORE->communicate(TAG+"list_browse", "sysadm", "pkg",obj);
+  //qDebug() << " - Sent request:" << obj;
 }

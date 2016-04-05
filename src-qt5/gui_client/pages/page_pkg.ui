@@ -91,6 +91,9 @@
              <iconset resource="../../icons/icons.qrc">
               <normaloff>:/icons/black/arrow-left.svg</normaloff>:/icons/black/arrow-left.svg</iconset>
             </property>
+            <property name="popupMode">
+             <enum>QToolButton::MenuButtonPopup</enum>
+            </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
@@ -110,7 +113,11 @@
            </spacer>
           </item>
           <item>
-           <widget class="QComboBox" name="combo_repo"/>
+           <widget class="QComboBox" name="combo_repo">
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="horizontalSpacer_3">
@@ -155,7 +162,7 @@
        <item>
         <widget class="QStackedWidget" name="stacked_repo">
          <property name="currentIndex">
-          <number>2</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="page_home">
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -200,6 +207,10 @@
               <widget class="QToolButton" name="tool_home_gotocat">
                <property name="text">
                 <string>Browse Categories</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../icons/icons.qrc">
+                 <normaloff>:/icons/black/list.svg</normaloff>:/icons/black/list.svg</iconset>
                </property>
                <property name="popupMode">
                 <enum>QToolButton::InstantPopup</enum>
@@ -248,11 +259,44 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="label_cat">
-             <property name="text">
-              <string notr="true">Category</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>Currently Browsing:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_cat">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string notr="true">(Category)</string>
+               </property>
+               <property name="indent">
+                <number>10</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_7">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
            <item>
             <widget class="QScrollArea" name="scroll_cat">
@@ -265,7 +309,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>421</width>
-                <height>261</height>
+                <height>257</height>
                </rect>
               </property>
              </widget>
@@ -301,8 +345,22 @@
              </item>
              <item>
               <widget class="QLabel" name="label_search_term">
+               <property name="font">
+                <font>
+                 <italic>true</italic>
+                </font>
+               </property>
                <property name="text">
                 <string notr="true">(Search Term)</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+               </property>
+               <property name="margin">
+                <number>0</number>
+               </property>
+               <property name="indent">
+                <number>20</number>
                </property>
               </widget>
              </item>
@@ -322,16 +380,11 @@
              <item>
               <widget class="QComboBox" name="combo_search_cat">
                <property name="currentText">
-                <string>Category Filter</string>
+                <string/>
                </property>
                <property name="sizeAdjustPolicy">
                 <enum>QComboBox::AdjustToContents</enum>
                </property>
-               <item>
-                <property name="text">
-                 <string>Category Filter</string>
-                </property>
-               </item>
               </widget>
              </item>
             </layout>
@@ -478,7 +531,7 @@
            <item>
             <widget class="QTabWidget" name="tabWidget_app">
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="tab_app_description">
               <attribute name="icon">
@@ -508,6 +561,9 @@
                 <widget class="QPlainTextEdit" name="text_app_description">
                  <property name="readOnly">
                   <bool>true</bool>
+                 </property>
+                 <property name="textInteractionFlags">
+                  <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
                  </property>
                  <property name="backgroundVisible">
                   <bool>false</bool>

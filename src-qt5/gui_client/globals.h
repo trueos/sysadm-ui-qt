@@ -59,6 +59,7 @@
 #include <QMessageBox>
 #include <QPainter>
 #include <QScrollArea>
+#include <QScrollBar>
 
 #include "../Core/sysadm-client.h"
 

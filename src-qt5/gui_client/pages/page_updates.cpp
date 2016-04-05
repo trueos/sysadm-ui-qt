@@ -164,11 +164,8 @@ void updates_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
       ui->text_up_log->setPlainText( val.toObject().value("update_log").toString() ); //text
       ui->text_up_log->moveCursor(QTextCursor::End);
       ui->text_up_log->ensureCursorVisible();
-      qDebug() << "Got update event:";
+      qDebug() << "Got update event:" << state << val;
       ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
-      /*ui->label_uptodate->setVisible(false);
-      ui->label_rebootrequired->setVisible(false);
-      ui->group_up_log->setVisible(true);*/
     } //end sysadm/update check
   } //end dispatcher event check
 }

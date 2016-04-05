@@ -36,7 +36,7 @@ private:
 
 	//Internal flags
 	bool local_showall, local_advmode, local_hasupdates; //Local tab options
-	QMenu *local_viewM;
+	QMenu *local_viewM, *repo_catM, *repo_backM;
 	QNetworkAccessManager *NMAN;
 	QHash<QLabel*, QNetworkReply*> pendingIcons;
 	//Internal lists of origins being handled
@@ -88,13 +88,16 @@ private slots:
 	void goto_browser_from_local(QTreeWidgetItem *it);
 	// - repo tab
 	void browser_goto_pkg(QString origin, QString repo = "");
+	void browser_goto_cat(QAction *act = 0);
 	void update_repo_changed();
 	void icon_available(QNetworkReply*);
 	void browser_last_ss();
 	void browser_next_ss();
 	void browser_prev_ss();
 	void browser_first_ss();
-	void brower_filter_search_cat();
+	void browser_filter_search_cat();
+	void browser_go_back(QAction *act = 0);
+	void browser_update_history();
 
 	// - pending tab
 	void pending_show_log(bool);
@@ -106,10 +109,10 @@ private slots:
 	void send_local_lockpkgs();
 	void send_local_unlockpkgs();
 	void send_local_upgradepkgs();
-	void send_start_search(QString search = ""); //search term input (optional - will pull from 
-	
 	// - repo tab
-	void send_repo_rmpkg();
-	void send_repo_installpkg();
+	void send_start_search(QString search = ""); //search term input (optional - will pull from current text in input box)
+	void send_start_browse(QString cat);
+	void send_repo_rmpkg(QString origin = "");
+	void send_repo_installpkg(QString origin = "");
 };
 #endif

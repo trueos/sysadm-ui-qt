@@ -7,6 +7,7 @@
 #include "page_pkg-BrowserItem.h"
 #include <QHBoxLayout>
 #include <QGridLayout>
+#include <QDebug>
 
 BrowserItem::BrowserItem(QWidget *parent, QString ID) : QWidget(parent){
   objID = ID;
@@ -73,16 +74,19 @@ QLabel* BrowserItem::iconLabel(){
 
 void BrowserItem::setInteraction(int stat){
   //stat: 0-installed, 1-not_installed, 2-pending
+  //qDebug() << " - set browser interaction" << objID << stat;
   tool_install->setVisible(stat==1);
   tool_remove->setVisible(stat==0);
 }
 
 // === PRIVATE SLOTS ===
 void BrowserItem::install_clicked(){
+  setInteraction(2); //pending
   emit InstallClicked(objID);
 }
 
 void BrowserItem::remove_clicked(){
+  setInteraction(2); //pending
   emit RemoveClicked(objID);
 }
 
