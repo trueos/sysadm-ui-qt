@@ -243,8 +243,14 @@ void pkg_page::update_pending_process(QJsonObject obj){
   }
   if(it!=0 && stat=="finished"){
     //qDebug() << " - Got Finished";
+    QStringList origins = it->text(2).split(" ").filter("/");
+    for(int i=0; i<origins.length(); i++){ origin_pending.removeAll(origins[i]); }
     delete ui->tree_pending->takeTopLevelItem( ui->tree_pending->indexOfTopLevelItem(it) );
     it = 0;
+    //See if the current pkg page needs the status updated as well
+    if(origins.contains( ui->page_pkg->whatsThis()) && ui->stacked_repo->currentWidget()==ui->page_pkg){
+      send_repo_app_info(ui->page_pkg->whatsThis(), ui->combo_repo->currentText());
+    }
   }else if(it==0 && stat!="finished"){
     //qDebug() << " - Create item";
     //Need to create a new entry for this process
@@ -252,8 +258,12 @@ void pkg_page::update_pending_process(QJsonObject obj){
       it->setWhatsThis(0, id);
       it->setText(1, obj.value("action").toString());
       it->setText(2, obj.value("proc_cmd").toString());
+    //Update the internal list of origins which are pending
+    QStringList origins = it->text(2).split(" ").filter("/");
+    origin_pending << origins;
+    origin_pending.removeDuplicates();
     //See if the current pkg page needs the status updated as well
-    if(it->text(2).contains( ui->page_pkg->whatsThis())){
+    if(origins.contains( ui->page_pkg->whatsThis()) && ui->stacked_repo->currentWidget()==ui->page_pkg){
       send_repo_app_info(ui->page_pkg->whatsThis(), ui->combo_repo->currentText());
     }
   }
@@ -288,9 +298,6 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
   obj = obj.value(origin).toObject(); //simplification - go one level deeper for easy access to info
   qDebug() << "Show Package:" << origin << obj.keys();
   QString repo = obj.value("repository").toString();
-  
-  //Update the History/buttons
-  // AddToHistory("app", origin, repo);
   
   //Now update all the info on the page
   // - General Info Tab
@@ -435,13 +442,9 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
   
   //Now Update the install/remove/status widgets as needed
   // - first see if there is a pending status for it
-  if( !ui->tree_pending->findItems(origin, Qt::MatchContains, 2).isEmpty() ){
-    QString act = ui->tree_pending->findItems(origin, Qt::MatchContains, 2).first()->text(1);
-    if(act=="pkg_remove"){ act = tr("Pending Removal.."); }
-    else if(act=="pkg_install"){ act = tr("Pending Install.."); }
-    else{ act.clear(); }
-    ui->label_app_status->setText(act);
-    ui->label_app_status->setVisible( !act.isEmpty() ) ;
+  if( origin_pending.contains(origin) ){
+    ui->label_app_status->setText(tr("Pending.."));
+    ui->label_app_status->setVisible( true ) ;
   }else{
     ui->label_app_status->setText("");
     ui->label_app_status->setVisible(false);
