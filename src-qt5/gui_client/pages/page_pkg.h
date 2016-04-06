@@ -77,6 +77,7 @@ private:
 	QStringList catsToText(QStringList cats); //output: <translated name>::::<cat> (pre-sorted by translated names)
 	QWidget* CreateBannerItem(QString image);
 	QWidget* CreateButtonItem(QString image, QString text, QString action);
+	QWidget* CreateGroup(QString text, QList<QWidget*> items, bool horizontal = true);
 	
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);

@@ -7,6 +7,36 @@
 #include "page_pkg.h"
 #include "ui_page_pkg.h"
 
+void pkg_page::GenerateHomePage(QStringList cats, QString repo){
+  //Quick Check to ensure that the page has a widget/layout
+  if(ui->scroll_home->widget()==0){ ui->scroll_home->setWidget(new QWidget(this)); }
+  if(ui->scroll_home->widget()->layout()==0){ 
+    ui->scroll_home->widget()->setLayout( new QGridLayout() ); 
+    ui->scroll_home->widget()->layout()->setContentsMargins(0,0,0,0);
+    ui->scroll_home->widget()->layout()->setSpacing(2);
+  }
+  QGridLayout *layout = static_cast<QGridLayout*>(ui->scroll_home->widget()->layout());
+  for(int i=0; i<layout->count(); i++){ delete layout->takeAt(i); }
+  //POPULATE THE PAGE
+  //FORMAT NOTE for actions:
+  //  For search: 		"search::<category>::<search term>"
+  //  For category: 	"cat::<category>"
+  //  For package:	"pkg::<origin>"
+  
+  //qDebug() << "Creating Home Page...";
+  //Create a simple non-interactive widget
+  layout->addWidget(CreateBannerItem(":/icons/black/photo.svg"),0,0,1,2);
+  //Create a group of items
+  layout->addWidget( CreateGroup(tr("Popular Searches"), QList<QWidget*>() \
+    << CreateButtonItem(":/icons/black/globe.svg", "Web Browsers", "search::www::web browser") \
+    << CreateButtonItem(":/icons/black/mail.svg", "Email Clients", "search::mail::client ") \
+    << CreateButtonItem(":/icons/black/paperclip.svg", "Office Suites", "search::editors::office") \
+    << CreateButtonItem(":/icons/black/desktop2.svg", "Desktops", "search::x11-wm::desktop environment") \
+    ), 1, 0, 1,2);
+  //Now set one of the rows to expand more than the others
+  layout->setRowStretch(0,1);
+}
+
 QWidget* pkg_page::CreateBannerItem(QString image){
   //This creates a non-interactive image item for the home page
   QLabel *tmp = new QLabel(ui->scroll_home->widget());
@@ -29,21 +59,15 @@ QWidget* pkg_page::CreateButtonItem(QString image, QString text, QString action)
   return tmp;
 }
 
-void pkg_page::GenerateHomePage(QStringList cats, QString repo){
-  //Quick Check to ensure that the page has a widget/layout
-  if(ui->scroll_home->widget()==0){ ui->scroll_home->setWidget(new QWidget(this)); }
-  if(ui->scroll_home->widget()->layout()==0){ 
-    ui->scroll_home->widget()->setLayout( new QGridLayout() ); 
-    ui->scroll_home->widget()->layout()->setContentsMargins(0,0,0,0);
-    ui->scroll_home->widget()->layout()->setSpacing(2);
-  }
-  QGridLayout *layout = static_cast<QGridLayout*>(ui->scroll_home->widget()->layout());
-  for(int i=0; i<layout->count(); i++){ delete layout->takeAt(i); }
-  //POPULATE THE PAGE
-  qDebug() << "Creating Home Page...";
-  layout->addWidget(CreateBannerItem(":/icons/black/photo.svg"),0,0,1,2);
-  layout->addWidget(CreateButtonItem(":/icons/black/globe.svg", "Web Browsers", "search::web browser"), 1,0);
-  //layout->setRowStretch(2,1);
+QWidget* pkg_page::CreateGroup(QString text, QList<QWidget*> items, bool horizontal){
+  QGroupBox * tmp = new QGroupBox(ui->scroll_home->widget());
+    tmp->setTitle(text);
+  if(horizontal){ tmp->setLayout( new QHBoxLayout() ); }
+  else{ tmp->setLayout( new QVBoxLayout() ); }
+  QBoxLayout *layout = static_cast<QBoxLayout*>( tmp->layout() );
+  layout->setContentsMargins(2,2,2,2);
+  for(int i=0; i<items.length(); i++){ layout->addWidget(items[i]); }
+  return tmp;
 }
 
 QStringList pkg_page::catsToText(QStringList cats){

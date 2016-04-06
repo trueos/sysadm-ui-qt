@@ -142,7 +142,7 @@ void pkg_page::update_local_list(QJsonObject obj){
       //See if the currently-shown pkgs needs updating too
       if(!ui->page_pkg->whatsThis().isEmpty() && ui->stacked_repo->currentWidget()==ui->page_pkg){
         send_repo_app_info(ui->page_pkg->whatsThis(), ui->combo_repo->currentText());
-      }else if(ui->stacked_repo->currentWidget()==ui->page_search){
+      }else if(ui->scroll_search->widget()!=0 && ui->stacked_repo->currentWidget()==ui->page_search){
 	send_start_search(ui->label_search_term->text()); //re-run the last search and update items as needed
       }
   //qDebug() << "Update Local List:" << origins;
@@ -475,12 +475,13 @@ void pkg_page::update_repo_app_lists(QScrollArea *scroll, QJsonObject(obj) ){
   if(scroll->widget()->layout()==0){ 
     scroll->widget()->setLayout( new QVBoxLayout(scroll->widget()) ); 
     scroll->widget()->layout()->setContentsMargins(0,0,0,0);
-    scroll->widget()->layout()->setSpacing(6);
+    scroll->widget()->layout()->setSpacing(2);
   }
   QStringList origins = obj.keys(); //item ID's we need to show
   if(scroll!=ui->scroll_search){ origins.sort(Qt::CaseInsensitive); } //don't sort search results (ordered by priority)
   QStringList used;
   //Go through the the current widgets in the area and remove/update them
+  //qDebug() << "Remove old items";
   for(int i=0; i<scroll->widget()->layout()->count(); i++){
     if(scroll->widget()->layout()->itemAt(i)->widget()==0){
       delete scroll->widget()->layout()->takeAt(i);
@@ -489,24 +490,30 @@ void pkg_page::update_repo_app_lists(QScrollArea *scroll, QJsonObject(obj) ){
     }
     BrowserItem *BI = static_cast<BrowserItem *>( scroll->widget()->layout()->itemAt(i)->widget() );
     if(BI->whatsThis().isEmpty() || !origins.contains(BI->ID()) ){ 
+      //qDebug() << "Delete BI";
       scroll->widget()->layout()->takeAt(i)->widget()->deleteLater();
       i--;
     }else{
       //Update this item
+      //qDebug() << "Update BI";
       updateBrowserItem(BI, obj.value(BI->ID()).toObject());
       used << BI->ID(); //keep track of which items we already updated
     }
   }
   //Now go through and add any new items as needed
+  //qDebug() << "Add new BI's";
   for(int i=0; i<origins.length(); i++){
     if(used.contains(origins[i])){ continue; } //already handled
+    //qDebug() << " - Create Item:" << origins[i];
     BrowserItem *BI = new BrowserItem(scroll->widget(), origins[i]);
      connect(BI, SIGNAL(ItemClicked(QString)), this, SLOT(browser_goto_pkg(QString)) );
      connect(BI, SIGNAL(InstallClicked(QString)), this, SLOT(send_repo_installpkg(QString)) );
      connect(BI, SIGNAL(RemoveClicked(QString)), this, SLOT(send_repo_rmpkg(QString)) );
+    //qDebug() << " - Update Item";
     updateBrowserItem(BI, obj.value(origins[i]).toObject());
     static_cast<QBoxLayout*>(scroll->widget()->layout())->insertWidget(i, BI); 
   }
+  //qDebug() << "Done Adding BI's";
   if(origins.isEmpty()){
     scroll->widget()->layout()->addWidget( new QLabel("<i>"+tr("No Packages Found")+"</i>",scroll->widget()) );
   }
@@ -619,7 +626,14 @@ void pkg_page::updateBrowserItem(BrowserItem *it, QJsonObject data){
   it->setText("name", data.value("name").toString());
   it->setText("version", data.value("version").toString());
   it->setText("comment",data.value("comment").toString());
-  if(data.contains("icon")){ LoadImageFromURL( it->iconLabel(), data.value("icon").toString()); }
+  if(data.contains("icon")){ 
+    QString url = data.value("icon").toString();
+    QLabel* ico = it->iconLabel();
+    if(ico->pixmap()==0 || ico->whatsThis()!=url){
+	ico->setWhatsThis(url);
+	LoadImageFromURL( ico, url); 
+    }
+  }
   it->iconLabel()->setVisible(data.contains("icon"));
   //See if it is installed/pending
   int stat = 1; //not installed
@@ -770,10 +784,11 @@ void pkg_page::update_repo_changed(){
 
 void pkg_page::icon_available(QNetworkReply *reply){
   //Get the widget for this reply
+  qDebug() << "Icon Available:" << reply->url();
   if(!pendingIcons.contains(reply)){ return; }
   QLabel *label = pendingIcons.take(reply);
   //Make sure the label is still valid
-  //qDebug() << "Loading icon onto widget:" << label << reply->url();
+  qDebug() << " - Loading icon onto widget:" << reply->url();
   if( !this->isAncestorOf(label) ){ 
     bool bad = true;
     if(ui->scroll_cat->widget()!=0){ bad = bad && !ui->scroll_cat->widget()->isAncestorOf(label); }
@@ -787,7 +802,7 @@ void pkg_page::icon_available(QNetworkReply *reply){
     //qDebug() << "Size:" << sz << label->size() << label->sizeHint();
     label->setPixmap( QPixmap::fromImage(img).scaled( sz, Qt::KeepAspectRatio, Qt::SmoothTransformation) );
   }
-  //qDebug() << " - Done";
+  qDebug() << " - Done";
 }
 
 void pkg_page::browser_last_ss(){
@@ -873,10 +888,28 @@ void pkg_page::browser_update_history(){
 }
 
 void pkg_page::browser_home_button_clicked(QString action){
+  //FORMAT NOTE for actions:
+  //  For search: 		"search::<category>::<search term>"
+  //  For category: 	"cat::<category>"
+  //  For package:	"pkg::<origin>"
+	
   //home button action clicked
   qDebug() << "Home Button Action:" << action;
   if(action.startsWith("search::")){
-    send_start_search(action.section("::",1,-1));
+    //First set the category filter if needed
+    QString cat = action.section("::",1,1);
+    if(cat.isEmpty()){ ui->combo_search_cat->setCurrentIndex(0); }
+    else{
+      int index = ui->combo_search_cat->findData(cat);
+      if(index<0){ index = 0; }
+      ui->combo_search_cat->setCurrentIndex(index);
+    }
+    send_start_search(action.section("::",2,-1));
+    
+  }else if(action.startsWith("cat::") ){
+    send_start_browse(action.section("::",1,-1));
+  }else if(action.startsWith("pkg::") ){
+    browser_goto_pkg(action.section("::",1,-1));
   }
 }
 

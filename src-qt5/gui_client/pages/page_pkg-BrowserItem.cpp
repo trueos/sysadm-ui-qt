@@ -32,8 +32,11 @@ BrowserItem::BrowserItem(QWidget *parent, QString ID) : QFrame(parent){
     tool_remove->setToolTip(tr("Uninstall Package"));
   //Now add them to the main widget
   QHBoxLayout *H1 = new QHBoxLayout(); //row 1
+    H1->setContentsMargins(1,1,1,1);
   QHBoxLayout *H2 = new QHBoxLayout(); //row 2
+    H2->setContentsMargins(1,1,1,1);
   QGridLayout *V1 = new QGridLayout(); //overall vertical layout
+    V1->setContentsMargins(1,1,1,1);
   //H1->addWidget(icon);
   H1->addWidget(name);
   H1->addStretch();
