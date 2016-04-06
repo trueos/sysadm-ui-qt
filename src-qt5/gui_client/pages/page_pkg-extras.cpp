@@ -20,6 +20,14 @@ QWidget* pkg_page::CreateBannerItem(QString image){
   return tmp;
 }
 
+QWidget* pkg_page::CreateButtonItem(QString image, QString text, QString action){
+  HomeButton *tmp = new HomeButton(ui->scroll_home->widget(), action);
+	tmp->setText(text);
+	tmp->setIcon( QIcon(image) );
+	if(!text.isEmpty()){ tmp->setToolButtonStyle(Qt::ToolButtonTextUnderIcon); }
+	connect(tmp, SIGNAL(HomeAction(QString)), this, SLOT(browser_home_button_clicked(QString)) );
+  return tmp;
+}
 
 void pkg_page::GenerateHomePage(QStringList cats, QString repo){
   //Quick Check to ensure that the page has a widget/layout
@@ -33,7 +41,8 @@ void pkg_page::GenerateHomePage(QStringList cats, QString repo){
   for(int i=0; i<layout->count(); i++){ delete layout->takeAt(i); }
   //POPULATE THE PAGE
   qDebug() << "Creating Home Page...";
-  layout->addWidget(CreateBannerItem(":/icons/black/photo.svg"),0,0,2,1);
+  layout->addWidget(CreateBannerItem(":/icons/black/photo.svg"),0,0,1,2);
+  layout->addWidget(CreateButtonItem(":/icons/black/globe.svg", "Web Browsers", "search::web browser"), 1,0);
   //layout->setRowStretch(2,1);
 }
 

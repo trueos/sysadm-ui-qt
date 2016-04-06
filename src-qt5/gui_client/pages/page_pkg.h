@@ -76,6 +76,7 @@ private:
 	void GenerateHomePage(QStringList cats, QString repo);
 	QStringList catsToText(QStringList cats); //output: <translated name>::::<cat> (pre-sorted by translated names)
 	QWidget* CreateBannerItem(QString image);
+	QWidget* CreateButtonItem(QString image, QString text, QString action);
 	
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);

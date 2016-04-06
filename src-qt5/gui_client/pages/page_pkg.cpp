@@ -139,6 +139,12 @@ void pkg_page::send_repo_app_info(QString origin, QString repo){
 void pkg_page::update_local_list(QJsonObject obj){
   QStringList origins = obj.keys();
   origin_installed = origins; //keep this list around for later
+      //See if the currently-shown pkgs needs updating too
+      if(!ui->page_pkg->whatsThis().isEmpty() && ui->stacked_repo->currentWidget()==ui->page_pkg){
+        send_repo_app_info(ui->page_pkg->whatsThis(), ui->combo_repo->currentText());
+      }else if(ui->stacked_repo->currentWidget()==ui->page_search){
+	send_start_search(ui->label_search_term->text()); //re-run the last search and update items as needed
+      }
   //qDebug() << "Update Local List:" << origins;
   bool sort = ui->tree_local->topLevelItemCount()<1;
   //Quick removal of any items no longer installed
@@ -686,12 +692,6 @@ void pkg_page::ParseEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
     if(finished){ 
       //Need to update the list of installed packages    
       send_local_update();
-      //See if the currently-shown pkg needs updating too
-      if(!ui->page_pkg->whatsThis().isEmpty() && ui->stacked_repo->currentWidget()==ui->page_pkg){
-        send_repo_app_info(ui->page_pkg->whatsThis(), ui->combo_repo->currentText());
-      }else if(ui->stacked_repo->currentWidget()==ui->page_search){
-	send_start_search(ui->label_search_term->text()); //re-run the last search and update items as needed
-      }
     }
     // Need to update the list of pending processes
     update_pending_process(val.toObject());
@@ -875,6 +875,9 @@ void pkg_page::browser_update_history(){
 void pkg_page::browser_home_button_clicked(QString action){
   //home button action clicked
   qDebug() << "Home Button Action:" << action;
+  if(action.startsWith("search::")){
+    send_start_search(action.section("::",1,-1));
+  }
 }
 
 // - pending tab
