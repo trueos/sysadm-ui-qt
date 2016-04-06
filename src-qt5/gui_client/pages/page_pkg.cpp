@@ -476,11 +476,13 @@ void pkg_page::update_repo_app_lists(QScrollArea *scroll, QJsonObject(obj) ){
   QStringList used;
   //Go through the the current widgets in the area and remove/update them
   for(int i=0; i<scroll->widget()->layout()->count(); i++){
-    BrowserItem *BI = static_cast<BrowserItem *>( scroll->widget()->layout()->itemAt(i)->widget() );
-    if(BI==0){ 
+    if(scroll->widget()->layout()->itemAt(i)->widget()==0){
       delete scroll->widget()->layout()->takeAt(i);
       i--;
-    }else if(!origins.contains(BI->ID()) ){
+      continue;
+    }
+    BrowserItem *BI = static_cast<BrowserItem *>( scroll->widget()->layout()->itemAt(i)->widget() );
+    if(BI->whatsThis().isEmpty() || !origins.contains(BI->ID()) ){ 
       scroll->widget()->layout()->takeAt(i)->widget()->deleteLater();
       i--;
     }else{
@@ -770,7 +772,14 @@ void pkg_page::icon_available(QNetworkReply *reply){
   //Get the widget for this reply
   if(!pendingIcons.contains(reply)){ return; }
   QLabel *label = pendingIcons.take(reply);
-  if( !this->isAncestorOf(label) ){ return; } //Widget removed while loading the URL
+  //Make sure the label is still valid
+  //qDebug() << "Loading icon onto widget:" << label << reply->url();
+  if( !this->isAncestorOf(label) ){ 
+    bool bad = true;
+    if(ui->scroll_cat->widget()!=0){ bad = bad && !ui->scroll_cat->widget()->isAncestorOf(label); }
+    if(ui->scroll_search->widget()!=0){ bad = bad && !ui->scroll_search->widget()->isAncestorOf(label); }
+    if(bad){ return;  }
+  } //Widget removed while loading the URL
   QImage img = QImage::fromData(reply->readAll());
   if(img.isNull()){ label->setVisible(false); }
   else{
@@ -778,6 +787,7 @@ void pkg_page::icon_available(QNetworkReply *reply){
     //qDebug() << "Size:" << sz << label->size() << label->sizeHint();
     label->setPixmap( QPixmap::fromImage(img).scaled( sz, Qt::KeepAspectRatio, Qt::SmoothTransformation) );
   }
+  //qDebug() << " - Done";
 }
 
 void pkg_page::browser_last_ss(){

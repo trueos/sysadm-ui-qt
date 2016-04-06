@@ -10,7 +10,13 @@
 QWidget* pkg_page::CreateBannerItem(QString image){
   //This creates a non-interactive image item for the home page
   QLabel *tmp = new QLabel(ui->scroll_home->widget());
-    tmp->setStyleSheet("border-image: url("+image+");");
+    if(image.startsWith("http")){
+      tmp->setStyleSheet("border-image: url("+image+");");
+    }else{
+      tmp->setAlignment(Qt::AlignCenter);
+      tmp->setScaledContents(true);
+      tmp->setPixmap(QPixmap(image));
+    }
   return tmp;
 }
 
@@ -18,12 +24,17 @@ QWidget* pkg_page::CreateBannerItem(QString image){
 void pkg_page::GenerateHomePage(QStringList cats, QString repo){
   //Quick Check to ensure that the page has a widget/layout
   if(ui->scroll_home->widget()==0){ ui->scroll_home->setWidget(new QWidget(this)); }
-  if(ui->scroll_home->widget()->layout()==0){ ui->scroll_home->widget()->setLayout( new QGridLayout() ); }
+  if(ui->scroll_home->widget()->layout()==0){ 
+    ui->scroll_home->widget()->setLayout( new QGridLayout() ); 
+    ui->scroll_home->widget()->layout()->setContentsMargins(0,0,0,0);
+    ui->scroll_home->widget()->layout()->setSpacing(2);
+  }
   QGridLayout *layout = static_cast<QGridLayout*>(ui->scroll_home->widget()->layout());
   for(int i=0; i<layout->count(); i++){ delete layout->takeAt(i); }
   //POPULATE THE PAGE
   qDebug() << "Creating Home Page...";
-  layout->addWidget(CreateBannerItem(":/icons/black/image.svg"),0,0 );
+  layout->addWidget(CreateBannerItem(":/icons/black/photo.svg"),0,0,2,1);
+  //layout->setRowStretch(2,1);
 }
 
 QStringList pkg_page::catsToText(QStringList cats){
