@@ -9,7 +9,7 @@
 #include <QGridLayout>
 #include <QDebug>
 
-BrowserItem::BrowserItem(QWidget *parent, QString ID) : QWidget(parent){
+BrowserItem::BrowserItem(QWidget *parent, QString ID) : QFrame(parent){
   objID = ID;
   this->setToolTip(objID);
   this->setObjectName("BrowserItem");
@@ -46,7 +46,7 @@ BrowserItem::BrowserItem(QWidget *parent, QString ID) : QWidget(parent){
   V1->addLayout(H1,0,2);
   V1->addLayout(H2,1,2);
   this->setLayout(V1);
-  //this->setStyleSheet("border: 1px solid black; border-radius: 3px; background: darkgrey;");
+  this->setStyleSheet("BrowserItem{ border: 1px solid black; border-radius: 3px; background: darkgrey; }");
   //Connect any signals/slots
   connect(tool_install, SIGNAL(clicked()), this, SLOT(install_clicked()) );
   connect(tool_remove, SIGNAL(clicked()), this, SLOT(remove_clicked()) );

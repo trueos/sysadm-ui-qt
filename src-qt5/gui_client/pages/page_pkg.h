@@ -38,7 +38,7 @@ private:
 	bool local_showall, local_advmode, local_hasupdates; //Local tab options
 	QMenu *local_viewM, *repo_catM, *repo_backM;
 	QNetworkAccessManager *NMAN;
-	QHash<QLabel*, QNetworkReply*> pendingIcons;
+	QHash<QNetworkReply*,QLabel*> pendingIcons;
 	//Internal lists of origins being handled
 	QStringList origin_installed, origin_pending;
 
@@ -73,7 +73,9 @@ private:
 	void updateBrowserItem(BrowserItem *it, QJsonObject data);
 	
 	//User-interface items (functions defined in page_pkg-extras.cpp)
+	void GenerateHomePage(QStringList cats, QString repo);
 	QStringList catsToText(QStringList cats); //output: <translated name>::::<cat> (pre-sorted by translated names)
+	QWidget* CreateBannerItem(QString image);
 	
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
@@ -98,7 +100,7 @@ private slots:
 	void browser_filter_search_cat();
 	void browser_go_back(QAction *act = 0);
 	void browser_update_history();
-
+        void browser_home_button_clicked(QString action);
 	// - pending tab
 	void pending_show_log(bool);
 
@@ -115,4 +117,22 @@ private slots:
 	void send_repo_rmpkg(QString origin = "");
 	void send_repo_installpkg(QString origin = "");
 };
+
+//Special QToolButton subclass for home page buttons
+class HomeButton : public QToolButton{
+	Q_OBJECT
+signals: 
+	void HomeAction(QString);
+private slots:
+	void buttonclicked(){
+	  emit HomeAction(this->whatsThis());
+	}
+public:
+	HomeButton(QWidget *parent, QString action) : QToolButton(parent){
+	  this->setWhatsThis(action);
+	  connect(this, SIGNAL(clicked()), this, SLOT(buttonclicked()) );
+	}
+	~HomeButton(){}
+};
+
 #endif

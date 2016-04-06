@@ -15,7 +15,7 @@
 #include <QFont>
 #include <QMouseEvent>
 
-class BrowserItem : public QWidget{
+class BrowserItem : public QFrame{
 	Q_OBJECT
 public:
 	BrowserItem(QWidget *parent, QString ID);

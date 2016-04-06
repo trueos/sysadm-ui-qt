@@ -573,15 +573,17 @@ bool pkg_page::updateStatusList(QStringList *list, QString stat, bool enabled){
 void pkg_page::LoadImageFromURL(QLabel *widget, QString url){
   url = url.remove("\\\\");
   url = url.remove("\\\"");
-  qDebug() << "Try to load image from URL:" << url;
+  //qDebug() << "Try to load image from URL:" << url;
   //Set a temporary image on the widget
   widget->setPixmap( QPixmap(":/icons/black/photo.svg") );
   //Remove any old images which are still loading for this same widget
-  if(pendingIcons.contains(widget)){
-    pendingIcons.take(widget)->abort();
+  QNetworkReply *reply = pendingIcons.key(widget,0);
+  if(reply!=0){
+    reply->abort();
+    pendingIcons.remove(reply);
   }
   //Start the download of the image
-  pendingIcons.insert(widget, NMAN->get( QNetworkRequest(QUrl(url)) ) );
+  pendingIcons.insert(NMAN->get( QNetworkRequest(QUrl(url)) ), widget );
   
 }
 
@@ -636,8 +638,10 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
   }else if(id==TAG+"list_repos" && args.isObject()){
     QStringList repos = ArrayToStringList(args.toObject().value("list_repos").toArray());
     repos.removeAll("local");
+    repos.removeAll("");
     ui->combo_repo->clear();
     ui->combo_repo->addItems(repos);
+    ui->combo_repo->setWhatsThis(ui->combo_repo->currentText()); //save this for later checks
     send_list_cats(ui->combo_repo->currentText());
     //Now kick off loading the home page data
     browser_update_history();
@@ -651,16 +655,18 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
     browser_update_history();
   }else if(id==TAG+"list_cats" && args.isObject()){
     QStringList cats = ArrayToStringList( args.toObject().value("list_categories").toArray() );
-    cats = catsToText(cats); //format: <translated string>::::<cat>
+    QStringList viscats = catsToText(cats); //format: <translated string>::::<cat>
     //Now add these categories to the widgets
     ui->combo_search_cat->clear();
     ui->combo_search_cat->addItem(tr("All Categories"));
     repo_catM->clear();
     for(int i=0; i<cats.length(); i++){ 
-      ui->combo_search_cat->addItem( cats[i].section("::::",0,0), cats[i].section("::::",1,1)); 
-      QAction *tmp = repo_catM->addAction(cats[i].section("::::",0,0));
-	tmp->setWhatsThis(cats[i].section("::::",1,1));
+      ui->combo_search_cat->addItem( viscats[i].section("::::",0,0), viscats[i].section("::::",1,1)); 
+      QAction *tmp = repo_catM->addAction(viscats[i].section("::::",0,0));
+	tmp->setWhatsThis(viscats[i].section("::::",1,1));
     }
+    //Now create the home page
+    GenerateHomePage(cats, ui->combo_repo->currentText());
   }else{
     qDebug() << " - arguments:" << args;
   }
@@ -748,24 +754,30 @@ void pkg_page::browser_goto_cat(QAction* act){
 }
 
 void pkg_page::update_repo_changed(){
-	
+  if(ui->combo_repo->whatsThis() == ui->combo_repo->currentText()){ return; }
+  ui->combo_repo->setWhatsThis(ui->combo_repo->currentText()); //save for later checks
+  //Repo Changed - reload the current page with the new repo
+  if(!ui->page_pkg->whatsThis().isEmpty() && ui->stacked_repo->currentWidget()==ui->page_pkg){
+    send_repo_app_info(ui->page_pkg->whatsThis(), ui->combo_repo->currentText());
+  }else if(ui->stacked_repo->currentWidget()==ui->page_search){
+    send_start_search(ui->label_search_term->text()); //re-run the last search and update items as needed
+  }else{
+    send_list_cats(ui->combo_repo->currentText());
+  }
 }
 
 void pkg_page::icon_available(QNetworkReply *reply){
   //Get the widget for this reply
-  QList<QLabel*> widgets = pendingIcons.keys();
-  QLabel *label = 0;
-  for(int i=0; i<widgets.length() && label==0; i++){
-    if(reply == pendingIcons[ widgets[i] ]){ 
-      label = widgets[i];
-      pendingIcons.remove(widgets[i]); //icon finished - remove it from pending list
-    }
-  }
-  if(label==0){ return; } //no widget found - throw it away
+  if(!pendingIcons.contains(reply)){ return; }
+  QLabel *label = pendingIcons.take(reply);
+  if( !this->isAncestorOf(label) ){ return; } //Widget removed while loading the URL
   QImage img = QImage::fromData(reply->readAll());
-  QSize sz = label->size();
-  //qDebug() << "Size:" << sz << label->size() << label->sizeHint();
-  label->setPixmap( QPixmap::fromImage(img).scaled( sz, Qt::KeepAspectRatio, Qt::SmoothTransformation) );
+  if(img.isNull()){ label->setVisible(false); }
+  else{
+    QSize sz = label->size();
+    //qDebug() << "Size:" << sz << label->size() << label->sizeHint();
+    label->setPixmap( QPixmap::fromImage(img).scaled( sz, Qt::KeepAspectRatio, Qt::SmoothTransformation) );
+  }
 }
 
 void pkg_page::browser_last_ss(){
@@ -806,9 +818,12 @@ void pkg_page::browser_go_back(QAction *act){
   }else{
     //use the last action in the history menu
     QList<QAction*> acts = repo_backM->actions();
-    if(!acts.isEmpty()){
-      go = acts.last()->whatsThis();
-      repo_backM->removeAction(acts.last());
+    if(acts.length()>1){
+      go = acts[acts.length()-2]->whatsThis();
+      repo_backM->removeAction( acts[acts.length()-1] );
+      repo_backM->removeAction( acts[acts.length()-2]);
+    }else if(!acts.isEmpty()){
+      repo_backM->removeAction( acts.last() );
     }
   }
   if(go.startsWith("cat::")){ send_start_browse(go.section("::",2,-1)); }
@@ -845,6 +860,11 @@ void pkg_page::browser_update_history(){
     QAction *tmp = repo_backM->addAction(txt);
 	tmp->setWhatsThis(go);
   }
+}
+
+void pkg_page::browser_home_button_clicked(QString action){
+  //home button action clicked
+  qDebug() << "Home Button Action:" << action;
 }
 
 // - pending tab

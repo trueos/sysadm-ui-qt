@@ -5,6 +5,26 @@
 //  See the LICENSE file for full details
 //===========================================
 #include "page_pkg.h"
+#include "ui_page_pkg.h"
+
+QWidget* pkg_page::CreateBannerItem(QString image){
+  //This creates a non-interactive image item for the home page
+  QLabel *tmp = new QLabel(ui->scroll_home->widget());
+    tmp->setStyleSheet("border-image: url("+image+");");
+  return tmp;
+}
+
+
+void pkg_page::GenerateHomePage(QStringList cats, QString repo){
+  //Quick Check to ensure that the page has a widget/layout
+  if(ui->scroll_home->widget()==0){ ui->scroll_home->setWidget(new QWidget(this)); }
+  if(ui->scroll_home->widget()->layout()==0){ ui->scroll_home->widget()->setLayout( new QGridLayout() ); }
+  QGridLayout *layout = static_cast<QGridLayout*>(ui->scroll_home->widget()->layout());
+  for(int i=0; i<layout->count(); i++){ delete layout->takeAt(i); }
+  //POPULATE THE PAGE
+  qDebug() << "Creating Home Page...";
+  layout->addWidget(CreateBannerItem(":/icons/black/image.svg"),0,0 );
+}
 
 QStringList pkg_page::catsToText(QStringList cats){
   QStringList out;

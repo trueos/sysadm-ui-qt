@@ -162,7 +162,7 @@
        <item>
         <widget class="QStackedWidget" name="stacked_repo">
          <property name="currentIndex">
-          <number>3</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="page_home">
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -232,8 +232,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>421</width>
-                <height>252</height>
+                <width>422</width>
+                <height>254</height>
                </rect>
               </property>
              </widget>
@@ -308,8 +308,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>421</width>
-                <height>257</height>
+                <width>98</width>
+                <height>28</height>
                </rect>
               </property>
              </widget>
@@ -399,8 +399,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>421</width>
-                <height>251</height>
+                <width>98</width>
+                <height>28</height>
                </rect>
               </property>
              </widget>
@@ -852,8 +852,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>377</width>
-                    <height>155</height>
+                    <width>98</width>
+                    <height>35</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_14">
