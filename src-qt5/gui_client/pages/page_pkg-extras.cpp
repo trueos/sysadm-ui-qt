@@ -7,6 +7,13 @@
 #include "page_pkg.h"
 #include "ui_page_pkg.h"
 
+#define LCATS (QStringList()<<"arabic"<<"chinese"<<"french"<<"german"<<"hebrew"<<"hungarian" \
+	<<"japanese"<<"korean"<<"polish"<<"portuguese"<<"russian"<<"ukrainian"<<"vietnamese")
+	
+#define DCATS (QStringList()<<"devel"<<"lang"<<"cad"<<"ports-mgmt"<<"java"<<"converters"<<"databases")
+#define NCATS (QStringList()<<"www"<<"irc"<<"ftp"<<"dns"<<"news"<<"mail")
+#define UCATS (QStringList()<<"sysutils"<<"deskutils"<<"comms"<<"shells"<<"benchmarks")
+
 void pkg_page::GenerateHomePage(QStringList cats, QString repo){
   //Quick Check to ensure that the page has a widget/layout
   if(ui->scroll_home->widget()==0){ ui->scroll_home->setWidget(new QWidget(this)); }
@@ -139,4 +146,78 @@ QStringList pkg_page::catsToText(QStringList cats){
   }
   out.sort();
   return out;
+}
+
+void pkg_page::GenerateCategoryMenu(QMenu *menu, QStringList cats){
+  //Note: the "cats" input must be the raw (non-translated) category list
+  qDebug() << "Cats:" << cats;
+  menu->clear();
+  if(menu == repo_catSM){ menu->addAction("No Category Filter"); menu->addSeparator(); }
+  QStringList locale, net, x11, devel, utils, other;
+  //Divide up the main list into sub-categories
+  for(int i=0; i<cats.length(); i++){
+    if(cats[i].startsWith("x11")){ x11 << cats[i]; }
+    else if( cats[i].startsWith("net") || NCATS.contains(cats[i]) ){ net << cats[i]; }
+    else if( LCATS.contains(cats[i]) ){ locale << cats[i]; }
+    else if( DCATS.contains(cats[i]) ){ devel << cats[i]; }
+    else if( UCATS.contains(cats[i]) ){ utils << cats[i]; }
+    else{ other << cats[i]; }
+  }
+  //Now assemble the main Menu
+  // - First do all the non-categorized items
+  other = catsToText(other);
+  for(int i=0; i<other.length(); i++){
+    QAction *tmpA = menu->addAction(other[i].section("::::",0,0));
+	tmpA->setWhatsThis(other[i].section("::::",1,1));
+  }
+  if(!x11.isEmpty() || !net.isEmpty() || !locale.isEmpty()){
+    menu->addSection(tr("Categories"));
+  }
+  // - Devel specific categories
+  if(!devel.isEmpty()){
+    devel = catsToText(devel);
+    QMenu *tmpM = menu->addMenu(QIcon(":/icons/black/preferences.svg"), tr("Development"));
+    for(int i=0; i<devel.length(); i++){
+      QAction *tmpA = tmpM->addAction(devel[i].section("::::",0,0));
+	tmpA->setWhatsThis(devel[i].section("::::",1,1));
+    }
+  }
+  // - Locale specific categories
+  if(!locale.isEmpty()){
+    locale = catsToText(locale);
+    QMenu *tmpM = menu->addMenu(QIcon(":/icons/black/flag.svg"), tr("Locale Specific"));
+    for(int i=0; i<locale.length(); i++){
+      QAction *tmpA = tmpM->addAction(locale[i].section("::::",0,0));
+	tmpA->setWhatsThis(locale[i].section("::::",1,1));
+    }
+  }
+  // - Network specific categories
+  if(!net.isEmpty()){
+    net = catsToText(net);
+    QMenu *tmpM = menu->addMenu(QIcon(":/icons/black/globe.svg"), tr("Networking"));
+    for(int i=0; i<net.length(); i++){
+      QAction *tmpA = tmpM->addAction(net[i].section("::::",0,0));
+	tmpA->setWhatsThis(net[i].section("::::",1,1));
+    }
+  }
+  // - Utilities
+  if(!utils.isEmpty()){
+    utils = catsToText(utils);
+    QMenu *tmpM = menu->addMenu(QIcon(":/icons/black/bag.svg"), tr("Utilities"));
+    for(int i=0; i<utils.length(); i++){
+      QAction *tmpA = tmpM->addAction(utils[i].section("::::",0,0));
+	tmpA->setWhatsThis(utils[i].section("::::",1,1));
+    }
+  }
+  // - Now all X11 categories
+  if(!x11.isEmpty()){
+    x11 = catsToText(x11);
+    QMenu *tmpM = menu->addMenu(QIcon(":/icons/black/desktop2.svg"), tr("X11"));
+    for(int i=0; i<x11.length(); i++){
+      QAction *tmpA = tmpM->addAction(x11[i].section("::::",0,0));
+	tmpA->setWhatsThis(x11[i].section("::::",1,1));
+    }
+  }
+  
+	
 }

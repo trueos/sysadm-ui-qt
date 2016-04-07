@@ -20,6 +20,9 @@ pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, co
   repo_catM = new QMenu(this);
     connect(repo_catM, SIGNAL(triggered(QAction*)), this, SLOT(browser_goto_cat(QAction*)) );
     ui->tool_home_gotocat->setMenu(repo_catM);
+  repo_catSM = new QMenu(this);
+    connect(repo_catSM, SIGNAL(triggered(QAction*)), this, SLOT(browser_filter_search_cat(QAction *)) );
+    ui->tool_search_cat->setMenu(repo_catSM);
   local_viewM = new QMenu(this);
     ui->tool_local_filter->setMenu(local_viewM);
     //Now populate the filter menu
@@ -55,7 +58,6 @@ pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, co
   connect(ui->tool_app_lastss, SIGNAL(clicked()), this, SLOT(browser_last_ss()) );
   connect(ui->line_repo_search, SIGNAL(returnPressed()), this, SLOT(send_start_search()) );
   connect(ui->tool_repo_search, SIGNAL(clicked()), this, SLOT(send_start_search()) );
-  connect(ui->combo_search_cat, SIGNAL(activated(int)), this, SLOT(browser_filter_search_cat()) );
   connect(ui->tool_repo_back, SIGNAL(clicked()), this, SLOT(browser_go_back()) );
   //Ensure that the proper pages/tabs are initially visible
   ui->tabWidget->setCurrentWidget(ui->tab_repo);
@@ -697,14 +699,8 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
     QStringList cats = ArrayToStringList( args.toObject().value("list_categories").toArray() );
     QStringList viscats = catsToText(cats); //format: <translated string>::::<cat>
     //Now add these categories to the widgets
-    ui->combo_search_cat->clear();
-    ui->combo_search_cat->addItem(tr("All Categories"));
-    repo_catM->clear();
-    for(int i=0; i<cats.length(); i++){ 
-      ui->combo_search_cat->addItem( viscats[i].section("::::",0,0), viscats[i].section("::::",1,1)); 
-      QAction *tmp = repo_catM->addAction(viscats[i].section("::::",0,0));
-	tmp->setWhatsThis(viscats[i].section("::::",1,1));
-    }
+    GenerateCategoryMenu(repo_catSM, cats);
+    GenerateCategoryMenu(repo_catM, cats);
     //Now create the home page
     GenerateHomePage(cats, ui->combo_repo->currentText());
   }else{
@@ -890,8 +886,9 @@ void pkg_page::browser_first_ss(){
  showScreenshot(1);	
 }
 
-void pkg_page::browser_filter_search_cat(){
+void pkg_page::browser_filter_search_cat(QAction *act){
   if(ui->stacked_repo->currentWidget()!=ui->page_search){ return; } //some other change (not from user)
+  ui->tool_search_cat->setWhatsThis(act->whatsThis());
   QString search = ui->label_search_term->text(); //last-used search
   send_start_search(search);
 }
@@ -920,7 +917,7 @@ void pkg_page::browser_go_back(QAction *act){
   if(go.startsWith("cat::")){ send_start_browse(go.section("::",2,-1)); }
   else if(go.startsWith("pkg::")){ browser_goto_pkg(go.section("::",2,-1), go.section("::",1,1)); }
   else if(go.startsWith("search::")){ send_start_search(go.section("::",2,-1)); }
-  else{ ui->stacked_repo->setCurrentWidget(ui->page_home); }
+  else{ ui->stacked_repo->setCurrentWidget(ui->page_home); browser_update_history(); }
 }
 
 void pkg_page::browser_update_history(){
@@ -964,12 +961,7 @@ void pkg_page::browser_home_button_clicked(QString action){
   if(action.startsWith("search::")){
     //First set the category filter if needed
     QString cat = action.section("::",1,1);
-    if(cat.isEmpty()){ ui->combo_search_cat->setCurrentIndex(0); }
-    else{
-      int index = ui->combo_search_cat->findData(cat);
-      if(index<0){ index = 0; }
-      ui->combo_search_cat->setCurrentIndex(index);
-    }
+    ui->tool_search_cat->setWhatsThis(cat);
     send_start_search(action.section("::",2,-1));
     
   }else if(action.startsWith("cat::") ){
@@ -1062,14 +1054,18 @@ void pkg_page::send_start_search(QString search){
     obj.insert("search_term", search );
     if(ui->stacked_repo->currentWidget() == ui->page_cat){ 
       //Currently within a special category - only search here
-      int cat = ui->combo_search_cat->findData(ui->page_cat->whatsThis());
-      if(cat<0){ cat = 0; }
-      ui->combo_search_cat->setCurrentIndex(cat);
-      if(cat!=0){ obj.insert("category", ui->page_cat->whatsThis());  }
-    }else if(ui->stacked_repo->currentWidget() == ui->page_search || !ui->combo_search_cat->currentData().toString().isEmpty() ){
-      obj.insert("category", ui->combo_search_cat->currentData().toString()); 
+      QString cat = ui->page_cat->whatsThis();
+      ui->tool_search_cat->setWhatsThis(cat);
+      if(!cat.isEmpty()){ obj.insert("category", cat);  }
+    }else if(ui->stacked_repo->currentWidget() == ui->page_search || !ui->tool_search_cat->whatsThis().isEmpty() ){
+      obj.insert("category", ui->tool_search_cat->whatsThis() ); 
     }
   CORE->communicate(TAG+"pkg_search", "sysadm", "pkg",obj);
+
+  //Always update the text on the search filter button to match the backend data/cat
+  QString cat = ui->tool_search_cat->whatsThis();
+  if(cat.isEmpty()){ ui->tool_search_cat->setText("Filter By:"); }
+  else{  ui->tool_search_cat->setText( catsToText(QStringList() << cat).first().section("::::",0,0) ); }
   //Now update the search UI page
   if(search!=ui->label_search_term->text()){ ui->scroll_search->verticalScrollBar()->setValue(0); } //new search - go to top
   ui->label_search_term->setText(search); //save this for later

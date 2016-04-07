@@ -159,7 +159,7 @@
        <item>
         <widget class="QStackedWidget" name="stacked_repo">
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="page_home">
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -229,8 +229,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>421</width>
-                <height>250</height>
+                <width>98</width>
+                <height>28</height>
                </rect>
               </property>
              </widget>
@@ -375,12 +375,25 @@
               </spacer>
              </item>
              <item>
-              <widget class="QComboBox" name="combo_search_cat">
-               <property name="currentText">
-                <string/>
+              <widget class="QToolButton" name="tool_search_cat">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
                </property>
-               <property name="sizeAdjustPolicy">
-                <enum>QComboBox::AdjustToContents</enum>
+               <property name="text">
+                <string notr="true">Filter</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../icons/icons.qrc">
+                 <normaloff>:/icons/black/list.svg</normaloff>:/icons/black/list.svg</iconset>
+               </property>
+               <property name="popupMode">
+                <enum>QToolButton::InstantPopup</enum>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextBesideIcon</enum>
                </property>
               </widget>
              </item>
@@ -397,7 +410,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>421</width>
-                <height>249</height>
+                <height>250</height>
                </rect>
               </property>
              </widget>

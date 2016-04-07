@@ -36,7 +36,7 @@ private:
 
 	//Internal flags
 	bool local_showall, local_advmode, local_hasupdates; //Local tab options
-	QMenu *local_viewM, *repo_catM, *repo_backM;
+	QMenu *local_viewM, *repo_catM, *repo_catSM, *repo_backM;
 	QNetworkAccessManager *NMAN;
 	//QHash<QNetworkReply*,QString> pendingIcons;// reply/ origin
 	QList<QUrl> imagepending;
@@ -76,11 +76,14 @@ private:
 	void updateBrowserItem(BrowserItem *it, QJsonObject data);
 	
 	//User-interface items (functions defined in page_pkg-extras.cpp)
+	// - Stuff for creating a home page
 	void GenerateHomePage(QStringList cats, QString repo);
-	QStringList catsToText(QStringList cats); //output: <translated name>::::<cat> (pre-sorted by translated names)
 	QWidget* CreateBannerItem(QString image);
 	QWidget* CreateButtonItem(QString image, QString text, QString action);
 	QWidget* CreateGroup(QString text, QList<QWidget*> items, bool horizontal = true);
+	// - Other random stuff
+	QStringList catsToText(QStringList cats); //output: <translated name>::::<cat> (pre-sorted by translated names)
+	void GenerateCategoryMenu(QMenu *menu, QStringList cats);
 	
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
@@ -102,7 +105,7 @@ private slots:
 	void browser_next_ss();
 	void browser_prev_ss();
 	void browser_first_ss();
-	void browser_filter_search_cat();
+	void browser_filter_search_cat(QAction *act);
 	void browser_go_back(QAction *act = 0);
 	void browser_update_history();
         void browser_home_button_clicked(QString action);
