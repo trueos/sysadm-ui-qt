@@ -184,13 +184,13 @@ void pkg_page::update_local_list(QJsonObject obj){
       it->setStatusTip(1, it->toolTip(1));
     if(obj.value(origins[i]).toObject().contains("icon")){
       //qDebug() << "Found Icon:" << origins[i] << obj.value(origins[i]).toObject().value("icon").toString();
-      it->setIcon(1, QIcon(obj.value(origins[i]).toObject().value("icon").toString()) );
+      LoadImageFromURL(it, obj.value(origins[i]).toObject().value("icon").toString());
     }
     it->setText(2, obj.value(origins[i]).toObject().value("version").toString() );
     it->setText(3, BtoHR(obj.value(origins[i]).toObject().value("flatsize").toString().toDouble()) );
     it->setText(4, origins[i].section("/",0,0) ); //category
     //Now the hidden data within each item
-    it->setWhatsThis(1, obj.value(origins[i]).toObject().value("repository").toString() ); //which repo the pkg was installed from
+    it->setWhatsThis(2, obj.value(origins[i]).toObject().value("repository").toString() ); //which repo the pkg was installed from
     QStringList stat_ico = it->data(0,Qt::UserRole).toStringList();
     bool stat_changed = updateStatusList(&stat_ico, "lock", obj.value(origins[i]).toObject().value("locked").toString()=="1");
     stat_changed = stat_changed || updateStatusList(&stat_ico, "req", obj.value(origins[i]).toObject().contains("reverse_dependencies"));
@@ -487,9 +487,13 @@ void pkg_page::update_repo_app_lists(QScrollArea *scroll, QJsonObject(obj) ){
       delete scroll->widget()->layout()->takeAt(i);
       i--;
       continue;
+    }else if("BrowserItem"!=scroll->widget()->layout()->itemAt(i)->widget()->objectName()){
+      scroll->widget()->layout()->takeAt(i)->widget()->deleteLater();
+      i--;
+      continue;	    
     }
     BrowserItem *BI = static_cast<BrowserItem *>( scroll->widget()->layout()->itemAt(i)->widget() );
-    if(BI->whatsThis().isEmpty() || !origins.contains(BI->ID()) ){ 
+    if(!origins.contains(BI->ID()) ){ 
       //qDebug() << "Delete BI";
       scroll->widget()->layout()->takeAt(i)->widget()->deleteLater();
       i--;
@@ -588,18 +592,36 @@ bool pkg_page::updateStatusList(QStringList *list, QString stat, bool enabled){
 void pkg_page::LoadImageFromURL(QLabel *widget, QString url){
   url = url.remove("\\\\");
   url = url.remove("\\\"");
-  //qDebug() << "Try to load image from URL:" << url;
-  //Set a temporary image on the widget
-  widget->setPixmap( QPixmap(":/icons/black/photo.svg") );
-  //Remove any old images which are still loading for this same widget
-  QNetworkReply *reply = pendingIcons.key(widget,0);
-  if(reply!=0){
-    reply->abort();
-    pendingIcons.remove(reply);
+  QUrl qurl(url);
+  if(imagecache.contains(qurl)){
+    widget->setPixmap( QPixmap::fromImage(imagecache[qurl] ).scaled(widget->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) );
+    widget->setVisible(true);
+  }else{
+    //Need to fetch the image - put a placeholder in for now
+    widget->setWhatsThis(qurl.toString());
+    widget->setPixmap( QPixmap(":/icons/black/photo.svg") );
+    if(!imagepending.contains(qurl)){
+      imagepending << qurl;
+      NMAN->get( QNetworkRequest(qurl) );
+    }
   }
-  //Start the download of the image
-  pendingIcons.insert(NMAN->get( QNetworkRequest(QUrl(url)) ), widget );
-  
+}
+
+void pkg_page::LoadImageFromURL(QTreeWidgetItem *it, QString url){
+  url = url.remove("\\\\");
+  url = url.remove("\\\"");
+  QUrl qurl(url);
+  if(imagecache.contains(qurl)){
+    it->setIcon(1, QIcon(QPixmap::fromImage(imagecache[qurl] )) );
+  }else{
+    //Need to fetch the image - put a placeholder in for now
+    it->setWhatsThis(1,qurl.toString());
+    it->setIcon(1, QIcon(":/icons/black/photo.svg") );
+    if(!imagepending.contains(qurl)){
+      imagepending << qurl;
+      NMAN->get( QNetworkRequest(qurl) );
+    }
+  }	
 }
 
 void pkg_page::showScreenshot(int num){
@@ -623,16 +645,12 @@ void pkg_page::showScreenshot(int num){
 
 //Browser Item Update
 void pkg_page::updateBrowserItem(BrowserItem *it, QJsonObject data){
+  it->setWhatsThis("BI"); //browser item
   it->setText("name", data.value("name").toString());
   it->setText("version", data.value("version").toString());
   it->setText("comment",data.value("comment").toString());
   if(data.contains("icon")){ 
-    QString url = data.value("icon").toString();
-    QLabel* ico = it->iconLabel();
-    if(ico->pixmap()==0 || ico->whatsThis()!=url){
-	ico->setWhatsThis(url);
-	LoadImageFromURL( ico, url); 
-    }
+	LoadImageFromURL( it->iconLabel(), data.value("icon").toString()); 
   }
   it->iconLabel()->setVisible(data.contains("icon"));
   //See if it is installed/pending
@@ -751,8 +769,8 @@ void pkg_page::update_local_viewadv(bool checked){
 void pkg_page::goto_browser_from_local(QTreeWidgetItem *it){
   if(ui->tabWidget->currentWidget()!=ui->tab_local || ui->tree_local->indexOfTopLevelItem(it)<0 ){ return; } //stray signal (changing items around?) - ignore it
   QString origin = it->whatsThis(0);
-  QString repo = it->whatsThis(1);
-  if(repo.isEmpty()){ repo = "local"; }
+  //QString repo = it->whatsThis(2);
+  //if(repo.isEmpty()){ repo = "local"; }
   send_repo_app_info(origin, "local");
 }
 
@@ -784,25 +802,73 @@ void pkg_page::update_repo_changed(){
 
 void pkg_page::icon_available(QNetworkReply *reply){
   //Get the widget for this reply
-  qDebug() << "Icon Available:" << reply->url();
-  if(!pendingIcons.contains(reply)){ return; }
-  QLabel *label = pendingIcons.take(reply);
-  //Make sure the label is still valid
-  qDebug() << " - Loading icon onto widget:" << reply->url();
-  if( !this->isAncestorOf(label) ){ 
-    bool bad = true;
-    if(ui->scroll_cat->widget()!=0){ bad = bad && !ui->scroll_cat->widget()->isAncestorOf(label); }
-    if(ui->scroll_search->widget()!=0){ bad = bad && !ui->scroll_search->widget()->isAncestorOf(label); }
-    if(bad){ return;  }
-  } //Widget removed while loading the URL
+  //qDebug() << "Icon Available:" << reply->url();
   QImage img = QImage::fromData(reply->readAll());
-  if(img.isNull()){ label->setVisible(false); }
-  else{
-    QSize sz = label->size();
-    //qDebug() << "Size:" << sz << label->size() << label->sizeHint();
-    label->setPixmap( QPixmap::fromImage(img).scaled( sz, Qt::KeepAspectRatio, Qt::SmoothTransformation) );
+  //Save this image into the hash
+  if(!img.isNull()){ imagecache.insert(reply->url(), img); } //save image for later
+  imagepending.removeAll(reply->url()); //no longer pending
+  //Now go through all the widgets waiting for this icon and put it in as needed
+  QString url = reply->url().toString();
+  // browser/pkg page
+  if(ui->label_app_icon->whatsThis() == url){ 
+    if(img.isNull()){ ui->label_app_icon->setVisible(false); }  
+    else{ 
+	ui->label_app_icon->setVisible(true);
+	ui->label_app_icon->setPixmap( QPixmap::fromImage(img).scaled( ui->label_app_icon->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) ); 
+    }
   }
-  qDebug() << " - Done";
+  if(ui->label_app_screenshot->whatsThis()==url){
+    if(img.isNull()){ ui->label_app_screenshot->setPixmap( QPixmap(":/icons/black/forbidden.svg") ); }  
+    else{ 
+	ui->label_app_screenshot->setPixmap( QPixmap::fromImage(img).scaled( ui->label_app_screenshot->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) ); 
+    }	  
+  }
+  //browser/cat page
+  //qDebug() << "Try to Load icon for URL:" << url;
+  if(ui->scroll_cat->widget()!=0 && ui->scroll_cat->widget()->layout()!=0){
+    //qDebug() << "Checking cat page";
+    for(int i=0; i<ui->scroll_cat->widget()->layout()->count(); i++){
+      if(ui->scroll_cat->widget()->layout()->itemAt(i)->widget()!=0 && "BrowserItem"==ui->scroll_cat->widget()->layout()->itemAt(i)->widget()->objectName()){
+	BrowserItem * it = static_cast<BrowserItem*>(ui->scroll_cat->widget()->layout()->itemAt(i)->widget());
+        //qDebug() << " - Check browser item:" << it->iconLabel()->whatsThis();
+	if(it->iconLabel()->whatsThis()==url){
+	  if(img.isNull()){ it->iconLabel()->setVisible(false); }  
+          else{ 
+	    it->iconLabel()->setVisible(true);
+	    it->iconLabel()->setPixmap( QPixmap::fromImage(img).scaled( it->iconLabel()->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) ); 
+          }
+	}
+      }//end check for browseritem
+    }//end loop over items
+  }
+  //browser/search page
+  if(ui->scroll_search->widget()!=0 && ui->scroll_search->widget()->layout()!=0){
+    //qDebug() << "Checking search page";
+    for(int i=0; i<ui->scroll_search->widget()->layout()->count(); i++){
+      if(ui->scroll_search->widget()->layout()->itemAt(i)->widget()!=0 && "BrowserItem"==ui->scroll_search->widget()->layout()->itemAt(i)->widget()->objectName() ){
+        //if(url.contains("firefox")){ qDebug() << "Checking Search item:" << ui->scroll_search->widget()->layout()->itemAt(i)->widget()->whatsThis(); }
+	//if(url != ui->scroll_search->widget()->layout()->itemAt(i)->widget()->whatsThis() ){ continue; }
+        BrowserItem * it = static_cast<BrowserItem*>(ui->scroll_search->widget()->layout()->itemAt(i)->widget());
+	//qDebug() << " - Check search item:" << it->iconLabel()->whatsThis();
+	if(it->iconLabel()->whatsThis()==url){
+	  if(img.isNull()){ it->iconLabel()->setVisible(false); }  
+          else{ 
+	    it->iconLabel()->setVisible(true);
+	    it->iconLabel()->setPixmap( QPixmap::fromImage(img).scaled( it->iconLabel()->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) ); 
+          }
+	}
+      }//end check for browseritem
+    }//end loop over items
+  }
+  //Installed items tab
+  for(int i=0; i<ui->tree_local->topLevelItemCount(); i++){
+    //qDebug() << "Check installed item:" << ui->tree_local->topLevelItem(i)->whatsThis(1);
+    if( ui->tree_local->topLevelItem(i)->whatsThis(1)==url ){
+      if(img.isNull()){ ui->tree_local->topLevelItem(i)->setIcon(1, QIcon()); }
+       else{ ui->tree_local->topLevelItem(i)->setIcon(1, QIcon( QPixmap::fromImage(img) )); }
+    }
+  }
+  //qDebug() << " - Done";
 }
 
 void pkg_page::browser_last_ss(){
@@ -1000,7 +1066,7 @@ void pkg_page::send_start_search(QString search){
       if(cat<0){ cat = 0; }
       ui->combo_search_cat->setCurrentIndex(cat);
       if(cat!=0){ obj.insert("category", ui->page_cat->whatsThis());  }
-    }else if(ui->stacked_repo->currentWidget() == ui->page_search && !ui->combo_search_cat->currentData().toString().isEmpty() ){
+    }else if(ui->stacked_repo->currentWidget() == ui->page_search || !ui->combo_search_cat->currentData().toString().isEmpty() ){
       obj.insert("category", ui->combo_search_cat->currentData().toString()); 
     }
   CORE->communicate(TAG+"pkg_search", "sysadm", "pkg",obj);

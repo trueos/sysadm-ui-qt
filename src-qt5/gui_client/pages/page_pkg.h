@@ -38,7 +38,9 @@ private:
 	bool local_showall, local_advmode, local_hasupdates; //Local tab options
 	QMenu *local_viewM, *repo_catM, *repo_backM;
 	QNetworkAccessManager *NMAN;
-	QHash<QNetworkReply*,QLabel*> pendingIcons;
+	//QHash<QNetworkReply*,QString> pendingIcons;// reply/ origin
+	QList<QUrl> imagepending;
+	QHash<QUrl, QImage> imagecache; // URL/image
 	//Internal lists of origins being handled
 	QStringList origin_installed, origin_pending;
 
@@ -67,6 +69,7 @@ private:
 	bool updateStatusList(QStringList *list, QString stat, bool enabled); //returns: changed (true/false);
 	//Load an image from a URL
 	void LoadImageFromURL(QLabel *widget, QString url);
+	void LoadImageFromURL(QTreeWidgetItem *it,QString url);
 	//ScreenShot Loading
 	void showScreenshot(int num);
 	//Browser Item Update
