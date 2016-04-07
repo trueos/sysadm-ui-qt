@@ -150,7 +150,7 @@ QStringList pkg_page::catsToText(QStringList cats){
 
 void pkg_page::GenerateCategoryMenu(QMenu *menu, QStringList cats){
   //Note: the "cats" input must be the raw (non-translated) category list
-  qDebug() << "Cats:" << cats;
+  //qDebug() << "Cats:" << cats;
   menu->clear();
   if(menu == repo_catSM){ menu->addAction("No Category Filter"); menu->addSeparator(); }
   QStringList locale, net, x11, devel, utils, other;

@@ -32,7 +32,7 @@
       <enum>QTabWidget::West</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_repo">
       <attribute name="icon">
@@ -305,8 +305,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>421</width>
-                <height>255</height>
+                <width>98</width>
+                <height>28</height>
                </rect>
               </property>
              </widget>
@@ -1183,8 +1183,8 @@
       <attribute name="title">
        <string>Pending</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
         <widget class="QTreeWidget" name="tree_pending">
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
@@ -1192,8 +1192,14 @@
          <property name="showDropIndicator" stdset="0">
           <bool>false</bool>
          </property>
+         <property name="indentation">
+          <number>0</number>
+         </property>
          <property name="itemsExpandable">
           <bool>false</bool>
+         </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
          </property>
          <property name="allColumnsShowFocus">
           <bool>true</bool>
@@ -1219,12 +1225,22 @@
            <string>Details</string>
           </property>
          </column>
+         <column>
+          <property name="text">
+           <string>Time Started</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Time Finished</string>
+          </property>
+         </column>
         </widget>
        </item>
-       <item>
+       <item row="1" column="0" colspan="2">
         <widget class="QGroupBox" name="group_pending_log">
          <property name="title">
-          <string>View Current Process Log</string>
+          <string>View Process Log</string>
          </property>
          <property name="checkable">
           <bool>true</bool>

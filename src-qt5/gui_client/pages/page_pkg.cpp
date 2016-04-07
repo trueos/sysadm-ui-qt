@@ -49,6 +49,7 @@ pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, co
   connect(ui->tool_local_unlock, SIGNAL(clicked()), this, SLOT(send_local_unlockpkgs()) );
   connect(ui->tool_local_upgrade, SIGNAL(clicked()), this, SLOT(send_local_upgradepkgs()) );
   connect(ui->group_pending_log, SIGNAL(toggled(bool)), this, SLOT(pending_show_log(bool)) );
+  connect(ui->tree_pending, SIGNAL(itemSelectionChanged()), this, SLOT(pending_selection_changed()) );
   connect(ui->combo_repo, SIGNAL(activated(const QString&)), this, SLOT(update_repo_changed()) );
   connect(ui->tool_app_install, SIGNAL(clicked()), this, SLOT(send_repo_installpkg()) );
   connect(ui->tool_app_uninstall, SIGNAL(clicked()), this, SLOT(send_repo_rmpkg()) );
@@ -243,8 +244,8 @@ void pkg_page::update_local_audit(QJsonObject obj){
 void pkg_page::update_pending_process(QJsonObject obj){
   QString stat = obj.value("state").toString();
   QJsonObject details = obj.value("process_details").toObject();
-  QString id = details.value("proc_id").toString();
-  //qDebug() << "Update Proc:" << id << stat << obj.keys();
+  QString id = details.value("process_id").toString();
+  qDebug() << "Update Proc:" << id << stat << obj.keys() << details.keys();
   QTreeWidgetItem *it = 0;
   for(int i=0; i<ui->tree_pending->topLevelItemCount(); i++){
     if(ui->tree_pending->topLevelItem(i)->whatsThis(0) == id){ it = ui->tree_pending->topLevelItem(i); break;}
@@ -253,48 +254,50 @@ void pkg_page::update_pending_process(QJsonObject obj){
     //qDebug() << " - Got Finished";
     QStringList origins = it->text(2).split(" ").filter("/");
     for(int i=0; i<origins.length(); i++){ origin_pending.removeAll(origins[i]); }
-    delete ui->tree_pending->takeTopLevelItem( ui->tree_pending->indexOfTopLevelItem(it) );
-    it = 0;
     //See if the current pkg page needs the status updated as well
     if(origins.contains( ui->page_pkg->whatsThis()) && ui->stacked_repo->currentWidget()==ui->page_pkg){
       send_repo_app_info(ui->page_pkg->whatsThis(), ui->combo_repo->currentText());
     }
-  }else if(it==0 && stat!="finished"){
+  }else if(it==0){
     //qDebug() << " - Create item";
     //Need to create a new entry for this process
     it = new QTreeWidgetItem(ui->tree_pending);
       it->setWhatsThis(0, id);
       it->setText(1, obj.value("action").toString());
-      it->setText(2, obj.value("proc_cmd").toString());
+      it->setText(2, ArrayToStringList(details.value("cmd_list").toArray()).join("; "));
     //Update the internal list of origins which are pending
-    QStringList origins = it->text(2).split(" ").filter("/");
-    origin_pending << origins;
-    origin_pending.removeDuplicates();
-    //See if the current pkg page needs the status updated as well
-    if(origins.contains( ui->page_pkg->whatsThis()) && ui->stacked_repo->currentWidget()==ui->page_pkg){
-      send_repo_app_info(ui->page_pkg->whatsThis(), ui->combo_repo->currentText());
+    if(stat!="finished"){
+      QStringList origins = it->text(2).split(" ").filter("/");
+      origin_pending << origins;
+      origin_pending.removeDuplicates();
+    }
+    if(ui->tree_pending->topLevelItemCount()==1){ 
+      it->setSelected(true);
+      ui->tree_pending->sortItems(3,Qt::DescendingOrder); //start time
     }
   }
   
   if(it!=0){
     //qDebug() << " - Update item";
     it->setText(0, stat);
-    if(stat=="running"){ 
-      //qDebug() << " - got running";
-      ui->tree_pending->setCurrentItem(it); 
-      ui->text_proc_running->setPlainText(obj.value("pkg_log").toString());
-      QTextCursor cur = ui->text_proc_running->textCursor();
-	cur.movePosition(QTextCursor::End);
-      ui->text_proc_running->setTextCursor( cur );
-      ui->text_proc_running->ensureCursorVisible();
+    QString log = obj.value("pkg_log").toString();
+    if(stat=="finished"){ it->setText(4, details.value("time_finished").toString() ); }
+    else if(stat=="running" && it->text(3).isEmpty()){ it->setText(3, details.value("time_started").toString() ); }
+    it->setWhatsThis(1,log);
+    //if this item is currently selected - update the log widget as well
+    if(ui->tree_pending->selectedItems().contains(it)){ 
+      pending_selection_changed();
     }
   }else{ 
     //qDebug() << " - Clear log";
-    ui->text_proc_running->clear();
+    //ui->text_proc_running->clear();
   }
   //qDebug() << " - Update title";
-  QString title = QString(tr("(%1) Pending")).arg(ui->tree_pending->topLevelItemCount());
+  int numpending = ui->tree_pending->findItems("",Qt::MatchExactly,4).length(); //all items without a time finished
+  QString title = QString(tr("(%1) Pending")).arg(QString::number(numpending));
   ui->tabWidget->setTabText( ui->tabWidget->indexOf(ui->tab_queue), title);
+  ui->tree_pending->resizeColumnToContents(0);
+  ui->tree_pending->resizeColumnToContents(1);
 }
 
 void pkg_page::update_repo_app_info(QJsonObject obj){
@@ -468,7 +471,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
   }
   
   //Now ensure this page is visible (since the info is only loaded on demand)
-  ui->tabWidget->setCurrentWidget(ui->tab_repo);
+  //ui->tabWidget->setCurrentWidget(ui->tab_repo);
   ui->stacked_repo->setCurrentWidget(ui->page_pkg);
 }
 
@@ -665,7 +668,7 @@ void pkg_page::updateBrowserItem(BrowserItem *it, QJsonObject data){
 
 // === PRIVATE SLOTS ===
 void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
-  if(id.startsWith(TAG)){ qDebug() << "Got Reply:" << id << name  << namesp << args.toObject().keys(); }
+  //if(id.startsWith(TAG)){ qDebug() << "Got Reply:" << id << name  << namesp << args.toObject().keys(); }
   if(!id.startsWith(TAG) ){ return; }
   bool haserror = (namesp=="error" || name=="error");
   if( id==TAG+"list_local" && args.isObject() ){
@@ -710,7 +713,7 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
 
 void pkg_page::ParseEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
   if( type!=sysadm_client::DISPATCHER ){ return; }
-  qDebug() << "Got Dispatcher Event:" << val.toObject().value("event_system").toString();
+  //qDebug() << "Got Dispatcher Event:" << val.toObject().value("event_system").toString();
   //Also check that this is a sysadm/pkg event (ignore all others)
   if(!val.toObject().contains("event_system") || val.toObject().value("event_system").toString()!="sysadm/pkg"){ return; }
   //Now go through and update the UI based on the type of action for this event
@@ -768,6 +771,7 @@ void pkg_page::goto_browser_from_local(QTreeWidgetItem *it){
   //QString repo = it->whatsThis(2);
   //if(repo.isEmpty()){ repo = "local"; }
   send_repo_app_info(origin, "local");
+  ui->tabWidget->setCurrentWidget(ui->tab_repo);
 }
 
 // - repo tab
@@ -974,6 +978,20 @@ void pkg_page::browser_home_button_clicked(QString action){
 // - pending tab
 void pkg_page::pending_show_log(bool show){
   ui->text_proc_running->setVisible(show);	
+}
+
+void pkg_page::pending_selection_changed(){
+  QList<QTreeWidgetItem*> items = ui->tree_pending->selectedItems();
+  if(items.isEmpty()){
+    ui->group_pending_log->setVisible(false);
+    
+  }else{
+    ui->group_pending_log->setVisible(true);
+    //Update the log display
+    ui->text_proc_running->setPlainText(items.first()->whatsThis(1));
+    //ui->text_proc_running->moveCursor(QTextCursor::End);
+    ui->text_proc_running->verticalScrollBar()->setValue( ui->text_proc_running->verticalScrollBar()->maximum());
+  }
 }
 
 //GUI -> Core Requests

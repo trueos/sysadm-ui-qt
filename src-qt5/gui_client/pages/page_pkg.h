@@ -38,7 +38,6 @@ private:
 	bool local_showall, local_advmode, local_hasupdates; //Local tab options
 	QMenu *local_viewM, *repo_catM, *repo_catSM, *repo_backM;
 	QNetworkAccessManager *NMAN;
-	//QHash<QNetworkReply*,QString> pendingIcons;// reply/ origin
 	QList<QUrl> imagepending;
 	QHash<QUrl, QImage> imagecache; // URL/image
 	//Internal lists of origins being handled
@@ -111,6 +110,7 @@ private slots:
         void browser_home_button_clicked(QString action);
 	// - pending tab
 	void pending_show_log(bool);
+	void pending_selection_changed();
 
 
 	//GUI -> Core Requests
