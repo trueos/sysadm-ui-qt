@@ -60,9 +60,6 @@
        </property>
        <item>
         <widget class="QFrame" name="frame_repo_control">
-         <property name="styleSheet">
-          <string notr="true">QFrame#frame_repo_control{background: darkgray; border: none; }</string>
-         </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -162,7 +159,7 @@
        <item>
         <widget class="QStackedWidget" name="stacked_repo">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="page_home">
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -232,8 +229,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>422</width>
-                <height>254</height>
+                <width>421</width>
+                <height>250</height>
                </rect>
               </property>
              </widget>
@@ -308,8 +305,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>28</height>
+                <width>421</width>
+                <height>255</height>
                </rect>
               </property>
              </widget>
@@ -399,8 +396,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>28</height>
+                <width>421</width>
+                <height>249</height>
                </rect>
               </property>
              </widget>
@@ -853,7 +850,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>98</width>
-                    <height>35</height>
+                    <height>36</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_14">
