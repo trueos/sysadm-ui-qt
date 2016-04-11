@@ -32,14 +32,21 @@ void pkg_page::GenerateHomePage(QStringList cats, QString repo){
   
   //qDebug() << "Creating Home Page...";
   //Create a simple non-interactive widget
-  layout->addWidget(CreateBannerItem(":/icons/custom/screen1.png"),0,0,1,2);
-  //Create a group of items
+  layout->addWidget(CreateBannerItem(":/icons/custom/pcbsd-banner.png"),0,0,1,2);
+  //Create a group of items (horizontal);
   layout->addWidget( CreateGroup(tr("Popular Searches"), QList<QWidget*>() \
-    << CreateButtonItem(":/icons/black/globe.svg", "Web Browsers", "search::www::web browser") \
-    << CreateButtonItem(":/icons/black/mail.svg", "Email Clients", "search::mail::client ") \
-    << CreateButtonItem(":/icons/black/paperclip.svg", "Office Suites", "search::editors::office::-libre") \
-    << CreateButtonItem(":/icons/black/desktop2.svg", "Desktops", "search::x11-wm::desktop environment") \
-    ), 1, 0, 1,2);
+    << CreateButtonItem(":/icons/black/globe.svg", tr("Web Browsers"), "search::www::web browser") \
+    << CreateButtonItem(":/icons/black/mail.svg", tr("Email Clients"), "search::mail::client ") \
+    << CreateButtonItem(":/icons/black/paperclip.svg", tr("Office Suites"), "search::editors::office::-libre") \
+    << CreateButtonItem(":/icons/black/desktop2.svg", tr("Desktops"), "search::x11-wm::desktop environment") \
+    , true), 1, 0, 1, 2);
+  //Create a group of items (vertical);
+  layout->addWidget( CreateGroup(tr("Popular Categories"), QList<QWidget*>() \
+    << CreateButtonItem(":/icons/black/keyboard.svg", tr("Games"), "cat::games") \
+    << CreateButtonItem(":/icons/black/movie.svg", tr("Multimedia"), "cat::multimedia") \
+    << CreateButtonItem(":/icons/black/music.svg", tr("Audio"), "cat::audio") \
+    << CreateButtonItem(":/icons/black/computer.svg", tr("Desktop Utilities"), "cat::deskutils") \
+    , true), 2, 0, 1, 2);
   //Now set one of the rows to expand more than the others
   layout->setRowStretch(0,1);
 }
@@ -47,13 +54,7 @@ void pkg_page::GenerateHomePage(QStringList cats, QString repo){
 QWidget* pkg_page::CreateBannerItem(QString image){
   //This creates a non-interactive image item for the home page
   QLabel *tmp = new QLabel(ui->scroll_home->widget());
-    if(image.startsWith("http")){
-      tmp->setStyleSheet("border-image: url("+image+");");
-    }else{
-      tmp->setAlignment(Qt::AlignCenter);
-      tmp->setScaledContents(true);
-      tmp->setPixmap(QPixmap(image));
-    }
+    tmp->setStyleSheet("background: transparent url("+image+"); background-position: center; background-repeat: no-repeat;");
   return tmp;
 }
 
@@ -73,7 +74,10 @@ QWidget* pkg_page::CreateGroup(QString text, QList<QWidget*> items, bool horizon
   else{ tmp->setLayout( new QVBoxLayout() ); }
   QBoxLayout *layout = static_cast<QBoxLayout*>( tmp->layout() );
   layout->setContentsMargins(2,2,2,2);
-  for(int i=0; i<items.length(); i++){ layout->addWidget(items[i]); }
+  for(int i=0; i<items.length(); i++){ 
+    items[i]->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    layout->addWidget(items[i]); 
+  }
   return tmp;
 }
 
