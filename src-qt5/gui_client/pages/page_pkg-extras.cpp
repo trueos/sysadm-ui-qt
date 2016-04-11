@@ -26,7 +26,7 @@ void pkg_page::GenerateHomePage(QStringList cats, QString repo){
   for(int i=0; i<layout->count(); i++){ delete layout->takeAt(i); }
   //POPULATE THE PAGE
   //FORMAT NOTE for actions:
-  //  For search: 		"search::<category>::<search term>"
+  //  For search: 		"search::<category>::<search term>::<exclude terms>" (exclude terms are space-delimited)
   //  For category: 	"cat::<category>"
   //  For package:	"pkg::<origin>"
   
@@ -37,7 +37,7 @@ void pkg_page::GenerateHomePage(QStringList cats, QString repo){
   layout->addWidget( CreateGroup(tr("Popular Searches"), QList<QWidget*>() \
     << CreateButtonItem(":/icons/black/globe.svg", "Web Browsers", "search::www::web browser") \
     << CreateButtonItem(":/icons/black/mail.svg", "Email Clients", "search::mail::client ") \
-    << CreateButtonItem(":/icons/black/paperclip.svg", "Office Suites", "search::editors::office") \
+    << CreateButtonItem(":/icons/black/paperclip.svg", "Office Suites", "search::editors::office::-libre") \
     << CreateButtonItem(":/icons/black/desktop2.svg", "Desktops", "search::x11-wm::desktop environment") \
     ), 1, 0, 1,2);
   //Now set one of the rows to expand more than the others

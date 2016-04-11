@@ -120,7 +120,7 @@ private slots:
 	void send_local_unlockpkgs();
 	void send_local_upgradepkgs();
 	// - repo tab
-	void send_start_search(QString search = ""); //search term input (optional - will pull from current text in input box)
+	void send_start_search(QString search = "", QStringList exclude = QStringList()); //search term input (optional - will pull from current text in input box)
 	void send_start_browse(QString cat);
 	void send_repo_rmpkg(QString origin = "");
 	void send_repo_installpkg(QString origin = "");

@@ -14,6 +14,7 @@ BrowserItem::BrowserItem(QWidget *parent, QString ID) : QFrame(parent){
   this->setToolTip(objID);
   this->setObjectName("BrowserItem");
   this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+  this->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken);
   //Create the widgets
   icon = new QLabel(this);
     int sz = icon->fontMetrics().lineSpacing()*2;

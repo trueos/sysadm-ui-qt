@@ -245,7 +245,7 @@ void pkg_page::update_pending_process(QJsonObject obj){
   QString stat = obj.value("state").toString();
   QJsonObject details = obj.value("process_details").toObject();
   QString id = details.value("process_id").toString();
-  qDebug() << "Update Proc:" << id << stat << obj.keys() << details.keys();
+  //qDebug() << "Update Proc:" << id << stat << obj.keys() << details.keys();
   QTreeWidgetItem *it = 0;
   for(int i=0; i<ui->tree_pending->topLevelItemCount(); i++){
     if(ui->tree_pending->topLevelItem(i)->whatsThis(0) == id){ it = ui->tree_pending->topLevelItem(i); break;}
@@ -484,6 +484,7 @@ void pkg_page::update_repo_app_lists(QScrollArea *scroll, QJsonObject(obj) ){
   }
   QStringList origins = obj.keys(); //item ID's we need to show
   if(scroll!=ui->scroll_search){ origins.sort(Qt::CaseInsensitive); } //don't sort search results (ordered by priority)
+  else if(obj.contains("results_order")){ origins = ArrayToStringList(obj.value("results_order").toArray()); }
   QStringList used;
   //Go through the the current widgets in the area and remove/update them
   //qDebug() << "Remove old items";
@@ -691,6 +692,7 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
     //Now kick off loading the home page data
     browser_update_history();
   }else if(id==TAG+"pkg_search" && args.isObject()){
+    //qDebug() << "Got Search Reply:" << args.toObject().value("pkg_search").toObject();
     update_repo_app_lists(ui->scroll_search, args.toObject().value("pkg_search").toObject());
     ui->stacked_repo->setCurrentWidget(ui->page_search);
     browser_update_history();
@@ -707,7 +709,7 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
     //Now create the home page
     GenerateHomePage(cats, ui->combo_repo->currentText());
   }else{
-    qDebug() << " - arguments:" << args;
+    //qDebug() << " - arguments:" << args;
   }
 }
 
@@ -966,7 +968,7 @@ void pkg_page::browser_home_button_clicked(QString action){
     //First set the category filter if needed
     QString cat = action.section("::",1,1);
     ui->tool_search_cat->setWhatsThis(cat);
-    send_start_search(action.section("::",2,-1));
+    send_start_search(action.section("::",2,2), action.section("::",3,-1).split(" "));
     
   }else if(action.startsWith("cat::") ){
     send_start_browse(action.section("::",1,-1));
@@ -1063,7 +1065,7 @@ void pkg_page::send_repo_installpkg(QString origin){
   CORE->communicate(TAG+"pkg_unlock", "sysadm", "pkg",obj);
 }
 
-void pkg_page::send_start_search(QString search){
+void pkg_page::send_start_search(QString search, QStringList exclude){
   if(search.isEmpty()){ search = ui->line_repo_search->text(); }
   if(search.isEmpty()){ return; } //do nothing
   QJsonObject obj;
@@ -1077,6 +1079,9 @@ void pkg_page::send_start_search(QString search){
       if(!cat.isEmpty()){ obj.insert("category", cat);  }
     }else if(ui->stacked_repo->currentWidget() == ui->page_search || !ui->tool_search_cat->whatsThis().isEmpty() ){
       obj.insert("category", ui->tool_search_cat->whatsThis() ); 
+    }
+    if(!exclude.isEmpty()){
+      obj.insert("search_excludes", QJsonArray::fromStringList(exclude) );
     }
   CORE->communicate(TAG+"pkg_search", "sysadm", "pkg",obj);
 
