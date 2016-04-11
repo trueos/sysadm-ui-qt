@@ -77,7 +77,7 @@ private:
 	//User-interface items (functions defined in page_pkg-extras.cpp)
 	// - Stuff for creating a home page
 	void GenerateHomePage(QStringList cats, QString repo);
-	QWidget* CreateBannerItem(QString image);
+	QWidget* CreateBannerItem(QStringList images, QStringList actions);
 	QWidget* CreateButtonItem(QString image, QString text, QString action);
 	QWidget* CreateGroup(QString text, QList<QWidget*> items, bool horizontal = true);
 	// - Other random stuff
@@ -143,4 +143,53 @@ public:
 	~HomeButton(){}
 };
 
+class HomeSlider : public HomeButton{
+	Q_OBJECT
+private:
+	QTimer *timer;
+	QStringList images, actions;
+	int cimage;
+	QPropertyAnimation *animfade;
+	QPropertyAnimation *animshow;
+private slots:
+	void updateimage(){
+	  animfade->setStartValue(this->size() - QSize(10,10));
+	  animshow->setEndValue(animfade->startValue());
+	  animfade->setEndValue(QSize(0,0));
+	  animshow->setStartValue(animfade->endValue());
+	  cimage++;
+	  if(cimage>=images.length()){ cimage = 0; }
+	  animfade->start();
+	}
+	void fadeFinished(){
+	  this->setIcon(QIcon(images[cimage]));
+	  if(actions.length() >cimage){ this->setWhatsThis(actions[cimage]); }
+	  else{ this->setWhatsThis(""); }
+	  animshow->start();
+	}
+	void showFinished(){
+	  if(images.length()>1){ timer->start(); }
+	}
+public:
+	HomeSlider(QWidget *parent, QStringList imgList, QStringList acts, int secs = 10) : HomeButton(parent,""){
+	  //this->setScaledContents(true);
+	  this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	  timer = new QTimer(this);
+	    timer->setSingleShot(true);
+	    timer->setInterval(secs*1000);
+	    connect(timer, SIGNAL(timeout()), this, SLOT(updateimage()) );
+	  cimage = -1;
+	  images = imgList;
+	  actions = acts;
+	  animfade = new QPropertyAnimation(this, "iconSize");
+	    animfade->setDuration(500); //1/2 second
+	    connect(animfade, SIGNAL(finished()), this, SLOT(fadeFinished()) );
+	  animshow = new QPropertyAnimation(this, "iconSize");
+	    animshow->setDuration(500); //1/2 second
+	    connect(animshow, SIGNAL(finished()), this, SLOT(showFinished()) );
+	  QTimer::singleShot(100, this, SLOT(updateimage())); //start it up
+	}
+	~HomeSlider(){}
+
+};
 #endif

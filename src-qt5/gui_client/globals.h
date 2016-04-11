@@ -61,6 +61,9 @@
 #include <QScrollArea>
 #include <QScrollBar>
 
+//Special GUI classes
+#include <QPropertyAnimation>
+
 #include "../Core/sysadm-client.h"
 
 //Now define all the global variables

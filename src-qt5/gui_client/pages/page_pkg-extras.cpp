@@ -32,7 +32,9 @@ void pkg_page::GenerateHomePage(QStringList cats, QString repo){
   
   //qDebug() << "Creating Home Page...";
   //Create a simple non-interactive widget
-  layout->addWidget(CreateBannerItem(":/icons/custom/pcbsd-banner.png"),0,0,1,2);
+  layout->addWidget(CreateBannerItem(QStringList() << ":/icons/custom/pcbsd-banner.png"<<":/icons/custom/pcbsd-banner.png", \
+		QStringList() << "search::::pcbsd" << "search::::pcbsd") \
+		,0,0,1,2);
   //Create a group of items (horizontal);
   layout->addWidget( CreateGroup(tr("Popular Searches"), QList<QWidget*>() \
     << CreateButtonItem(":/icons/black/globe.svg", tr("Web Browsers"), "search::www::web browser") \
@@ -48,13 +50,13 @@ void pkg_page::GenerateHomePage(QStringList cats, QString repo){
     << CreateButtonItem(":/icons/black/computer.svg", tr("Desktop Utilities"), "cat::deskutils") \
     , true), 2, 0, 1, 2);
   //Now set one of the rows to expand more than the others
-  layout->setRowStretch(0,1);
+  //layout->setRowStretch(0,1);
 }
 
-QWidget* pkg_page::CreateBannerItem(QString image){
+QWidget* pkg_page::CreateBannerItem(QStringList images, QStringList actions){
   //This creates a non-interactive image item for the home page
-  QLabel *tmp = new QLabel(ui->scroll_home->widget());
-    tmp->setStyleSheet("background: transparent url("+image+"); background-position: center; background-repeat: no-repeat;");
+  HomeSlider *tmp = new HomeSlider(ui->scroll_home->widget(), images, actions);
+    connect(tmp, SIGNAL(HomeAction(QString)), this, SLOT(browser_home_button_clicked(QString)) );
   return tmp;
 }
 
