@@ -32,7 +32,7 @@ void pkg_page::GenerateHomePage(QStringList cats, QString repo){
   
   //qDebug() << "Creating Home Page...";
   //Create a simple non-interactive widget
-  layout->addWidget(CreateBannerItem(":/icons/black/photo.svg"),0,0,1,2);
+  layout->addWidget(CreateBannerItem(":/icons/custom/screen1.png"),0,0,1,2);
   //Create a group of items
   layout->addWidget( CreateGroup(tr("Popular Searches"), QList<QWidget*>() \
     << CreateButtonItem(":/icons/black/globe.svg", "Web Browsers", "search::www::web browser") \
