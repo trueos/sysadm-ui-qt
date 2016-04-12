@@ -71,7 +71,7 @@ private:
 	bool keepActive, SSLsuccess, usedSSL;
 	int num_fail; //number of server connection failures
 	int cPriority;
-	QTimer *connectTimer;
+	QTimer *connectTimer, *pingTimer;
 
 	//Functions to do the initial socket setup
 	void performAuth(QString user="", QString pass=""); //uses cauthkey if empty inputs
@@ -94,6 +94,7 @@ public slots:
 
 private slots:
         void setupSocket(); //uses chost/cport for setup
+	void sendPing(); //Used to keep a connection active at regular intervals
 
 	//Socket signal/slot connections
 	void socketConnected(); //Signal: connected()

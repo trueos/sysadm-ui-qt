@@ -47,6 +47,9 @@ sysadm_client::sysadm_client(){
   connectTimer = new QTimer(this);
     connectTimer->setInterval(1000); //1 second intervals
     connect(connectTimer, SIGNAL(timeout()), this, SIGNAL(clientReconnecting()) );
+  pingTimer = new QTimer(this);
+    pingTimer->setInterval(90000); //90 second intervals 
+    connect(pingTimer, SIGNAL(timeout()), this, SLOT(sendPing()) );
 }
 
 sysadm_client::~sysadm_client(){
@@ -303,7 +306,10 @@ void sysadm_client::communicate(QList<QJsonObject> requests){
     if(BACK.contains(ID)){ BACK.remove(ID); }
     PENDING << ID;
     //Now send off the message
-    if(SOCKET->isValid()){ sendSocketMessage(requests[i]); }
+    if(SOCKET->isValid()){ 
+	sendSocketMessage(requests[i]);
+	if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
+    }
   }  
 }
 	
@@ -328,6 +334,10 @@ void sysadm_client::setupSocket(){
   connectTimer->start();
 }
 
+void sysadm_client::sendPing(){
+  communicate("sysadm_client_ping", "rpc","query","");
+}
+
 //Socket signal/slot connections
 void sysadm_client::socketConnected(){ //Signal: connected()
   if(connectTimer->isActive()){ connectTimer->stop(); }
@@ -342,6 +352,7 @@ void sysadm_client::socketConnected(){ //Signal: connected()
 void sysadm_client::socketClosed(){ //Signal: disconnected()
   qDebug() << " - Connection Closed:" << chost;
   if(connectTimer->isActive()){ connectTimer->stop(); }
+  if(pingTimer->isActive()){ pingTimer->stop(); }
   if(keepActive){ 
     //Socket closed due to timeout/server
     // Go ahead and re-open it in one minute if possible with the last-used settings/auth
@@ -397,6 +408,7 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
 	if(cuser.isEmpty()){ SSLsuccess = true; }
 	cauthkey = args.toArray().first().toString();
 	emit clientAuthorized();
+	pingTimer->start();
 	//Now automatically re-subscribe to events as needed
 	//qDebug() << "Re-subscribe to events:" << events;
 	for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }
