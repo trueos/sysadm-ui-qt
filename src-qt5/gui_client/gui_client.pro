@@ -16,6 +16,20 @@ target.path=/usr/local/bin
 
 INSTALLS += target
 
+freebsd-*{
+  #Install the XDG registration files
+  xdg.files=extras/sysadm-client.desktop
+  xdg.path=/usr/local/share/applications
+  
+  xdg_auto=extras/sysadm-client-auto.desktop
+  xdg_auto.path=/usr/local/etc/xdg/autostart
+  
+  #Install the sysadm icon for the XDG files
+  xdg_icon.files=extras/sysadm.svg
+  xdg_icon.path=/usr/local/share/pixmaps
+  
+  INSTALLS += xdg xdg_auto xdg_icon
+}
 
 
 RESOURCES += ../icons/icons.qrc \

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+StartupNotify=true
+Comment=Graphical sysadm interface
+GenericName=sysadm client
+Name=SysAdm Client
+TryExec=sysadm-client
+Exec=sysadm-client
+Icon=sysadm
+X-GNOME_Autostart-Phase=Applications
+X-MATE-Autostart-Phase=Applications
