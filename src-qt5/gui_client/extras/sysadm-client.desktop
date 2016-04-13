@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+StartupNotify=true
+Comment=Graphical sysadm interface
+Categories=Utility;
+GenericName=sysadm client
+Name=SysAdm Client
+TryExec=sysadm-client
+Exec=sysadm-client
+Icon=sysadm
