@@ -21,7 +21,7 @@ freebsd-*{
   xdg.files=extras/sysadm-client.desktop
   xdg.path=/usr/local/share/applications
   
-  xdg_auto=extras/sysadm-client-auto.desktop
+  xdg_auto.files=extras/sysadm-client-auto.desktop
   xdg_auto.path=/usr/local/etc/xdg/autostart
   
   #Install the sysadm icon for the XDG files
