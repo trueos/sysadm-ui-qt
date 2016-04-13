@@ -111,13 +111,8 @@ bool sysadm_client::isConnecting(){
 //Check if the sysadm server is running on the local system
 bool sysadm_client::localhostAvailable(){
   #ifdef __FreeBSD__
-  if(DEBUG){ qDebug() << "Checking for Local Host:" << SERVERPIDFILE; }
-  //Check if the local socket can connect
-  if(QFile::exists(SERVERPIDFILE)){
-    //int ret = QProcess::execute("pgrep -f \""+SERVERPIDFILE+"\"");
-    //return (ret==0 || ret>3);
+    // TODO Maybe change how we detect if socket is up
     return true;
-  }
   #endif
   return false;
 }
