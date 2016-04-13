@@ -1,5 +1,5 @@
 bin/sysadm
 bin/sysadm-client
-share/applications/sysadm-client-auto.desktop
-etc/xdg/autostart/sysadm-client.desktop
+share/applications/sysadm-client.desktop
+etc/xdg/autostart/sysadm-client-auto.desktop
 share/pixmaps/sysadm.svg
