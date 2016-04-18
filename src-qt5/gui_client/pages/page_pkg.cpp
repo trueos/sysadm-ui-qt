@@ -293,7 +293,7 @@ void pkg_page::update_pending_process(QJsonObject obj){
     //ui->text_proc_running->clear();
   }
   //qDebug() << " - Update title";
-  int numpending = ui->tree_pending->findItems("",Qt::MatchExactly,4).length(); //all items without a time finished
+  int numpending = ui->tree_pending->topLevelItemCount() - ui->tree_pending->findItems("finished",Qt::MatchExactly,0).length();
   QString title = QString(tr("(%1) Pending")).arg(QString::number(numpending));
   ui->tabWidget->setTabText( ui->tabWidget->indexOf(ui->tab_queue), title);
   ui->tree_pending->resizeColumnToContents(0);
