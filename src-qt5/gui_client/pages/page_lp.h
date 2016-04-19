@@ -29,7 +29,7 @@ public:
 	//Page embedded, go ahead and startup any core requests
 	void startPage();
 		
-	QString pageID(){ return "Life Preserver"; } //ID is used to identify which type of page this is
+	QString pageID(){ return "page_lp"; } //ID is used to identify which type of page this is
 	
 private:
 	Ui::lp_ui *ui;
