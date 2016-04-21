@@ -45,7 +45,14 @@ private slots:
 	void sendSnapshotRemove();
 	void sendSnapshotCreate();
       // - replication page
-
+	void updateReplicationPage();
+	void sendRepCreate();
+	void sendRepRemove();
+	void sendRepStart();
+	void sendRepInit();
+ 	void openNewRepInfo();
+	void closeNewRepInfo();
+	void new_rep_freq_changed();
       // - schedule page
 
 	// - settings page

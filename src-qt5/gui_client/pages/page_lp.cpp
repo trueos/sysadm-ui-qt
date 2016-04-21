@@ -16,6 +16,15 @@ lp_page::lp_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core
   connect(ui->tool_snap_revert, SIGNAL(clicked()), this, SLOT(sendSnapshotRevert()) );
   connect(ui->tool_snap_create, SIGNAL(clicked()), this, SLOT(sendSnapshotCreate()) );
   connect(ui->push_set_save, SIGNAL(clicked()), this, SLOT(sendSaveSettings()) );
+
+  connect(ui->tool_rep_add, SIGNAL(clicked()), this, SLOT(openNewRepInfo()) );
+  connect(ui->push_rep_hidenew, SIGNAL(clicked()), this, SLOT(closeNewRepInfo()) );
+  connect(ui->push_rep_savenew, SIGNAL(clicked()), this, SLOT(sendRepCreate()) );
+  connect(ui->tool_rep_remove, SIGNAL(clicked()), this, SLOT(sendRepRemove()) );
+  connect(ui->tool_rep_start, SIGNAL(clicked()), this, SLOT(sendRepStart()) );
+  connect(ui->tool_rep_init, SIGNAL(clicked()), this, SLOT(sendRepInit()) );
+  
+  connect(ui->combo_rep_freq, SIGNAL(currentIndexChanged(int)), this, SLOT(new_rep_freq_changed()) );
 }
 
 lp_page::~lp_page(){
@@ -151,7 +160,78 @@ void lp_page::sendSnapshotCreate(){
   CORE->communicate(TAG+"create_snap", "sysadm", "lifepreserver",obj);
 }
 // - replication page
+void lp_page::updateReplicationPage(){
+  QJsonObject obj;
+    obj.insert("action","listreplication");
+  CORE->communicate(TAG+"list_replication", "sysadm", "lifepreserver",obj);
+}
 
+void lp_page::sendRepCreate(){
+  QString host = ui->line_rep_host->text();
+  QString port = QString::number(ui->spin_rep_port->value());
+  QString user = ui->line_rep_user->text();
+  QString pass = ui->line_rep_pass->text();
+  QString ds = ui->combo_rep_localds->currentText();
+  QString rds = ui->line_rep_remoteds->text();
+  QString freq = ui->combo_rep_freq->currentData().toString();
+  if(freq=="onhour"){ 
+	freq = QString::number(ui->spin_rep_hour->value()); 
+	if(freq.length()<2){ freq.prepend("0"); } //need 2-digit number
+  }
+  if(host.isEmpty() || user.isEmpty() || pass.isEmpty() || ds.isEmpty() || rds.isEmpty()){ return; }
+  QJsonObject obj;
+    obj.insert("action","addreplication");
+    obj.insert("host", host);
+    obj.insert("port", port);
+    obj.insert("user", user);
+    obj.insert("password", pass);
+    obj.insert("dataset", ds);
+    obj.insert("remotedataset", rds);
+    obj.insert("frequency",freq);
+  CORE->communicate(TAG+"add_replication", "sysadm", "lifepreserver",obj);
+  closeNewRepInfo();
+}
+
+void lp_page::sendRepRemove(){
+  if(ui->tree_rep->currentItem()==0){ return; }
+  QJsonObject obj;
+    obj.insert("action","removereplication");
+    obj.insert("host", ui->tree_rep->currentItem()->text(1) );
+    obj.insert("dataset", ui->tree_rep->currentItem()->text(0) );
+  CORE->communicate(TAG+"remove_replication", "sysadm", "lifepreserver",obj);
+}
+
+void lp_page::sendRepStart(){
+  if(ui->tree_rep->currentItem()==0){ return; }
+  QJsonObject obj;
+    obj.insert("action","runreplication");
+    obj.insert("host", ui->tree_rep->currentItem()->text(1) );
+    obj.insert("dataset", ui->tree_rep->currentItem()->text(0) );
+  CORE->communicate(TAG+"start_replication", "sysadm", "lifepreserver",obj);
+}
+
+void lp_page::sendRepInit(){
+  if(ui->tree_rep->currentItem()==0){ return; }
+  QJsonObject obj;
+    obj.insert("action","initreplication");
+    obj.insert("host", ui->tree_rep->currentItem()->text(1) );
+    obj.insert("dataset", ui->tree_rep->currentItem()->text(0) );
+  CORE->communicate(TAG+"init_replication", "sysadm", "lifepreserver",obj);
+}
+
+void lp_page::openNewRepInfo(){
+  ui->line_rep_pass->clear(); //ensure this is always cleared
+  ui->group_rep_add->setVisible(true);
+}
+
+void lp_page::closeNewRepInfo(){
+  ui->line_rep_pass->clear(); //ensure this is always cleared
+  ui->group_rep_add->setVisible(false);
+}
+
+void lp_page::new_rep_freq_changed(){
+  ui->spin_rep_hour->setVisible("onhour" == ui->combo_rep_freq->currentData().toString());
+}
 // - schedule page
 
 // - settings page
