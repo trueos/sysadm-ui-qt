@@ -9,7 +9,6 @@
 #include "../globals.h"
 #include "../PageWidget.h"
 
-
 //==============================================================
 //  DON"T FORGET TO ADD YOUR NEW PAGE TO THE "getPage.h" FILE!!!!
 //==============================================================
@@ -29,12 +28,28 @@ public:
 	//Page embedded, go ahead and startup any core requests
 	void startPage();
 		
-	QString pageID(){ return "Life Preserver"; } //ID is used to identify which type of page this is
+	QString pageID(){ return "page_lp"; } //ID is used to identify which type of page this is
 	
 private:
 	Ui::lp_ui *ui;
+	QStringList zpools; //available spools
+	void send_list_zpools();
 
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
+
+	//CORE Interactions (buttons usually)
+      // - snapshots page
+	void updateSnapshotPage();
+	void sendSnapshotRevert();
+	void sendSnapshotRemove();
+	void sendSnapshotCreate();
+      // - replication page
+
+      // - schedule page
+
+	// - settings page
+	void updateSettings();
+	void sendSaveSettings();
 };
 #endif

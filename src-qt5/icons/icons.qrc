@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="/icons">
   <file>custom/pcbsd-banner.png</file>
+  <file>custom/lifepreserver.png</file>
   </qresource>
   <qresource prefix="/icons/black">
     <file alias="home.svg">freecns-cumulus/Black/001 Home.svg</file>
