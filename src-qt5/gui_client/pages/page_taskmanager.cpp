@@ -44,7 +44,7 @@ void taskmanager_page::startPage(){
 // === PRIVATE SLOTS ===
 void taskmanager_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
   if( !id.startsWith("page_task_man_")){ return; }
- // qDebug() << "reply" << id;
+  //qDebug() << "reply" << id;
 
   // Read in the PID list
   if ( id == "page_task_man_taskquery")
