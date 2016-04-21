@@ -9,7 +9,6 @@
 #include "../globals.h"
 #include "../PageWidget.h"
 
-
 //==============================================================
 //  DON"T FORGET TO ADD YOUR NEW PAGE TO THE "getPage.h" FILE!!!!
 //==============================================================
@@ -33,8 +32,24 @@ public:
 	
 private:
 	Ui::lp_ui *ui;
+	QStringList zpools;
+	void send_list_zpools();
 
 private slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
+
+	//CORE Interactions (buttons usually)
+      // - snapshots page
+	void updateSnapshotPage();
+	void sendSnapshotRevert();
+	void sendSnapshotRemove();
+	void sendSnapshotCreate();
+      // - replication page
+
+      // - schedule page
+
+	// - settings page
+	void updateSettings();
+	void sendSaveSettings();
 };
 #endif

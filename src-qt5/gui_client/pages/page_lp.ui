@@ -100,7 +100,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QToolButton" name="toolsnap_revert">
+          <widget class="QToolButton" name="tool_snap_revert">
            <property name="text">
             <string>Revert</string>
            </property>
