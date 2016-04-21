@@ -58,6 +58,12 @@ void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue ar
     ui->combo_snap_pool->clear();
     ui->combo_snap_pool->addItems(zpools);
 
+  }else if(id==TAG+"list_datasets"){
+    QStringList datasets = args.toObject().value("datasets").toObject().keys(); //don't care about the info for the pools, just the names
+    datasets.removeAll("");
+    ui->combo_snap_dataset->clear();
+    ui->combo_snap_dataset->addItems(datasets);
+
   }else if(id==TAG+"remove_snap" || id==TAG+"create_snap"){
     updateSnapshotPage(); //need to re-load the listof snapshots
 
@@ -90,18 +96,26 @@ void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue ar
 //CORE Interactions (buttons usually)
 // - snapshot page
 void lp_page::updateSnapshotPage(){
-  ui->tree_snaps->setEnabled(false);
   QString pool = ui->combo_snap_pool->currentText();
+  if(pool.isEmpty()){ return; }
+ //Need a couple things after the selected pool is changed
+ // - get the list of datasets for this pool
   QJsonObject obj;
-    obj.insert("action","listsnap");
-    obj.insert("pool", pool);
-  CORE->communicate(TAG+"list_snaps", "sysadm", "lifepreserver",obj);
+    obj.insert("action","datasets");
+    obj.insert("zpool", pool);
+  CORE->communicate(TAG+"list_datasets", "sysadm", "zfs",obj);
+// - get the list of snapshots for this pool
+  ui->tree_snaps->setEnabled(false);
+  QJsonObject obj2;
+    obj2.insert("action","listsnap");
+    obj2.insert("pool", pool);
+  CORE->communicate(TAG+"list_snaps", "sysadm", "lifepreserver",obj2);
 }
 
 void lp_page::sendSnapshotRevert(){
   if(ui->tree_snaps->currentItem()==0){ return; }
-  QString ds, snap;
-  snap = ui->tree_snaps->currentItem()->text(0);
+  QString ds = ui->combo_snap_dataset->currentText();
+  QString snap = ui->tree_snaps->currentItem()->text(0);
   if(ds.isEmpty() || snap.isEmpty()){ return; }
   QJsonObject obj;
     obj.insert("action","revertsnap");
@@ -124,12 +138,16 @@ void lp_page::sendSnapshotRemove(){
 }
 
 void lp_page::sendSnapshotCreate(){
-  QString ds;
-
+  QString ds = ui->combo_snap_pool->currentText();
   if(ds.isEmpty()){ return; }
+  bool ok = false;
+  QString snapname = QInputDialog::getText(this, tr("Create Snapshot"), tr("Name:"), QLineEdit::Normal, tr("NewSnap"), &ok );
+  if(!ok || snapname.isEmpty()){ return; }
   QJsonObject obj;
-    obj.insert("action","addsnap");
+    obj.insert("action","createsnap");
     obj.insert("dataset",ds);
+    obj.insert("snap", snapname);
+    obj.insert("comment", "GUI Snapshot");
   CORE->communicate(TAG+"create_snap", "sysadm", "lifepreserver",obj);
 }
 // - replication page

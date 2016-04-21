@@ -32,7 +32,7 @@ public:
 	
 private:
 	Ui::lp_ui *ui;
-	QStringList zpools;
+	QStringList zpools; //available spools
 	void send_list_zpools();
 
 private slots:

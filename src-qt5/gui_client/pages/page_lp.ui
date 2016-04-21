@@ -100,20 +100,6 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QToolButton" name="tool_snap_revert">
-           <property name="text">
-            <string>Revert</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/arrow-left-curved-down.svg</normaloff>:/icons/black/arrow-left-curved-down.svg</iconset>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QToolButton" name="tool_snap_remove">
            <property name="text">
             <string>Remove</string>
@@ -135,6 +121,30 @@
            <property name="icon">
             <iconset resource="../../icons/icons.qrc">
              <normaloff>:/icons/black/plus.svg</normaloff>:/icons/black/plus.svg</iconset>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextBesideIcon</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QComboBox" name="combo_snap_dataset"/>
+         </item>
+         <item>
+          <widget class="QToolButton" name="tool_snap_revert">
+           <property name="text">
+            <string>Revert</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/arrow-left-curved-down.svg</normaloff>:/icons/black/arrow-left-curved-down.svg</iconset>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::DelayedPopup</enum>
            </property>
            <property name="toolButtonStyle">
             <enum>Qt::ToolButtonTextBesideIcon</enum>
