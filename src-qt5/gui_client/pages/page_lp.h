@@ -32,7 +32,8 @@ public:
 	
 private:
 	Ui::lp_ui *ui;
-	QStringList zpools; //available spools
+	QStringList zpools; //available zpools
+	QStringList avail_datasets; //all available datasets (includes zpools)
 	void send_list_zpools();
 
 private slots:
@@ -51,6 +52,7 @@ private slots:
 	void sendRepStart();
 	void sendRepInit();
  	void openNewRepInfo();
+	void openOldRepInfo();
 	void closeNewRepInfo();
 	void new_rep_freq_changed();
       // - schedule page

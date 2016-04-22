@@ -21,10 +21,20 @@ lp_page::lp_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core
   connect(ui->push_rep_hidenew, SIGNAL(clicked()), this, SLOT(closeNewRepInfo()) );
   connect(ui->push_rep_savenew, SIGNAL(clicked()), this, SLOT(sendRepCreate()) );
   connect(ui->tool_rep_remove, SIGNAL(clicked()), this, SLOT(sendRepRemove()) );
+  connect(ui->tool_rep_modify, SIGNAL(clicked()), this, SLOT(openOldRepInfo()) );
   connect(ui->tool_rep_start, SIGNAL(clicked()), this, SLOT(sendRepStart()) );
   connect(ui->tool_rep_init, SIGNAL(clicked()), this, SLOT(sendRepInit()) );
   
   connect(ui->combo_rep_freq, SIGNAL(currentIndexChanged(int)), this, SLOT(new_rep_freq_changed()) );
+  closeNewRepInfo(); //start with this hidden initially
+  //Load the possible values for the replication "frequency" combobox
+  ui->combo_rep_freq->clear();
+  ui->combo_rep_freq->addItem(tr("Sync with snapshot"),"sync");
+  ui->combo_rep_freq->addItem(tr("Daily"),"onhour"); //special internal flag
+  ui->combo_rep_freq->addItem(tr("Hourly"),"hour");
+  ui->combo_rep_freq->addItem(tr("30 Minutes"),"30min");
+  ui->combo_rep_freq->addItem(tr("10 Minutes"),"10min");
+  ui->combo_rep_freq->addItem(tr("Manual Only"),"manual");
 }
 
 lp_page::~lp_page(){
@@ -56,7 +66,7 @@ void lp_page::send_list_zpools(){
 // === PRIVATE SLOTS ===
 void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
   if( !id.startsWith(TAG) ){ return; }
-  qDebug() << "Got Reply:" << id << namesp << name << args;
+  //qDebug() << "Got Reply:" << id << namesp << name << args;
   if(namesp=="error" || name=="error"){ return; }
 
   if(id==TAG+"list_zpools"){
@@ -66,12 +76,26 @@ void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue ar
     //Now update the UI lists
     ui->combo_snap_pool->clear();
     ui->combo_snap_pool->addItems(zpools);
-
+    ui->combo_rep_localds->clear();
+    avail_datasets.clear();
+    //Now kick off the loading of all the datasets for all these pools
+    for(int i=0; i<zpools.length(); i++){
+      QJsonObject obj;
+        obj.insert("action","datasets");
+        obj.insert("zpool", zpools[i]);
+      CORE->communicate(TAG+"list_dataset_"+QString::number(i+1), "sysadm", "zfs",obj);
+    }
   }else if(id==TAG+"list_datasets"){
     QStringList datasets = args.toObject().value("datasets").toObject().keys(); //don't care about the info for the pools, just the names
     datasets.removeAll("");
     ui->combo_snap_dataset->clear();
     ui->combo_snap_dataset->addItems(datasets);
+
+  }else if(id.startsWith(TAG+"list_dataset_")){
+    QStringList datasets = args.toObject().value("datasets").toObject().keys(); //don't care about the info for the pools, just the names
+    datasets.removeAll("");
+    avail_datasets << datasets;
+    ui->combo_rep_localds->addItems(datasets);
 
   }else if(id==TAG+"remove_snap" || id==TAG+"create_snap"){
     updateSnapshotPage(); //need to re-load the listof snapshots
@@ -97,8 +121,27 @@ void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue ar
      ui->combo_set_emailopt->setCurrentIndex(ui->combo_set_emailopt->count()-1);
     }
     ui->check_set_recursive->setChecked( data.value("recursive").toString()=="ON");
+
   }else if(id==TAG+"save_settings"){
     updateSettings();
+
+  }else if(id==TAG+"list_replication"){
+    QJsonObject data = args.toObject().value("listreplication").toObject();
+    QStringList ids = data.keys();
+    ui->tree_rep->clear();
+    for(int i=0; i<ids.length(); i++){
+      QTreeWidgetItem *it = new QTreeWidgetItem();
+      it->setText(0, data.value("dataset").toString());
+      it->setText(1, data.value("host").toString());
+      it->setText(2, data.value("rdset").toString());
+      it->setText(3, data.value("port").toString());
+      it->setText(4, data.value("frequency").toString());
+      it->setText(5, data.value("user").toString());
+      ui->tree_rep->addTopLevelItem(it);
+    }
+    ui->tab_replication->setEnabled(true);
+  }else if(id==TAG+"remove_replication" || id==TAG+"add_replication"){
+    updateReplicationPage();
   }
 }
 
@@ -161,6 +204,7 @@ void lp_page::sendSnapshotCreate(){
 }
 // - replication page
 void lp_page::updateReplicationPage(){
+  ui->tab_replication->setEnabled(false);
   QJsonObject obj;
     obj.insert("action","listreplication");
   CORE->communicate(TAG+"list_replication", "sysadm", "lifepreserver",obj);
@@ -220,6 +264,32 @@ void lp_page::sendRepInit(){
 }
 
 void lp_page::openNewRepInfo(){
+  ui->line_rep_pass->clear(); //ensure this is always cleared
+  ui->line_rep_user->clear();
+  ui->line_rep_host->clear();
+  ui->line_rep_remoteds->clear();
+  
+  ui->group_rep_add->setVisible(true);
+}
+
+void lp_page::openOldRepInfo(){
+  if(ui->tree_rep->currentItem()==0){ return; }
+  //Load all the info from the current item into the settings
+  QTreeWidgetItem *it = ui->tree_rep->currentItem();
+  int index = ui->combo_rep_localds->findText( it->text(0) );
+  if(index>=0){ ui->combo_rep_localds->setCurrentIndex(index); }
+  ui->line_rep_host->setText( it->text(1) );
+  ui->line_rep_remoteds->setText( it->text(2) );
+  ui->spin_rep_port->setValue( it->text(3).toInt() );
+  index = ui->combo_rep_freq->findData( it->text(4) );
+  if(index<0){
+    //daily - has the time code instead
+    index = ui->combo_rep_freq->findData("onhour");
+    ui->spin_rep_hour->setValue( it->text(4).toInt() );
+  }
+  ui->combo_rep_freq->setCurrentIndex(index);
+  ui->line_rep_user->setText( it->text(5) );
+  //Now show the settings
   ui->line_rep_pass->clear(); //ensure this is always cleared
   ui->group_rep_add->setVisible(true);
 }

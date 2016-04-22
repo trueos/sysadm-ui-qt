@@ -208,6 +208,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <widget class="QToolButton" name="tool_rep_add">
+           <property name="statusTip">
+            <string>Create a new replication</string>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -219,12 +222,29 @@
          </item>
          <item>
           <widget class="QToolButton" name="tool_rep_remove">
+           <property name="statusTip">
+            <string>Remove a replication</string>
+           </property>
            <property name="text">
             <string>...</string>
            </property>
            <property name="icon">
             <iconset resource="../../icons/icons.qrc">
              <normaloff>:/icons/black/minus.svg</normaloff>:/icons/black/minus.svg</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="tool_rep_modify">
+           <property name="statusTip">
+            <string>Modify selected replication</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/preferences.svg</normaloff>:/icons/black/preferences.svg</iconset>
            </property>
           </widget>
          </item>
@@ -243,6 +263,9 @@
          </item>
          <item>
           <widget class="QToolButton" name="tool_rep_start">
+           <property name="statusTip">
+            <string>Start replication task</string>
+           </property>
            <property name="text">
             <string>Start</string>
            </property>
@@ -257,6 +280,9 @@
          </item>
          <item>
           <widget class="QToolButton" name="tool_rep_init">
+           <property name="statusTip">
+            <string>Re-initialize replication target (remote data will be lost)</string>
+           </property>
            <property name="text">
             <string>Initialize</string>
            </property>
@@ -274,11 +300,11 @@
        <item>
         <widget class="QGroupBox" name="group_rep_add">
          <property name="title">
-          <string>New Replication Settings</string>
+          <string>Setup Replication</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <property name="spacing">
-           <number>3</number>
+           <number>6</number>
           </property>
           <property name="leftMargin">
            <number>1</number>
@@ -408,27 +434,44 @@
             <item row="2" column="1">
              <widget class="QComboBox" name="combo_rep_localds"/>
             </item>
-            <item row="3" column="0">
-             <widget class="QPushButton" name="push_rep_hidenew">
-              <property name="text">
-               <string>Cancel</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../../icons/icons.qrc">
-                <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
-              </property>
-             </widget>
-            </item>
             <item row="3" column="1">
-             <widget class="QPushButton" name="push_rep_savenew">
-              <property name="text">
-               <string>Save New</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../../icons/icons.qrc">
-                <normaloff>:/icons/black/inbox-download.svg</normaloff>:/icons/black/inbox-download.svg</iconset>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="push_rep_hidenew">
+                <property name="text">
+                 <string>Cancel</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../icons/icons.qrc">
+                  <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="push_rep_savenew">
+                <property name="text">
+                 <string>Save</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../icons/icons.qrc">
+                  <normaloff>:/icons/black/inbox-download.svg</normaloff>:/icons/black/inbox-download.svg</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </item>
