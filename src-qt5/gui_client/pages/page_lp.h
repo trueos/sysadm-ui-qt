@@ -56,6 +56,20 @@ private slots:
 	void closeNewRepInfo();
 	void new_rep_freq_changed();
       // - schedule page
+	void updateSchedulePage();
+	void showNewSchSnapInfo();
+	void showOldSchSnapInfo();
+	void removeSchSnap();
+	void saveSchSnapInfo();
+	void hideSchSnapInfo();
+	void snap_sch_freq_changed();
+
+	void showNewSchScrubInfo();
+	void showOldSchScrubInfo();
+	void removeSchScrub();
+	void saveSchScrubInfo();
+	void hideSchScrubInfo();
+	void scrub_sch_freq_changed();
 
 	// - settings page
 	void updateSettings();

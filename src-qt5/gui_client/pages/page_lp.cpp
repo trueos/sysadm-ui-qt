@@ -15,6 +15,7 @@ lp_page::lp_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core
   connect(ui->tool_snap_remove, SIGNAL(clicked()), this, SLOT(sendSnapshotRemove()) );
   connect(ui->tool_snap_revert, SIGNAL(clicked()), this, SLOT(sendSnapshotRevert()) );
   connect(ui->tool_snap_create, SIGNAL(clicked()), this, SLOT(sendSnapshotCreate()) );
+
   connect(ui->push_set_save, SIGNAL(clicked()), this, SLOT(sendSaveSettings()) );
 
   connect(ui->tool_rep_add, SIGNAL(clicked()), this, SLOT(openNewRepInfo()) );
@@ -24,17 +25,53 @@ lp_page::lp_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core
   connect(ui->tool_rep_modify, SIGNAL(clicked()), this, SLOT(openOldRepInfo()) );
   connect(ui->tool_rep_start, SIGNAL(clicked()), this, SLOT(sendRepStart()) );
   connect(ui->tool_rep_init, SIGNAL(clicked()), this, SLOT(sendRepInit()) );
-  
   connect(ui->combo_rep_freq, SIGNAL(currentIndexChanged(int)), this, SLOT(new_rep_freq_changed()) );
+
+  connect(ui->tool_schedule_addsnap, SIGNAL(clicked()), this, SLOT(showNewSchSnapInfo()) );
+  connect(ui->tool_schedule_modifysnap, SIGNAL(clicked()), this, SLOT(showOldSchSnapInfo()) );
+  connect(ui->tool_schedule_rmsnap, SIGNAL(clicked()), this, SLOT(removeSchSnap()) );
+  connect(ui->push_schedule_savesnap, SIGNAL(clicked()), this, SLOT(saveSchSnapInfo()) );
+  connect(ui->push_schedule_cancelsnap, SIGNAL(clicked()), this, SLOT(hideSchSnapInfo()) );
+  connect(ui->combo_schedule_snapfreq, SIGNAL(currentIndexChanged(int)), this, SLOT(snap_sch_freq_changed()) );
+  connect(ui->tool_schedule_addscrub, SIGNAL(clicked()), this, SLOT(showNewSchScrubInfo()) );
+  connect(ui->tool_schedule_modifyscrub, SIGNAL(clicked()), this, SLOT(showOldSchScrubInfo()) );
+  connect(ui->tool_schedule_rmscrub, SIGNAL(clicked()), this, SLOT(removeSchScrub()) );
+  connect(ui->push_schedule_scrubsave, SIGNAL(clicked()), this, SLOT(saveSchScrubInfo()) );
+  connect(ui->push_schedule_scrubcancel, SIGNAL(clicked()), this, SLOT(hideSchScrubInfo()) );
+  connect(ui->combo_schedule_scrubfreq, SIGNAL(currentIndexChanged(int)), this, SLOT(scrub_sch_freq_changed()) );
+
   closeNewRepInfo(); //start with this hidden initially
+  ui->group_schedule_snap->setVisible(false);
+  ui->group_schedule_scrub->setVisible(false);
   //Load the possible values for the replication "frequency" combobox
-  ui->combo_rep_freq->clear();
+  ui->combo_rep_freq->clear(); 
   ui->combo_rep_freq->addItem(tr("Sync with snapshot"),"sync");
   ui->combo_rep_freq->addItem(tr("Daily"),"onhour"); //special internal flag
   ui->combo_rep_freq->addItem(tr("Hourly"),"hour");
   ui->combo_rep_freq->addItem(tr("30 Minutes"),"30min");
   ui->combo_rep_freq->addItem(tr("10 Minutes"),"10min");
   ui->combo_rep_freq->addItem(tr("Manual Only"),"manual");
+  //Now do a similar thing for the snapshot frequency combobox
+  ui->combo_schedule_snapfreq->clear();
+  ui->combo_schedule_snapfreq->addItem(tr("Daily"),"onhour"); //special internal flag
+  ui->combo_schedule_snapfreq->addItem(tr("Hourly"),"hourly");
+  ui->combo_schedule_snapfreq->addItem(tr("30 Minutes"),"30min");
+  ui->combo_schedule_snapfreq->addItem(tr("10 Minutes"),"10min");
+  ui->combo_schedule_snapfreq->addItem(tr("5 Minutes"),"5min");
+  //And another similar thing for the scrub frequency combobox
+  ui->combo_schedule_scrubfreq->clear();
+  ui->combo_schedule_scrubfreq->addItem(tr("Daily"), "daily");
+  ui->combo_schedule_scrubfreq->addItem(tr("Weekly"), "weekly");
+  ui->combo_schedule_scrubfreq->addItem(tr("Monthly"), "monthly");
+  //Now fill out the options for the days of the week
+  ui->combo_schedule_scrubday->clear();
+  ui->combo_schedule_scrubday->addItem(tr("Sunday"), "01");
+  ui->combo_schedule_scrubday->addItem(tr("Monday"), "02");
+  ui->combo_schedule_scrubday->addItem(tr("Tuesday"), "03");
+  ui->combo_schedule_scrubday->addItem(tr("Wednesday"), "04");
+  ui->combo_schedule_scrubday->addItem(tr("Thursday"), "05");
+  ui->combo_schedule_scrubday->addItem(tr("Friday"), "06");
+  ui->combo_schedule_scrubday->addItem(tr("Saturday"), "07");
 }
 
 lp_page::~lp_page(){
@@ -54,6 +91,8 @@ void lp_page::startPage(){
   //Now run any CORE communications
   send_list_zpools();
   updateSettings();
+  updateReplicationPage();
+  updateSchedulePage();
 }
 
 // === PRIVATE ===
@@ -66,7 +105,7 @@ void lp_page::send_list_zpools(){
 // === PRIVATE SLOTS ===
 void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
   if( !id.startsWith(TAG) ){ return; }
-  //qDebug() << "Got Reply:" << id << namesp << name << args;
+  qDebug() << "Got Reply:" << id << namesp << name << args;
   if(namesp=="error" || name=="error"){ return; }
 
   if(id==TAG+"list_zpools"){
@@ -76,6 +115,8 @@ void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue ar
     //Now update the UI lists
     ui->combo_snap_pool->clear();
     ui->combo_snap_pool->addItems(zpools);
+    ui->combo_schedule_snappool->clear(); ui->combo_schedule_snappool->addItems(zpools);
+    ui->combo_schedule_scrubpool->clear(); ui->combo_schedule_scrubpool->addItems(zpools);
     ui->combo_rep_localds->clear();
     avail_datasets.clear();
     //Now kick off the loading of all the datasets for all these pools
@@ -140,9 +181,28 @@ void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue ar
       ui->tree_rep->addTopLevelItem(it);
     }
     ui->tab_replication->setEnabled(true);
+
   }else if(id==TAG+"remove_replication" || id==TAG+"add_replication"){
     updateReplicationPage();
-  }
+
+  }else if(id==TAG+"change_schedules"){
+    updateSchedulePage();
+
+  }else if(id==TAG+"list_schedules"){
+      QJsonObject data = args.toObject().value("listcron").toObject();
+      QStringList pools = data.keys();
+      ui->tree_schedule->clear();
+	for(int i=0; i<pools.length(); i++){
+        QTreeWidgetItem *it = new QTreeWidgetItem();
+        it->setText(0, pools[i]);
+        it->setText(1, data.value(pools[i]).toObject().value("keep").toString()); //snapshots to keep
+        it->setText(2, data.value(pools[i]).toObject().value("schedule").toString()); //snapshot schedule
+        it->setText(3, data.value(pools[i]).toObject().value("scrub").toString()); //scrub schedule
+        ui->tree_schedule->addTopLevelItem(it);
+      }
+
+  }//end check of the "id"
+
 }
 
 //CORE Interactions (buttons usually)
@@ -302,7 +362,157 @@ void lp_page::closeNewRepInfo(){
 void lp_page::new_rep_freq_changed(){
   ui->spin_rep_hour->setVisible("onhour" == ui->combo_rep_freq->currentData().toString());
 }
+
 // - schedule page
+void lp_page::updateSchedulePage(){
+  QJsonObject obj;
+    obj.insert("action","listcron");
+  CORE->communicate(TAG+"list_schedules", "sysadm", "lifepreserver",obj);
+}
+
+void lp_page::showNewSchSnapInfo(){
+  ui->group_schedule_snap->setVisible(true);
+  ui->group_schedule_scrub->setVisible(false);
+}
+
+void lp_page:: showOldSchSnapInfo(){
+  if(ui->tree_schedule->currentItem()==0){ return; }
+  QTreeWidgetItem *it = ui->tree_schedule->currentItem();
+  int index = ui->combo_schedule_snappool->findText(it->text(0));
+  if(index>=0){ ui->combo_schedule_snappool->setCurrentIndex(index); }
+  ui->spin_schedule_snapkeep->setValue( it->text(1).toInt() );
+  index = ui->combo_schedule_snapfreq->findData( it->text(2) );
+  if(index<0){ 
+    index = ui->combo_schedule_snapfreq->findData( "onhour" ); 
+    ui->spin_schedule_snaphour->setValue( it->text(2).section("@",1,-1).toInt() );
+  }
+  ui->combo_schedule_snapfreq->setCurrentIndex(index);
+  ui->group_schedule_snap->setVisible(true);
+  ui->group_schedule_scrub->setVisible(false);
+}
+
+void lp_page::removeSchSnap(){
+  if(ui->tree_schedule->currentItem()==0){ return; }
+  QTreeWidgetItem *it = ui->tree_schedule->currentItem();
+  QJsonObject obj;
+    obj.insert("action","cronsnap");
+    obj.insert("pool", it->text(0));
+    obj.insert("keep", "0");
+    obj.insert("frequency", "none"); //disables the schedule
+  CORE->communicate(TAG+"change_schedules", "sysadm", "lifepreserver",obj);
+}
+
+void lp_page::saveSchSnapInfo(){
+  QString freq = ui->combo_schedule_snapfreq->currentData().toString();
+  if(freq == "onhour"){ 
+    freq = QString::number(ui->spin_schedule_snaphour->value());
+    if(freq.length()==1){ freq.prepend("0"); }
+    freq.prepend("daily@");
+  }
+  QJsonObject obj;
+    obj.insert("action","cronsnap");
+    obj.insert("pool", ui->combo_schedule_snappool->currentText() );
+    obj.insert("keep", QString::number(ui->spin_schedule_snapkeep->value()) );
+    obj.insert("frequency", freq);
+  qDebug() << "SEND:" << obj;
+  CORE->communicate(TAG+"change_schedules", "sysadm", "lifepreserver",obj);
+  ui->group_schedule_snap->setVisible(false);
+}
+
+void lp_page::hideSchSnapInfo(){
+  ui->group_schedule_snap->setVisible(false);
+}
+
+void lp_page::snap_sch_freq_changed(){
+  ui->spin_schedule_snaphour->setVisible( ui->combo_schedule_snapfreq->currentData().toString()=="onhour");
+}
+
+void lp_page::showNewSchScrubInfo(){
+  ui->group_schedule_scrub->setVisible(true);
+  ui->group_schedule_snap->setVisible(false);
+}
+
+void lp_page::showOldSchScrubInfo(){
+  if(ui->tree_schedule->currentItem()==0){ return; }
+  QTreeWidgetItem *it = ui->tree_schedule->currentItem();
+  int index = ui->combo_schedule_scrubpool->findText(it->text(0));
+  if(index>=0){ ui->combo_schedule_scrubpool->setCurrentIndex(index); }
+  QString freq = it->text(2);
+  index = ui->combo_schedule_scrubfreq->findData( freq.section("@",0,0) );
+  if(index>=0){ ui->combo_schedule_scrubfreq->setCurrentIndex(index); }
+  if(freq.startsWith("daily@")){ 
+    ui->spin_schedule_scrubhour->setValue(freq.section("@",1,-1).toInt());
+  }else if(freq.startsWith("weekly@")){
+    ui->combo_schedule_scrubday->setCurrentIndex( freq.section("@",1,1).toInt()-1 );
+    ui->spin_schedule_scrubhour->setValue(freq.section("@",2,-1).toInt());
+  }else if(freq.startsWith("monthly@")){
+    ui->spin_schedule_scrubdate->setValue(freq.section("@",1,1).toInt());
+    ui->spin_schedule_scrubhour->setValue(freq.section("@",2,-1).toInt());
+  }
+  ui->group_schedule_scrub->setVisible(true);
+  ui->group_schedule_snap->setVisible(false);
+}
+
+void lp_page::removeSchScrub(){
+  if(ui->tree_schedule->currentItem()==0){ return; }
+  QTreeWidgetItem *it = ui->tree_schedule->currentItem();
+  QJsonObject obj;
+    obj.insert("action","cronscrub");
+    obj.insert("pool", it->text(0));
+    obj.insert("frequency", "none"); //disables the schedule
+  CORE->communicate(TAG+"change_schedules", "sysadm", "lifepreserver",obj);
+}
+
+void lp_page::saveSchScrubInfo(){
+  QString freq = ui->combo_schedule_scrubfreq->currentData().toString();
+  if(freq=="daily"){ 
+    QString tmp = ui->spin_schedule_scrubhour->cleanText();
+    if(tmp.length()==1){ tmp.prepend("0"); }
+    freq.append("@"+tmp);
+  }else if(freq=="weekly"){
+    QString tmp = ui->combo_schedule_scrubday->currentData().toString();
+    if(tmp.length()==1){ tmp.prepend("0"); }
+    freq.append("@"+tmp);
+    tmp = ui->spin_schedule_scrubhour->cleanText();
+    if(tmp.length()==1){ tmp.prepend("0"); }
+    freq.append("@"+tmp);
+  }else if(freq=="monthly"){ 
+    QString tmp = ui->spin_schedule_scrubdate->cleanText();
+    if(tmp.length()==1){ tmp.prepend("0"); }
+    freq.append("@"+tmp);
+    tmp = ui->spin_schedule_scrubhour->cleanText();
+    if(tmp.length()==1){ tmp.prepend("0"); }
+    freq.append("@"+tmp);
+  }
+
+  QJsonObject obj;
+    obj.insert("action","cronscrub");
+    obj.insert("pool", ui->combo_schedule_scrubpool->currentText());
+    obj.insert("frequency", freq);
+  CORE->communicate(TAG+"change_schedules", "sysadm", "lifepreserver",obj);
+  ui->group_schedule_scrub->setVisible(false);
+}
+
+void lp_page::hideSchScrubInfo(){
+  ui->group_schedule_scrub->setVisible(false);
+}
+
+void lp_page::scrub_sch_freq_changed(){
+  QString freq = ui->combo_schedule_scrubfreq->currentData().toString();
+  if(freq=="daily"){
+    ui->spin_schedule_scrubdate->setVisible(false);
+    ui->spin_schedule_scrubhour->setVisible(true);
+    ui->combo_schedule_scrubday->setVisible(false);
+  }else if(freq=="weekly"){
+    ui->spin_schedule_scrubdate->setVisible(false);
+    ui->spin_schedule_scrubhour->setVisible(true);
+    ui->combo_schedule_scrubday->setVisible(true);
+  }else if(freq=="monthly"){
+    ui->spin_schedule_scrubdate->setVisible(true);
+    ui->spin_schedule_scrubhour->setVisible(true);
+    ui->combo_schedule_scrubday->setVisible(false);
+  }
+}
 
 // - settings page
 void lp_page::updateSettings(){
