@@ -32,7 +32,7 @@
       <enum>QTabWidget::West</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_repo">
       <attribute name="icon">
@@ -1045,6 +1045,26 @@
           </spacer>
          </item>
          <item>
+          <widget class="QToolButton" name="tool_local_clean">
+           <property name="statusTip">
+            <string>Automatically remove any orphaned packages</string>
+           </property>
+           <property name="text">
+            <string>Clean</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/flag.svg</normaloff>:/icons/black/flag.svg</iconset>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextBesideIcon</enum>
+           </property>
+           <property name="autoRaise">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QToolButton" name="tool_local_upgrade">
            <property name="toolTip">
             <string>Upgrade All Packages</string>
@@ -1086,11 +1106,11 @@
             <string>Adjust View Options</string>
            </property>
            <property name="text">
-            <string>View</string>
+            <string>Options</string>
            </property>
            <property name="icon">
             <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/eye.svg</normaloff>:/icons/black/eye.svg</iconset>
+             <normaloff>:/icons/black/list.svg</normaloff>:/icons/black/list.svg</iconset>
            </property>
            <property name="popupMode">
             <enum>QToolButton::InstantPopup</enum>

@@ -12,7 +12,7 @@
 pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::pkg_page_ui){
   ui->setupUi(this);
   NMAN = new QNetworkAccessManager();
-  local_showall = local_advmode = local_hasupdates = false;
+  local_showall = local_advmode = local_hasupdates = local_autocleanmode = false;
   //Create the special menus
   repo_backM = new QMenu(this);
     connect(repo_backM, SIGNAL(triggered(QAction*)), this, SLOT(browser_go_back(QAction*)) );
@@ -32,8 +32,13 @@ pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, co
       connect(tmp, SIGNAL(toggled(bool)), this, SLOT(update_local_viewall(bool)) );
     tmp = local_viewM->addAction(tr("View Advanced Options"));
       tmp->setCheckable(true);
-      tmp->setChecked(local_showall);
+      tmp->setChecked(local_advmode);
       connect(tmp, SIGNAL(toggled(bool)), this, SLOT(update_local_viewadv(bool)) );
+   local_viewM->addSeparator();
+    tmp = local_viewM->addAction(tr("Auto-clean packages"));
+      tmp->setCheckable(true);
+      tmp->setChecked(local_autocleanmode);
+      connect(tmp, SIGNAL(toggled(bool)), this, SLOT(update_local_viewclean(bool)) );
   //Change any flags as needed
   ui->tree_local->setMouseTracking(true); //allow hover-over events (status tip)
   int lineheight = ui->tree_local->fontMetrics().lineSpacing();
@@ -48,6 +53,7 @@ pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, co
   connect(ui->tool_local_lock, SIGNAL(clicked()), this, SLOT(send_local_lockpkgs()) );
   connect(ui->tool_local_unlock, SIGNAL(clicked()), this, SLOT(send_local_unlockpkgs()) );
   connect(ui->tool_local_upgrade, SIGNAL(clicked()), this, SLOT(send_local_upgradepkgs()) );
+  connect(ui->tool_local_clean, SIGNAL(clicked()), this, SLOT(send_local_cleanpkgs()) );
   connect(ui->group_pending_log, SIGNAL(toggled(bool)), this, SLOT(pending_show_log(bool)) );
   connect(ui->tree_pending, SIGNAL(itemSelectionChanged()), this, SLOT(pending_selection_changed()) );
   connect(ui->combo_repo, SIGNAL(activated(const QString&)), this, SLOT(update_repo_changed()) );
@@ -197,6 +203,7 @@ void pkg_page::update_local_list(QJsonObject obj){
     QStringList stat_ico = it->data(0,Qt::UserRole).toStringList();
     bool stat_changed = updateStatusList(&stat_ico, "lock", obj.value(origins[i]).toObject().value("locked").toString()=="1");
     stat_changed = stat_changed || updateStatusList(&stat_ico, "req", obj.value(origins[i]).toObject().contains("reverse_dependencies"));
+    stat_changed = stat_changed || updateStatusList(&stat_ico, "auto", obj.value(origins[i]).toObject().value("automatic").toString()=="1");
     if( !obj.value(origins[i]).toObject().contains("reverse_dependencies")){ topnum++; }
     if(stat_changed){ 
       it->setData(0,Qt::UserRole, stat_ico); //save this for later
@@ -562,6 +569,7 @@ void pkg_page::updateStatusIcon( QTreeWidgetItem *it ){
     else if(stat[i]=="vuln"){ IL << QPixmap(":/icons/black/forbidden.svg"); TT << tr("* Security vulnerability"); }
     else if(stat[i]=="dep-vuln"){ IL << QPixmap(":/icons/black/attention.svg"); TT << tr("* Dependency has security vulnerability"); }
     else if(stat[i]=="req"){ IL << QPixmap(":/icons/black/bookmark-used.svg"); TT << tr("* Used by other packages"); }
+    else if(stat[i]=="auto" && !stat.contains("req")){ IL << QPixmap(":/icons/black/flag.svg"); TT << tr("* Orphaned package - may be automatically cleaned"); }
   }
   //Now set the icon
   if(IL.length()==1){
@@ -721,18 +729,20 @@ void pkg_page::ParseEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
   //Now go through and update the UI based on the type of action for this event
   QString act = val.toObject().value("action").toString();
   bool finished = (val.toObject().value("state").toString() == "finished");
-  if( act=="pkg_remove" || act=="pkg_install" || act=="pkg_lock" || act=="pkg_unlock" || act=="pkg_upgrade"){
+  if(act=="pkg_check_upgrade"){
+    local_hasupdates = (val.toObject().value("updates_available").toString()=="true");
+    update_local_buttons();
+
+  }else if(act=="pkg_audit" && finished){
+    if(finished){ update_local_audit(val.toObject()); }
+
+  }else{
     if(finished){ 
       //Need to update the list of installed packages    
       send_local_update();
     }
     // Need to update the list of pending processes
     update_pending_process(val.toObject());
-  }else if(act=="pkg_check_upgrade"){
-    local_hasupdates = (val.toObject().value("updates_available").toString()=="true");
-    update_local_buttons();
-  }else if(act=="pkg_audit" && finished){
-    update_local_audit(val.toObject());
   }
 }
 
@@ -742,6 +752,7 @@ void pkg_page::update_local_buttons(){
   ui->tool_local_lock->setVisible(local_advmode);
   ui->tool_local_unlock->setVisible(local_advmode);
   ui->tool_local_upgrade->setVisible(local_advmode && local_hasupdates);
+  ui->tool_local_clean->setVisible(!local_autocleanmode);
   //Now see if there are any items checked and enable/disable buttons as needed	
   bool gotcheck = false;
   for(int i=0; i<ui->tree_local->topLevelItemCount() && !gotcheck; i++){
@@ -764,6 +775,11 @@ void pkg_page::update_local_viewall(bool checked){
 
 void pkg_page::update_local_viewadv(bool checked){
   local_advmode = checked;
+  update_local_buttons();
+}
+
+void pkg_page::update_local_viewclean(bool checked){
+  local_autocleanmode = checked;
   update_local_buttons();
 }
 
@@ -1006,9 +1022,12 @@ void pkg_page::send_local_rmpkgs(){
   if(pkgs.isEmpty()){ return; } //nothing to do
   QJsonObject obj;
     obj.insert("action","pkg_remove");
-    obj.insert("recursive","true"); //cleanup orphaned packages
+    obj.insert("recursive","true");
     obj.insert("pkg_origins", QJsonArray::fromStringList(pkgs) );
-  CORE->communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);		
+  CORE->communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);
+  if(local_autocleanmode){
+    send_local_cleanpkgs();
+  }	
 }
 
 void pkg_page::send_local_lockpkgs(){
@@ -1042,6 +1061,12 @@ void pkg_page::send_local_upgradepkgs(){
   ui->tabWidget->setCurrentWidget(ui->tab_queue);
   local_hasupdates = false;
   update_local_buttons();
+}
+
+void pkg_page::send_local_cleanpkgs(){
+  QJsonObject obj;
+    obj.insert("action","pkg_autoremove");
+  CORE->communicate(TAG+"pkg_autoremove", "sysadm", "pkg",obj);
 }
 
 // - repo tab

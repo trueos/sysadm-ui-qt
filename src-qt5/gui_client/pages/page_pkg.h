@@ -35,7 +35,7 @@ private:
 	Ui::pkg_page_ui *ui;
 
 	//Internal flags
-	bool local_showall, local_advmode, local_hasupdates; //Local tab options
+	bool local_showall, local_advmode, local_hasupdates, local_autocleanmode; //Local tab options
 	QMenu *local_viewM, *repo_catM, *repo_catSM, *repo_backM;
 	QNetworkAccessManager *NMAN;
 	QList<QUrl> imagepending;
@@ -94,6 +94,7 @@ private slots:
 	void update_local_pkg_check(bool checked);
 	void update_local_viewall(bool checked);
 	void update_local_viewadv(bool checked);
+	void update_local_viewclean(bool checked);
 	void goto_browser_from_local(QTreeWidgetItem *it);
 	// - repo tab
 	void browser_goto_pkg(QString origin, QString repo = "");
@@ -119,6 +120,7 @@ private slots:
 	void send_local_lockpkgs();
 	void send_local_unlockpkgs();
 	void send_local_upgradepkgs();
+	void send_local_cleanpkgs();
 	// - repo tab
 	void send_start_search(QString search = "", QStringList exclude = QStringList()); //search term input (optional - will pull from current text in input box)
 	void send_start_browse(QString cat);
