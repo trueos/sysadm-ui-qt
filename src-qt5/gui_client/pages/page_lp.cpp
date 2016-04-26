@@ -65,13 +65,13 @@ lp_page::lp_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core
   ui->combo_schedule_scrubfreq->addItem(tr("Monthly"), "monthly");
   //Now fill out the options for the days of the week
   ui->combo_schedule_scrubday->clear();
-  ui->combo_schedule_scrubday->addItem(tr("Sunday"), "01");
-  ui->combo_schedule_scrubday->addItem(tr("Monday"), "02");
-  ui->combo_schedule_scrubday->addItem(tr("Tuesday"), "03");
-  ui->combo_schedule_scrubday->addItem(tr("Wednesday"), "04");
-  ui->combo_schedule_scrubday->addItem(tr("Thursday"), "05");
-  ui->combo_schedule_scrubday->addItem(tr("Friday"), "06");
-  ui->combo_schedule_scrubday->addItem(tr("Saturday"), "07");
+  ui->combo_schedule_scrubday->addItem(tr("Sunday"), "07");
+  ui->combo_schedule_scrubday->addItem(tr("Monday"), "01");
+  ui->combo_schedule_scrubday->addItem(tr("Tuesday"), "02");
+  ui->combo_schedule_scrubday->addItem(tr("Wednesday"), "03");
+  ui->combo_schedule_scrubday->addItem(tr("Thursday"), "04");
+  ui->combo_schedule_scrubday->addItem(tr("Friday"), "05");
+  ui->combo_schedule_scrubday->addItem(tr("Saturday"), "06");
 }
 
 lp_page::~lp_page(){
