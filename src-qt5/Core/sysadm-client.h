@@ -43,6 +43,7 @@ public:
 	bool isActive();
 	bool isLocalHost(); //special case, checks currentHost for the localhost definitions
 	bool needsBaseAuth(); //returns if a base user/password auth is required(always true until an SSL auth is attempted)
+	bool isReady(); //returns true if the connection is all set and ready for inputs (auth successful, etc).
 	bool isConnecting(); //returns true if it is currently trying to establish a connection
 	
 	//Check if the sysadm server is running on the local system

@@ -40,7 +40,7 @@ void pkg_page::GenerateHomePage(QStringList cats, QString repo){
     << CreateButtonItem(":/icons/black/globe.svg", tr("Web Browsers"), "search::www::web browser") \
     << CreateButtonItem(":/icons/black/mail.svg", tr("Email Clients"), "search::mail::client ") \
     << CreateButtonItem(":/icons/black/paperclip.svg", tr("Office Suites"), "search::editors::office::-libre") \
-    << CreateButtonItem(":/icons/black/desktop2.svg", tr("Desktops"), "search::x11-wm::desktop environment") \
+    << CreateButtonItem(":/icons/black/desktop2.svg", tr("Desktops"), "search::::desktop meta port") \
     , true), 1, 0, 1, 2);
   //Create a group of items (vertical);
   layout->addWidget( CreateGroup(tr("Popular Categories"), QList<QWidget*>() \

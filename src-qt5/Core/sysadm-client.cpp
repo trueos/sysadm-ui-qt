@@ -92,7 +92,7 @@ QString sysadm_client::currentHost(){
 }
 
 bool sysadm_client::isActive(){
-  return ((SOCKET!=0) && SOCKET->isValid());	
+  return ( (SOCKET!=0) && SOCKET->isValid() );	
 }
 
 bool sysadm_client::isLocalHost(){
@@ -101,6 +101,10 @@ bool sysadm_client::isLocalHost(){
 
 bool sysadm_client::needsBaseAuth(){
   return !SSLsuccess;
+}
+
+bool sysadm_client::isReady(){
+  return pingTimer->isActive();
 }
 
 bool sysadm_client::isConnecting(){

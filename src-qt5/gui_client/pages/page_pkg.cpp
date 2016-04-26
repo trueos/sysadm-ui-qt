@@ -733,7 +733,7 @@ void pkg_page::ParseEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
     local_hasupdates = (val.toObject().value("updates_available").toString()=="true");
     update_local_buttons();
 
-  }else if(act=="pkg_audit" && finished){
+  }else if(act=="pkg_audit"){
     if(finished){ update_local_audit(val.toObject()); }
 
   }else{
@@ -970,6 +970,7 @@ void pkg_page::browser_update_history(){
     QAction *tmp = repo_backM->addAction(txt);
 	tmp->setWhatsThis(go);
   }
+  ui->tool_repo_back->setEnabled(repo_backM->actions().length()>1);
 }
 
 void pkg_page::browser_home_button_clicked(QString action){

@@ -16,13 +16,15 @@ namespace Ui{
 class MainUI : public QMainWindow{
 	Q_OBJECT
 public:
-	MainUI(sysadm_client *core);
+	MainUI(sysadm_client *core, QString pageID = "");
 	~MainUI();
 
 	sysadm_client* currentCore();
 
+
 private:
 	Ui::MainUI *ui;
+	QString currentPage, host;
 	void InitializeUI();
 	sysadm_client *CORE;
 	QShortcut *s_quit;

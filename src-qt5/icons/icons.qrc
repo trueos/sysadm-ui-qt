@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/icons">
+  <file>custom/appcafe.png</file>
   <file>custom/pcbsd-banner.png</file>
   <file>custom/lifepreserver.png</file>
   </qresource>

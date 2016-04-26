@@ -1,5 +1,9 @@
 bin/sysadm
 bin/sysadm-client
 share/applications/sysadm-client.desktop
+share/applications/appcafe.desktop
+share/applications/pccontrol.desktop
 etc/xdg/autostart/sysadm-client-auto.desktop
 share/pixmaps/sysadm.svg
+share/pixmaps/appcafe.png
+share/pixmaps/pcbsd.png

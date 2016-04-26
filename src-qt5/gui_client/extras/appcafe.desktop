@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+StartupNotify=true
+Comment=Manage System Applications
+Categories=Utility;
+GenericName=Manage Applications
+Name=AppCafe
+TryExec=sysadm-client
+Exec=sysadm-client -page page_pkg
+Icon=appcafe

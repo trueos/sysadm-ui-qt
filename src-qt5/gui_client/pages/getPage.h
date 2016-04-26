@@ -33,7 +33,7 @@ static QList<PAGEINFO> KnownPages(){
   list << PageInfo("page_lp", QObject::tr("Life Preserver"), QObject::tr("Life Preserver"), ":/icons/custom/lifepreserver.png",QObject::tr("Manage Local and Remote Backups"), "utils", QStringList() << "sysadm/lifepreserver" << "sysadm/zfs");
   list << PageInfo("page_system", QObject::tr("System Manager"), QObject::tr("System Manager"), ":/icons/black/boxfilled.svg",QObject::tr("Information About the System"), "utils", QStringList() << "sysadm/system");
   list << PageInfo("page_updates", QObject::tr("Update Manager"), QObject::tr("Update Manager"), ":/icons/black/sync.svg",QObject::tr("Perform Updates on the System"), "appmgmt", QStringList() << "sysadm/update");
-  list << PageInfo("page_pkg", QObject::tr("AppCafe"), QObject::tr("AppCafe"), ":/icons/black/archivebox.svg",QObject::tr("Manage Applications/Packages"), "appmgmt", QStringList() << "sysadm/pkg");
+  list << PageInfo("page_pkg", QObject::tr("AppCafe"), QObject::tr("AppCafe"), ":/icons/custom/appcafe.png",QObject::tr("Manage Applications/Packages"), "appmgmt", QStringList() << "sysadm/pkg");
 	return list;
 }
 
