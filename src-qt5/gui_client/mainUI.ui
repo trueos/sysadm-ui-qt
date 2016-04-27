@@ -53,7 +53,7 @@
      <normaloff>:/icons/black/arrow-left-circled-border.svg</normaloff>:/icons/black/arrow-left-circled-border.svg</iconset>
    </property>
    <property name="text">
-    <string>Back</string>
+    <string>Control Panel</string>
    </property>
   </action>
   <action name="actionSave">
