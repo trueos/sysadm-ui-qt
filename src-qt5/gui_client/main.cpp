@@ -29,11 +29,17 @@ int main( int argc, char ** argv )
 
   //Determine if this is a stand-alone instance of the client for the localhost	
   bool local_only = false;
+  QString gotopage = "";
+#ifdef __FreeBSD__
   for(int i=1; i<argc; i++){
-    #ifdef __FreeBSD__
-    if(QString(argv[i])=="-localhost"){ local_only = true; break;}
-    #endif
+    if(QString(argv[i])=="-page" && argc>i+1){
+      local_only = true;
+      gotopage = argv[i+1]; i++;
+    }else if(QString(argv[i])=="-localhost"){ 
+      local_only = true; 
+    }
   }
+#endif
   int ret = 0; //return code
   if(!local_only){
   //Wait a bit until a system tray is available
@@ -64,8 +70,12 @@ int main( int argc, char ** argv )
     sysadm_client CORE;
       #ifdef __FreeBSD__
       CORE.openConnection(getlogin(),"","127.0.0.1");
+	while( CORE.isConnecting() ){
+	  QApplication::processEvents();
+	}
       #endif
-    MainUI M(&CORE);
+    qDebug() << "Open Localhost window:" << "On Page:" << gotopage;
+    MainUI M(&CORE, gotopage);
     M.show();
     ret = A.exec();
     CORE.disconnect();

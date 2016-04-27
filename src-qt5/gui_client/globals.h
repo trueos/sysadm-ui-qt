@@ -28,11 +28,16 @@
 #include <QDir>
 #include <QProcess>
 #include <QTemporaryFile>
+//#include <QtConcurrent>
 
 // SSL Objects
 #include <QSslConfiguration>
 #include <QSslKey>
 #include <QSslCertificate>
+
+//Network objects
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 //GUI widgets
 #include <QMainWindow>
@@ -52,6 +57,12 @@
 #include <QResizeEvent>
 #include <QDesktopWidget>
 #include <QMessageBox>
+#include <QPainter>
+#include <QScrollArea>
+#include <QScrollBar>
+
+//Special GUI classes
+#include <QPropertyAnimation>
 
 #include "../Core/sysadm-client.h"
 

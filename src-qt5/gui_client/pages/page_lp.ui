@@ -13,306 +13,984 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QTabWidget" name="tabWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>20</y>
-     <width>439</width>
-     <height>328</height>
-    </rect>
-   </property>
-   <property name="currentIndex">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
     <number>0</number>
    </property>
-   <widget class="QWidget" name="tab_status_2">
-    <attribute name="icon">
-     <iconset resource="../../../../pcbsd/src-qt5/life-preserver/lp-gui/lPreserve.qrc">
-      <normaloff>:/images/drive-removable-media.png</normaloff>:/images/drive-removable-media.png</iconset>
-    </attribute>
-    <attribute name="title">
-     <string>Status</string>
-    </attribute>
-    <layout class="QVBoxLayout" name="verticalLayout_5">
-     <item>
-      <layout class="QFormLayout" name="formLayout_3">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>System State:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_status_2">
-         <property name="text">
-          <string notr="true">GOOD</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Number of Disks:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label_numdisks_2">
-         <property name="text">
-          <string notr="true">1</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Latest Snapshot:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_latestsnapshot_2">
-         <property name="text">
-          <string notr="true">snapshot</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="Line" name="line_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_finishedstat_2">
-       <property name="statusTip">
-        <string/>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgba(10,200,10,100); border-radius: 5px</string>
-       </property>
-       <property name="text">
-        <string notr="true">Finished Status</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_runningstat_2">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgba(10,100,200,100); border-radius: 5px</string>
-       </property>
-       <property name="text">
-        <string notr="true">Running Status</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_errorstat_2">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgba(230,10,10,100); border-radius: 5px</string>
-       </property>
-       <property name="text">
-        <string notr="true">System Errors</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="tab_restore_2">
-    <attribute name="icon">
-     <iconset resource="../../../../pcbsd/src-qt5/life-preserver/lp-gui/lPreserve.qrc">
-      <normaloff>:/images/copy.png</normaloff>:/images/copy.png</iconset>
-    </attribute>
-    <attribute name="title">
-     <string>Restore Data</string>
-    </attribute>
-    <layout class="QVBoxLayout" name="verticalLayout_6">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="tabPosition">
+      <enum>QTabWidget::West</enum>
+     </property>
+     <property name="currentIndex">
+      <number>2</number>
+     </property>
+     <widget class="QWidget" name="tab_snapshot">
+      <attribute name="icon">
+       <iconset resource="../../icons/icons.qrc">
+        <normaloff>:/icons/black/camera.svg</normaloff>:/icons/black/camera.svg</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Snapshots</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QComboBox" name="combo_datasets_2"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
-       <item>
-        <widget class="QPushButton" name="push_prevsnap_2">
-         <property name="statusTip">
-          <string>Select the previous (older) snapshot</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="../../../../pcbsd/src-qt5/life-preserver/lp-gui/lPreserve.qrc">
-           <normaloff>:/images/previous.png</normaloff>:/images/previous.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_7">
-         <property name="spacing">
-          <number>0</number>
-         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QSlider" name="slider_snapshots_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>ZFS Pool</string>
            </property>
-           <property name="tickPosition">
-            <enum>QSlider::TicksAbove</enum>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_snapshot_2">
-           <property name="styleSheet">
-            <string notr="true">border: 1px solid grey; border-radius: 5px</string>
+          <widget class="QComboBox" name="combo_snap_pool">
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::AdjustToContents</enum>
            </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTreeWidget" name="tree_snaps">
+         <property name="indentation">
+          <number>0</number>
+         </property>
+         <attribute name="headerDefaultSectionSize">
+          <number>200</number>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Comment</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QToolButton" name="tool_snap_remove">
            <property name="text">
-            <string notr="true">Selected Snapshot</string>
+            <string>Remove</string>
            </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/minus.svg</normaloff>:/icons/black/minus.svg</iconset>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextBesideIcon</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="tool_snap_create">
+           <property name="text">
+            <string>Create</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/plus.svg</normaloff>:/icons/black/plus.svg</iconset>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextBesideIcon</enum>
            </property>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="push_nextsnap_2">
-         <property name="statusTip">
-          <string>Select the next (more recent) snapshot</string>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QComboBox" name="combo_snap_dataset"/>
+         </item>
+         <item>
+          <widget class="QToolButton" name="tool_snap_revert">
+           <property name="text">
+            <string>Revert</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/arrow-left-curved-down.svg</normaloff>:/icons/black/arrow-left-curved-down.svg</iconset>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::DelayedPopup</enum>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextBesideIcon</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_replication">
+      <attribute name="icon">
+       <iconset resource="../../icons/icons.qrc">
+        <normaloff>:/icons/black/cloud-arrow-up-border.svg</normaloff>:/icons/black/cloud-arrow-up-border.svg</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Replication</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QTreeWidget" name="tree_rep">
+         <property name="indentation">
+          <number>0</number>
          </property>
+         <attribute name="headerDefaultSectionSize">
+          <number>100</number>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>Dataset</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Host</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Remote Dataset</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Port</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Frequency</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>User</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QToolButton" name="tool_rep_add">
+           <property name="statusTip">
+            <string>Create a new replication</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/plus.svg</normaloff>:/icons/black/plus.svg</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="tool_rep_remove">
+           <property name="statusTip">
+            <string>Remove a replication</string>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/minus.svg</normaloff>:/icons/black/minus.svg</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="tool_rep_modify">
+           <property name="statusTip">
+            <string>Modify selected replication</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/preferences.svg</normaloff>:/icons/black/preferences.svg</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QToolButton" name="tool_rep_start">
+           <property name="statusTip">
+            <string>Start replication task</string>
+           </property>
+           <property name="text">
+            <string>Start</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/cloud-arrow-up-border.svg</normaloff>:/icons/black/cloud-arrow-up-border.svg</iconset>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextBesideIcon</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="tool_rep_init">
+           <property name="statusTip">
+            <string>Re-initialize replication target (remote data will be lost)</string>
+           </property>
+           <property name="text">
+            <string>Initialize</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/cloud-sync-border.svg</normaloff>:/icons/black/cloud-sync-border.svg</iconset>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextBesideIcon</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="group_rep_add">
+         <property name="title">
+          <string>Setup Replication</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <property name="spacing">
+           <number>6</number>
+          </property>
+          <property name="leftMargin">
+           <number>1</number>
+          </property>
+          <property name="topMargin">
+           <number>1</number>
+          </property>
+          <property name="rightMargin">
+           <number>1</number>
+          </property>
+          <property name="bottomMargin">
+           <number>1</number>
+          </property>
+          <item>
+           <layout class="QFormLayout" name="formLayout_3">
+            <property name="labelAlignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Host IP:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="line_rep_host"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>SSH Port:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>Dataset:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="line_rep_remoteds"/>
+            </item>
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="spin_rep_port">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>30000</number>
+              </property>
+              <property name="value">
+               <number>22</number>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>Frequency:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <layout class="QVBoxLayout" name="verticalLayout_5">
+              <item>
+               <widget class="QComboBox" name="combo_rep_freq"/>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="spin_rep_hour">
+                <property name="suffix">
+                 <string>:00</string>
+                </property>
+                <property name="prefix">
+                 <string>@ </string>
+                </property>
+                <property name="maximum">
+                 <number>23</number>
+                </property>
+                <property name="value">
+                 <number>1</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QFormLayout" name="formLayout_2">
+            <property name="labelAlignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>Username:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="line_rep_user"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>Password:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="line_rep_pass">
+              <property name="echoMode">
+               <enum>QLineEdit::Password</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_10">
+              <property name="text">
+               <string>Local DS:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QComboBox" name="combo_rep_localds"/>
+            </item>
+            <item row="3" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="push_rep_hidenew">
+                <property name="text">
+                 <string>Cancel</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../icons/icons.qrc">
+                  <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="push_rep_savenew">
+                <property name="text">
+                 <string>Save</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../icons/icons.qrc">
+                  <normaloff>:/icons/black/inbox-download.svg</normaloff>:/icons/black/inbox-download.svg</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_schedule">
+      <attribute name="icon">
+       <iconset resource="../../icons/icons.qrc">
+        <normaloff>:/icons/black/calendar-date.svg</normaloff>:/icons/black/calendar-date.svg</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Schedules</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QTreeWidget" name="tree_schedule">
+         <property name="indentation">
+          <number>0</number>
+         </property>
+         <attribute name="headerDefaultSectionSize">
+          <number>130</number>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>ZPool</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Snapshots to Keep</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Snapshot Schedule</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Scrub Schedule</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QFrame" name="frame">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <property name="leftMargin">
+             <number>1</number>
+            </property>
+            <property name="topMargin">
+             <number>1</number>
+            </property>
+            <property name="rightMargin">
+             <number>1</number>
+            </property>
+            <property name="bottomMargin">
+             <number>1</number>
+            </property>
+            <item>
+             <widget class="QToolButton" name="tool_schedule_addsnap">
+              <property name="statusTip">
+               <string>Add snapshot to schedule</string>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../icons/icons.qrc">
+                <normaloff>:/icons/black/camera.svg</normaloff>:/icons/black/camera.svg</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="tool_schedule_modifysnap">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../icons/icons.qrc">
+                <normaloff>:/icons/black/preferences.svg</normaloff>:/icons/black/preferences.svg</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="tool_schedule_rmsnap">
+              <property name="statusTip">
+               <string>Remove snapshot from schedule</string>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../icons/icons.qrc">
+                <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QFrame" name="frame_2">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_12">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <property name="leftMargin">
+             <number>1</number>
+            </property>
+            <property name="topMargin">
+             <number>1</number>
+            </property>
+            <property name="rightMargin">
+             <number>1</number>
+            </property>
+            <property name="bottomMargin">
+             <number>1</number>
+            </property>
+            <item>
+             <widget class="QToolButton" name="tool_schedule_addscrub">
+              <property name="statusTip">
+               <string>Add ZFS scrub to schedule</string>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../icons/icons.qrc">
+                <normaloff>:/icons/black/pressure-reading.svg</normaloff>:/icons/black/pressure-reading.svg</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="tool_schedule_modifyscrub">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../icons/icons.qrc">
+                <normaloff>:/icons/black/preferences.svg</normaloff>:/icons/black/preferences.svg</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="tool_schedule_rmscrub">
+              <property name="statusTip">
+               <string>Remove scheduled scrub</string>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../icons/icons.qrc">
+                <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="group_schedule_snap">
+         <property name="title">
+          <string>Setup Snapshot Schedule</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_4">
+          <property name="labelAlignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="horizontalSpacing">
+           <number>3</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>3</number>
+          </property>
+          <property name="leftMargin">
+           <number>1</number>
+          </property>
+          <property name="topMargin">
+           <number>1</number>
+          </property>
+          <property name="rightMargin">
+           <number>1</number>
+          </property>
+          <property name="bottomMargin">
+           <number>1</number>
+          </property>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="spin_schedule_snapkeep">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>100000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="combo_schedule_snappool"/>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>ZPool:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>Snapshots to keep:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_14">
+            <property name="text">
+             <string>Frequency:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QComboBox" name="combo_schedule_snapfreq"/>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spin_schedule_snaphour">
+              <property name="suffix">
+               <string>:00</string>
+              </property>
+              <property name="prefix">
+               <string>@ </string>
+              </property>
+              <property name="maximum">
+               <number>23</number>
+              </property>
+              <property name="value">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <spacer name="horizontalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="push_schedule_cancelsnap">
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../icons/icons.qrc">
+                <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="push_schedule_savesnap">
+              <property name="text">
+               <string>Save</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../icons/icons.qrc">
+                <normaloff>:/icons/black/inbox-download.svg</normaloff>:/icons/black/inbox-download.svg</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="group_schedule_scrub">
+         <property name="title">
+          <string>Setup Scrub Schedule</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_5">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_15">
+            <property name="text">
+             <string>ZPool:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="combo_schedule_scrubpool"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_16">
+            <property name="text">
+             <string>Frequency:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="combo_schedule_scrubfreq"/>
+          </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QSpinBox" name="spin_schedule_scrubdate">
+              <property name="suffix">
+               <string/>
+              </property>
+              <property name="prefix">
+               <string>Date: </string>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>28</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="combo_schedule_scrubday"/>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spin_schedule_scrubhour">
+              <property name="suffix">
+               <string>:00</string>
+              </property>
+              <property name="prefix">
+               <string>@ </string>
+              </property>
+              <property name="maximum">
+               <number>23</number>
+              </property>
+              <property name="value">
+               <number>2</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_13">
+            <item>
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="push_schedule_scrubcancel">
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../icons/icons.qrc">
+                <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="push_schedule_scrubsave">
+              <property name="text">
+               <string>Save</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../icons/icons.qrc">
+                <normaloff>:/icons/black/inbox-download.svg</normaloff>:/icons/black/inbox-download.svg</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_settings">
+      <attribute name="icon">
+       <iconset resource="../../icons/icons.qrc">
+        <normaloff>:/icons/black/preferences.svg</normaloff>:/icons/black/preferences.svg</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Settings</string>
+      </attribute>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string/>
+          <string>Disk Usage Warning:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QSpinBox" name="spin_set_diskusage">
+         <property name="suffix">
+          <string> % Full</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="line_set_email"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Email:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Email Trigger:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="combo_set_emailopt">
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <item>
+          <property name="text">
+           <string>ALL</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WARN</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ERROR</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="check_set_recursive">
+         <property name="text">
+          <string>Recursive Management</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QPushButton" name="push_set_save">
+         <property name="text">
+          <string>Save Settings</string>
          </property>
          <property name="icon">
-          <iconset resource="../../../../pcbsd/src-qt5/life-preserver/lp-gui/lPreserve.qrc">
-           <normaloff>:/images/next.png</normaloff>:/images/next.png</iconset>
+          <iconset resource="../../icons/icons.qrc">
+           <normaloff>:/icons/black/inbox-download.svg</normaloff>:/icons/black/inbox-download.svg</iconset>
          </property>
         </widget>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="Line" name="line_4">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QTreeView" name="treeView_2">
-       <property name="selectionMode">
-        <enum>QAbstractItemView::ExtendedSelection</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
-        <widget class="QCheckBox" name="check_hidden_2">
-         <property name="statusTip">
-          <string>Display any hidden files/folders</string>
-         </property>
-         <property name="text">
-          <string>Show Hidden Files</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="push_restore_2">
-         <property name="statusTip">
-          <string>Restore the selected file/folder to the live system.</string>
-         </property>
-         <property name="text">
-          <string>&amp;Restore</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../../../pcbsd/src-qt5/life-preserver/lp-gui/lPreserve.qrc">
-           <normaloff>:/images/copy.png</normaloff>:/images/copy.png</iconset>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
-  </widget>
+     </widget>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources>
-  <include location="../../../../pcbsd/src-qt5/life-preserver/lp-gui/lPreserve.qrc"/>
+  <include location="../../icons/icons.qrc"/>
  </resources>
  <connections/>
 </ui>

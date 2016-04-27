@@ -10,7 +10,7 @@
 #include "pages/getPage.h"
 
 // === PUBLIC ===
-MainUI::MainUI(sysadm_client *core) : QMainWindow(), ui(new Ui::MainUI){
+MainUI::MainUI(sysadm_client *core, QString pageID) : QMainWindow(), ui(new Ui::MainUI){
   CORE = core;
   ui->setupUi(this); //load the designer form
   //Need to tinker with the toolbar a bit to get actions in the proper places
@@ -46,7 +46,10 @@ MainUI::MainUI(sysadm_client *core) : QMainWindow(), ui(new Ui::MainUI){
       CORE->openConnection();
     }
   }
-  loadPage();
+  currentPage = pageID;
+  if( CORE->isReady() ){
+    loadPage(pageID);
+  }
 }
 
 MainUI::~MainUI(){
@@ -81,7 +84,7 @@ void MainUI::InitializeUI(){
   }
   
   //Now setup the window title/icon
-  QString host = settings->value("Hosts/"+CORE->currentHost(),"").toString();
+  host = settings->value("Hosts/"+CORE->currentHost(),"").toString();
   if(host.isEmpty()){ 
     if(CORE->isLocalHost()){ host = tr("Local System"); }
     else{ host = CORE->currentHost(); }
@@ -116,6 +119,7 @@ void MainUI::loadPage(QString id){
   qDebug() << "Load Page:" << id;
   PageWidget *page = GetNewPage(id, this, CORE);
   if(page==0){ return; }
+  currentPage = id;
   //Connect Page
   connect(page, SIGNAL(HasPendingChanges()), this, SLOT(ShowSaveButton()) );
   connect(page, SIGNAL(ChangePageTitle(QString)), this, SLOT(ShowPageTitle(QString)) );
@@ -141,6 +145,7 @@ void MainUI::loadPage(QString id){
 
 void MainUI::ShowPageTitle(QString title){
   ui->actionTitle->setText(title);
+  this->setWindowTitle("SysAdm: "+title+" ("+host+")" );
 }
 
 void MainUI::ShowSaveButton(){
@@ -163,7 +168,7 @@ void MainUI::NoAuthorization(){
 
 void MainUI::Authorized(){
   qDebug() << "Got Server Authentication";
-  loadPage();
+  loadPage( currentPage );
 }
 
 void MainUI::Disconnected(){

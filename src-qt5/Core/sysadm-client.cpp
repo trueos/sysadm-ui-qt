@@ -47,6 +47,9 @@ sysadm_client::sysadm_client(){
   connectTimer = new QTimer(this);
     connectTimer->setInterval(1000); //1 second intervals
     connect(connectTimer, SIGNAL(timeout()), this, SIGNAL(clientReconnecting()) );
+  pingTimer = new QTimer(this);
+    pingTimer->setInterval(90000); //90 second intervals 
+    connect(pingTimer, SIGNAL(timeout()), this, SLOT(sendPing()) );
 }
 
 sysadm_client::~sysadm_client(){
@@ -89,7 +92,7 @@ QString sysadm_client::currentHost(){
 }
 
 bool sysadm_client::isActive(){
-  return ((SOCKET!=0) && SOCKET->isValid());	
+  return ( (SOCKET!=0) && SOCKET->isValid() );	
 }
 
 bool sysadm_client::isLocalHost(){
@@ -100,6 +103,10 @@ bool sysadm_client::needsBaseAuth(){
   return !SSLsuccess;
 }
 
+bool sysadm_client::isReady(){
+  return pingTimer->isActive();
+}
+
 bool sysadm_client::isConnecting(){
   //returns true if it is currently trying to establish a connection
   return connectTimer->isActive();
@@ -108,13 +115,8 @@ bool sysadm_client::isConnecting(){
 //Check if the sysadm server is running on the local system
 bool sysadm_client::localhostAvailable(){
   #ifdef __FreeBSD__
-  if(DEBUG){ qDebug() << "Checking for Local Host:" << SERVERPIDFILE; }
-  //Check if the local socket can connect
-  if(QFile::exists(SERVERPIDFILE)){
-    //int ret = QProcess::execute("pgrep -f \""+SERVERPIDFILE+"\"");
-    //return (ret==0 || ret>3);
+    // TODO Maybe change how we detect if socket is up
     return true;
-  }
   #endif
   return false;
 }
@@ -303,7 +305,10 @@ void sysadm_client::communicate(QList<QJsonObject> requests){
     if(BACK.contains(ID)){ BACK.remove(ID); }
     PENDING << ID;
     //Now send off the message
-    if(SOCKET->isValid()){ sendSocketMessage(requests[i]); }
+    if(SOCKET->isValid()){ 
+	sendSocketMessage(requests[i]);
+	if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
+    }
   }  
 }
 	
@@ -328,6 +333,10 @@ void sysadm_client::setupSocket(){
   connectTimer->start();
 }
 
+void sysadm_client::sendPing(){
+  communicate("sysadm_client_ping", "rpc","query","");
+}
+
 //Socket signal/slot connections
 void sysadm_client::socketConnected(){ //Signal: connected()
   if(connectTimer->isActive()){ connectTimer->stop(); }
@@ -342,6 +351,7 @@ void sysadm_client::socketConnected(){ //Signal: connected()
 void sysadm_client::socketClosed(){ //Signal: disconnected()
   qDebug() << " - Connection Closed:" << chost;
   if(connectTimer->isActive()){ connectTimer->stop(); }
+  if(pingTimer->isActive()){ pingTimer->stop(); }
   if(keepActive){ 
     //Socket closed due to timeout/server
     // Go ahead and re-open it in one minute if possible with the last-used settings/auth
@@ -397,6 +407,7 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
 	if(cuser.isEmpty()){ SSLsuccess = true; }
 	cauthkey = args.toArray().first().toString();
 	emit clientAuthorized();
+	pingTimer->start();
 	//Now automatically re-subscribe to events as needed
 	//qDebug() << "Re-subscribe to events:" << events;
 	for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }

@@ -18,6 +18,7 @@ updates_page::updates_page(QWidget *parent, sysadm_client *core) : PageWidget(pa
   connect(ui->tree_updates, SIGNAL(itemSelectionChanged()), this, SLOT(check_current_update()) );
   connect(ui->tree_updates, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(check_current_update_item(QTreeWidgetItem*)) );
   connect(ui->group_up_details, SIGNAL(toggled(bool)), this, SLOT(check_current_update()) );
+  ui->stacked_updates->setCurrentWidget(ui->page_updates); //always start on this page - has the "checking" notice
 }
 
 updates_page::~updates_page(){
@@ -66,26 +67,27 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
     if(name=="error" || !args.isObject() || !args.toObject().contains("checkupdates") ){ return; }
     QString stat = args.toObject().value("checkupdates").toObject().value("status").toString();
     ui->tree_updates->clear();
+    qDebug() << "Got update check:" << stat;
     if(stat=="noupdates"){
       ui->stacked_updates->setCurrentWidget(ui->page_stat);
       ui->label_uptodate->setVisible(true);
       ui->label_rebootrequired->setVisible(false);
-      ui->group_up_log->setVisible(false);
+      //ui->group_up_log->setVisible(false);
     }else if(stat=="rebootrequired"){
       ui->stacked_updates->setCurrentWidget(ui->page_stat);
       ui->label_uptodate->setVisible(false);
       ui->label_rebootrequired->setVisible(true);
-      ui->group_up_log->setVisible(false);
+      //ui->group_up_log->setVisible(false);
     }else if(stat=="updaterunning"){
-      ui->stacked_updates->setCurrentWidget(ui->page_stat);
-      ui->label_uptodate->setVisible(false);
+      ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
+      /*ui->label_uptodate->setVisible(false);
       ui->label_rebootrequired->setVisible(false);
-      ui->group_up_log->setVisible(true);	    
+      ui->group_up_log->setVisible(true);*/
     }else if(stat=="updatesavailable"){
       ui->stacked_updates->setCurrentWidget(ui->page_updates);
-      ui->label_uptodate->setVisible(false);
-      ui->label_rebootrequired->setVisible(false);
-      ui->group_up_log->setVisible(false);
+      //ui->label_uptodate->setVisible(false);
+      //ui->label_rebootrequired->setVisible(false);
+      //ui->group_up_log->setVisible(false);
       QStringList types = args.toObject().value("checkupdates").toObject().keys();
 	types.removeAll("status");
 	qDebug() << "Types:" << types;
@@ -162,10 +164,8 @@ void updates_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
       ui->text_up_log->setPlainText( val.toObject().value("update_log").toString() ); //text
       ui->text_up_log->moveCursor(QTextCursor::End);
       ui->text_up_log->ensureCursorVisible();
-      ui->stacked_updates->setCurrentWidget(ui->page_stat);
-      ui->label_uptodate->setVisible(false);
-      ui->label_rebootrequired->setVisible(false);
-      ui->group_up_log->setVisible(true);	   
+      qDebug() << "Got update event:" << state << val;
+      ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
     } //end sysadm/update check
   } //end dispatcher event check
 }
@@ -254,10 +254,11 @@ void updates_page::send_start_updates(){
   qDebug() << "Send update request:" << obj;
   CORE->communicate(IDTAG+"startup", "sysadm", "update",obj);	
   //Update the UI right away (so the user knows it is working)
-    ui->stacked_updates->setCurrentWidget(ui->page_stat);
-    ui->label_uptodate->setVisible(false);
-    ui->label_rebootrequired->setVisible(false);
-    ui->group_up_log->setVisible(true);
+  qDebug() << "Sending update request";
+    ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
+    //ui->label_uptodate->setVisible(false);
+    //ui->label_rebootrequired->setVisible(false);
+    //ui->group_up_log->setVisible(true);
     ui->text_up_log->clear();
 }
 

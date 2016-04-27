@@ -13,6 +13,7 @@
 #endif
 
 QHash<QString,sysadm_client*> CORES; // hostIP / core
+QHash<QString, HostMessage> MESSAGES; // "hostIP/message_type", Message Structure
 
 // === PUBLIC ===
 sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
@@ -29,18 +30,29 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
   //Setup the tray icon
   this->setIcon( QIcon(":/icons/grey/lock.svg") );
   connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayActivated()) );
+  //Setup the message menu
+  msgMenu = new QMenu(); 
+    msgMenu->setIcon( QIcon(":/icons/black/inbox.svg") );
+    QAction *act = msgMenu->addAction(QIcon(":/icons/black/trash.svg"), tr("Hide all messages"));
+      act->setWhatsThis("clearall");
+      QFont fnt = act->font(); fnt.setItalic(true);
+      act->setFont(fnt);
+    msgMenu->addSeparator();
+    connect(msgMenu, SIGNAL(triggered(QAction*)), this, SLOT(MessageTriggered(QAction*)) );
 	
   //Setup the menu
-  menu = new MenuItem();
+  menu = new MenuItem(0,"",msgMenu);
   this->setContextMenu(menu);
   connect(menu, SIGNAL(OpenConnectionManager()), this, SLOT(OpenConnectionManager()) );
   connect(menu, SIGNAL(OpenSettings()), this, SLOT(OpenSettings()) );
   connect(menu, SIGNAL(CloseApplication()),this, SLOT(CloseApplication()) );
   connect(menu, SIGNAL(OpenCore(QString)), this, SLOT(OpenCore(QString)) );
   connect(menu, SIGNAL(ShowMessage(HostMessage)), this, SLOT(ShowMessage(HostMessage)) );
+  connect(menu, SIGNAL(ClearMessage(QString, QString)), this, SLOT(ClearMessage(QString, QString)) );
   connect(menu, SIGNAL(UnlockConnections()), this, SLOT(UnlockConnections()) );
   connect(menu, SIGNAL(UpdateTrayIcon()), this, SLOT(UpdateIconPriority()) );
-  QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
+  QTimer::singleShot(10, menu, SLOT(UpdateMenu()) );
+  QTimer::singleShot(0,this, SLOT(updateMessageMenu()) );
 }
 
 sysadm_tray::~sysadm_tray(){
@@ -170,12 +182,75 @@ void sysadm_tray::UnlockConnections(){
 
 //Popup Notifications
 void sysadm_tray::ShowMessage(HostMessage msg){
-  if(showNotices){ 
-    //Default popup notification system for systray icons
-    this->showMessage(msg.host_id, msg.message, QSystemTrayIcon::Information ,1500);	  
+  bool refreshlist = true;
+  //Update the internal database of messages
+  if(MESSAGES.contains(msg.host_id+"/"+msg.message_id) ){
+    //see if this message is new or not
+    HostMessage old = MESSAGES[msg.host_id+"/"+msg.message_id];
+    if(old.message==msg.message && old.date_time > msg.date_time){ refreshlist=false; } //same hidden message - don't re-show it
+    else{ MESSAGES.insert(msg.host_id+"/"+msg.message_id, msg); }
+  }else{
+    MESSAGES.insert(msg.host_id+"/"+msg.message_id, msg);
   }
-  //Add the message to the current list/queue
-  // TO-DO
+  //Now update the user-viewable menu's
+  if(refreshlist){ QTimer::singleShot(0,this, SLOT(updateMessageMenu()) ); }
+}
+
+void sysadm_tray::ClearMessage(QString host, QString msg_id){
+  if(MESSAGES.contains(host+"/"+msg_id)){
+    MESSAGES.remove(host+"/"+msg_id);
+    QTimer::singleShot(0,this, SLOT(updateMessageMenu()) );
+  }
+}
+
+void sysadm_tray::MessageTriggered(QAction *act){
+  if(act->whatsThis()=="clearall"){
+    QStringList keys = MESSAGES.keys();
+    QDateTime cdt = QDateTime::currentDateTime();
+    QDateTime delay = cdt.addDays(1);
+    for(int i=0; i<keys.length(); i++){
+      if(MESSAGES[keys[i]].date_time < cdt){ MESSAGES[keys[i]].date_time = delay; }
+    }
+    QTimer::singleShot(0,this, SLOT(updateMessageMenu()) );
+  }else if(MESSAGES.contains(act->whatsThis())){
+    //Open the designated host and hide this message
+    QString host = MESSAGES[act->whatsThis()].host_id;
+    MESSAGES[act->whatsThis()].date_time = QDateTime::currentDateTime().addDays(1); //hide for one day if unresolved in the meantime
+    QTimer::singleShot(0,this, SLOT(updateMessageMenu()) );
+    OpenCore(host);
+  }
+}
+
+//Function to update the messageMenu
+void sysadm_tray::updateMessageMenu(){
+  QStringList keys = MESSAGES.keys();
+  QList<QAction*> acts = msgMenu->actions();
+  //First update the existing actions as needed
+  int num = 0; //for the final tally of messages which are visible
+  QDateTime cdt = QDateTime::currentDateTime();
+  for(int i=0; i<acts.length(); i++){
+    if(keys.contains(acts[i]->whatsThis()) && (MESSAGES[acts[i]->whatsThis()].date_time < cdt) ){
+      acts[i]->setText( MESSAGES[acts[i]->whatsThis()].message );
+      acts[i]->setIcon( QIcon(MESSAGES[acts[i]->whatsThis()].iconfile) );
+      num++;
+      keys.removeAll(acts[i]->whatsThis()); //already handled
+    }else if( acts[i]->whatsThis()!="clearall" && !acts[i]->whatsThis().isEmpty() ) {
+      msgMenu->removeAction(acts[i]);
+    }
+  }
+  //Now add in any new messages
+  for(int i=0; i<keys.length(); i++){
+    if(MESSAGES[keys[i]].date_time < cdt){
+      QAction *act = msgMenu->addAction( QIcon(MESSAGES[keys[i]].iconfile),MESSAGES[keys[i]].message );
+	act->setWhatsThis(keys[i]);
+	num++;
+    }
+  }
+  //Now update the main menu title to account for the new number of messages
+  QString title = tr("Messages");
+  if(num>0){ title.prepend("("+QString::number(num)+") "); }
+  msgMenu->setTitle(title);
+  msgMenu->setEnabled(num>0);
 }
 
 //Icon Updates

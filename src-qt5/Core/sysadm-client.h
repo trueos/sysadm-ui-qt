@@ -43,6 +43,7 @@ public:
 	bool isActive();
 	bool isLocalHost(); //special case, checks currentHost for the localhost definitions
 	bool needsBaseAuth(); //returns if a base user/password auth is required(always true until an SSL auth is attempted)
+	bool isReady(); //returns true if the connection is all set and ready for inputs (auth successful, etc).
 	bool isConnecting(); //returns true if it is currently trying to establish a connection
 	
 	//Check if the sysadm server is running on the local system
@@ -71,7 +72,7 @@ private:
 	bool keepActive, SSLsuccess, usedSSL;
 	int num_fail; //number of server connection failures
 	int cPriority;
-	QTimer *connectTimer;
+	QTimer *connectTimer, *pingTimer;
 
 	//Functions to do the initial socket setup
 	void performAuth(QString user="", QString pass=""); //uses cauthkey if empty inputs
@@ -94,6 +95,7 @@ public slots:
 
 private slots:
         void setupSocket(); //uses chost/cport for setup
+	void sendPing(); //Used to keep a connection active at regular intervals
 
 	//Socket signal/slot connections
 	void socketConnected(); //Signal: connected()

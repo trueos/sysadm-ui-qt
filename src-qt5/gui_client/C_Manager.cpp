@@ -11,6 +11,12 @@
 
 #include <globals.h>
 
+// OpenSSL includes
+#include <openssl/x509.h>
+#include <openssl/pem.h>
+#include <openssl/pkcs12.h>
+#include <openssl/err.h>
+
 #define EXPORTFILEDELIM "____^^^^^^^__^^^^^^^_____" //Don't care if this is unreadable - nobody should be viewing this file directly anyway
 
 extern QHash<QString,sysadm_client*> CORES; // hostIP / core
@@ -154,6 +160,85 @@ void C_Manager::saveGroupItem(QTreeWidgetItem *group){
     settings->setValue(path, conns);
 }
 
+// === SSL LIBRARY FUNCTIONS ===
+bool C_Manager::generateKeyCertBundle(QString bundlefile, QString nickname, QString email, QString passphrase){
+    RSA *rsakey=0;
+    X509 *req=0;
+    X509_NAME *subj=0;
+    EVP_PKEY *pkey=0;
+    EVP_MD *digest=0;
+	
+    //Get a "serial" number
+    int serial = 1; //temporary placeholder
+
+    // Generate the RSA key
+    rsakey = RSA_generate_key(2048, RSA_F4, NULL, NULL);
+
+    // Create evp obj to hold our rsakey
+    if (!(pkey = EVP_PKEY_new())){
+        qDebug() << "Could not create EVP object"; return false;
+    }
+    if (!(EVP_PKEY_set1_RSA(pkey, rsakey))){
+        qDebug() << "Could not assign RSA key to EVP object"; return false;
+    }
+    // create request object
+    if (!(req = X509_new())){
+        qDebug() << "Failed to create X509_REQ object"; return false;
+    }
+
+    X509_set_version(req, NID_X509);
+
+    X509_set_pubkey(req, pkey);
+
+    subj=X509_get_subject_name(req);
+
+    ASN1_INTEGER_set(X509_get_serialNumber(req),serial);
+
+    if (!X509_gmtime_adj(X509_get_notBefore(req), 0)){
+       qDebug() << "Error setting start date"; return false;
+    }
+
+    if (!X509_gmtime_adj(X509_get_notAfter(req), (long)(31536000*10))){ //10 years
+        qDebug() << "Error setting end date"; return false;
+    }
+
+    if (X509_set_subject_name(req, subj) != 1){
+        qDebug() << "Error adding subject to request"; return false;
+    }
+    
+    X509_NAME_add_entry_by_txt(subj, "C",  MBSTRING_ASC, (unsigned char *)"US", -1, -1, 0);
+    X509_NAME_add_entry_by_txt(subj, "O",  MBSTRING_ASC, (unsigned char *)(email.toLocal8Bit().data()), -1, -1, 0);
+    X509_NAME_add_entry_by_txt(subj, "CN", MBSTRING_ASC, (unsigned char *)(nickname.toLocal8Bit().data()), -1, -1, 0);
+    X509_set_issuer_name(req,subj);
+    digest = (EVP_MD *)EVP_sha1();
+    if ( 0==X509_sign(req, pkey, digest ) ){
+         qDebug() << "Error signing request"; return false;
+    }
+    
+    //PKCS12
+    PKCS12 *p12;
+      p12 = PKCS12_create(passphrase.toLocal8Bit().data(), (char*)("sysadm-client-ssl"), pkey, req, NULL, 0,0,0,0,0);
+      BIO * p12Bio = BIO_new(BIO_s_mem());
+      i2d_PKCS12_bio(p12Bio,p12);
+      BIO_free(p12Bio);
+      FILE *fp1;
+        if (!(fp1 = fopen(bundlefile.toLocal8Bit().data(), "wb"))) {
+            qDebug() << "Error writing to p12 file";
+        }
+
+        i2d_PKCS12_fp(fp1, p12);
+        fclose(fp1);
+	
+    PKCS12_free(p12);
+    X509_free(req);
+    EVP_PKEY_free(pkey);
+    RSA_free(rsakey);
+    CRYPTO_cleanup_all_ex_data();
+    ERR_free_strings();
+    ERR_remove_state(0);
+    EVP_cleanup();
+    return true;
+}
 
 // === PRIVATE SLOTS ===
 void C_Manager::changePage(QAction *act){
@@ -379,17 +464,8 @@ void C_Manager::verify_cert_inputs(){
 }
 
 void C_Manager::on_push_ssl_create_clicked(){
-  //First find the proper openssl binary
-  QString bin = "openssl";
-  #ifdef __FreeBSD__
-    //use the ports/pkg version (LibreSSL?) instead, falling back on the OS-version as needed
-    if(QFile::exists("/usr/local/bin/openssl")){ bin = "/usr/local/bin/openssl"; }
-  #endif
-  //Now generate the temporary file paths
-  QDir tempdir = QDir::temp();
-  QString keypath = tempdir.absoluteFilePath("sysadm_ssl.key");
-  QString certpath = tempdir.absoluteFilePath("sysadm_ssl.crt");
-  //Now get a user-defined passphrase
+
+  //First get a user-defined passphrase
   QString pass = QInputDialog::getText(this, tr("SSL Passphrase"), tr("Create Password"), QLineEdit::Password);
   if(pass.isEmpty()){ return; }
   QString pass2 = QInputDialog::getText(this, tr("SSL Passphrase"), tr("Retype Password"), QLineEdit::Password );
@@ -397,21 +473,10 @@ void C_Manager::on_push_ssl_create_clicked(){
     pass2 = QInputDialog::getText(this, tr("SSL Passphrase"), tr("(Did not Match) Retype Password"), QLineEdit::Password );
   }
   if(pass2.isEmpty()){ return; }
-  qDebug() << "New SSL Files:" << bin << keypath << certpath << pass;
-  //Now generate the key/crt files
-  QString subject =  "/C=US/ST=Somewhere/L=NULL/O=SysAdm-client/OU=SysAdm-client/CN="+ui->line_cert_nick->text()+"/emailAddress="+ui->line_cert_email->text();
-  bool ok = (0==QProcess::execute(bin, QStringList() << "req" << "-batch" << "-newkey" << "rsa:2048" << "-nodes" << "-keyout" << keypath << "-new" << "-x509" << "-out" << certpath << "-subj" << subject) );
-  if(!ok){ qDebug() << "[ERROR] Could not generate key/crt files"; return;}
-  //Now package them as a PKCS12 file with passphrase-encryption
-  // - need a temporary file for passing in the encryption key/phrase
-  QTemporaryFile tmpfile(tempdir.absoluteFilePath(".XXXXXXXXXXXXXXXXXXX"));
-    tmpfile.open();
-    QTextStream in(&tmpfile); in << pass; 
-    tmpfile.close();
-  qDebug() << "Temporary File:" << tmpfile.fileName();
-  ok = (0==QProcess::execute(bin, QStringList() << "pkcs12" << "-inkey" << keypath <<"-in" << certpath << "-export" << "-passout" << "file:"+tmpfile.fileName() << "-out" << SSLFile() ) );
-  QFile::remove(keypath); QFile::remove(certpath);
-  if(!ok){ qDebug() << "Could Not package key/cert files"; return;}
+
+  //Now generate the key/crt file bundle
+  bool ok = generateKeyCertBundle(SSLFile(), ui->line_cert_nick->text(), ui->line_cert_email->text(), pass);
+  if(!ok){ qDebug() << "Could not create/package SSL files"; return;}
   else{ LoadSSLFile(pass); }//go ahead and load the package into memory for instant usage
   emit SettingsChanged();
   

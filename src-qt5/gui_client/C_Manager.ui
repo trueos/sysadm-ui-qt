@@ -426,7 +426,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/black/globe.svg</normaloff>:/icons/black/globe.svg</iconset>
    </property>
    <property name="text">
-    <string/>
+    <string>Connections</string>
    </property>
    <property name="toolTip">
     <string>View Connections</string>
@@ -444,10 +444,10 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/black/lock.svg</normaloff>:/icons/black/lock.svg</iconset>
    </property>
    <property name="text">
-    <string/>
+    <string>Setup SSL</string>
    </property>
    <property name="iconText">
-    <string/>
+    <string>Setup SSL</string>
    </property>
    <property name="toolTip">
     <string>Setup SSL</string>

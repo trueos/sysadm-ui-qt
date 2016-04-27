@@ -1,4 +1,9 @@
 <RCC>
+  <qresource prefix="/icons">
+  <file>custom/appcafe.png</file>
+  <file>custom/pcbsd-banner.png</file>
+  <file>custom/lifepreserver.png</file>
+  </qresource>
   <qresource prefix="/icons/black">
     <file alias="home.svg">freecns-cumulus/Black/001 Home.svg</file>
     <file alias="user.svg">freecns-cumulus/Black/002 User.svg</file>

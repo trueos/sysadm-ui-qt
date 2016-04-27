@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+StartupNotify=true
+Comment=PC-BSD Control Panel
+Categories=Utility;
+Name=Control Panel
+TryExec=sysadm-client
+Exec=sysadm-client -localhost
+Icon=pcbsd
