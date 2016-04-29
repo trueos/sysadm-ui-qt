@@ -30,7 +30,7 @@ QToolButton {
 }
 
 QTabWidget#tabWidget QTabBar {
-  color: #black;
+  color: black;
   border: 1px solid #444;
   background-color: #bccee8;
   border-style: outset;
@@ -52,7 +52,7 @@ QAbstractButton {
   background: #bccee8;
   padding: 5px;
   /*margin: 7px;*/
-  }
+}
 
 QLineEdit {
   border-width: 1px;
