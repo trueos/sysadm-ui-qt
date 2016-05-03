@@ -442,6 +442,15 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
       }
       emit NewEvent(SYSSTATE, obj.value("args")); 
     }
+  }else if(namesp=="rpc" && name=="identify"){
+    QJsonObject obj;
+          obj.insert("name","response");
+          obj.insert("namespace",namesp);
+          obj.insert("id",ID); //re-use this special ID
+          QJsonObject args;
+          args.insert("type", "client");
+          obj.insert("args",args);
+          this->communicate(obj);
   }else{
     //Now save this message into the cache for use later (if not an auth reply)
     if(!ID.isEmpty()){ 
