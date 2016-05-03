@@ -32,7 +32,7 @@ void ssl_auth_page::startPage(){
 void ssl_auth_page::requestList(){
   QJsonObject obj;
     obj.insert("action","list_ssl_certs");
-  CORE->communicate("client_ssl_page_list", "sysadm", "settings", obj);
+  CORE->communicate("client_ssl_page_list", "rpc", "settings", obj);
 }
 
 // === PRIVATE SLOTS ===
@@ -103,5 +103,5 @@ void ssl_auth_page::on_push_revoke_clicked(){
     obj.insert("action","revoke_ssl_cert");
     obj.insert("user",user);
     obj.insert("pub_key",pub_key);
-  CORE->communicate("client_ssl_page_revoke","sysadm","settings",obj);
+  CORE->communicate("client_ssl_page_revoke","rpc","settings",obj);
 }
