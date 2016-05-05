@@ -242,10 +242,26 @@ void sysadm_client::sendSocketMessage(QJsonObject msg){
 }
 
 //Simplification functions
-QJsonObject sysadm_client::convertServerReply(QString reply){
+message_in sysadm_client::convertServerReply(QString reply){
+  message_in msg;
+  if(!reply.startsWith("{")){
+    //Bridge routed message
+    int index = reply.indexOf("\n");
+    msg.from_bridge_id = reply.left(index);
+    reply = reply.remove(0,index+1);
+  }
+  if(!reply.startsWith("{") && !msg.from_bridge_id.isEmpty()){
+    //encrypted message through bridge - decrypt it
+    // TO-DO
+  }
   QJsonDocument doc = QJsonDocument::fromJson(reply.toUtf8());
-  if(doc.isObject()){ return doc.object(); }
-  else{ return QJsonObject(); }
+  if(doc.isObject()){ 
+    msg.id = doc.object().value("id").toString();
+    msg.namesp = doc.object().value("namespace").toString();
+    msg.name = doc.object().value("name").toString();
+    msg.args = doc.object().value("args");
+  }
+  return msg; 
 }
 
 QString sysadm_client::SSL_Encode_String(QString str){
@@ -312,6 +328,10 @@ void sysadm_client::communicate(QList<QJsonObject> requests){
   }  
 }
 	
+void sysadm_client::communicate_bridge(QString bridge_host_id, QJsonObject obj){
+
+}
+
 // === PRIVATE SLOTS ===
 void sysadm_client::setupSocket(){
   //qDebug() << "Setup Socket:" << SOCKET->isValid();
@@ -389,75 +409,90 @@ void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: er
 // - Main message input parsing
 void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
   if(DEBUG){ qDebug() << "New Reply From Server:" << msg; }
-  //Convert this into a JSON object
-  QJsonObject obj = convertServerReply(msg);
-  QString ID = obj.value("id").toString();
-  QString namesp = obj.value("namespace").toString();
-  QString name = obj.value("name").toString();
-  //Still need to add some parsing to the return message
-  if(ID=="sysadm-client-auth-auto"){
+  message_in IN = convertServerReply(msg);
+  if(!handleMessageInternally(IN)){
+    //Now save this message into the cache for use later (if not an auth reply)
+    if(!IN.id.isEmpty()){ 
+      PENDING.removeAll(IN.id);
+      //BACK.insert(IN.id, IN);
+    }
+    emit newReply(IN.id, IN.name, IN.namesp, IN.args);
+  }
+}
+bool sysadm_client::handleMessageInternally(message_in msg){
+  //First check to see if this is something which should be handled internally
+  if(msg.name=="response" && !PENDING.contains(msg.id) && msg.id!="sysadm-client-auth-auto"){ return true; } //do nothing - might be an injected/fake response
+  if(msg.id == "sysadm-client-event-auto"){ return true; } //do nothing - automated response
+  //HANDLE AUTH SYSTEMS
+  QJsonObject reply;
+  if(msg.id=="sysadm-client-auth-auto"){
     //Reply to automated auth system
-    if(name=="error"){
+    if(msg.name=="error"){
       closeConnection();
       emit clientUnauthorized();
     }else{
-      QJsonValue args = obj.value("args");
-      if(args.isArray()){ 
+      if(msg.args.isArray()){ 
 	//Successful authorization
 	if(cuser.isEmpty()){ SSLsuccess = true; }
-	cauthkey = args.toArray().first().toString();
+	cauthkey = msg.args.toArray().first().toString();
 	emit clientAuthorized();
 	pingTimer->start();
 	//Now automatically re-subscribe to events as needed
 	//qDebug() << "Re-subscribe to events:" << events;
 	for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }
-      }else if(args.isObject()){
+      }else if(msg.args.isObject()){
         //SSL Auth Stage 2
-        QString randomkey = args.toObject().value("test_string").toString();
+        QString randomkey = msg.args.toObject().value("test_string").toString();
         if(!randomkey.isEmpty()){
-          QJsonObject obj;
-          obj.insert("name","auth_ssl");
-          obj.insert("namespace","rpc");
-          obj.insert("id",ID); //re-use this special ID
+          reply.insert("name","auth_ssl");
+          reply.insert("namespace","rpc");
           QJsonObject args;
           args.insert("encrypted_string", SSL_Encode_String(randomkey));
-          obj.insert("args",args);
-          this->communicate(obj);
+          reply.insert("args",args);
         }
+      }else{
+        return false; //unhandled
       }
     }
-  }else if(ID=="sysadm-client-event-auto"){
-    //Reply to automated event subscription - don't need to save this
-  }else if(namesp=="events"){
+
+  }else if(msg.namesp=="events"){
     //Event notification - not tied to any particular request
-    if(name=="dispatcher"){ emit NewEvent(DISPATCHER, obj.value("args")); }
-    else if(name=="life-preserver"){ emit NewEvent(LIFEPRESERVER, obj.value("args")); }
-    else if(name=="system-state"){ 
-      QString pri = obj.value("args").toObject().value("priority").toString();
+    if(msg.name=="dispatcher"){ emit NewEvent(DISPATCHER, msg.args); }
+    else if(msg.name=="life-preserver"){ emit NewEvent(LIFEPRESERVER, msg.args); }
+    else if(msg.name=="system-state"){ 
+      QString pri = msg.args.toObject().value("priority").toString();
       int priority = pri.section("-",0,0).simplified().toInt();
       //qDebug() << "Got System State Event:" << priority << "Formerly:" << cPriority;
       if(cPriority!=priority){ 
 	cPriority = priority;
 	emit statePriorityChanged(cPriority); 
       }
-      emit NewEvent(SYSSTATE, obj.value("args")); 
+      emit NewEvent(SYSSTATE, msg.args); 
     }
-  }else if(namesp=="rpc" && name=="identify"){
-    QJsonObject obj;
-          obj.insert("name","response");
-          obj.insert("namespace",namesp);
-          obj.insert("id",ID); //re-use this special ID
+  }else if(msg.namesp=="rpc" && msg.name=="identify"){
           QJsonObject args;
           args.insert("type", "client");
-          obj.insert("args",args);
-          this->communicate(obj);
+          reply.insert("args",args);
+  }else if(msg.namesp=="rpc" && msg.name=="settings"){
+    if(msg.args.isObject() && msg.args.toObject().value("action").toString()=="list_ssl_checksums"){
+      QJsonObject args;
+        QJsonArray arr;
+        QCryptographicHash chash(QCryptographicHash::Md5);
+        chash.addData( SSL_cfg.localCertificate().publicKey().toPem() );
+        arr << QString(chash.result());
+        args.insert("md5_keys",arr);
+      reply.insert("args",args);
+    }else{ return false; }
   }else{
-    //Now save this message into the cache for use later (if not an auth reply)
-    if(!ID.isEmpty()){ 
-      PENDING.removeAll(ID);
-      BACK.insert(ID, obj);
-    }
-    emit newReply(ID, name, namesp, obj.value("args"));
+    return false; //not handled internally
   }
+  //Send any reply if needed
+  if(!reply.isEmpty()){
+    if(!reply.contains("id")){ reply.insert("id",msg.id); } //re-use this special ID if necessary
+    if(!reply.contains("name")){ reply.insert("name","response"); }
+    if(!reply.contains("namespace")){ reply.insert("namespace",msg.namesp); }
+    if(msg.from_bridge_id.isEmpty()){ this->communicate(reply); }
+    else{ this->communicate_bridge(msg.from_bridge_id, reply); }
+  }
+  return true;
 }
-	

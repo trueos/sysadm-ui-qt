@@ -21,8 +21,16 @@
 //NOTE: The default port will be used unless the host IP has ":<port>" appended on the end
 //NOTE-2: The host IP can be either a number (127.0.0.1) or a URL address-only  (mysystem.net)
 #define WSPORTDEFAULT 12150
+#define BRIDGEPORTDEFAULT 12149
+
 //Number of automatic re-connects to try before failing out
 #define FAIL_MAX 10
+
+struct message_in{
+  QString from_bridge_id;
+  QString name, namesp, id;
+  QJsonValue args;
+};
 
 class sysadm_client : public QObject{
 	Q_OBJECT
@@ -83,7 +91,7 @@ private:
 	void sendSocketMessage(QJsonObject msg);
 
 	//Simplification functions
-	QJsonObject convertServerReply(QString reply);
+	message_in convertServerReply(QString reply);
 	QString SSL_Encode_String(QString str);
 
 public slots:
@@ -92,6 +100,7 @@ public slots:
 	void communicate(QString ID, QString namesp, QString name, QJsonValue args);
 	void communicate(QJsonObject);
 	void communicate(QList<QJsonObject>);
+	void communicate_bridge(QString bridge_host_id, QJsonObject);
 
 private slots:
         void setupSocket(); //uses chost/cport for setup
@@ -106,7 +115,8 @@ private slots:
 
 	// - Main message input parsing
 	void socketMessage(QString); //Signal: textMessageReceived()
-	
+	bool handleMessageInternally(message_in);
+
 signals:
 	void clientConnected(); //Stage 1 - host address is valid
 	void clientAuthorized(); //Stage 2 - user is authorized to continue
