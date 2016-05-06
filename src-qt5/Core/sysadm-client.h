@@ -114,8 +114,8 @@ private slots:
 	//void socketProxyAuthRequired(const QNetworkProxy &proxy, QAuthenticator *auth); //Signal: proxyAuthenticationRequired()
 
 	// - Main message input parsing
-	void socketMessage(QString); //Signal: textMessageReceived()
-	bool handleMessageInternally(message_in);
+	void socketMessage(QString msg); //Signal: textMessageReceived()
+	bool handleMessageInternally(message_in msg);
 
 signals:
 	void clientConnected(); //Stage 1 - host address is valid

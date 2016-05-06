@@ -409,14 +409,14 @@ void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: er
 // - Main message input parsing
 void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
   if(DEBUG){ qDebug() << "New Reply From Server:" << msg; }
-  message_in IN = convertServerReply(msg);
-  if(!handleMessageInternally(IN)){
+  message_in msg_in = convertServerReply(msg);
+  if(!handleMessageInternally(msg_in)){
     //Now save this message into the cache for use later (if not an auth reply)
-    if(!IN.id.isEmpty()){ 
-      PENDING.removeAll(IN.id);
-      //BACK.insert(IN.id, IN);
+    if(!msg_in.id.isEmpty()){ 
+      PENDING.removeAll(msg_in.id);
+      //BACK.insert(msg_in.id, msg_in);
     }
-    emit newReply(IN.id, IN.name, IN.namesp, IN.args);
+    emit newReply(msg_in.id, msg_in.name, msg_in.namesp, msg_in.args);
   }
 }
 bool sysadm_client::handleMessageInternally(message_in msg){
