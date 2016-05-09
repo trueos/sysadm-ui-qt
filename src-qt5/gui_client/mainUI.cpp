@@ -141,6 +141,7 @@ void MainUI::loadPage(QString id){
   page->startPage();
   //qDebug() << " - Give Page Focus";
   page->setFocus();
+  this->showNormal();
 }
 
 void MainUI::ShowPageTitle(QString title){

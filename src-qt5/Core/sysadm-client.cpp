@@ -115,13 +115,13 @@ bool sysadm_client::isConnecting(){
 //Check if the sysadm server is running on the local system
 bool sysadm_client::localhostAvailable(){
   #ifdef __FreeBSD__
-    // TODO Maybe change how we detect if socket is up
-    QProcess P;
+    /*QProcess P;
     P.start("sockstat -l46 -P tcp -p "+QString::number(WSPORTDEFAULT) );
     P.waitForFinished();
     if( 0 == P.exitCode() ){
       if( QString(P.readAllStandardOutput()).contains(QString::number(WSPORTDEFAULT)) ){ return true; }
-    }
+    }*/
+    return QFile::exists("/usr/local/bin/sysadm-binary"); //server available
   #endif
   return false;
 }

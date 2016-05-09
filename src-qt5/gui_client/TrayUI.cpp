@@ -159,14 +159,15 @@ void sysadm_tray::OpenCore(QString host){
   //See if a window for this host is already open and use that
   for(int i=0; i<CLIENTS.length(); i++){
     if(CLIENTS[i]->currentCore()->currentHost()==host){
-      CLIENTS[i]->showNormal();
+       if(CLIENTS[i]->currentCore()->isReady()){  CLIENTS[i]->showNormal(); }
       return;
     }
   }
   if(getCore(host)->isConnecting()){ return; } //wait - still trying to connect
   //Open a new window for this host
-  MainUI *tmp = new MainUI(getCore(host));
-  tmp->showNormal();
+  sysadm_client *core = getCore(host);
+  MainUI *tmp = new MainUI(core);
+  if(core->isReady()){  tmp->showNormal(); }
   connect(tmp, SIGNAL(ClientClosed(MainUI*)), this, SLOT(ClientClosed(MainUI*)) );
   CLIENTS << tmp;	
 }
