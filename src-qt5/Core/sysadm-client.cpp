@@ -116,7 +116,12 @@ bool sysadm_client::isConnecting(){
 bool sysadm_client::localhostAvailable(){
   #ifdef __FreeBSD__
     // TODO Maybe change how we detect if socket is up
-    return true;
+    QProcess P;
+    P.start("sockstat -l46 -P tcp -p "+QString::number(WSPORTDEFAULT) );
+    P.waitForFinished();
+    if( 0 == P.exitCode() ){
+      if( QString(P.readAllStandardOutput()).contains(QString::number(WSPORTDEFAULT)) ){ return true; }
+    }
   #endif
   return false;
 }
