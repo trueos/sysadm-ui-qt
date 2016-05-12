@@ -63,7 +63,6 @@ QToolButton#tool_repo_back:hover{
 /* === TREE WIDGET === */
 QTreeWidget {
   outline: none;
-  padding: 7px;
   border-style: hidden;
   background: white; 
   selection-background-color: transparent;
@@ -75,18 +74,16 @@ QTreeWidget::item{
   margin-top: 3px;
   margin-bottom: 3px;
   padding:3px 3px 3px 3px;
-  border: 1px solid transparent;
+  border: 1px solid inset;
   background-color: #f2f2f2;
-  border-color: #e6e6e6;
-  border-radius: 6px;
+  border-color: darkgrey;
 }
 
 QTreeWidget::item:hover {
   background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
 	stop: 0 #FFFFFF, stop: 0.4 #e6e6e6,
 	stop: 0.5 #e6e6e6, stop: 1.0 #c8c8c8);
-  border-radius: 6px;
-  border-color: #e6e6e6;
+  border-color: black;
 }
 
 QTreeWidget::indicator:checked{
@@ -105,7 +102,16 @@ QTreeWidget::item:selected{
   background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
 	stop: 0 #FFFFFF, stop: 0.4 #e6e6e6,
 	stop: 0.5 #e6e6e6, stop: 1.0 #CFCFCF);
-  border-radius: 6px;
+}
+
+QTreeWidget#systemtree{
+  padding: 6px;
+}
+
+QTreeWidget#systemtree::item{
+  border: 1px solid transparent;
+  border-color: darkgrey;
+  border-radius: 3px;
 }
 
 /* === OTHER RANDOM WIDGETS === */
