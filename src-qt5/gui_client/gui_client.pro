@@ -19,8 +19,8 @@ INSTALLS += target
 freebsd-*{
   #Install the XDG registration files
   xdg.files=extras/sysadm-client.desktop \
-	extras/appcafe.desktop \
-	extras/pccontrol.desktop
+	extras/appcafe.desktop
+#	extras/pccontrol.desktop
   xdg.path=/usr/local/share/applications
   
   xdg_auto.files=extras/sysadm-client-auto.desktop
@@ -64,5 +64,4 @@ FORMS += mainUI.ui \
 
 include(../Core/core.pri)
 include(pages/pages.pri)
-
 
