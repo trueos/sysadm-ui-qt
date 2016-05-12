@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>459</width>
-    <height>361</height>
+    <width>461</width>
+    <height>449</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -561,6 +561,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="tool_schedule_modifysnap">
+              <property name="statusTip">
+               <string>Modify the selected snapshot schedule</string>
+              </property>
               <property name="text">
                <string>...</string>
               </property>
@@ -640,6 +643,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="tool_schedule_modifyscrub">
+              <property name="statusTip">
+               <string>Modify the selected scrub schedule</string>
+              </property>
               <property name="text">
                <string>...</string>
               </property>
