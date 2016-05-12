@@ -695,6 +695,10 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
     repos.removeAll("");
     ui->combo_repo->clear();
     ui->combo_repo->addItems(repos);
+    if(repos.length()>1){
+      //Make sure the "base" repo is not selected by default (almost no packages)
+      if(repos[0].contains("base")){ ui->combo_repo->setCurrentIndex(1); }
+    }
     ui->combo_repo->setWhatsThis(ui->combo_repo->currentText()); //save this for later checks
     send_list_cats(ui->combo_repo->currentText());
     //Now kick off loading the home page data

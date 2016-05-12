@@ -224,6 +224,6 @@ void pkg_page::GenerateCategoryMenu(QMenu *menu, QStringList cats){
 	tmpA->setWhatsThis(x11[i].section("::::",1,1));
     }
   }
-  
+  menu->setEnabled(!menu->isEmpty());
 	
 }
