@@ -696,9 +696,10 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
     ui->combo_repo->clear();
     ui->combo_repo->addItems(repos);
     if(repos.length()>1){
-      //Make sure the "base" repo is not selected by default (almost no packages)
+      //Make sure the "base" repo is not selected by default (almost no packages - not the "normal" repo)
       if(repos[0].contains("base")){ ui->combo_repo->setCurrentIndex(1); }
     }
+    ui->combo_repo->addItem("local"); //the local repo is always available (installed pkgs);
     ui->combo_repo->setWhatsThis(ui->combo_repo->currentText()); //save this for later checks
     send_list_cats(ui->combo_repo->currentText());
     //Now kick off loading the home page data
@@ -790,8 +791,8 @@ void pkg_page::update_local_viewclean(bool checked){
 void pkg_page::goto_browser_from_local(QTreeWidgetItem *it){
   if(ui->tabWidget->currentWidget()!=ui->tab_local || ui->tree_local->indexOfTopLevelItem(it)<0 ){ return; } //stray signal (changing items around?) - ignore it
   QString origin = it->whatsThis(0);
-  //QString repo = it->whatsThis(2);
-  //if(repo.isEmpty()){ repo = "local"; }
+  QString repo = it->whatsThis(2);
+  if(repo.isEmpty()){ repo = "local"; }
   send_repo_app_info(origin, "local");
   ui->tabWidget->setCurrentWidget(ui->tab_repo);
 }
@@ -1136,7 +1137,7 @@ void pkg_page::send_start_browse(QString cat){
   QJsonObject obj;
     obj.insert("action","pkg_info");
     obj.insert("repo",ui->combo_repo->currentText());
-    obj.insert("category", cat);
+    if(cat!="all"){ obj.insert("category", cat); }
   CORE->communicate(TAG+"list_browse", "sysadm", "pkg",obj);
   //qDebug() << " - Sent request:" << obj;
 }
