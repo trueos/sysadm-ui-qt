@@ -11,16 +11,22 @@ QGroupBox {
 QGroupBox::title{
   subcontrol-origin: margin;
   background: transparent;
-  border-color: transparent;
+  border-color: gray;
+}
+
+/* === Side Tabs ===  */
+
+QTabWidget {
+  color: black;
+  background-color: #ebebeb;
 }
 
 /* === BUTTONS ===  */
 QAbstractButton {
   padding: 5px;
-  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-	stop: 0 #FFFFFF, stop: 0.4 #e6e6e6,
-	stop: 0.5 #c8c8c8, stop: 1.0 #c8c8c8);
-  border: 1px solid darkgrey;
+  background-color: #F5F5F5;
+  border: 1px solid transparent;
+  border-color: #A3A3A3;
   border-radius: 3px;
 }
 QAbstractButton:!enabled{
@@ -29,24 +35,29 @@ QAbstractButton:!enabled{
 QAbstractButton:enabled{
   color:black;
 }
-QAbstractButton:checked{
-  background: gray;
-  border-color: transparent;
-}
-QAbstractButton:checked:hover{
-  background: gray;
-  border-color: black;
-}
 QAbstractButton:pressed{
   background: darkgrey;
 }
 QAbstractButton:hover{
-  border-color: black;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+	stop: 0 #FFFFFF, stop: 0.4 #ebebeb,
+	stop: 0.5 #e6e6e6, stop: 1.0 #CFCFCF);
+  alternate-background-color: #ebebeb;
 }
 
-QAbstractButton:flat, QToolButton{
-  border-color: transparent;
-  background: transparent;
+QAbstractButton:flat{
+  background: #e6e6e6;
+}
+
+/* === SPECIFIC BUTTONS === */
+
+QToolButton#tool_repo_back{
+  background-color: #e6e6e6;
+  min-width: 76px;
+}
+
+QToolButton#tool_repo_back:hover{
+  background-color: darkgrey;
 }
 
 /* === TREE WIDGET === */
@@ -54,7 +65,7 @@ QTreeWidget {
   outline: none;
   padding: 7px;
   border-style: hidden;
-  background: transparent; 
+  background: white; 
   selection-background-color: transparent;
   selection-color: black;
   show-decoration-selected: 0;
@@ -65,25 +76,41 @@ QTreeWidget::item{
   margin-bottom: 3px;
   padding:3px 3px 3px 3px;
   border: 1px solid transparent;
+  background-color: #f2f2f2;
+  border-color: #e6e6e6;
+  border-radius: 6px;
 }
 
-QTreeWidget::item:hover, QAbstractButton:hover {
+QTreeWidget::item:hover {
   background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
 	stop: 0 #FFFFFF, stop: 0.4 #e6e6e6,
 	stop: 0.5 #e6e6e6, stop: 1.0 #c8c8c8);
+  border-radius: 6px;
+  border-color: #e6e6e6;
+}
+
+QTreeWidget::indicator:checked{
+  background-color: darkgrey;
+  border-color: darkgrey;
+  border: 1px solid;
+}
+QTreeWidget::indicator:!checked{
+  background-color: white;
+  border-color: darkgrey;
+  border: 1px solid;
 }
 
 QTreeWidget::item:selected{
-  border-top-color: black;
-  border-bottom-color: black;
+  border-color: #a2a2a2;
   background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
 	stop: 0 #FFFFFF, stop: 0.4 #e6e6e6,
 	stop: 0.5 #e6e6e6, stop: 1.0 #CFCFCF);
+  border-radius: 6px;
 }
 
 /* === OTHER RANDOM WIDGETS === */
 QMenuBar{
-  background: transparent;
+  background: e6e6e6;
   color: black;
 }
 /*QMenuBar::item{
@@ -98,7 +125,7 @@ QStatusBar {
   color: black;
 }
 QMainWindow{
-  background: white;
+  background: #e6e6e6;
 }
 QLineEdit {
   border-width: 1px;
