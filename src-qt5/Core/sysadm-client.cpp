@@ -22,9 +22,18 @@
 #include <openssl/bio.h>
 #include <openssl/err.h>
 
-#define SERVERPIDFILE QString("/var/run/sysadm.pid")
 #define LOCALHOST QString("127.0.0.1")
 #define DEBUG 0
+
+//==================================
+// Note about connection flow:
+//==================================
+// 1) Attempt to connect
+// 2) On connect, request system to identify itself
+// 3) If system identifies as a server or bridge, start authentication
+// 4) If auth successful, announce the connection is ready
+// For any error in these steps, the connection will be closed automatically.
+//==================================
 
 extern QSettings *settings;
 //Unencrypted SSL objects (after loading them by user passphrase)
@@ -40,7 +49,7 @@ sysadm_client::sysadm_client(){
     //Old connect syntax for the "error" signal (special note about issues in the docs)
     connect(SOCKET, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)) );
     connect(SOCKET, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(socketSslErrors(const QList<QSslError>&)) );
-  keepActive=SSLsuccess=usedSSL=false; //not setup yet
+  keepActive=SSLsuccess=usedSSL=isbridge=false; //not setup yet
   events << SYSSTATE; //always pre-register for this type of event
   cPriority = -1;
   //Timer for events while possibly attempting a connection for 30s->1minute
@@ -110,6 +119,10 @@ bool sysadm_client::isReady(){
 bool sysadm_client::isConnecting(){
   //returns true if it is currently trying to establish a connection
   return connectTimer->isActive();
+}
+
+bool sysadm_client::isBridge(){
+  return isbridge;
 }
 
 //Check if the sysadm server is running on the local system
@@ -194,7 +207,7 @@ void sysadm_client::performAuth(QString user, QString pass){
   obj.insert("id","sysadm-client-auth-auto");
   usedSSL = false;
   bool noauth = false;
-  if(user.isEmpty()){
+  if(user.isEmpty() || isbridge){
     if(cauthkey.isEmpty()){
       //SSL Authentication (Stage 1)
       usedSSL = true;
@@ -365,18 +378,21 @@ void sysadm_client::sendPing(){
 //Socket signal/slot connections
 void sysadm_client::socketConnected(){ //Signal: connected()
   if(connectTimer->isActive()){ connectTimer->stop(); }
-  keepActive = true; //got a valid connection - try to keep this open automatically unless the user closes it
-  emit clientConnected();
-  performAuth(cuser, cpass);
-  cpass.clear(); //just to ensure no trace left in memory
+  //keepActive = true; //got a valid connection - try to keep this open automatically unless the user closes it
+  //emit clientConnected();
+  communicate("sysadm_client_identify","rpc","identify",""); //ask the other system to identify itself
+  //performAuth(cuser, cpass);
+  //cpass.clear(); //just to ensure no trace left in memory
   //Ensure SSL connection to non-localhost (only user needed for localhost)
-  if(chost!=LOCALHOST && !chost.startsWith(LOCALHOST+":") ){ cuser.clear(); }
+  //if(chost!=LOCALHOST && !chost.startsWith(LOCALHOST+":") ){ cuser.clear(); }
 }
 
 void sysadm_client::socketClosed(){ //Signal: disconnected()
   qDebug() << " - Connection Closed:" << chost;
   if(connectTimer->isActive()){ connectTimer->stop(); }
   if(pingTimer->isActive()){ pingTimer->stop(); }
+  isbridge = false; //always reset this flag
+  BRIDGE.clear();
   if(keepActive){ 
     //Socket closed due to timeout/server
     // Go ahead and re-open it in one minute if possible with the last-used settings/auth
@@ -430,7 +446,24 @@ bool sysadm_client::handleMessageInternally(message_in msg){
   if(msg.id == "sysadm-client-event-auto"){ return true; } //do nothing - automated response
   //HANDLE AUTH SYSTEMS
   QJsonObject reply;
-  if(msg.id=="sysadm-client-auth-auto"){
+  if(msg.id=="sysadm_client_identify"){
+    QString type = msg.args.toObject().value("type").toString();
+    bool startauth = false;
+    if(type=="bridge"){ isbridge = true; startauth = true; }
+    else if(type=="server"){ isbridge = false; startauth = true; }
+    else{  
+      qDebug() << "Unknown system type:" << type <<"\nClosing Connection..."; 
+      this->closeConnection();  //unknown type of system - disconnect now
+    }
+    if(startauth){
+      keepActive = true; //got a valid connection - try to keep this open automatically unless the user closes it
+      emit clientConnected();
+      performAuth(cuser, cpass);
+      cpass.clear(); //just to ensure no trace left in memory
+      //Ensure SSL connection to non-localhost (only user needed for localhost)
+      if(chost!=LOCALHOST && !chost.startsWith(LOCALHOST+":") ){ cuser.clear(); }
+    }
+  }else if(msg.id=="sysadm-client-auth-auto"){
     //Reply to automated auth system
     if(msg.name=="error"){
       closeConnection();
@@ -473,6 +506,24 @@ bool sysadm_client::handleMessageInternally(message_in msg){
 	emit statePriorityChanged(cPriority); 
       }
       emit NewEvent(SYSSTATE, msg.args); 
+    }else if(isbridge && msg.name=="bridge"){
+      QJsonArray conns = msg.args.toObject().value("available_connections").toArray();
+      QStringList avail;
+      for(int i=0; i<conns.count(); i++){
+        QString conn = conns[i].toString();
+        if(conn.isEmpty()){ continue; }
+        avail << conn;
+        //Now add the connection to the internal DB if needed
+        if(!BRIDGE.contains(conn)){
+          BRIDGE.insert(conn, bridge_data());
+        }
+      }
+      //Now go through and clean out any old bridge data (from disconnections)
+      QStringList curr = BRIDGE.keys();
+      for(int i=0; i<curr.length(); i++){
+        if(!avail.contains(curr[i])){ BRIDGE.remove(curr[i]); }
+      }
+      emit bridgeConnectionsChanged(avail);
     }
   }else if(msg.namesp=="rpc" && msg.name=="identify"){
           QJsonObject args;

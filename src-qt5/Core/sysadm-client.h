@@ -32,11 +32,18 @@ struct message_in{
   QJsonValue args;
 };
 
+struct bridge_data{
+  QString enc_key; //current encryption key to use
+  QString auth_tok; //current authentication token
+};
+
 class sysadm_client : public QObject{
 	Q_OBJECT
 public:
 	enum EVENT_TYPE{ DISPATCHER, LIFEPRESERVER, SYSSTATE};
 	
+
+
 	sysadm_client();
 	~sysadm_client();
 
@@ -54,6 +61,10 @@ public:
 	bool isReady(); //returns true if the connection is all set and ready for inputs (auth successful, etc).
 	bool isConnecting(); //returns true if it is currently trying to establish a connection
 	
+	//Bridged Connection Functions
+	bool isBridge();
+	QStringList bridgeConnections(); //list the known connections through the bridge	
+
 	//Check if the sysadm server is running on the local system
 	static bool localhostAvailable();
 
@@ -80,6 +91,8 @@ private:
 	bool keepActive, SSLsuccess, usedSSL;
 	int num_fail; //number of server connection failures
 	int cPriority;
+	bool isbridge;
+	QHash<QString, bridge_data> BRIDGE;
 	QTimer *connectTimer, *pingTimer;
 
 	//Functions to do the initial socket setup
@@ -123,6 +136,7 @@ signals:
 	void clientReconnecting(); //emitted periodically while attempting to establish a connection to the server
 	void clientDisconnected(); //Only emitted if the client could not automatically reconnect to the server
 	void clientUnauthorized(); //Only emitted if the user needs to re-authenticate with the server
+	void bridgeConnectionsChanged(QStringList); //list of server connections now available
 	void newReply(QString ID, QString namesp, QString name, QJsonValue args);
 	void NewEvent(sysadm_client::EVENT_TYPE, QJsonValue);
 	void statePriorityChanged(int);
