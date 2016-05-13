@@ -63,6 +63,7 @@ pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, co
   connect(ui->tool_app_prevss, SIGNAL(clicked()), this, SLOT(browser_prev_ss()) );
   connect(ui->tool_app_nextss, SIGNAL(clicked()), this, SLOT(browser_next_ss()) );
   connect(ui->tool_app_lastss, SIGNAL(clicked()), this, SLOT(browser_last_ss()) );
+  connect(ui->tree_app_details, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(browser_treeitem_activated(QTreeWidgetItem*)) );
   connect(ui->line_repo_search, SIGNAL(returnPressed()), this, SLOT(send_start_search()) );
   connect(ui->tool_repo_search, SIGNAL(clicked()), this, SLOT(send_start_search()) );
   connect(ui->tool_repo_back, SIGNAL(clicked()), this, SLOT(browser_go_back()) );
@@ -314,7 +315,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
   if(origin.isEmpty()){ return; }
   ui->page_pkg->setWhatsThis(origin);
   obj = obj.value(origin).toObject(); //simplification - go one level deeper for easy access to info
-  qDebug() << "Show Package:" << origin << obj.keys();
+  //qDebug() << "Show Package:" << origin << obj.keys();
   QString repo = obj.value("repository").toString();
   
   //Now update all the info on the page
@@ -344,8 +345,16 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
   }
   ui->label_app_isize->setText( BtoHR(obj.value("flatsize").toString().toDouble()) );
   ui->label_app_license->setText(ArrayToStringList(obj.value("licenses").toArray()).join(", ") );
+  if(!obj.contains("licenses")){ ui->label_app_license->setText(tr("Unknown")); }
   // - Description Tab
   ui->text_app_description->setPlainText( obj.value("desc").toString() );
+  QString tmp = obj.value("message").toString();\
+  //See if the message needs to be cleaned up
+  if(tmp.startsWith("[{\"")){ tmp =QJsonDocument::fromJson(tmp.toLocal8Bit()).array()[0].toObject().value("message").toString(); }
+  while(tmp.contains("\\\\")){ tmp = tmp.replace("\\\\", "\\"); }
+  //qDebug() << "Cleaned Message:" << tmp;
+  ui->text_app_message->setPlainText(tmp );
+  ui->text_app_message->setVisible(!tmp.isEmpty());
   // - Screenshots Tab
   QStringList screens = obj.keys().filter("screen");
   if(screens.isEmpty() && ui->tabWidget_app->currentWidget()==ui->tab_app_screenshot){
@@ -374,6 +383,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
     for(int i=0; i<tmpl.length(); i++){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
+        tmp->setWhatsThis(0,tmpl[i]);
     }	  
   }
   if(obj.contains("reverse_dependencies")){
@@ -382,6 +392,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
     for(int i=0; i<tmpl.length(); i++){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
+        tmp->setWhatsThis(0,tmpl[i]);
     }	  	  
   }
   if(obj.contains("conflicts")){
@@ -390,6 +401,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
     for(int i=0; i<tmpl.length(); i++){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
+        tmp->setWhatsThis(0,tmpl[i]);
     }	  	  
   }
   if(obj.contains("shlibs_required")){
@@ -456,6 +468,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
 	tmp->setText(0, tmpl[i]);
     }	  	  
   }
+
   ui->tree_app_details->sortItems(0, Qt::AscendingOrder);
   
   //Now Update the install/remove/status widgets as needed
@@ -795,6 +808,7 @@ void pkg_page::goto_browser_from_local(QTreeWidgetItem *it){
   if(ui->combo_repo->currentText()!=repo){
     int index = ui->combo_repo->findText(repo);
     if(index>=0){ ui->combo_repo->setCurrentIndex(index); }
+    ui->combo_repo->setWhatsThis(ui->combo_repo->currentText());
   }
   send_repo_app_info(origin, "local");
   ui->tabWidget->setCurrentWidget(ui->tab_repo);
@@ -896,6 +910,10 @@ void pkg_page::icon_available(QNetworkReply *reply){
   }
   //qDebug() << " - Done";
 }
+void pkg_page::browser_treeitem_activated(QTreeWidgetItem *it){
+  if(it->whatsThis(0).isEmpty()){ return; }
+  browser_goto_pkg(it->whatsThis(0));
+}
 
 void pkg_page::browser_last_ss(){
  int num = ui->label_app_ssnum->text().section("/",-1).toInt();
@@ -953,6 +971,7 @@ void pkg_page::browser_go_back(QAction *act){
   if(ui->combo_repo->currentText()!=repo){
     int index = ui->combo_repo->findText(repo);
     if(index>=0){ ui->combo_repo->setCurrentIndex(index); }
+    ui->combo_repo->setWhatsThis(ui->combo_repo->currentText());
   }
 }
 
@@ -976,10 +995,10 @@ void pkg_page::browser_update_history(){
     QString txt;
     if(go=="home"){ txt = tr("Home Page"); }
     else{
-	if(go.startsWith("cat")){ txt = tr("Browse Category: %1"); }
-	else if(go.startsWith("pkg")){ txt = tr("View Package: %1"); }
-	else if(go.startsWith("search")){ txt = tr("Search: %1"); }
-	txt = txt.arg(go.section("::",2,-1));
+	if(go.startsWith("cat")){ txt = tr("Browse Category: %1 (%2)"); }
+	else if(go.startsWith("pkg")){ txt = tr("View Package: %1 (%2)"); }
+	else if(go.startsWith("search")){ txt = tr("Search: %1 (%2)"); }
+	txt = txt.arg(go.section("::",2,-1), go.section("::",1,1));
     }
     QAction *tmp = repo_backM->addAction(txt);
 	tmp->setWhatsThis(go);

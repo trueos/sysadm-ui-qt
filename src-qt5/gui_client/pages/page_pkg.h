@@ -101,6 +101,7 @@ private slots:
 	void browser_goto_cat(QAction *act = 0);
 	void update_repo_changed();
 	void icon_available(QNetworkReply*);
+	void browser_treeitem_activated(QTreeWidgetItem *it);
 	void browser_last_ss();
 	void browser_next_ss();
 	void browser_prev_ss();
