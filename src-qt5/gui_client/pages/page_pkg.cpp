@@ -791,8 +791,11 @@ void pkg_page::update_local_viewclean(bool checked){
 void pkg_page::goto_browser_from_local(QTreeWidgetItem *it){
   if(ui->tabWidget->currentWidget()!=ui->tab_local || ui->tree_local->indexOfTopLevelItem(it)<0 ){ return; } //stray signal (changing items around?) - ignore it
   QString origin = it->whatsThis(0);
-  QString repo = it->whatsThis(2);
-  if(repo.isEmpty()){ repo = "local"; }
+  QString repo = "local"; // = it->whatsThis(2);
+  if(ui->combo_repo->currentText()!=repo){
+    int index = ui->combo_repo->findText(repo);
+    if(index>=0){ ui->combo_repo->setCurrentIndex(index); }
+  }
   send_repo_app_info(origin, "local");
   ui->tabWidget->setCurrentWidget(ui->tab_repo);
 }
@@ -945,6 +948,12 @@ void pkg_page::browser_go_back(QAction *act){
   else if(go.startsWith("pkg::")){ browser_goto_pkg(go.section("::",2,-1), go.section("::",1,1)); }
   else if(go.startsWith("search::")){ send_start_search(go.section("::",2,-1)); }
   else{ ui->stacked_repo->setCurrentWidget(ui->page_home); browser_update_history(); }
+  //Also move to the proper repo in the history
+  QString repo = go.section("::",1,1);
+  if(ui->combo_repo->currentText()!=repo){
+    int index = ui->combo_repo->findText(repo);
+    if(index>=0){ ui->combo_repo->setCurrentIndex(index); }
+  }
 }
 
 void pkg_page::browser_update_history(){
