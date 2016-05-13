@@ -125,6 +125,10 @@ bool sysadm_client::isBridge(){
   return isbridge;
 }
 
+QStringList sysadm_client::bridgeConnections(){
+  return BRIDGE.keys();
+}
+
 //Check if the sysadm server is running on the local system
 bool sysadm_client::localhostAvailable(){
   #ifdef __FreeBSD__
@@ -206,7 +210,7 @@ void sysadm_client::performAuth(QString user, QString pass){
   obj.insert("namespace","rpc");
   obj.insert("id","sysadm-client-auth-auto");
   usedSSL = false;
-  bool noauth = false;
+  //bool noauth = false;
   if(user.isEmpty() || isbridge){
     if(cauthkey.isEmpty()){
       //SSL Authentication (Stage 1)
@@ -229,7 +233,16 @@ void sysadm_client::performAuth(QString user, QString pass){
     obj.insert("args", arg);	  
   }
   sendSocketMessage(obj);
-  if(noauth){ emit clientUnauthorized(); }
+  //if(noauth){ emit clientUnauthorized(); }
+}
+
+void sysadm_client::performAuth_bridge(QString bridge_id){
+  QJsonObject obj;
+  obj.insert("namespace","rpc");
+  obj.insert("id","sysadm-client-auth-auto");
+  obj.insert("name","auth_ssl");
+  obj.insert("args","");
+  communicate_bridge(bridge_id, obj);
 }
 
 void sysadm_client::clearAuth(){
@@ -252,11 +265,23 @@ void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
   this->communicate("sysadm-client-event-auto","events", subscribe ? "subscribe" : "unsubscribe", arg);
 }
 
+void sysadm_client::sendEventSubscription_bridge(QString bridge_id, EVENT_TYPE event, bool subscribe){
+  QString arg;
+  if(event == DISPATCHER){ arg = "dispatcher"; }
+  else if(event == LIFEPRESERVER){ arg = "life-preserver"; }
+  else if(event== SYSSTATE){ arg = "system-state"; }
+  //qDebug() << "Send Event Subscription:" << event << arg << subscribe;
+  this->communicate_bridge(bridge_id, "sysadm-client-event-auto","events", subscribe ? "subscribe" : "unsubscribe", arg);
+}
+
 void sysadm_client::sendSocketMessage(QJsonObject msg){
+  //Overload: Convert JSON to text for transport
+  sendSocketMessage(QJsonDocument(msg).toJson(QJsonDocument::Compact));
+}
+void sysadm_client::sendSocketMessage(QString msg){
   if(!isActive()){ return; }
-  QJsonDocument doc(msg);
-  if(DEBUG){ qDebug() << "Send Socket Message:" << doc.toJson(QJsonDocument::Compact); }
-  SOCKET->sendTextMessage(doc.toJson(QJsonDocument::Compact));
+  if(DEBUG){ qDebug() << "Send Socket Message:" << msg; }
+  SOCKET->sendTextMessage(msg);
 }
 
 //Simplification functions
@@ -268,9 +293,10 @@ message_in sysadm_client::convertServerReply(QString reply){
     msg.from_bridge_id = reply.left(index);
     reply = reply.remove(0,index+1);
   }
-  if(!reply.startsWith("{") && !msg.from_bridge_id.isEmpty()){
+  if(!msg.from_bridge_id.isEmpty() && BRIDGE.contains(msg.from_bridge_id) ){
     //encrypted message through bridge - decrypt it
-    // TO-DO
+    QString key = BRIDGE[msg.from_bridge_id].enc_key;
+    if(!key.isEmpty()){ reply = DecodeString(reply, key); }
   }
   QJsonDocument doc = QJsonDocument::fromJson(reply.toUtf8());
   if(doc.isObject()){ 
@@ -309,6 +335,16 @@ QString sysadm_client::SSL_Encode_String(QString str){
   }
 
 }
+QString sysadm_client::EncodeString(QString str, QString key){
+  //TO-DO
+  return str;
+}
+
+QString sysadm_client::DecodeString(QString str, QString key){
+  //TO-DO
+  return str;
+}
+
 // === PUBLIC SLOTS ===
 // Communications with server (send message, get response via signal later)
 void sysadm_client::communicate(QString ID, QString namesp, QString name, QJsonValue args){
@@ -345,9 +381,46 @@ void sysadm_client::communicate(QList<QJsonObject> requests){
     }
   }  
 }
-	
-void sysadm_client::communicate_bridge(QString bridge_host_id, QJsonObject obj){
+void sysadm_client::communicate_bridge(QString bridge_host_id, QString ID, QString namesp, QString name, QJsonValue args){
+  //Overloaded function for a request which needs assembly
+  QJsonObject obj;
+  obj.insert("namespace",namesp);
+  obj.insert("name", name);
+  obj.insert("id", ID);
+  obj.insert("args", args);
+  //qDebug() << "Send Message:" << QJsonDocument(obj).toJson();
+  communicate_bridge(bridge_host_id, QList<QJsonObject>() << obj);
+}
 
+void sysadm_client::communicate_bridge(QString bridge_host_id, QJsonObject request){
+  //Overloaded function for a single JSON request
+  communicate_bridge(bridge_host_id, QList<QJsonObject>() << request);
+}
+
+void sysadm_client::communicate_bridge(QString bridge_host_id, QList<QJsonObject> requests){
+if(!BRIDGE.contains(bridge_host_id)){
+  qDebug() << "Invalid bridge host:" << bridge_host_id;
+  return;
+}
+QString key = BRIDGE[bridge_host_id].enc_key;
+for(int i=0; i<requests.length(); i++){
+    QString ID = requests[i].value("id").toString();
+    if(ID.isEmpty()){ 
+      qDebug() << "Malformed JSON request:" << requests[i]; 
+      continue; 
+    }
+
+    //Save this into the cache
+    SENT.insert(bridge_host_id+"::::"+ID, requests[i]);
+    if(BACK.contains(bridge_host_id+"::::"+ID)){ BACK.remove(bridge_host_id+"::::"+ID); }
+    PENDING << bridge_host_id+"::::"+ID;
+    //Now send off the message
+    if(SOCKET->isValid()){ 
+        QString enc_msg = EncodeString( QJsonDocument(requests[i]).toJson(QJsonDocument::Compact), key);
+	sendSocketMessage(bridge_host_id+"\n"+enc_msg);
+	if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
+    }
+  }
 }
 
 // === PRIVATE SLOTS ===
@@ -437,7 +510,11 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
       PENDING.removeAll(msg_in.id);
       //BACK.insert(msg_in.id, msg_in);
     }
-    emit newReply(msg_in.id, msg_in.name, msg_in.namesp, msg_in.args);
+    if(msg_in.from_bridge_id.isEmpty()){
+      emit newReply(msg_in.id, msg_in.name, msg_in.namesp, msg_in.args);
+    }else{
+      emit bridgeReply(msg_in.from_bridge_id, msg_in.id, msg_in.name, msg_in.namesp, msg_in.args);
+    }
   }
 }
 bool sysadm_client::handleMessageInternally(message_in msg){
@@ -471,13 +548,22 @@ bool sysadm_client::handleMessageInternally(message_in msg){
     }else{
       if(msg.args.isArray()){ 
 	//Successful authorization
-	if(cuser.isEmpty()){ SSLsuccess = true; }
-	cauthkey = msg.args.toArray().first().toString();
-	emit clientAuthorized();
-	pingTimer->start();
-	//Now automatically re-subscribe to events as needed
-	//qDebug() << "Re-subscribe to events:" << events;
-	for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }
+	if(msg.from_bridge_id.isEmpty()){
+          if(cuser.isEmpty()){ SSLsuccess = true; }
+	  cauthkey = msg.args.toArray().first().toString();
+	  emit clientAuthorized();
+	  pingTimer->start();
+	  //Now automatically re-subscribe to events as needed
+	  //qDebug() << "Re-subscribe to events:" << events;
+	  for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }
+        }else{
+	  BRIDGE[msg.from_bridge_id].auth_tok = msg.args.toArray().first().toString();
+	  emit bridgeAuthorized(msg.from_bridge_id);
+	  //Now automatically re-subscribe to events as needed
+	  //qDebug() << "Re-subscribe to events:" << events;
+	  for(int i=0; i<events.length(); i++){ sendEventSubscription_bridge(msg.from_bridge_id, events[i]); }
+       }
+
       }else if(msg.args.isObject()){
         //SSL Auth Stage 2
         QString randomkey = msg.args.toObject().value("test_string").toString();
@@ -516,6 +602,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
         //Now add the connection to the internal DB if needed
         if(!BRIDGE.contains(conn)){
           BRIDGE.insert(conn, bridge_data());
+          performAuth_bridge(conn);
         }
       }
       //Now go through and clean out any old bridge data (from disconnections)

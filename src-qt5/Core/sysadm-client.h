@@ -42,8 +42,6 @@ class sysadm_client : public QObject{
 public:
 	enum EVENT_TYPE{ DISPATCHER, LIFEPRESERVER, SYSSTATE};
 	
-
-
 	sysadm_client();
 	~sysadm_client();
 
@@ -97,15 +95,20 @@ private:
 
 	//Functions to do the initial socket setup
 	void performAuth(QString user="", QString pass=""); //uses cauthkey if empty inputs
+	void performAuth_bridge(QString bridge_id); //SSL only
 	void clearAuth();
 
-	//Communication subroutines with the server (block until message comes back)
+	//Communication subroutines with the server
 	void sendEventSubscription(EVENT_TYPE event, bool subscribe = true);
+	void sendEventSubscription_bridge(QString bridge_id, EVENT_TYPE event, bool subscribe = true);
 	void sendSocketMessage(QJsonObject msg);
+	void sendSocketMessage(QString msg);
 
 	//Simplification functions
 	message_in convertServerReply(QString reply);
 	QString SSL_Encode_String(QString str);
+	QString EncodeString(QString str, QString key);
+	QString DecodeString(QString str, QString key);
 
 public slots:
 	// Overloaded Communication functions
@@ -113,7 +116,10 @@ public slots:
 	void communicate(QString ID, QString namesp, QString name, QJsonValue args);
 	void communicate(QJsonObject);
 	void communicate(QList<QJsonObject>);
+	//Overloaded Bridge Communication functions
+	void communicate_bridge(QString bridge_host_id, QString ID, QString namesp, QString name, QJsonValue args);
 	void communicate_bridge(QString bridge_host_id, QJsonObject);
+	void communicate_bridge(QString bridge_host_id, QList<QJsonObject>);
 
 private slots:
         void setupSocket(); //uses chost/cport for setup
@@ -137,7 +143,9 @@ signals:
 	void clientDisconnected(); //Only emitted if the client could not automatically reconnect to the server
 	void clientUnauthorized(); //Only emitted if the user needs to re-authenticate with the server
 	void bridgeConnectionsChanged(QStringList); //list of server connections now available
+	void bridgeAuthorized(QString);
 	void newReply(QString ID, QString namesp, QString name, QJsonValue args);
+	void bridgeReply(QString bridgeID, QString ID, QString namesp, QString name, QJsonValue args);
 	void NewEvent(sysadm_client::EVENT_TYPE, QJsonValue);
 	void statePriorityChanged(int);
 
