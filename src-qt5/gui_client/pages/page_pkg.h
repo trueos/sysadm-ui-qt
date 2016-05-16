@@ -155,6 +155,7 @@ private:
 	QPropertyAnimation *animshow;
 private slots:
 	void updateimage(){
+	  this->setFixedSize(this->size()); //fix the size during the animation
 	  animfade->setStartValue(this->size() - QSize(10,10));
 	  animshow->setEndValue(animfade->startValue());
 	  animfade->setEndValue(QSize(0,0));
@@ -170,10 +171,13 @@ private slots:
 	  animshow->start();
 	}
 	void showFinished(){
+	  this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding); //un-fix the size since the animation is finished
+          this->setMaximumSize(16777215,16777215);
+	  this->setMinimumSize(0,0);
 	  if(images.length()>1){ timer->start(); }
 	}
 public:
-	HomeSlider(QWidget *parent, QStringList imgList, QStringList acts, int secs = 10) : HomeButton(parent,""){
+	HomeSlider(QWidget *parent, QStringList imgList, QStringList acts, int secs = 5) : HomeButton(parent,""){
 	  //this->setScaledContents(true);
 	  this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	  timer = new QTimer(this);
@@ -184,10 +188,10 @@ public:
 	  images = imgList;
 	  actions = acts;
 	  animfade = new QPropertyAnimation(this, "iconSize");
-	    animfade->setDuration(500); //1/2 second
+	    animfade->setDuration(250); //1/2 second total
 	    connect(animfade, SIGNAL(finished()), this, SLOT(fadeFinished()) );
 	  animshow = new QPropertyAnimation(this, "iconSize");
-	    animshow->setDuration(500); //1/2 second
+	    animshow->setDuration(250); //1/2 second total
 	    connect(animshow, SIGNAL(finished()), this, SLOT(showFinished()) );
 	  QTimer::singleShot(100, this, SLOT(updateimage())); //start it up
 	}
