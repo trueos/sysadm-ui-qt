@@ -13,6 +13,7 @@
 control_panel::control_panel(QWidget *parent, sysadm_client *core) : PageWidget(parent, core){
   tree = new QTreeWidget(this);
     //Now configure the widget so it functions properly
+    tree->setObjectName("systemtree");
     tree->setAnimated(true); //smoothly expand/hide sub-items
     tree->setRootIsDecorated(false); // Don't show the dropdown arrows
     tree->setHeaderHidden(true); // Don't show the column header (only 1 column)

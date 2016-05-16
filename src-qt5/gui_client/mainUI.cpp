@@ -132,6 +132,7 @@ void MainUI::loadPage(QString id){
   qDebug() << "Load Page:" << id;
   PageWidget *page = GetNewPage(id, this, CORE);
   if(page==0){ return; }
+  page->setObjectName(id);
   currentPage = id;
   //Connect Page
   connect(page, SIGNAL(HasPendingChanges()), this, SLOT(ShowSaveButton()) );
