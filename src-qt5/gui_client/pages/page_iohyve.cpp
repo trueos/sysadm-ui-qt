@@ -36,8 +36,6 @@ iohyve_page::~iohyve_page(){
 
 //Initialize the CORE <-->Page connections
 void iohyve_page::setupCore(){
-  connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(ParseReply(QString, QString, QString, QJsonValue)) );
-  connect(CORE, SIGNAL(NewEvent(sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue)) );
   CORE->registerForEvents(sysadm_client::DISPATCHER, true);
 }
 
@@ -175,7 +173,7 @@ void iohyve_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
 void iohyve_page::request_is_setup(){
   QJsonObject obj;
     obj.insert("action","issetup");
-  CORE->communicate(PAGETAG+"is_setup","sysadm","iohyve", obj);  
+  communicate(PAGETAG+"is_setup","sysadm","iohyve", obj);  
 }
 
 void iohyve_page::request_setup(){
@@ -183,24 +181,24 @@ void iohyve_page::request_setup(){
     obj.insert("action","setup");
     obj.insert("pool",ui->combo_zpool->currentText()); //zpool
     obj.insert("nic",ui->combo_nic->currentData().toString()); //network interface
-  CORE->communicate(PAGETAG+"setup","sysadm","iohyve", obj);  
+  communicate(PAGETAG+"setup","sysadm","iohyve", obj);  
 }
 
 void iohyve_page::request_setup_options(){
   //Request all the info necessary to setup iohyve
   QJsonObject obj;
     obj.insert("action","list_pools");
-  CORE->communicate(PAGETAG+"setup_options_zfs","sysadm","zfs", obj);
+  communicate(PAGETAG+"setup_options_zfs","sysadm","zfs", obj);
   QJsonObject obj2;
     obj2.insert("action","list-devices");
-  CORE->communicate(PAGETAG+"setup_options_nic","sysadm","network", obj2);
+  communicate(PAGETAG+"setup_options_nic","sysadm","network", obj2);
 	
 }
 
 void iohyve_page::request_vm_list(){
   QJsonObject obj;
     obj.insert("action","listvms");
-  CORE->communicate(PAGETAG+"list_vm","sysadm","iohyve", obj);
+  communicate(PAGETAG+"list_vm","sysadm","iohyve", obj);
 }
 
 void iohyve_page::request_vm_start(){
@@ -209,7 +207,7 @@ void iohyve_page::request_vm_start(){
    QJsonObject obj;
     obj.insert("action","start");
     obj.insert("name",vm);
-  CORE->communicate(PAGETAG+"vm_start","sysadm","iohyve", obj); 
+  communicate(PAGETAG+"vm_start","sysadm","iohyve", obj); 
 }
 
 void iohyve_page::request_vm_stop(){
@@ -219,14 +217,14 @@ void iohyve_page::request_vm_stop(){
     obj.insert("action","stop");
     obj.insert("name",vm);
     //obj.insert("force","true");
-  CORE->communicate(PAGETAG+"vm_stop","sysadm","iohyve", obj); 	
+  communicate(PAGETAG+"vm_stop","sysadm","iohyve", obj); 	
 }
 
 // - ISO page
 void iohyve_page::request_iso_list(){
   QJsonObject obj;
     obj.insert("action","listisos");
-  CORE->communicate(PAGETAG+"list_iso","sysadm","iohyve", obj);
+  communicate(PAGETAG+"list_iso","sysadm","iohyve", obj);
 }
 
 void iohyve_page::request_iso_fetch(){
@@ -240,7 +238,7 @@ void iohyve_page::request_iso_fetch(){
    QJsonObject obj;
     obj.insert("action","fetchiso");
     obj.insert("url",url);
-  CORE->communicate(PAGETAG+"iso_fetch","sysadm","iohyve", obj); 
+  communicate(PAGETAG+"iso_fetch","sysadm","iohyve", obj); 
 }
 
 void iohyve_page::request_iso_rename(){
@@ -259,7 +257,7 @@ void iohyve_page::request_iso_rename(){
     obj.insert("action","renameiso");
     obj.insert("source",iso);
     obj.insert("target",newname);
-  CORE->communicate(PAGETAG+"iso_rename","sysadm","iohyve", obj); 	
+  communicate(PAGETAG+"iso_rename","sysadm","iohyve", obj); 	
 }
 
 void iohyve_page::request_iso_remove(){
@@ -268,7 +266,7 @@ void iohyve_page::request_iso_remove(){
    QJsonObject obj;
     obj.insert("action","rmiso");
     obj.insert("target",iso);
-  CORE->communicate(PAGETAG+"iso_remove","sysadm","iohyve", obj); 
+  communicate(PAGETAG+"iso_remove","sysadm","iohyve", obj); 
 }
 
 // -- ui slots

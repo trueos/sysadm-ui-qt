@@ -16,15 +16,15 @@ namespace Ui{
 class MainUI : public QMainWindow{
 	Q_OBJECT
 public:
-	MainUI(sysadm_client *core, QString pageID = "");
+	MainUI(sysadm_client *core, QString pageID = "", QString bridgeID = "");
 	~MainUI();
 
 	sysadm_client* currentCore();
-
+	QString currentHost();
 
 private:
 	Ui::MainUI *ui;
-	QString currentPage, host;
+	QString currentPage, host, b_id;
 	void InitializeUI();
 	sysadm_client *CORE;
 	QShortcut *s_quit;
@@ -41,14 +41,21 @@ private slots:
 	void ShowPageTitle(QString);
 	void ShowSaveButton();
 	void SavePage();
+	void send_message(QJsonObject msg);
 
 	//Core Signals
 	void NoAuthorization();
 	void Authorized();
 	void Disconnected();
+	//Main message signals from core
+	void newReply(QString,QString,QString,QJsonValue);
+	void bridgeReply(QString,QString,QString,QString,QJsonValue);
+	void newEvent(sysadm_client::EVENT_TYPE, QJsonValue);
+	void bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue);
 
 signals:
 	void ClientClosed(MainUI*);
+	void send_client_message(QString, QJsonObject);
 
 protected:
 	void closeEvent(QCloseEvent *ev){

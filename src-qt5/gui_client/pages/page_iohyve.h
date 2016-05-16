@@ -30,14 +30,14 @@ public:
 	void startPage();
 		
 	QString pageID(){ return "page_iohyve"; } //ID is used to identify which type of page this is
-	
+	void ParseReply(QString, QString, QString, QJsonValue);
+	void ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue);
+
 private:
 	Ui::iohyve_ui *ui;
 	QTimer *refreshT;
 
 private slots:
-	void ParseReply(QString, QString, QString, QJsonValue);
-	void ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val);
 
 	//Core requests
 	// - Setup detection/page

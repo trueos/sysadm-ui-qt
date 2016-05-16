@@ -398,12 +398,13 @@ void sysadm_client::communicate_bridge(QString bridge_host_id, QJsonObject reque
 }
 
 void sysadm_client::communicate_bridge(QString bridge_host_id, QList<QJsonObject> requests){
-if(!BRIDGE.contains(bridge_host_id)){
-  qDebug() << "Invalid bridge host:" << bridge_host_id;
-  return;
-}
-QString key = BRIDGE[bridge_host_id].enc_key;
-for(int i=0; i<requests.length(); i++){
+  if(bridge_host_id.isEmpty()){ communicate(requests); return; } //run the non-bridge version
+  if(!BRIDGE.contains(bridge_host_id)){
+    qDebug() << "Invalid bridge host:" << bridge_host_id;
+    return;
+  }
+  QString key = BRIDGE[bridge_host_id].enc_key;
+  for(int i=0; i<requests.length(); i++){
     QString ID = requests[i].value("id").toString();
     if(ID.isEmpty()){ 
       qDebug() << "Malformed JSON request:" << requests[i]; 
@@ -581,17 +582,23 @@ bool sysadm_client::handleMessageInternally(message_in msg){
 
   }else if(msg.namesp=="events"){
     //Event notification - not tied to any particular request
-    if(msg.name=="dispatcher"){ emit NewEvent(DISPATCHER, msg.args); }
-    else if(msg.name=="life-preserver"){ emit NewEvent(LIFEPRESERVER, msg.args); }
-    else if(msg.name=="system-state"){ 
+    if(msg.name=="dispatcher"){ 
+      if(msg.from_bridge_id.isEmpty()){ emit NewEvent(DISPATCHER, msg.args); }
+      else{ emit bridgeEvent(msg.from_bridge_id, DISPATCHER, msg.args); }
+    }else if(msg.name=="life-preserver"){ 
+      if(msg.from_bridge_id.isEmpty()){ emit NewEvent(LIFEPRESERVER, msg.args); }
+      else{ emit bridgeEvent(msg.from_bridge_id, LIFEPRESERVER, msg.args); }
+    }else if(msg.name=="system-state"){ 
       QString pri = msg.args.toObject().value("priority").toString();
       int priority = pri.section("-",0,0).simplified().toInt();
       //qDebug() << "Got System State Event:" << priority << "Formerly:" << cPriority;
       if(cPriority!=priority){ 
 	cPriority = priority;
-	emit statePriorityChanged(cPriority); 
+	if(msg.from_bridge_id.isEmpty()){ emit statePriorityChanged(cPriority);  }
+        else{ emit bridgeStatePriorityChanged(msg.from_bridge_id, cPriority);  }
       }
-      emit NewEvent(SYSSTATE, msg.args); 
+      if(msg.from_bridge_id.isEmpty()){ emit NewEvent(SYSSTATE, msg.args); }
+      else{ emit bridgeEvent(msg.from_bridge_id, SYSSTATE, msg.args); }
     }else if(isbridge && msg.name=="bridge"){
       QJsonArray conns = msg.args.toObject().value("available_connections").toArray();
       QStringList avail;

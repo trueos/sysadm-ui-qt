@@ -80,7 +80,6 @@ lp_page::~lp_page(){
 
 //Initialize the CORE <-->Page connections
 void lp_page::setupCore(){
-  connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(ParseReply(QString, QString, QString, QJsonValue)) );
 
 }
 
@@ -99,7 +98,7 @@ void lp_page::startPage(){
 void lp_page::send_list_zpools(){
   QJsonObject obj;
     obj.insert("action","list_pools");
-  CORE->communicate(TAG+"list_zpools", "sysadm", "zfs",obj);
+  communicate(TAG+"list_zpools", "sysadm", "zfs",obj);
 }
 
 // === PRIVATE SLOTS ===
@@ -124,7 +123,7 @@ void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue ar
       QJsonObject obj;
         obj.insert("action","datasets");
         obj.insert("zpool", zpools[i]);
-      CORE->communicate(TAG+"list_dataset_"+QString::number(i+1), "sysadm", "zfs",obj);
+      communicate(TAG+"list_dataset_"+QString::number(i+1), "sysadm", "zfs",obj);
     }
   }else if(id==TAG+"list_datasets"){
     QStringList datasets = args.toObject().value("datasets").toObject().keys(); //don't care about the info for the pools, just the names
@@ -215,13 +214,13 @@ void lp_page::updateSnapshotPage(){
   QJsonObject obj;
     obj.insert("action","datasets");
     obj.insert("zpool", pool);
-  CORE->communicate(TAG+"list_datasets", "sysadm", "zfs",obj);
+  communicate(TAG+"list_datasets", "sysadm", "zfs",obj);
 // - get the list of snapshots for this pool
   ui->tree_snaps->setEnabled(false);
   QJsonObject obj2;
     obj2.insert("action","listsnap");
     obj2.insert("pool", pool);
-  CORE->communicate(TAG+"list_snaps", "sysadm", "lifepreserver",obj2);
+  communicate(TAG+"list_snaps", "sysadm", "lifepreserver",obj2);
 }
 
 void lp_page::sendSnapshotRevert(){
@@ -233,7 +232,7 @@ void lp_page::sendSnapshotRevert(){
     obj.insert("action","revertsnap");
     obj.insert("dataset", ds);
     obj.insert("snap", snap);
-  CORE->communicate(TAG+"revert_snap", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"revert_snap", "sysadm", "lifepreserver",obj);
 }
 
 void lp_page::sendSnapshotRemove(){
@@ -246,7 +245,7 @@ void lp_page::sendSnapshotRemove(){
     obj.insert("action","removesnap");
     obj.insert("dataset", ds);
     obj.insert("snap", snap);
-  CORE->communicate(TAG+"remove_snap", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"remove_snap", "sysadm", "lifepreserver",obj);
 }
 
 void lp_page::sendSnapshotCreate(){
@@ -260,14 +259,14 @@ void lp_page::sendSnapshotCreate(){
     obj.insert("dataset",ds);
     obj.insert("snap", snapname);
     obj.insert("comment", "GUI Snapshot");
-  CORE->communicate(TAG+"create_snap", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"create_snap", "sysadm", "lifepreserver",obj);
 }
 // - replication page
 void lp_page::updateReplicationPage(){
   ui->tab_replication->setEnabled(false);
   QJsonObject obj;
     obj.insert("action","listreplication");
-  CORE->communicate(TAG+"list_replication", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"list_replication", "sysadm", "lifepreserver",obj);
 }
 
 void lp_page::sendRepCreate(){
@@ -292,7 +291,7 @@ void lp_page::sendRepCreate(){
     obj.insert("dataset", ds);
     obj.insert("remotedataset", rds);
     obj.insert("frequency",freq);
-  CORE->communicate(TAG+"add_replication", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"add_replication", "sysadm", "lifepreserver",obj);
   closeNewRepInfo();
 }
 
@@ -302,7 +301,7 @@ void lp_page::sendRepRemove(){
     obj.insert("action","removereplication");
     obj.insert("host", ui->tree_rep->currentItem()->text(1) );
     obj.insert("dataset", ui->tree_rep->currentItem()->text(0) );
-  CORE->communicate(TAG+"remove_replication", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"remove_replication", "sysadm", "lifepreserver",obj);
 }
 
 void lp_page::sendRepStart(){
@@ -311,7 +310,7 @@ void lp_page::sendRepStart(){
     obj.insert("action","runreplication");
     obj.insert("host", ui->tree_rep->currentItem()->text(1) );
     obj.insert("dataset", ui->tree_rep->currentItem()->text(0) );
-  CORE->communicate(TAG+"start_replication", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"start_replication", "sysadm", "lifepreserver",obj);
 }
 
 void lp_page::sendRepInit(){
@@ -320,7 +319,7 @@ void lp_page::sendRepInit(){
     obj.insert("action","initreplication");
     obj.insert("host", ui->tree_rep->currentItem()->text(1) );
     obj.insert("dataset", ui->tree_rep->currentItem()->text(0) );
-  CORE->communicate(TAG+"init_replication", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"init_replication", "sysadm", "lifepreserver",obj);
 }
 
 void lp_page::openNewRepInfo(){
@@ -367,7 +366,7 @@ void lp_page::new_rep_freq_changed(){
 void lp_page::updateSchedulePage(){
   QJsonObject obj;
     obj.insert("action","listcron");
-  CORE->communicate(TAG+"list_schedules", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"list_schedules", "sysadm", "lifepreserver",obj);
 }
 
 void lp_page::showNewSchSnapInfo(){
@@ -399,7 +398,7 @@ void lp_page::removeSchSnap(){
     obj.insert("pool", it->text(0));
     obj.insert("keep", "0");
     obj.insert("frequency", "none"); //disables the schedule
-  CORE->communicate(TAG+"change_schedules", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"change_schedules", "sysadm", "lifepreserver",obj);
 }
 
 void lp_page::saveSchSnapInfo(){
@@ -415,7 +414,7 @@ void lp_page::saveSchSnapInfo(){
     obj.insert("keep", QString::number(ui->spin_schedule_snapkeep->value()) );
     obj.insert("frequency", freq);
   qDebug() << "SEND:" << obj;
-  CORE->communicate(TAG+"change_schedules", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"change_schedules", "sysadm", "lifepreserver",obj);
   ui->group_schedule_snap->setVisible(false);
 }
 
@@ -460,7 +459,7 @@ void lp_page::removeSchScrub(){
     obj.insert("action","cronscrub");
     obj.insert("pool", it->text(0));
     obj.insert("frequency", "none"); //disables the schedule
-  CORE->communicate(TAG+"change_schedules", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"change_schedules", "sysadm", "lifepreserver",obj);
 }
 
 void lp_page::saveSchScrubInfo(){
@@ -489,7 +488,7 @@ void lp_page::saveSchScrubInfo(){
     obj.insert("action","cronscrub");
     obj.insert("pool", ui->combo_schedule_scrubpool->currentText());
     obj.insert("frequency", freq);
-  CORE->communicate(TAG+"change_schedules", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"change_schedules", "sysadm", "lifepreserver",obj);
   ui->group_schedule_scrub->setVisible(false);
 }
 
@@ -518,7 +517,7 @@ void lp_page::scrub_sch_freq_changed(){
 void lp_page::updateSettings(){
   QJsonObject obj;
     obj.insert("action","settings");
-  CORE->communicate(TAG+"list_settings", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"list_settings", "sysadm", "lifepreserver",obj);
 }
 
 void lp_page::sendSaveSettings(){
@@ -528,5 +527,5 @@ void lp_page::sendSaveSettings(){
     obj.insert("email", ui->line_set_email->text());
     obj.insert("emailopts", ui->combo_set_emailopt->currentText() );
     obj.insert("recursive", ui->check_set_recursive->isChecked() ? "true" : "false");
-  CORE->communicate(TAG+"save_settings", "sysadm", "lifepreserver",obj);
+  communicate(TAG+"save_settings", "sysadm", "lifepreserver",obj);
 }

@@ -147,7 +147,9 @@ signals:
 	void newReply(QString ID, QString namesp, QString name, QJsonValue args);
 	void bridgeReply(QString bridgeID, QString ID, QString namesp, QString name, QJsonValue args);
 	void NewEvent(sysadm_client::EVENT_TYPE, QJsonValue);
+	void bridgeEvent(QString bridgeID, sysadm_client::EVENT_TYPE, QJsonValue);
 	void statePriorityChanged(int);
+	void bridgeStatePriorityChanged(QString bridgeID, int);
 
 };
 

@@ -10,8 +10,13 @@
 #include "pages/getPage.h"
 
 // === PUBLIC ===
-MainUI::MainUI(sysadm_client *core, QString pageID) : QMainWindow(), ui(new Ui::MainUI){
+MainUI::MainUI(sysadm_client *core, QString pageID, QString bridgeID) : QMainWindow(), ui(new Ui::MainUI){
   CORE = core;
+  host = core->currentHost();
+  b_id = bridgeID;
+  //Setup the CORE connections
+  connect(this, SIGNAL(send_client_message(QString, QJsonObject)), CORE, SLOT(communicate_bridge(QString, QJsonObject)) );
+  
   ui->setupUi(this); //load the designer form
   //Need to tinker with the toolbar a bit to get actions in the proper places
   QWidget *spacer = new QWidget(this);
@@ -58,6 +63,10 @@ MainUI::~MainUI(){
 sysadm_client* MainUI::currentCore(){
   return CORE;
 }
+QString MainUI::currentHost(){
+  if(b_id.isEmpty()){ return host; }
+  else{ return host+"/"+b_id; }
+}
 
 // === PRIVATE ===
 void MainUI::InitializeUI(){
@@ -65,6 +74,10 @@ void MainUI::InitializeUI(){
   connect(CORE, SIGNAL(clientAuthorized()), this, SLOT(Authorized()) );
   connect(CORE, SIGNAL(clientUnauthorized()), this, SLOT(NoAuthorization()) );
   connect(CORE, SIGNAL(clientDisconnected()), this, SLOT(Disconnected()) );
+  connect(CORE, SIGNAL(newReply(QString,QString,QString,QJsonValue)), this, SLOT(newReply(QString,QString,QString,QJsonValue)) );
+  connect(CORE, SIGNAL(bridgeReply(QString,QString,QString,QString,QJsonValue)), this, SLOT(bridgeReply(QString,QString,QString,QString,QJsonValue)) );
+  connect(CORE, SIGNAL(NewEvent(sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(newEvent(sysadm_client::EVENT_TYPE, QJsonValue)) );
+  connect(CORE, SIGNAL(bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue)) );
 
   connect(ui->actionBack, SIGNAL(triggered()), this, SLOT(loadPage()) );
   connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(SavePage()) );
@@ -125,6 +138,7 @@ void MainUI::loadPage(QString id){
   connect(page, SIGNAL(ChangePageTitle(QString)), this, SLOT(ShowPageTitle(QString)) );
   connect(page, SIGNAL(ChangePage(QString)), this, SLOT(loadPage(QString)) );
   connect(ui->actionSave, SIGNAL(triggered()), page, SLOT(SaveSettings()) );
+  connect(page, SIGNAL(send_message(QJsonObject)), this, SLOT(send_message(QJsonObject)) );
   //Switch page in window
   //qDebug() << " - Swap page in window";
   QWidget *old = this->centralWidget();
@@ -160,6 +174,10 @@ void MainUI::SavePage(){
   ui->actionSave->setVisible(false);
 }
 
+void MainUI::send_message(QJsonObject msg){
+  this->emit send_client_message(b_id, msg); //include the bridge ID (if there is one)
+}
+
 //Core Signals
 void MainUI::NoAuthorization(){
   qDebug() << "Lost Server authentication";
@@ -175,4 +193,25 @@ void MainUI::Authorized(){
 void MainUI::Disconnected(){
   qDebug() << "Core Disconnected";
   this->close();
+}
+
+//Main message signals from core
+void MainUI::newReply(QString id, QString namesp, QString name, QJsonValue args){
+  if(!b_id.isEmpty()){ return; } //this reply not for this window
+  static_cast<PageWidget*>(this->centralWidget())->ParseReply(id, namesp, name, args);
+}
+
+void MainUI::bridgeReply(QString bridge_id,QString id, QString namesp, QString name, QJsonValue args){
+  if(b_id != bridge_id){ return; } //this reply not for this window
+  static_cast<PageWidget*>(this->centralWidget())->ParseReply(id, namesp, name, args);
+}
+
+void MainUI::newEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
+  if(!b_id.isEmpty()){ return; } //this reply not for this window
+  static_cast<PageWidget*>(this->centralWidget())->ParseEvent(type, val);
+}
+
+void MainUI::bridgeEvent(QString bridge_id, sysadm_client::EVENT_TYPE type, QJsonValue val){
+  if(b_id != bridge_id){ return; } //this reply not for this window
+  static_cast<PageWidget*>(this->centralWidget())->ParseEvent(type, val);
 }

@@ -158,15 +158,18 @@ void sysadm_tray::CloseApplication(){
 void sysadm_tray::OpenCore(QString host){
   //See if a window for this host is already open and use that
   for(int i=0; i<CLIENTS.length(); i++){
-    if(CLIENTS[i]->currentCore()->currentHost()==host){
+    if(CLIENTS[i]->currentHost()==host){
        if(CLIENTS[i]->currentCore()->isReady()){  CLIENTS[i]->showNormal(); }
       return;
     }
   }
+  //Split the host ID into host/bridge if necessary
+  QString b_id = host.section("/",1,-1);
+  if(!b_id.isEmpty()){ host = host.section("/",0,0); }
   if(getCore(host)->isConnecting()){ return; } //wait - still trying to connect
   //Open a new window for this host
   sysadm_client *core = getCore(host);
-  MainUI *tmp = new MainUI(core);
+  MainUI *tmp = new MainUI(core,"", b_id);
   if(core->isReady()){  tmp->showNormal(); }
   connect(tmp, SIGNAL(ClientClosed(MainUI*)), this, SLOT(ClientClosed(MainUI*)) );
   CLIENTS << tmp;	

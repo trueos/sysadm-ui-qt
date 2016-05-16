@@ -23,7 +23,7 @@ taskmanager_page::~taskmanager_page(){
 
 //Initialize the CORE <-->Page connections
 void taskmanager_page::setupCore(){
-  connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(ParseReply(QString, QString, QString, QJsonValue)) );
+
 }
 
 //Page embedded, go ahead and startup any core requests
@@ -289,25 +289,25 @@ void taskmanager_page::ShowCPUTempInfo(QStringList temps){
 void taskmanager_page::slotRequestProcInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "procinfo");
-  CORE->communicate("page_task_man_taskquery", "sysadm", "systemmanager", jsobj);
+  communicate("page_task_man_taskquery", "sysadm", "systemmanager", jsobj);
 }
 
 void taskmanager_page::slotRequestMemInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "memorystats");
-  CORE->communicate("page_task_man_mem_check", "sysadm", "systemmanager", jsobj);
+  communicate("page_task_man_mem_check", "sysadm", "systemmanager", jsobj);
 }
 
 void taskmanager_page::slotRequestCPUInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "cpupercentage");
-  CORE->communicate("page_task_man_cpu_check", "sysadm", "systemmanager", jsobj);	
+  communicate("page_task_man_cpu_check", "sysadm", "systemmanager", jsobj);	
 }
 
 void taskmanager_page::slotRequestCPUTempInfo(){
   QJsonObject jsobj;
   jsobj.insert("action", "cputemps");
-  CORE->communicate("page_task_man_cputemp_check", "sysadm", "systemmanager", jsobj);	
+  communicate("page_task_man_cputemp_check", "sysadm", "systemmanager", jsobj);	
 }
 
 void taskmanager_page::slot_kill_proc(){
@@ -320,5 +320,5 @@ void taskmanager_page::slot_kill_proc(){
   jsobj.insert("action", "killproc");
   jsobj.insert("pid",pid);
   jsobj.insert("signal","KILL");
-  CORE->communicate("page_task_man_kill_proc", "sysadm", "systemmanager", jsobj);	  
+  communicate("page_task_man_kill_proc", "sysadm", "systemmanager", jsobj);	  
 }

@@ -80,8 +80,7 @@ pkg_page::~pkg_page(){
 
 //Initialize the CORE <-->Page connections
 void pkg_page::setupCore(){
-  connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(ParseReply(QString, QString, QString, QJsonValue)) );
-  connect(CORE, SIGNAL(NewEvent(sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue)) );
+
 }
 
 //Page embedded, go ahead and startup any core requests
@@ -100,7 +99,7 @@ void pkg_page::startPage(){
 void pkg_page::send_list_repos(){
   QJsonObject obj;
     obj.insert("action","list_repos");
-  CORE->communicate(TAG+"list_repos", "sysadm", "pkg",obj);
+  communicate(TAG+"list_repos", "sysadm", "pkg",obj);
 }
 
 void pkg_page::send_list_cats(QString repo){
@@ -108,7 +107,7 @@ void pkg_page::send_list_cats(QString repo){
   QJsonObject obj;
     obj.insert("action","list_categories");
     obj.insert("repo",repo);
-  CORE->communicate(TAG+"list_cats", "sysadm", "pkg",obj); 
+  communicate(TAG+"list_cats", "sysadm", "pkg",obj); 
 }
 
 void pkg_page::send_local_update(){
@@ -118,19 +117,19 @@ void pkg_page::send_local_update(){
     obj.insert("action","pkg_info");
     obj.insert("repo","local");
     obj.insert("result","full");
-  CORE->communicate(TAG+"list_local", "sysadm", "pkg",obj);
+  communicate(TAG+"list_local", "sysadm", "pkg",obj);
 }
 
 void pkg_page::send_local_audit(){
   QJsonObject obj;
     obj.insert("action","pkg_audit");
-  CORE->communicate(TAG+"list_audit", "sysadm", "pkg",obj);	
+  communicate(TAG+"list_audit", "sysadm", "pkg",obj);	
 }
 
 void pkg_page::send_local_check_upgrade(){
   QJsonObject obj;
     obj.insert("action","pkg_check_upgrade");
-  CORE->communicate(TAG+"check_upgrade", "sysadm", "pkg",obj);	  	
+  communicate(TAG+"check_upgrade", "sysadm", "pkg",obj);	  	
 }
 
 void pkg_page::send_repo_app_info(QString origin, QString repo){
@@ -142,7 +141,7 @@ void pkg_page::send_repo_app_info(QString origin, QString repo){
     obj.insert("repo",repo);
     obj.insert("result","full");
     obj.insert("pkg_origins",origin);
-  CORE->communicate(TAG+"list_app_info", "sysadm", "pkg",obj);	
+  communicate(TAG+"list_app_info", "sysadm", "pkg",obj);	
 }
 
 //Parsing Core Replies
@@ -332,8 +331,9 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
   ui->label_app_maintainer->setText(obj.value("maintainer").toString());
   ui->label_app_arch->setText(obj.value("arch").toString());
   if(obj.contains("osversion")){
-    ui->label_app_os->setText(obj.value("osversion").toString());
-    ui->label_app_os->setVisible(true); ui->label_9->setVisible(true);
+    QString tmp = obj.value("osversion").toString().simplified();
+    ui->label_app_os->setText(tmp);
+    ui->label_app_os->setVisible(!tmp.isEmpty()); ui->label_9->setVisible(!tmp.isEmpty());
   }else{
     ui->label_app_os->setVisible(false); ui->label_9->setVisible(false);
   }
@@ -1058,7 +1058,7 @@ void pkg_page::send_local_rmpkgs(){
     obj.insert("action","pkg_remove");
     obj.insert("recursive","true");
     obj.insert("pkg_origins", QJsonArray::fromStringList(pkgs) );
-  CORE->communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);
+  communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);
   if(local_autocleanmode){
     send_local_cleanpkgs();
   }	
@@ -1073,7 +1073,7 @@ QStringList pkgs;
   QJsonObject obj;
     obj.insert("action","pkg_lock");
     obj.insert("pkg_origins", QJsonArray::fromStringList(pkgs) );
-  CORE->communicate(TAG+"pkg_lock", "sysadm", "pkg",obj);
+  communicate(TAG+"pkg_lock", "sysadm", "pkg",obj);
 }
 
 void pkg_page::send_local_unlockpkgs(){
@@ -1085,13 +1085,13 @@ QStringList pkgs;
   QJsonObject obj;
     obj.insert("action","pkg_unlock");
     obj.insert("pkg_origins", QJsonArray::fromStringList(pkgs) );
-  CORE->communicate(TAG+"pkg_unlock", "sysadm", "pkg",obj);
+  communicate(TAG+"pkg_unlock", "sysadm", "pkg",obj);
 }
 
 void pkg_page::send_local_upgradepkgs(){
   QJsonObject obj;
     obj.insert("action","pkg_upgrade");
-  CORE->communicate(TAG+"pkg_upgrade", "sysadm", "pkg",obj);
+  communicate(TAG+"pkg_upgrade", "sysadm", "pkg",obj);
   ui->tabWidget->setCurrentWidget(ui->tab_queue);
   local_hasupdates = false;
   update_local_buttons();
@@ -1100,7 +1100,7 @@ void pkg_page::send_local_upgradepkgs(){
 void pkg_page::send_local_cleanpkgs(){
   QJsonObject obj;
     obj.insert("action","pkg_autoremove");
-  CORE->communicate(TAG+"pkg_autoremove", "sysadm", "pkg",obj);
+  communicate(TAG+"pkg_autoremove", "sysadm", "pkg",obj);
 }
 
 // - repo tab
@@ -1110,7 +1110,7 @@ void pkg_page::send_repo_rmpkg(QString origin){
     obj.insert("action","pkg_remove");
     obj.insert("recursive","true"); //cleanup orphaned packages
     obj.insert("pkg_origins", origin );
-  CORE->communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);	
+  communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);	
 }
 
 void pkg_page::send_repo_installpkg(QString origin){
@@ -1121,7 +1121,7 @@ void pkg_page::send_repo_installpkg(QString origin){
     obj.insert("action","pkg_install");
     obj.insert("pkg_origins", origin );
     if(!repo.isEmpty() && repo!="local"){ obj.insert("repo",repo); }
-  CORE->communicate(TAG+"pkg_unlock", "sysadm", "pkg",obj);
+  communicate(TAG+"pkg_unlock", "sysadm", "pkg",obj);
 }
 
 void pkg_page::send_start_search(QString search, QStringList exclude){
@@ -1142,7 +1142,7 @@ void pkg_page::send_start_search(QString search, QStringList exclude){
     if(!exclude.isEmpty()){
       obj.insert("search_excludes", QJsonArray::fromStringList(exclude) );
     }
-  CORE->communicate(TAG+"pkg_search", "sysadm", "pkg",obj);
+  communicate(TAG+"pkg_search", "sysadm", "pkg",obj);
 
   //Always update the text on the search filter button to match the backend data/cat
   QString cat = ui->tool_search_cat->whatsThis();
@@ -1166,6 +1166,6 @@ void pkg_page::send_start_browse(QString cat){
     obj.insert("action","pkg_info");
     obj.insert("repo",ui->combo_repo->currentText());
     if(cat!="all"){ obj.insert("category", cat); }
-  CORE->communicate(TAG+"list_browse", "sysadm", "pkg",obj);
+  communicate(TAG+"list_browse", "sysadm", "pkg",obj);
   //qDebug() << " - Sent request:" << obj;
 }

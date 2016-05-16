@@ -18,7 +18,7 @@ about_page::~about_page(){
 
 //Initialize the CORE <-->Page connections
 void about_page::setupCore(){
-  connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(ParseReply(QString, QString, QString, QJsonValue)) );
+
 }
 
 //Page embedded, go ahead and startup any core requests
@@ -44,4 +44,3 @@ void about_page::ParseReply(QString, QString, QString, QJsonValue){
 	
 }
 //GUI Buttons
-

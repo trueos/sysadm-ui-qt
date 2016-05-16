@@ -30,7 +30,9 @@ public:
 	void startPage();
 		
 	QString pageID(){ return "page_pkg"; } //ID is used to identify which type of page this is
-	
+	void ParseReply(QString, QString, QString, QJsonValue);
+	void ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue);
+
 private:
 	Ui::pkg_page_ui *ui;
 
@@ -85,9 +87,6 @@ private:
 	void GenerateCategoryMenu(QMenu *menu, QStringList cats);
 	
 private slots:
-	void ParseReply(QString, QString, QString, QJsonValue);
-	void ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue);
-
 	//GUI Updates
 	// - local tab
 	void update_local_buttons();

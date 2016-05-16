@@ -18,7 +18,8 @@ public:
 	void setupCore();
 	void startPage();
 	QString pageID(){ return ""; }
-	
+	void ParseReply(QString, QString, QString, QJsonValue);
+
 private:
 	QTreeWidget *tree;
 	QList<PAGEINFO> pages;
@@ -29,9 +30,6 @@ private:
 private slots:
 	//GUI userevent handling
 	void ItemClicked(QTreeWidgetItem*, int);
-
-	//Core Reply handling
-	void parseReply(QString, QString, QString, QJsonValue);
 
 };
 #endif

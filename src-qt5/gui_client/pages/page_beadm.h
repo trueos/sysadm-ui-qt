@@ -30,13 +30,13 @@ public:
 	void startPage();
 		
 	QString pageID(){ return "sysadm/beadm"; } //ID is used to identify which type of page this is
-	
+	void ParseReply(QString, QString, QString, QJsonValue);
+
 private:
 	Ui::page_beadm_ui *ui;
 	void startingRequest(QString notice);
 
 private slots:
-	void ParseReply(QString, QString, QString, QJsonValue);
 
 	//GUI enable/disable based on selection
 	void updateButtons();

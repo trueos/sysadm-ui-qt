@@ -28,12 +28,10 @@ void sample_page::startPage(){
   /*
   QJsonObject obj;
     obj.insert("sampleVariable","sampleValue");
-  CORE->communicate("someID", "rpc", "query",obj);
+  communicate("someID", "rpc", "query",obj);
   */
 }
 
-
-// === PRIVATE SLOTS ===
 void sample_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
 	
 }

@@ -12,13 +12,15 @@
 #include "globals.h"
 #include "Messages.h"
 
+//Single-connection actions (also used for individual bridge connections)
 class CoreAction : public QAction{
 	Q_OBJECT
 private:
 	QString nickname, host;
+	QString b_id; //bridge_id
 
 public:
-	CoreAction(sysadm_client*core, QObject *parent=0);
+	CoreAction(sysadm_client*core, QObject *parent=0, QString bridge_id = "");
 	~CoreAction();
 		
 private slots:
@@ -27,6 +29,10 @@ private slots:
 	void CoreActive();
 	void CoreEvent(sysadm_client::EVENT_TYPE, QJsonValue);
 	void priorityChanged(int);
+	//Bridge connection signals
+	void bridgeAuthorized(QString);
+	void bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue);
+	void bridgePriorityChanged(QString, int);
 
 signals:
 	//Show a tray message popup
@@ -35,6 +41,35 @@ signals:
 	void UpdateTrayIcon();
 };
 
+//Bridged Connection: Create a menu of core actions
+class CoreMenu : public QMenu{
+	Q_OBJECT
+private:
+	QString nickname, host;
+
+public:
+	CoreMenu(sysadm_client* core, QWidget *parent = 0);
+	~CoreMenu();
+
+private slots:
+	void menuTriggered(QAction*);
+
+	void CoreClosed();
+	void CoreConnecting();
+	void CoreActive();
+	void BridgeConnectionsChanged(QStringList);
+
+signals:
+	// CORE Actions
+	void OpenCore(QString host);
+
+	//Show a tray message popup
+	void ShowMessage(HostMessage);
+	void ClearMessage(QString, QString);
+	void UpdateTrayIcon();
+};
+
+//Normal Menu (categories)
 class MenuItem : public QMenu{
 	Q_OBJECT
 public:
@@ -60,7 +95,6 @@ private slots:
 
 signals:
 	//Recursive Signals (will travel up the chain until it gets to the main tray)
-	// Main Tray Actions
 	void OpenConnectionManager();
 	void OpenSettings();
 	void CloseApplication();

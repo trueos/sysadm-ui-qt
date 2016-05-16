@@ -30,11 +30,10 @@ public:
 	void startPage();
 		
 	QString pageID(){ return "System Manager"; } //ID is used to identify which type of page this is
-	
+	void ParseReply(QString, QString, QString, QJsonValue);
+
 private:
 	Ui::page_system_ui *ui;
 
-private slots:
-	void ParseReply(QString, QString, QString, QJsonValue);
 };
 #endif

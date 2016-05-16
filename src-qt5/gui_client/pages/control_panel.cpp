@@ -39,12 +39,12 @@ control_panel::~control_panel(){
 }
 
 void control_panel::setupCore(){
-  connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(parseReply(QString, QString, QString, QJsonValue)) );
+
 }
 	
 void control_panel::startPage(){
   pages = KnownPages();
-  CORE->communicate(REQ_ID, "rpc", "query", QJsonValue("simple-query"));
+  communicate(REQ_ID, "rpc", "query", QJsonValue("simple-query"));
   emit ChangePageTitle( tr("Control Panel") );
 }
 
@@ -55,7 +55,7 @@ void control_panel::setupPageButton(QString id, QTreeWidgetItem *item){
     if(pages[i].id==id){ info = pages[i]; break;}
   }
   if(info.id.isEmpty()){ return; }
-  //*** Setup an icon/text for this page ***
+  // *** Setup an icon/text for this page ***
   item->setText(0, info.name);
   item->setIcon(0, QIcon(info.icon));
   item->setToolTip(0, info.comment);
@@ -112,7 +112,7 @@ void control_panel::ItemClicked(QTreeWidgetItem *item, int col){
   }
 }
 
-void control_panel::parseReply(QString id, QString namesp, QString name, QJsonValue args){
+void control_panel::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
   //qDebug() << "CP Reply:" << id << namesp << name << args;
   if(id!=REQ_ID || name=="error" || namesp=="error"){ return; }
   //Got the reply to our request

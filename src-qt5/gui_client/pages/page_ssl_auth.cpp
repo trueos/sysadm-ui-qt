@@ -17,7 +17,7 @@ ssl_auth_page::~ssl_auth_page(){
 
 //Initialize the CORE <-->Page connections
 void ssl_auth_page::setupCore(){
-  connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(ParseReply(QString, QString, QString, QJsonValue)) );
+
 }
 
 //Page embedded, go ahead and startup any core requests
@@ -32,7 +32,7 @@ void ssl_auth_page::startPage(){
 void ssl_auth_page::requestList(){
   QJsonObject obj;
     obj.insert("action","list_ssl_certs");
-  CORE->communicate("client_ssl_page_list", "rpc", "settings", obj);
+  communicate("client_ssl_page_list", "rpc", "settings", obj);
 }
 
 // === PRIVATE SLOTS ===
@@ -103,5 +103,5 @@ void ssl_auth_page::on_push_revoke_clicked(){
     obj.insert("action","revoke_ssl_cert");
     obj.insert("user",user);
     obj.insert("pub_key",pub_key);
-  CORE->communicate("client_ssl_page_revoke","rpc","settings",obj);
+  communicate("client_ssl_page_revoke","rpc","settings",obj);
 }

@@ -27,8 +27,6 @@ updates_page::~updates_page(){
 
 //Initialize the CORE <-->Page connections
 void updates_page::setupCore(){
-  connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(ParseReply(QString, QString, QString, QJsonValue)) );
-  connect(CORE, SIGNAL(NewEvent(sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue)) );
   CORE->registerForEvents(sysadm_client::DISPATCHER, true);
 }
 
@@ -173,7 +171,7 @@ void updates_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
 void updates_page::send_list_branches(){
   QJsonObject obj;
     obj.insert("action","listbranches");
-  CORE->communicate(IDTAG+"listbranch", "sysadm", "update",obj);
+  communicate(IDTAG+"listbranch", "sysadm", "update",obj);
 }
 
 void updates_page::send_change_branch(){
@@ -185,13 +183,13 @@ void updates_page::send_change_branch(){
     obj.insert("action","startupdate");
     obj.insert("target","chbranch");
     obj.insert("branch", branch);
-  CORE->communicate(IDTAG+"chbranch", "sysadm", "update",obj);
+  communicate(IDTAG+"chbranch", "sysadm", "update",obj);
 }
 
 void updates_page::send_check_updates(){
   QJsonObject obj;
     obj.insert("action","checkupdates");
-  CORE->communicate(IDTAG+"checkup", "sysadm", "update",obj);
+  communicate(IDTAG+"checkup", "sysadm", "update",obj);
   ui->page_updates->setEnabled(false);
   ui->label_checking->setVisible(true);
 }
@@ -252,7 +250,7 @@ void updates_page::send_start_updates(){
       obj.insert("target", up);
     }
   qDebug() << "Send update request:" << obj;
-  CORE->communicate(IDTAG+"startup", "sysadm", "update",obj);	
+  communicate(IDTAG+"startup", "sysadm", "update",obj);	
   //Update the UI right away (so the user knows it is working)
   qDebug() << "Sending update request";
     ui->stacked_updates->setCurrentWidget(ui->page_uprunning);

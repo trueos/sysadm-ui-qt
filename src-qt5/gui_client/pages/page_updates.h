@@ -30,7 +30,9 @@ public:
 	void startPage();
 		
 	QString pageID(){ return "page_updates"; } //ID is used to identify which type of page this is
-	
+	void ParseReply(QString, QString, QString, QJsonValue);
+	void ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue);
+
 private:
 	Ui::updates_ui *ui;
 	QStringList run_updates;
@@ -39,8 +41,6 @@ private:
 	void updateBranchList(QString active, QStringList avail);
 
 private slots:
-	void ParseReply(QString, QString, QString, QJsonValue);
-	void ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue);
 
 	//Core communications
 	void send_list_branches();

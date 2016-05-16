@@ -17,7 +17,7 @@ system_page::~system_page(){
 
 //Initialize the CORE <-->Page connections
 void system_page::setupCore(){
-  connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(ParseReply(QString, QString, QString, QJsonValue)) );
+
 }
 
 //Page embedded, go ahead and startup any core requests
@@ -28,7 +28,7 @@ void system_page::startPage(){
   /*
   QJsonObject obj;
     obj.insert("sampleVariable","sampleValue");
-  CORE->communicate("someID", "rpc", "query",obj);
+  communicate("someID", "rpc", "query",obj);
   */
 }
 

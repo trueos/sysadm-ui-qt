@@ -18,7 +18,7 @@ beadm_page::~beadm_page(){
 
 //Initialize the CORE <-->Page connections
 void beadm_page::setupCore(){
-  connect(CORE, SIGNAL(newReply(QString, QString, QString, QJsonValue)), this, SLOT(ParseReply(QString, QString, QString, QJsonValue)) );
+
 }
 
 //Page embedded, go ahead and startup any core requests
@@ -101,7 +101,7 @@ void beadm_page::create_be(){
   QJsonObject obj;
     obj.insert("action","createbe");
     obj.insert("newbe",newname);
-  CORE->communicate("beadm_auto_page_create", "sysadm", "beadm", obj);
+  communicate("beadm_auto_page_create", "sysadm", "beadm", obj);
   startingRequest(tr("Creating Boot Environment...") );
 }
 
@@ -117,7 +117,7 @@ void beadm_page::clone_be(){
     obj.insert("action","createbe");
     obj.insert("newbe",newname);
     obj.insert("clonefrom",selbe);
-  CORE->communicate("beadm_auto_page_clone", "sysadm", "beadm", obj);
+  communicate("beadm_auto_page_clone", "sysadm", "beadm", obj);
   startingRequest(tr("Cloning Boot Environment...") );
 }
 
@@ -127,7 +127,7 @@ void beadm_page::delete_be(){
   QJsonObject obj;
     obj.insert("action","destroybe");
     obj.insert("target",selbe);
-  CORE->communicate("beadm_auto_page_delete", "sysadm", "beadm", obj);
+  communicate("beadm_auto_page_delete", "sysadm", "beadm", obj);
   startingRequest(tr("Deleting Boot Environment...") );
 }
 
@@ -143,7 +143,7 @@ void beadm_page::rename_be(){
     obj.insert("action","renamebe");
     obj.insert("source",selbe);
     obj.insert("target",newname);
-  CORE->communicate("beadm_auto_page_rename", "sysadm", "beadm", obj);
+  communicate("beadm_auto_page_rename", "sysadm", "beadm", obj);
   startingRequest(tr("Renaming Boot Environment...") );	
 }
 
@@ -154,7 +154,7 @@ void beadm_page::mount_be(){
     obj.insert("action","mountbe");
     obj.insert("be",selbe);
     //obj.insert("mountpoint",""); 
-  CORE->communicate("beadm_auto_page_mount", "sysadm", "beadm", obj);
+  communicate("beadm_auto_page_mount", "sysadm", "beadm", obj);
   startingRequest(tr("Mounting Boot Environment...") );
 }
 
@@ -164,7 +164,7 @@ void beadm_page::unmount_be(){
   QJsonObject obj;
     obj.insert("action","unmountbe");
     obj.insert("be",selbe);
-  CORE->communicate("beadm_auto_page_unmount", "sysadm", "beadm", obj);
+  communicate("beadm_auto_page_unmount", "sysadm", "beadm", obj);
   startingRequest(tr("Unmounting Boot Environment...") );
 }
 
@@ -174,14 +174,13 @@ void beadm_page::activate_be(){
   QJsonObject obj;
     obj.insert("action","activate");
     obj.insert("target",selbe);
-  CORE->communicate("beadm_auto_page_activate", "sysadm", "beadm", obj);
+  communicate("beadm_auto_page_activate", "sysadm", "beadm", obj);
   startingRequest(tr("Activating Boot Environment...") );	
 }
 
 void beadm_page::updateList(){
   QJsonObject obj;
     obj.insert("action","listbes");
-  CORE->communicate("beadm_auto_page_list", "sysadm", "beadm", obj);
+  communicate("beadm_auto_page_list", "sysadm", "beadm", obj);
   startingRequest(tr("Retrieving List...") );
 }
-

@@ -25,15 +25,14 @@ public:
 	void startPage();
 		
 	QString pageID(){ return "page_ssl_auth"; } //ID is used to identify which type of page this is
-	
+	void ParseReply(QString, QString, QString, QJsonValue);
+
 private:
 	Ui::page_ssl_auth_ui *ui;
 
 	void requestList();
 
 private slots:
-	void ParseReply(QString, QString, QString, QJsonValue);
-
 	//GUI interactions
 	void on_treeWidget_currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *);
 	void on_treeWidget_itemActivated(QTreeWidgetItem *, int);

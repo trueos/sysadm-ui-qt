@@ -29,7 +29,8 @@ public:
 	void startPage();
 		
 	QString pageID(){ return "page_lp"; } //ID is used to identify which type of page this is
-	
+	void ParseReply(QString, QString, QString, QJsonValue);
+
 private:
 	Ui::lp_ui *ui;
 	QStringList zpools; //available zpools
@@ -37,7 +38,6 @@ private:
 	void send_list_zpools();
 
 private slots:
-	void ParseReply(QString, QString, QString, QJsonValue);
 
 	//CORE Interactions (buttons usually)
       // - snapshots page
