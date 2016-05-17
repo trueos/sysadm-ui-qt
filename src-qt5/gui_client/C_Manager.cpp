@@ -178,7 +178,7 @@ bool C_Manager::generateKeyCertBundle(QString bundlefile, QString nickname, QStr
     EVP_MD *digest=0;
 	
     //Get a "serial" number
-    int serial = 1; //temporary placeholder
+    int serial = ( (bundlefile==SSLFile()) ? 1 : 2 ); //temporary placeholder
 
     // Generate the RSA key
     rsakey = RSA_generate_key(2048, RSA_F4, NULL, NULL);
