@@ -44,7 +44,7 @@ public:
 	virtual QString pageID(){ return ""; } //ID is used to identify which type of page this is
 	
 	//Received Messages from CORE
-	virtual void ParseReply(QString id, QString namesp, QString name, QJsonValue args){}
+	virtual void ParseReply(QString, QString, QString, QJsonValue){}
 	virtual void ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue){}
 
 	//Send Message to CORE (overloaded versions)

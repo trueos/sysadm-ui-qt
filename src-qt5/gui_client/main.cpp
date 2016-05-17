@@ -20,7 +20,7 @@
 
 //Initialize the global variables (defined in globals.h)
 QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PCBSD","sysadm-client", 0);
-QSslConfiguration SSL_cfg; //null-loaded config object
+QSslConfiguration SSL_cfg, SSL_cfg_bridge; //null-loaded config objects
 
 int main( int argc, char ** argv )
 {

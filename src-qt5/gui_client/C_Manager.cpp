@@ -40,20 +40,16 @@ C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
   connect(ui->actionFinished, SIGNAL(triggered()), this, SLOT(close()) );
   connect(treeTimer, SIGNAL(timeout()), this, SLOT(SaveConnectionInfo()) );
   connect(ui->tree_conn->model(), SIGNAL(rowsInserted(const QModelIndex&,int,int)), this, SLOT(tree_items_changed()) );
-	
+  connect(ui->radio_ssl_bridge, SIGNAL(toggled(bool)), this, SLOT(LoadCertView()) );
+
   LoadConnectionInfo();
   verify_cert_inputs();
-  //Connect some signals/slots
+  //Connect some late signals/slots which might be impacted by the default loads
   connect(ui->line_cert_email, SIGNAL(textEdited(const QString&)), this, SLOT(verify_cert_inputs()) );
   connect(ui->line_cert_nick, SIGNAL(textEdited(const QString&)), this, SLOT(verify_cert_inputs()) );
 	
   //Show the proper page
-  if( !QFile::exists(SSLFile()) ){
-    ui->actionView_Connections->setEnabled( false );
-    ui->actionSetup_SSL->trigger();
-  }else{
-    ui->actionView_Connections->trigger();
-  }
+  checkFilesLoaded();
   //this->resize(this->sizeHint());
 }
 
@@ -99,6 +95,19 @@ void C_Manager::LoadConnectionInfo(){
     QApplication::processEvents();
   }
   on_tree_conn_itemSelectionChanged();
+}
+
+void C_Manager::checkFilesLoaded(){
+  bool ok = !SSL_cfg.isNull() && !SSL_cfg_bridge.isNull(); //check the validity of the globals
+  ui->actionView_Connections->setEnabled( ok );
+  ui->tabwidget_ssl_settings->setTabEnabled(1,ok);
+  if(!ok ){
+    ui->tabwidget_ssl_settings->setCurrentIndex(0);
+    ui->actionSetup_SSL->trigger();
+  }else{
+    ui->actionView_Connections->trigger();
+    LoadCertView();
+  }
 }
 
 void C_Manager::SaveConnectionInfo(){
@@ -353,7 +362,7 @@ void C_Manager::on_push_conn_rem_clicked(){
 
 void C_Manager::on_push_conn_export_clicked(){
   //Read in the settings/key files (raw bytes)
-  QByteArray sFile, keyFile;
+  QByteArray sFile, keyFile, bridgeFile;
   QFile file(settings->fileName());
   bool ok = false;
   if(file.open(QIODevice::ReadOnly) ){
@@ -369,6 +378,14 @@ void C_Manager::on_push_conn_export_clicked(){
   }else{
     ok = false;
   }
+  file.setFileName(SSLBridgeFile());
+  if(file.open(QIODevice::ReadOnly) ){
+    bridgeFile = file.readAll();
+    file.close();
+    ok = ok && true;
+  }else{
+    ok = false;
+  }
   if(!ok){
     QMessageBox::warning(this, tr("Export Error"), tr("Could not read settings and SSL files") );
     return;
@@ -376,6 +393,7 @@ void C_Manager::on_push_conn_export_clicked(){
   //Base64 encode the files
   sFile = sFile.toBase64();
   keyFile = keyFile.toBase64();
+  bridgeFile = bridgeFile.toBase64();
   //Save the encoded bytes/strings to the new file
   file.setFileName(QDir::homePath()+"/sysadm_client.export");
   if(!file.open(QIODevice::WriteOnly)){
@@ -386,6 +404,8 @@ void C_Manager::on_push_conn_export_clicked(){
   file.write(sFile);
   file.write(EXPORTFILEDELIM);
   file.write(keyFile);
+  file.write(EXPORTFILEDELIM);
+  file.write(bridgeFile);
   file.close();
   //Now alert the user about the new export file
   QMessageBox::information(this, tr("Export Finished"), QString(tr("SysAdm settings export successful.\nFile Location: %1")).arg(file.fileName()) );
@@ -473,17 +493,19 @@ void C_Manager::on_push_ssl_create_clicked(){
     pass2 = QInputDialog::getText(this, tr("SSL Passphrase"), tr("(Did not Match) Retype Password"), QLineEdit::Password );
   }
   if(pass2.isEmpty()){ return; }
-
+  QString nick = ui->line_cert_nick->text();
+  QString email = ui->line_cert_email->text();
   //Now generate the key/crt file bundle
-  bool ok = generateKeyCertBundle(SSLFile(), ui->line_cert_nick->text(), ui->line_cert_email->text(), pass);
+  bool ok = generateKeyCertBundle(SSLFile(), nick, email, pass);
   if(!ok){ qDebug() << "Could not create/package SSL files"; return;}
-  else{ LoadSSLFile(pass); }//go ahead and load the package into memory for instant usage
+  ok = generateKeyCertBundle(SSLBridgeFile(), nick, email, pass);
+  if(!ok){ qDebug() << "Could not create/package SSL Bridge files"; return; }
+  LoadSSLFile(pass); //go ahead and load the packages into memory for instant usage
   emit SettingsChanged();
   
   //Now update the UI as needed
     //Show the proper page
-  ui->actionView_Connections->setEnabled(ok);
-  if(ok){ ui->actionView_Connections->trigger(); }
+  checkFilesLoaded();
 }
 
 void C_Manager::on_push_ssl_import_clicked(){
@@ -504,11 +526,14 @@ void C_Manager::on_push_ssl_import_clicked(){
     return;
   }
   int delstart = raw.indexOf(EXPORTFILEDELIM);
-  QByteArray sFile = raw.left(delstart);
-  QByteArray keyFile = raw.mid(delstart+QString(EXPORTFILEDELIM).length()); //everything after the delimiter
+  QByteArray sFile = raw.left(delstart); raw.remove(0, sFile.length()+QString(EXPORTFILEDELIM).length());
+  delstart = raw.indexOf(EXPORTFILEDELIM);
+  QByteArray keyFile = raw.left(delstart); raw.remove(0,sFile.length());
+  QByteArray bridgeFile = raw.mid(delstart+QString(EXPORTFILEDELIM).length()); //everything after the delimiter
   //Convert the bytes back from base64 encoding
   sFile = QByteArray::fromBase64(sFile);
   keyFile = QByteArray::fromBase64(keyFile);
+  bridgeFile = QByteArray::fromBase64(bridgeFile);
   //Now save the files into their proper places
   // - settings file
   file.setFileName(settings->fileName());
@@ -528,7 +553,30 @@ void C_Manager::on_push_ssl_import_clicked(){
   }
   file.write(keyFile);
   file.close();  
+  // - bridge file
+  file.setFileName(SSLBridgeFile());
+  if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate) ){
+    //Could not save SSL key file (should never happen - this file is always read/write capable in this app by definition)
+    QMessageBox::warning(this, tr("Import Error"), tr("Could not overwrite sysadm SSL bundle") );
+    return; 
+  }
+  file.write(bridgeFile);
+  file.close();  
   //Now restart the client completely (lots of various things which changed and need to be completely re-loaded)
   QProcess::startDetached(QApplication::arguments()[0], QApplication::arguments());
   QApplication::exit(0);
 }
+
+void C_Manager::LoadCertView(){
+  if(SSL_cfg.isNull() || SSL_cfg_bridge.isNull()){ return; }
+  qDebug() << "Load Cert View";
+  QSslCertificate cert;
+  if(ui->radio_ssl_bridge->isChecked()){ cert = SSL_cfg_bridge.localCertificate(); }
+  else{ cert = SSL_cfg.localCertificate(); }
+  ui->text_ssl_view->setPlainText( cert.toText() );
+}
+
+void C_Manager::on_push_ssl_cert_to_file_clicked(){
+  qDebug() << "save public cert to file";
+}
+

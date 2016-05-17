@@ -26,6 +26,7 @@ private:
 
 	void LoadConnectionInfo();
 
+	void checkFilesLoaded();
 
 	//Simplification functions for reading/writing tree widget paths
 	QTreeWidgetItem* FindItemParent(QString path);
@@ -55,7 +56,9 @@ private slots:
 	void verify_cert_inputs();
 	void on_push_ssl_create_clicked();
 	void on_push_ssl_import_clicked();
-
+	void LoadCertView();
+	void on_push_ssl_cert_to_file_clicked();
+	
 signals:
 	void SettingsChanged();
 

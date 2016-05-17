@@ -71,6 +71,7 @@
 extern QSettings *settings;
 //Unencrypted SSL objects (after loading them by user passphrase)
 extern QSslConfiguration SSL_cfg; //Check "isNull()" to see if the user settings have been loaded yet
+extern QSslConfiguration SSL_cfg_bridge;
 
 //Global SSL config functions
 inline QString SSLFile(){
@@ -80,29 +81,43 @@ inline QString SSLFile(){
     return dir.absoluteFilePath("sysadm_ssl.pfx12");
   }
 }
+inline QString SSLBridgeFile(){
+  if(settings==0){ return ""; } //should never happen: settings gets loaded at the start
+  else{
+    QDir dir(settings->fileName()); dir.cdUp(); //need the containing dir in an OS-agnostic way
+    return dir.absoluteFilePath("sysadm_ssl_bridge.pfx12");
+  }
+}
 
 inline bool LoadSSLFile(QString pass){
-  QFile certFile( SSLFile() );
+  bool imported = true;
+  for(int i=0; i<2 && imported; i++){
+    QFile certFile( (i==0) ? SSLFile() : SSLBridgeFile() );
     if(!certFile.open(QFile::ReadOnly) ){ return false; } //could not open file
-  QSslCertificate certificate;
-  QSslKey key;
-  QList<QSslCertificate> importedCerts;
+    QSslCertificate certificate;
+    QSslKey key;
+    QList<QSslCertificate> importedCerts;
 
-  bool imported = QSslCertificate::importPkcs12(&certFile, &key, &certificate, &importedCerts, QByteArray::fromStdString(pass.toStdString()));
-  certFile.close();
-  //If successfully unencrypted, save the SSL structs for use later
-  if(imported){
-    //First load the system defaults
-    SSL_cfg = QSslConfiguration::defaultConfiguration();
-    QList<QSslCertificate> certs = SSL_cfg.caCertificates();
-    QList<QSslCertificate> localCerts = SSL_cfg.localCertificateChain();
-      localCerts.append(certificate); //add the new local certs
-      certs.append(importedCerts); //add the new CA certs
-    //Now save the changes to the global struct
-    SSL_cfg.setLocalCertificateChain(localCerts);
-    SSL_cfg.setCaCertificates(certs);
-    SSL_cfg.setPrivateKey(key);
-  }
+    imported = QSslCertificate::importPkcs12(&certFile, &key, &certificate, &importedCerts, QByteArray::fromStdString(pass.toStdString()));
+    certFile.close();
+    //If successfully unencrypted, save the SSL structs for use later
+    if(imported){
+      //First load the system defaults
+      QSslConfiguration cfg = QSslConfiguration::defaultConfiguration();
+      //QList<QSslCertificate> certs = SSL_cfg.caCertificates();
+      QList<QSslCertificate> localCerts = cfg.localCertificateChain();
+      //cfg.setLocalCertificate(certificate); //add the new local certs (main cert)
+      localCerts.append(certificate);
+      if(!importedCerts.isEmpty()){ localCerts.append(importedCerts); } //any other certs
+      //Now save the changes to the global struct
+      cfg.setLocalCertificateChain(localCerts);
+      //SSL_cfg.setCaCertificates(certs);
+      cfg.setPrivateKey(key);
+      //Now set the global variable(s)
+      if(i==0){ SSL_cfg = cfg; }
+      else{ SSL_cfg_bridge = cfg; }
+    }
+  } //end loop over files
   return imported;
 }
 
@@ -110,5 +125,3 @@ inline bool LoadSSLFile(QString pass){
 #define LOCALHOST QString("127.0.0.1")
 
 #endif
-
-
