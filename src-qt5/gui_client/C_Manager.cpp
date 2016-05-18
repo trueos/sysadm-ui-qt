@@ -585,7 +585,7 @@ void C_Manager::on_push_ssl_import_clicked(){
 
 void C_Manager::LoadCertView(){
   if(SSL_cfg.isNull() || SSL_cfg_bridge.isNull()){ return; }
-  qDebug() << "Load Cert View";
+  //qDebug() << "Load Cert View";
   QSslCertificate cert;
   if(ui->radio_ssl_bridge->isChecked()){ cert = SSL_cfg_bridge.localCertificate(); }
   else{ cert = SSL_cfg.localCertificate(); }
@@ -594,4 +594,26 @@ void C_Manager::LoadCertView(){
 
 void C_Manager::on_push_ssl_cert_to_file_clicked(){
   qDebug() << "save public cert to file";
+  //First load the key and filename based on which cert is being viewed
+  QByteArray pubkey;
+  QString filename;
+  if(ui->radio_ssl_bridge->isChecked()){ 
+    pubkey = SSL_cfg_bridge.localCertificate().publicKey().toPem(); 
+    filename = "sysadm-client-to-bridge.key";
+  }else{ 
+    pubkey = SSL_cfg.localCertificate().publicKey().toPem(); 
+    filename = "sysadm-client-to-server.key";
+  }
+  //Now save the key to file
+  QString dir = QDir::homePath();
+  if(QFile::exists(dir+"/Desktop/") ){ dir.append("/Desktop/"); }
+  QFile file(dir+filename);
+  if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)){ 
+    qDebug() << "Could not save file:" << dir+filename;
+    return;
+  }
+  file.write(pubkey);
+  file.close();
+  qDebug() << "Public Key saved to file:" << dir+filename;
+  
 }
