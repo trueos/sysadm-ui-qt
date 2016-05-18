@@ -37,7 +37,7 @@
 
 extern QSettings *settings;
 //Unencrypted SSL objects (after loading them by user passphrase)
-extern QSslConfiguration SSL_cfg; //Check "isNull()" to see if the user settings have been loaded yet
+extern QSslConfiguration SSL_cfg, SSL_cfg_bridge; //Check "isNull()" to see if the user settings have been loaded yet
 
 // === PUBLIC ===
 sysadm_client::sysadm_client(){
@@ -308,9 +308,15 @@ message_in sysadm_client::convertServerReply(QString reply){
   return msg; 
 }
 
-QString sysadm_client::SSL_Encode_String(QString str){
+QString sysadm_client::pubkeyMD5(QSslConfiguration cfg){
+  QCryptographicHash chash(QCryptographicHash::Md5);
+        chash.addData( cfg.localCertificate().publicKey().toPem() );
+   return QString(chash.result()); 
+}
+
+QString sysadm_client::SSL_Encode_String(QString str, QSslConfiguration cfg){
   //Get the private key
-  QByteArray privkey = SSL_cfg.privateKey().toPem();
+  QByteArray privkey = cfg.privateKey().toPem();
   
   //Now use this private key to encode the given string
   unsigned char encode[4098] = {};
@@ -572,7 +578,10 @@ bool sysadm_client::handleMessageInternally(message_in msg){
           reply.insert("name","auth_ssl");
           reply.insert("namespace","rpc");
           QJsonObject args;
-          args.insert("encrypted_string", SSL_Encode_String(randomkey));
+	  QString enc_string;
+          if(isbridge && msg.from_bridge_id.isEmpty()){ enc_string = SSL_Encode_String(randomkey, SSL_cfg_bridge); }
+          else{ enc_string = SSL_Encode_String(randomkey, SSL_cfg); }
+          args.insert("encrypted_string", enc_string);
           reply.insert("args",args);
         }
       }else{
@@ -627,9 +636,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
     if(msg.args.isObject() && msg.args.toObject().value("action").toString()=="list_ssl_checksums"){
       QJsonObject args;
         QJsonArray arr;
-        QCryptographicHash chash(QCryptographicHash::Md5);
-        chash.addData( SSL_cfg.localCertificate().publicKey().toPem() );
-        arr << QString(chash.result());
+        arr << pubkeyMD5(SSL_cfg);
         args.insert("md5_keys",arr);
       reply.insert("args",args);
     }else{ return false; }

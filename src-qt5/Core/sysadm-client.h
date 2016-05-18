@@ -106,7 +106,8 @@ private:
 
 	//Simplification functions
 	message_in convertServerReply(QString reply);
-	QString SSL_Encode_String(QString str);
+	QString pubkeyMD5(QSslConfiguration cfg);
+	QString SSL_Encode_String(QString str, QSslConfiguration cfg);
 	QString EncodeString(QString str, QString key);
 	QString DecodeString(QString str, QString key);
 
