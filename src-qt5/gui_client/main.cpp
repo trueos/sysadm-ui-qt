@@ -42,7 +42,7 @@ int main( int argc, char ** argv )
 #endif
   int ret = 0; //return code
   if(!local_only){
-  //Wait a bit until a system tray is available
+    //Wait a bit until a system tray is available
     A.setQuitOnLastWindowClosed(false); //the tray icon is not considered a window
     bool ready = false;
     for(int i=0; i<60 && !ready; i++){

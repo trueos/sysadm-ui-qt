@@ -64,6 +64,12 @@
 //Special GUI classes
 #include <QPropertyAnimation>
 
+// OpenSSL includes
+#include <openssl/x509.h>
+#include <openssl/pem.h>
+#include <openssl/pkcs12.h>
+#include <openssl/err.h>
+
 #include "../Core/sysadm-client.h"
 
 //Now define all the global variables
@@ -97,7 +103,9 @@ inline bool LoadSSLFile(QString pass){
     QSslCertificate certificate;
     QSslKey key;
     QList<QSslCertificate> importedCerts;
-
+    //Reset/Load some SSL stuff
+    OpenSSL_add_all_algorithms();
+    ERR_load_crypto_strings();
     imported = QSslCertificate::importPkcs12(&certFile, &key, &certificate, &importedCerts, QByteArray::fromStdString(pass.toStdString()));
     certFile.close();
     //If successfully unencrypted, save the SSL structs for use later

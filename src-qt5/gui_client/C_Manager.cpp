@@ -11,12 +11,6 @@
 
 #include <globals.h>
 
-// OpenSSL includes
-#include <openssl/x509.h>
-#include <openssl/pem.h>
-#include <openssl/pkcs12.h>
-#include <openssl/err.h>
-
 #define EXPORTFILEDELIM "____^^^^^^^__^^^^^^^_____" //Don't care if this is unreadable - nobody should be viewing this file directly anyway
 
 extern QHash<QString,sysadm_client*> CORES; // hostIP / core
@@ -171,6 +165,11 @@ void C_Manager::saveGroupItem(QTreeWidgetItem *group){
 
 // === SSL LIBRARY FUNCTIONS ===
 bool C_Manager::generateKeyCertBundle(QString bundlefile, QString nickname, QString email, QString passphrase){
+    //Reset/Load some SSL stuff
+    OpenSSL_add_all_algorithms();
+    ERR_load_crypto_strings();
+
+  //qDebug() << "Generate key bundle:" << bundlefile << nickname << email <<  passphrase;
     RSA *rsakey=0;
     X509 *req=0;
     X509_NAME *subj=0;
@@ -178,7 +177,7 @@ bool C_Manager::generateKeyCertBundle(QString bundlefile, QString nickname, QStr
     EVP_MD *digest=0;
 	
     //Get a "serial" number
-    int serial = ( (bundlefile==SSLFile()) ? 1 : 2 ); //temporary placeholder
+    int serial = 1; //temporary placeholder
 
     // Generate the RSA key
     rsakey = RSA_generate_key(2048, RSA_F4, NULL, NULL);
@@ -225,18 +224,35 @@ bool C_Manager::generateKeyCertBundle(QString bundlefile, QString nickname, QStr
     }
     
     //PKCS12
-    PKCS12 *p12;
-      p12 = PKCS12_create(passphrase.toLocal8Bit().data(), (char*)("sysadm-client-ssl"), pkey, req, NULL, 0,0,0,0,0);
+    PKCS12 *p12 = PKCS12_new();
+    if(p12==NULL){ 
+      qDebug() << "Error initializing pkcs12 bundle";
+      return false;
+    }
+    //qDebug() << "pkcs12 passphrase:" << passphrase.toLocal8Bit().data();
+    char name[40] = "sysadm-client-";
+    strcat(name, QString::number(qrand()%10000).toLocal8Bit().data());
+    //qDebug() << "Name:" << name;
+    p12 = PKCS12_create(passphrase.toLocal8Bit().data(), name, pkey, req, NULL, 0,0,0,0,0);
+    if(p12==NULL){ 
+      qDebug() << "Error creating pkcs12 bundle";
+      printf (ERR_error_string (ERR_peek_error(), NULL));
+      printf ("\n%s\n", ERR_error_string (ERR_peek_last_error(), NULL)); 
+      return false;
+    }
       BIO * p12Bio = BIO_new(BIO_s_mem());
       i2d_PKCS12_bio(p12Bio,p12);
       BIO_free(p12Bio);
-      FILE *fp1;
-        if (!(fp1 = fopen(bundlefile.toLocal8Bit().data(), "wb"))) {
-            qDebug() << "Error writing to p12 file";
+      FILE *fp1 = fopen(bundlefile.toLocal8Bit().data(), "wb") ;
+        if (fp1 == 0) {
+            qDebug() << "Error opening p12 file";
+        }else{
+          if( i2d_PKCS12_fp(fp1, p12) ==0 ) {
+           qDebug() << "Error writing to p12 file";
+	   return false;
+          }
+          fclose(fp1);
         }
-
-        i2d_PKCS12_fp(fp1, p12);
-        fclose(fp1);
 	
     PKCS12_free(p12);
     X509_free(req);
@@ -498,8 +514,8 @@ void C_Manager::on_push_ssl_create_clicked(){
   //Now generate the key/crt file bundle
   bool ok = generateKeyCertBundle(SSLFile(), nick, email, pass);
   if(!ok){ qDebug() << "Could not create/package SSL files"; return;}
-  ok = generateKeyCertBundle(SSLBridgeFile(), nick, email, pass);
-  if(!ok){ qDebug() << "Could not create/package SSL Bridge files"; return; }
+  ok = generateKeyCertBundle(SSLBridgeFile(), nick, email, pass2);
+  if(!ok){ QFile::remove(SSLFile()); qDebug() << "Could not create/package SSL Bridge files"; return; }
   LoadSSLFile(pass); //go ahead and load the packages into memory for instant usage
   emit SettingsChanged();
   
@@ -579,4 +595,3 @@ void C_Manager::LoadCertView(){
 void C_Manager::on_push_ssl_cert_to_file_clicked(){
   qDebug() << "save public cert to file";
 }
-
