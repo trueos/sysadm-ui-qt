@@ -23,7 +23,7 @@
 #include <openssl/err.h>
 
 #define LOCALHOST QString("127.0.0.1")
-#define DEBUG 1
+#define DEBUG 0
 
 //==================================
 // Note about connection flow:
@@ -298,6 +298,7 @@ message_in sysadm_client::convertServerReply(QString reply){
     QString key = BRIDGE[msg.from_bridge_id].enc_key;
     if(!key.isEmpty()){ reply = DecodeString(reply, key); }
   }
+  //if(!msg.from_bridge_id.isEmpty()){  qDebug() << "Convert reply:" << reply; }
   QJsonDocument doc = QJsonDocument::fromJson(reply.toUtf8());
   if(doc.isObject()){ 
     msg.id = doc.object().value("id").toString();
@@ -311,7 +312,7 @@ message_in sysadm_client::convertServerReply(QString reply){
 QString sysadm_client::pubkeyMD5(QSslConfiguration cfg){
   QCryptographicHash chash(QCryptographicHash::Md5);
         chash.addData( cfg.localCertificate().publicKey().toPem() );
-   return QString(chash.result()); 
+   return QString(chash.result().toBase64()); 
 }
 
 QString sysadm_client::SSL_Encode_String(QString str, QSslConfiguration cfg){
@@ -511,8 +512,10 @@ void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: er
 // - Main message input parsing
 void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
   if(DEBUG){ qDebug() << "New Reply From Server:" << msg; }
+  //qDebug() << "Got Message";
   message_in msg_in = convertServerReply(msg);
   if(!handleMessageInternally(msg_in)){
+    //qDebug() << "Send out message:";
     //Now save this message into the cache for use later (if not an auth reply)
     if(!msg_in.id.isEmpty()){ 
       PENDING.removeAll(msg_in.id);
@@ -527,7 +530,7 @@ void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
 }
 bool sysadm_client::handleMessageInternally(message_in msg){
   //First check to see if this is something which should be handled internally
-  if(msg.name=="response" && !PENDING.contains(msg.id) && msg.id!="sysadm-client-auth-auto"){ return true; } //do nothing - might be an injected/fake response
+  //if(msg.name=="response" && !PENDING.contains(msg.id) && msg.id!="sysadm-client-auth-auto"){ return true; } //do nothing - might be an injected/fake response
   if(msg.id == "sysadm-client-event-auto"){ return true; } //do nothing - automated response
   //HANDLE AUTH SYSTEMS
   QJsonObject reply;
@@ -649,7 +652,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
     if(!reply.contains("id")){ reply.insert("id",msg.id); } //re-use this special ID if necessary
     if(!reply.contains("name")){ reply.insert("name","response"); }
     if(!reply.contains("namespace")){ reply.insert("namespace",msg.namesp); }
-    qDebug() << "INTERNAL REPLY:" << reply;
+    //qDebug() << "INTERNAL REPLY:" << reply;
     if(msg.from_bridge_id.isEmpty()){ this->communicate(reply); }
     else{ this->communicate_bridge(msg.from_bridge_id, reply); }
   }
