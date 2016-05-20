@@ -114,7 +114,7 @@ inline bool LoadSSLFile(QString pass){
       QSslConfiguration cfg = QSslConfiguration::defaultConfiguration();
       //QList<QSslCertificate> certs = SSL_cfg.caCertificates();
       QList<QSslCertificate> localCerts = cfg.localCertificateChain();
-      //cfg.setLocalCertificate(certificate); //add the new local certs (main cert)
+      cfg.setLocalCertificate(certificate); //add the new local certs (main cert)
       localCerts.append(certificate);
       if(!importedCerts.isEmpty()){ localCerts.append(importedCerts); } //any other certs
       //Now save the changes to the global struct

@@ -45,7 +45,7 @@ CoreAction::CoreAction(sysadm_client*core, QObject *parent, QString bridge_id) :
     else if(core->isConnecting()){ CoreConnecting(); }
     else{ CoreClosed(); }
     //Setup the core connections
-    connect(core, SIGNAL(BridgeAuthorized(QString)), this, SLOT(bridgeAuthorized(QString)) );
+    connect(core, SIGNAL(bridgeAuthorized(QString)), this, SLOT(bridgeAuthorized(QString)) );
     connect(core, SIGNAL(bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue)) );
     connect(core, SIGNAL(bridgeStatePriorityChanged(QString, int)), this, SLOT(bridgePriorityChanged(QString, int)) );
   }
