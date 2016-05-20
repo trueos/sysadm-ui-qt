@@ -23,7 +23,7 @@
 #include <openssl/err.h>
 
 #define LOCALHOST QString("127.0.0.1")
-#define DEBUG 0
+#define DEBUG 1
 
 //==================================
 // Note about connection flow:
@@ -445,6 +445,7 @@ void sysadm_client::setupSocket(){
   url.section(":",-1).toInt(&hasport); //check if the last piece of the url is a valid number
   //Could add a check for a valid port number as well - but that is a bit overkill right now
   if(!hasport){ url.append(":"+QString::number(WSPORTDEFAULT)); }
+  else if(url.endsWith(":12149")){ isbridge = true; } //assume this is a bridge for the moment (will adjust on connection)
   qDebug() << " Open WebSocket:  URL:" << url;
   QTimer::singleShot(0,SOCKET, SLOT(ignoreSslErrors()) );
   SOCKET->open(QUrl(url));
@@ -452,7 +453,7 @@ void sysadm_client::setupSocket(){
 }
 
 void sysadm_client::sendPing(){
-  communicate("sysadm_client_ping", "rpc","query","");
+  communicate("sysadm_client_ping", "rpc","identify","");
 }
 
 //Socket signal/slot connections
@@ -648,6 +649,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
     if(!reply.contains("id")){ reply.insert("id",msg.id); } //re-use this special ID if necessary
     if(!reply.contains("name")){ reply.insert("name","response"); }
     if(!reply.contains("namespace")){ reply.insert("namespace",msg.namesp); }
+    qDebug() << "INTERNAL REPLY:" << reply;
     if(msg.from_bridge_id.isEmpty()){ this->communicate(reply); }
     else{ this->communicate_bridge(msg.from_bridge_id, reply); }
   }

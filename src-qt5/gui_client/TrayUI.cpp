@@ -100,11 +100,12 @@ void sysadm_tray::updateCoreList(){
     known.sort(); //sort by name
     //Now add these hosts to the menu
     for(int i=0; i<known.length(); i++){
-      QString host = known[i].section("/",1,500).section("/username",0,0);
+      QString host = known[i].section("/",1,-1).section("/username",0,0);
       if(!CORES.contains(host)){
-	      getCore(host);      
-	      QString user = settings->value(known[i]).toString();
-	      CORES[host]->openConnection(host);
+          qDebug() << "Connect To Host:" << host;
+	  getCore(host);      
+	  QString user = settings->value(known[i]).toString();
+	  CORES[host]->openConnection(host);
       }
     }
   }
