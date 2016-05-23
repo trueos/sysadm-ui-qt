@@ -35,6 +35,7 @@ private slots:
 	void bridgePriorityChanged(QString, int);
 
 signals:
+	void updateParent(); //parent menu needs to update (significant change to CORE)
 	//Show a tray message popup
 	void ShowMessage(HostMessage);
 	void ClearMessage(QString, QString); //host ID, message ID
@@ -53,6 +54,7 @@ public:
 
 private slots:
 	void menuTriggered(QAction*);
+	void triggerReconnect();
 
 	void CoreClosed();
 	void CoreConnecting();
@@ -67,6 +69,7 @@ signals:
 	void ShowMessage(HostMessage);
 	void ClearMessage(QString, QString);
 	void UpdateTrayIcon();
+	void updateParent(); //parent menu needs to update (significant change to CORE)
 };
 
 //Normal Menu (categories)

@@ -170,10 +170,18 @@ void sysadm_tray::OpenCore(QString host){
   if(getCore(host)->isConnecting()){ return; } //wait - still trying to connect
   //Open a new window for this host
   sysadm_client *core = getCore(host);
-  MainUI *tmp = new MainUI(core,"", b_id);
-  if(core->isReady()){  tmp->showNormal(); }
-  connect(tmp, SIGNAL(ClientClosed(MainUI*)), this, SLOT(ClientClosed(MainUI*)) );
-  CLIENTS << tmp;	
+  if(core->isBridge()){ 
+    if(!core->isConnecting() && !core->isReady()){
+      //Attempt to reconnect
+      core->openConnection();
+    }
+    return;
+  }else{
+    MainUI *tmp = new MainUI(core,"", b_id);
+    if(core->isReady()){  tmp->showNormal(); }
+    connect(tmp, SIGNAL(ClientClosed(MainUI*)), this, SLOT(ClientClosed(MainUI*)) );
+    CLIENTS << tmp;	
+  }
 }
 
 void sysadm_tray::UnlockConnections(){

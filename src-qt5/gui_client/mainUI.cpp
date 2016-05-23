@@ -129,9 +129,9 @@ void MainUI::ServerShutdown(){
 
 //Page Management
 void MainUI::loadPage(QString id){
-  qDebug() << "Load Page:" << id;
+  //qDebug() << "Load Page:" << id;
   PageWidget *page = GetNewPage(id, this, CORE);
-  qDebug() << "Got Page:" << page;
+  //qDebug() << "Got Page:" << page;
   if(page==0){ return; }
   page->setObjectName(id);
   currentPage = id;
@@ -177,7 +177,7 @@ void MainUI::SavePage(){
 }
 
 void MainUI::send_message(QJsonObject msg){
-  qDebug() << "Send Message:" << b_id << msg;
+  //qDebug() << "Send Message:" << b_id << msg;
   this->emit send_client_message(b_id, msg); //include the bridge ID (if there is one)
 }
 
@@ -200,13 +200,13 @@ void MainUI::Disconnected(){
 
 //Main message signals from core
 void MainUI::newReply(QString id, QString namesp, QString name, QJsonValue args){
-  qDebug() << "Normal Reply:" << b_id << id;
+  //qDebug() << "Normal Reply:" << b_id << id;
   if(!b_id.isEmpty()){ return; } //this reply not for this window
   static_cast<PageWidget*>(this->centralWidget())->ParseReply(id, namesp, name, args);
 }
 
 void MainUI::bridgeReply(QString bridge_id,QString id, QString namesp, QString name, QJsonValue args){
-  qDebug() << "New Bridge Reply:" << bridge_id << b_id << id;
+  //qDebug() << "New Bridge Reply:" << bridge_id << b_id << id;
   if(b_id != bridge_id){ return; } //this reply not for this window
   static_cast<PageWidget*>(this->centralWidget())->ParseReply(id, namesp, name, args);
 }

@@ -454,7 +454,7 @@ void sysadm_client::setupSocket(){
   url.section(":",-1).toInt(&hasport); //check if the last piece of the url is a valid number
   //Could add a check for a valid port number as well - but that is a bit overkill right now
   if(!hasport){ url.append(":"+QString::number(WSPORTDEFAULT)); }
-  else if(url.endsWith(":12149")){ isbridge = true; } //assume this is a bridge for the moment (will adjust on connection)
+  //else if(url.endsWith(":12149")){ isbridge = true; } //assume this is a bridge for the moment (will adjust on connection)
   qDebug() << " Open WebSocket:  URL:" << url;
   QTimer::singleShot(0,SOCKET, SLOT(ignoreSslErrors()) );
   SOCKET->open(QUrl(url));
@@ -481,11 +481,12 @@ void sysadm_client::socketClosed(){ //Signal: disconnected()
   qDebug() << " - Connection Closed:" << chost;
   if(connectTimer->isActive()){ connectTimer->stop(); }
   if(pingTimer->isActive()){ pingTimer->stop(); }
-  isbridge = false; //always reset this flag
   BRIDGE.clear();
+  isbridge = false;
   if(keepActive){ 
     //Socket closed due to timeout/server
     // Go ahead and re-open it in one minute if possible with the last-used settings/auth
+    qDebug() << " - - Will attempt to reconnect in 1 minute";
     QTimer::singleShot(60000, this, SLOT(setupSocket()) );
   }
   emit clientDisconnected();
@@ -545,12 +546,15 @@ bool sysadm_client::handleMessageInternally(message_in msg){
   if(msg.id=="sysadm_client_identify"){
     QString type = msg.args.toObject().value("type").toString();
     bool startauth = false;
+    bool oldisbridge = isbridge;
     if(type=="bridge"){ isbridge = true; startauth = true; }
     else if(type=="server"){ isbridge = false; startauth = true; }
     else{  
       qDebug() << "Unknown system type:" << type <<"\nClosing Connection..."; 
       this->closeConnection();  //unknown type of system - disconnect now
     }
+    //qDebug() << "Got identify response:" << type << isbridge << startauth;
+    
     if(startauth){
       keepActive = true; //got a valid connection - try to keep this open automatically unless the user closes it
       emit clientConnected();
@@ -559,7 +563,9 @@ bool sysadm_client::handleMessageInternally(message_in msg){
       //Ensure SSL connection to non-localhost (only user needed for localhost)
       if(chost!=LOCALHOST && !chost.startsWith(LOCALHOST+":") ){ cuser.clear(); }
     }
+    if(oldisbridge != isbridge){ emit clientTypeChanged(); }
   }else if(msg.id=="sysadm-client-auth-auto"){
+    //qDebug() << "Auth Reply" << msg.name << msg.namesp << msg.args;
     //Reply to automated auth system
     if(msg.name=="error"){
       closeConnection();

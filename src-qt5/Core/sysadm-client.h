@@ -138,6 +138,7 @@ private slots:
 	bool handleMessageInternally(message_in msg);
 
 signals:
+	void clientTypeChanged(); //the bridge/server type changed
 	void clientConnected(); //Stage 1 - host address is valid
 	void clientAuthorized(); //Stage 2 - user is authorized to continue
 	void clientReconnecting(); //emitted periodically while attempting to establish a connection to the server
