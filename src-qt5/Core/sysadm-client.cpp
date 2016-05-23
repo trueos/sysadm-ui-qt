@@ -153,7 +153,15 @@ void sysadm_client::registerForEvents(EVENT_TYPE event, bool receive){
   else{ events.removeAll(event); }
   //Since this can be setup before the socket is connected - see if we can send this message right away
   if(SOCKET->isValid()){
-    sendEventSubscription(event, receive);
+    if(isbridge){
+      //Send this event notice to all bridge connections
+      QStringList ids = BRIDGE.keys();
+      for(int i=0; i<ids.length(); i++){
+        sendEventSubscription_bridge(ids[i], event, receive);
+      }
+    }else{
+      sendEventSubscription(event, receive);
+    }
   }
 }
 
