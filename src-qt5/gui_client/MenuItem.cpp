@@ -19,7 +19,7 @@ CoreAction::CoreAction(sysadm_client*core, QObject *parent, QString bridge_id) :
   if(b_id.isEmpty()){ this->setWhatsThis("core::"+host); }
   else{ this->setWhatsThis(b_id); }
   if(b_id.isEmpty()){ nickname = settings->value("Hosts/"+host,"").toString(); }
-  else{ nickname = b_id; } //trim this down later (hostname+UUID)
+  else{ nickname = b_id.section("::{",0,0); } //(hostname+UUID) Only need hostname for visuals
   if(nickname.isEmpty()){
     if( core->isLocalHost() ){ nickname = tr("Local System"); }
     else{ nickname = host; }
@@ -175,13 +175,14 @@ void CoreMenu::menuTriggered(QAction *act){
   if(!act->whatsThis().isEmpty()){ emit OpenCore(host+"/"+act->whatsThis()); }
 }
 void CoreMenu::triggerReconnect(){
-  qDebug() << "Reconnect to Bridge:" << host;
-  emit OpenCore(host);
-  //emit updateParent();
+  if(CORES.contains(host)){
+    qDebug() << "Reconnect to Bridge:" << host;
+    CORES[host]->openConnection(); //re-use previous setup
+  }
 }
 
 void CoreMenu::CoreClosed(){
-  //qDebug() << " - Got Bridge Closed...";
+  qDebug() << " - Got Bridge Closed...";
   this->setIcon( QIcon(":/icons/grey/guidepost.svg") );
   this->setToolTip( tr("Connection Closed") );
   BridgeConnectionsChanged(QStringList()); //clear the menu
@@ -190,14 +191,14 @@ void CoreMenu::CoreClosed(){
 }
 
 void CoreMenu::CoreConnecting(){
-  //qDebug() << " - Got Bridge Connecting...";
+  qDebug() << " - Got Bridge Connecting...";
   this->setIcon( QIcon(":/icons/black/sync.svg") );
   this->setToolTip( tr("Trying to connect....") );
   this->setEnabled(false);
 }
 
 void CoreMenu::CoreActive(){
-  //qDebug() << " - Got Bridge Connected...";
+  qDebug() << " - Got Bridge Connected...";
   this->setIcon( QIcon(":/icons/black/guidepost.svg") );
   this->setToolTip( tr("Connection Active") );
   this->setEnabled(true);
@@ -205,7 +206,7 @@ void CoreMenu::CoreActive(){
 }
 
 void CoreMenu::BridgeConnectionsChanged(QStringList conns){
-  //qDebug() << " - Got Bridge Connections Changed";
+  qDebug() << " - Got Bridge Connections Changed";
   if(!CORES.contains(host)){ return; }
   this->setEnabled(true);
   conns.sort(); //sort alphabetically
@@ -284,7 +285,7 @@ void MenuItem::addCoreAction(QString host){
     connect(bmen, SIGNAL(UpdateTrayIcon()), this, SIGNAL(UpdateTrayIcon()) );
     connect(bmen, SIGNAL(updateParent()), this, SLOT(UpdateMenu()) );
   }else{
-    CoreAction *act = new CoreAction(CORES[host], this);
+    CoreAction *act = new CoreAction(core, this);
     this->addAction(act);
     connect(act, SIGNAL(ShowMessage(HostMessage)), this, SIGNAL(ShowMessage(HostMessage)) );
     connect(act, SIGNAL(ClearMessage(QString, QString)), this, SIGNAL(ClearMessage(QString, QString)) );
@@ -295,7 +296,7 @@ void MenuItem::addCoreAction(QString host){
 
 // === PUBLIC SLOTS ===
 void MenuItem::UpdateMenu(){
-  //qDebug() << "Update Menu";
+  qDebug() << "Update Menu";
   QString pathkey = this->whatsThis();
   if(!pathkey.startsWith("C_Groups/") && !pathkey.isEmpty()){pathkey.prepend("C_Groups/"); }
   else if(pathkey.isEmpty()){ pathkey = "C_Groups"; }

@@ -33,7 +33,7 @@ struct message_in{
 };
 
 struct bridge_data{
-  QString enc_key; //current encryption key to use
+  QByteArray enc_key; //current encryption key to use
   QString auth_tok; //current authentication token
 };
 
@@ -108,8 +108,8 @@ private:
 	message_in convertServerReply(QString reply);
 	QString pubkeyMD5(QSslConfiguration cfg);
 	QString SSL_Encode_String(QString str, QSslConfiguration cfg);
-	QString EncodeString(QString str, QString key);
-	QString DecodeString(QString str, QString key);
+	QString EncodeString(QString str, QByteArray key);
+	QString DecodeString(QString str, QByteArray key);
 
 public slots:
 	// Overloaded Communication functions

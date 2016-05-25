@@ -14,6 +14,9 @@ MainUI::MainUI(sysadm_client *core, QString pageID, QString bridgeID) : QMainWin
   CORE = core;
   host = core->currentHost();
   b_id = bridgeID;
+  if(b_id.isEmpty()){ nickname = host; }
+  else{ nickname = b_id.section("::{",0,0); } //only use the first part of the name (rest is a UUID)
+
   //Setup the CORE connections
   connect(this, SIGNAL(send_client_message(QString, QJsonObject)), CORE, SLOT(communicate_bridge(QString, QJsonObject)) );
 
@@ -162,7 +165,7 @@ void MainUI::loadPage(QString id){
 
 void MainUI::ShowPageTitle(QString title){
   ui->actionTitle->setText(title);
-  this->setWindowTitle("SysAdm: "+title+" ("+host+")" );
+  this->setWindowTitle("SysAdm: "+title+" ("+nickname+")" );
 }
 
 void MainUI::ShowSaveButton(){

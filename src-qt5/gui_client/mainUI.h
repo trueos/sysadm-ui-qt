@@ -24,7 +24,7 @@ public:
 
 private:
 	Ui::MainUI *ui;
-	QString currentPage, host, b_id;
+	QString currentPage, host, b_id, nickname;
 	void InitializeUI();
 	sysadm_client *CORE;
 	QShortcut *s_quit;

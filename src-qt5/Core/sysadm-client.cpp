@@ -42,6 +42,7 @@ extern QSslConfiguration SSL_cfg, SSL_cfg_bridge; //Check "isNull()" to see if t
 // === PUBLIC ===
 sysadm_client::sysadm_client(){
   SOCKET = new QWebSocket("sysadm-client", QWebSocketProtocol::VersionLatest, this);
+    SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
     //use the new Qt5 connection syntax for compile time checks that connections are valid
     connect(SOCKET, &QWebSocket::connected, this, &sysadm_client::socketConnected);
     connect(SOCKET, &QWebSocket::disconnected, this, &sysadm_client::socketClosed);
@@ -245,11 +246,15 @@ void sysadm_client::performAuth(QString user, QString pass){
 }
 
 void sysadm_client::performAuth_bridge(QString bridge_id){
+  qDebug() << "Start Bridge Auth:" << bridge_id;
   QJsonObject obj;
   obj.insert("namespace","rpc");
   obj.insert("id","sysadm-client-auth-auto");
   obj.insert("name","auth_ssl");
-  obj.insert("args","");
+  QJsonObject args;
+    args.insert("md5_key", pubkeyMD5(SSL_cfg));
+  obj.insert("args",args);
+  BRIDGE[bridge_id].enc_key.clear();
   communicate_bridge(bridge_id, obj);
 }
 
@@ -303,8 +308,7 @@ message_in sysadm_client::convertServerReply(QString reply){
   }
   if(!msg.from_bridge_id.isEmpty() && BRIDGE.contains(msg.from_bridge_id) ){
     //encrypted message through bridge - decrypt it
-    QString key = BRIDGE[msg.from_bridge_id].enc_key;
-    if(!key.isEmpty()){ reply = DecodeString(reply, key); }
+    reply = DecodeString(reply, BRIDGE[msg.from_bridge_id].enc_key);
   }
   //if(!msg.from_bridge_id.isEmpty()){  qDebug() << "Convert reply:" << reply; }
   QJsonDocument doc = QJsonDocument::fromJson(reply.toUtf8());
@@ -327,8 +331,11 @@ QString sysadm_client::SSL_Encode_String(QString str, QSslConfiguration cfg){
   //Get the private key
   QByteArray privkey = cfg.privateKey().toPem();
   
+    //Reset/Load some SSL stuff
+    OpenSSL_add_all_algorithms();
+    ERR_load_crypto_strings();
   //Now use this private key to encode the given string
-  unsigned char encode[4098] = {};
+  unsigned char *encode = (unsigned char*)malloc(2*str.length()); //give it plenty of extra space as needed
   RSA *rsa= NULL;
   BIO *keybio = NULL;
   keybio = BIO_new_mem_buf(privkey.data(), -1);
@@ -350,14 +357,93 @@ QString sysadm_client::SSL_Encode_String(QString str, QSslConfiguration cfg){
   }
 
 }
-QString sysadm_client::EncodeString(QString str, QString key){
-  //TO-DO
+QString sysadm_client::EncodeString(QString str, QByteArray key){
+  bool pub=true;
+  if(key.contains("--BEGIN PUBLIC KEY--")){ pub=true; }
+  else if(key.contains(" PRIVATE KEY--")){ pub=false; }
+  else{ return str; } //unknown encryption - just return as-is
+  return str.toLocal8Bit().toBase64(); //TEMPORARY BYPASS
+  //qDebug() << "Start encoding String:" << pub << str.length() << str <<  key;
+  //Reset/Load some SSL stuff
+    //OpenSSL_add_all_algorithms();
+    //ERR_load_crypto_strings();
+
+  //Now Encrypt the string
+  unsigned char *encode = (unsigned char*)malloc(2*str.length()); //give it plenty of extra space as needed
+  RSA *rsa= NULL;
+  BIO *keybio = NULL;
+  keybio = BIO_new_mem_buf(key.data(), key.size());
+  if(keybio==NULL){ qDebug() << " - Bad keybio"; return ""; }
+
+  if(!pub){
+    //Using PRIVATE key to encrypt
+    rsa = PEM_read_bio_RSAPrivateKey(keybio, &rsa,NULL, NULL);
+    if(rsa==NULL){ qDebug() << " - Bad rsa"; return ""; }
+    int len = RSA_private_encrypt(str.length(), (unsigned char*)(str.toLatin1().data()), encode, rsa, RSA_PKCS1_PADDING);
+    if(len <0){ qDebug() << " - Bad rsa encrypt";  return ""; }
+    QByteArray str_encode( (char*)(encode), len);
+    str_encode = str_encode.toBase64();
+    return QString( str_encode ); 
+  }else{
+    //Using PUBLIC key to encrypt
+    rsa = PEM_read_bio_RSA_PUBKEY(keybio, &rsa,NULL, NULL);
+    if(rsa==NULL){ qDebug() << " - Bad rsa"; return ""; }
+    int len = RSA_public_encrypt(str.length(), (unsigned char*)(str.toLatin1().data()), encode, rsa, RSA_PKCS1_PADDING);
+    if(len <0){ qDebug() << " - Bad rsa encrypt"; return ""; }
+    QByteArray str_encode( (char*)(encode), len);
+    str_encode = str_encode.toBase64();
+    qDebug() << " - Encoded:" << str_encode;
+    return QString( str_encode ); 
+  }
   return str;
 }
 
-QString sysadm_client::DecodeString(QString str, QString key){
-  //TO-DO
-  return str;
+QString sysadm_client::DecodeString(QString str, QByteArray key){
+
+  bool pub=true;
+  if(key.contains("--BEGIN PUBLIC KEY--")){ pub=true; }
+  else if(key.contains(" PRIVATE KEY--")){ pub=false; }
+  else{ return str; } //unknown encryption - just return as-is
+  QByteArray bytes; bytes.append(str);
+  bytes = QByteArray::fromBase64(bytes);
+  qDebug() << "Decode String:" << bytes;
+  return QString(bytes); //TEMPORARY BYPASS
+  if(str.startsWith("{") && str.endsWith("}")){ return str; } //not encrypted?
+
+   qDebug() << "Start decoding String:" << pub << str;//<< key;
+  //Reset/Load some SSL stuff
+    //OpenSSL_add_all_algorithms();
+    //ERR_load_crypto_strings();
+
+  //Turn the encrypted string into a byte array
+  QByteArray enc; enc.append(str.toLocal8Bit());
+
+  unsigned char *decode = (unsigned char*)malloc(2*str.length());
+  RSA *rsa= NULL;
+  BIO *keybio = NULL;
+  //qDebug() << " - Generate keybio";
+  keybio = BIO_new_mem_buf(key.data(), -1);
+  if(keybio==NULL){ return ""; }
+  //qDebug() << " - Read pubkey";
+  if(pub){
+    //PUBLIC KEY
+    rsa = PEM_read_bio_RSA_PUBKEY(keybio, &rsa,NULL, NULL);
+    if(rsa==NULL){ qDebug() << " - Invalid RSA key!!"; return ""; }
+    //qDebug() << " - Decrypt string";
+    int len = RSA_public_decrypt(enc.length(), (unsigned char*)(enc.data()), decode, rsa, RSA_PKCS1_PADDING);
+    if(len<0){ qDebug() << " - Could not decrypt"; return ""; }
+    qDebug() << " - done";
+    return QString( QByteArray( (char*)(decode), len) );
+  }else{
+    //PRIVATE KEY
+    rsa = PEM_read_bio_RSAPrivateKey(keybio, &rsa,NULL, NULL);
+    if(rsa==NULL){ qDebug() << " - Invalid RSA key!!"; return ""; }
+    //qDebug() << " - Decrypt string";
+    int len = RSA_private_decrypt(enc.length(), (unsigned char*)(enc.data()), decode, rsa, RSA_PKCS1_PADDING);
+    if(len<0){ qDebug() << " - Could not decrypt"; return ""; }
+    qDebug() << " - done";
+    return QString( QByteArray( (char*)(decode), len) );
+  }
 }
 
 // === PUBLIC SLOTS ===
@@ -418,7 +504,7 @@ void sysadm_client::communicate_bridge(QString bridge_host_id, QList<QJsonObject
     qDebug() << "Invalid bridge host:" << bridge_host_id;
     return;
   }
-  QString key = BRIDGE[bridge_host_id].enc_key;
+  QByteArray key = BRIDGE[bridge_host_id].enc_key;
   for(int i=0; i<requests.length(); i++){
     QString ID = requests[i].value("id").toString();
     if(ID.isEmpty()){ 
@@ -444,7 +530,6 @@ void sysadm_client::setupSocket(){
   //qDebug() << "Setup Socket:" << SOCKET->isValid();
   if(SOCKET->isValid()){ return; }
   //Setup the SSL config as needed
-  SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
   SSLsuccess = false;
   //uses chost for setup
   // - assemble the host URL
@@ -496,17 +581,18 @@ void sysadm_client::socketClosed(){ //Signal: disconnected()
 }
 
 void sysadm_client::socketSslErrors(const QList<QSslError>&errlist){ //Signal: sslErrors()
-  qWarning() << "SSL Errors Detected:" << errlist.length();
+  //qWarning() << "SSL Errors Detected:" << errlist.length();
   QList<QSslError> ignored;
   for(int i=0; i< errlist.length(); i++){
     if(errlist[i].error()==QSslError::SelfSignedCertificate || errlist[i].error()==QSslError::HostNameMismatch ){
-      qDebug() << " - (IGNORED) " << errlist[i].errorString();
+      //qDebug() << " - (IGNORED) " << errlist[i].errorString();
       ignored << errlist[i];
     }else{
-      qWarning() << " - " << errlist[i].errorString();
+      qWarning() << "Unhandled SSL Error:" << errlist[i].errorString();
     }
   }
   if(ignored.length() != errlist.length()){
+    qWarning() << "Closing Connection due to unhandled SSL errors";
     SOCKET->close(); //SSL errors - close the connection
   }
 }
@@ -520,7 +606,9 @@ void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: er
 
 // - Main message input parsing
 void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
-  if(DEBUG){ qDebug() << "New Reply From Server:" << msg; }
+  //if(DEBUG){ 
+    qDebug() << "New Reply From Server:" << msg; 
+  //}
   //qDebug() << "Got Message";
   message_in msg_in = convertServerReply(msg);
   if(!handleMessageInternally(msg_in)){
@@ -565,7 +653,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
     }
     if(oldisbridge != isbridge){ emit clientTypeChanged(); }
   }else if(msg.id=="sysadm-client-auth-auto"){
-    //qDebug() << "Auth Reply" << msg.name << msg.namesp << msg.args;
+    qDebug() << "Auth Reply" << msg.name << msg.namesp << msg.args;
     //Reply to automated auth system
     if(msg.name=="error"){
       closeConnection();
@@ -591,7 +679,22 @@ bool sysadm_client::handleMessageInternally(message_in msg){
 
       }else if(msg.args.isObject()){
         //SSL Auth Stage 2
+        qDebug() << "Got Stage 2 SSL Auth:" << chost << msg.args.toObject();
         QString randomkey = msg.args.toObject().value("test_string").toString();
+        if(msg.args.toObject().contains("new_ssl_key") && !msg.from_bridge_id.isEmpty()){
+          //New Encryption layer starting - randomkey needs decoding too
+          QByteArray c_key = SSL_cfg.privateKey().toPem(); // SSL_cfg.localCertificate().publicKey().toPem();
+          randomkey = DecodeString(randomkey, c_key);
+          //Also re-assemble the new private key to use in the future
+          QJsonArray pkeyarr = msg.args.toObject().value("new_ssl_key") .toArray();
+          QByteArray p_key;
+          for(int i=0; i<pkeyarr.count(); i++){
+	    p_key.append( DecodeString( QByteArray::fromBase64( pkeyarr[i].toString().toLocal8Bit() ), c_key) );
+          }
+          qDebug() << "New Private Key:" << p_key;
+          BRIDGE[msg.from_bridge_id].enc_key = p_key; //save this new private key for use later
+        }
+        qDebug() << "Random key sent by server:" << randomkey;
         if(!randomkey.isEmpty()){
           reply.insert("name","auth_ssl");
           reply.insert("namespace","rpc");
