@@ -65,10 +65,10 @@
 #include <QPropertyAnimation>
 
 // OpenSSL includes
-#include <openssl/x509.h>
-#include <openssl/pem.h>
-#include <openssl/pkcs12.h>
-#include <openssl/err.h>
+//#include <openssl/x509.h>
+//#include <openssl/pem.h>
+//#include <openssl/pkcs12.h>
+//#include <openssl/err.h>
 
 #include "../Core/sysadm-client.h"
 
@@ -104,8 +104,8 @@ inline bool LoadSSLFile(QString pass){
     QSslKey key;
     QList<QSslCertificate> importedCerts;
     //Reset/Load some SSL stuff
-    OpenSSL_add_all_algorithms();
-    ERR_load_crypto_strings();
+    //OpenSSL_add_all_algorithms();
+    //ERR_load_crypto_strings();
     imported = QSslCertificate::importPkcs12(&certFile, &key, &certificate, &importedCerts, QByteArray::fromStdString(pass.toStdString()));
     certFile.close();
     //If successfully unencrypted, save the SSL structs for use later
@@ -114,7 +114,7 @@ inline bool LoadSSLFile(QString pass){
       QSslConfiguration cfg = QSslConfiguration::defaultConfiguration();
       //QList<QSslCertificate> certs = SSL_cfg.caCertificates();
       QList<QSslCertificate> localCerts = cfg.localCertificateChain();
-      cfg.setLocalCertificate(certificate); //add the new local certs (main cert)
+      //cfg.setLocalCertificate(certificate); //add the new local certs (main cert)
       localCerts.append(certificate);
       if(!importedCerts.isEmpty()){ localCerts.append(importedCerts); } //any other certs
       //Now save the changes to the global struct
@@ -126,6 +126,9 @@ inline bool LoadSSLFile(QString pass){
       else{ SSL_cfg_bridge = cfg; }
     }
   } //end loop over files
+  //Reset/Load some SSL stuff
+    //OpenSSL_add_all_algorithms();
+    //ERR_load_crypto_strings();
   return imported;
 }
 

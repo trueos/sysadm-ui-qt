@@ -28,6 +28,7 @@ private slots:
 	void CoreConnecting();
 	void CoreActive();
 	void CoreEvent(sysadm_client::EVENT_TYPE, QJsonValue);
+	void CoreTypeChanged();
 	void priorityChanged(int);
 	//Bridge connection signals
 	void bridgeAuthorized(QString);
@@ -35,7 +36,7 @@ private slots:
 	void bridgePriorityChanged(QString, int);
 
 signals:
-	void updateParent(); //parent menu needs to update (significant change to CORE)
+	void updateParent(QString); //parent menu needs to update (significant change to CORE)
 	//Show a tray message popup
 	void ShowMessage(HostMessage);
 	void ClearMessage(QString, QString); //host ID, message ID
@@ -47,6 +48,8 @@ class CoreMenu : public QMenu{
 	Q_OBJECT
 private:
 	QString nickname, host;
+	sysadm_client *Core;
+	QList<CoreAction*> acts;
 
 public:
 	CoreMenu(sysadm_client* core, QWidget *parent = 0);
@@ -59,7 +62,8 @@ private slots:
 	void CoreClosed();
 	void CoreConnecting();
 	void CoreActive();
-	void BridgeConnectionsChanged(QStringList);
+	void CoreTypeChanged();
+	void BridgeConnectionsChanged(QStringList conns = QStringList());
 
 signals:
 	// CORE Actions
@@ -69,7 +73,7 @@ signals:
 	void ShowMessage(HostMessage);
 	void ClearMessage(QString, QString);
 	void UpdateTrayIcon();
-	void updateParent(); //parent menu needs to update (significant change to CORE)
+	void updateParent(QString); //parent menu needs to update (significant change to CORE)
 };
 
 //Normal Menu (categories)
@@ -87,11 +91,15 @@ private:
 	QWidgetAction *lineA;
 	QMenu *msgMenu;
 
+	QList<QAction*> coreActions;
+	QList<QMenu*> coreMenus;
+
 	void addSubMenu(MenuItem *menu);
 	void addCoreAction(QString host);
-
+	
 private slots:
 	void menuTriggered(QAction*);
+	void CoreItemChanged(QString host);
 
 	void PasswordReady();
 	void PasswordTyping();

@@ -105,6 +105,7 @@ private:
 	void sendSocketMessage(QString msg);
 
 	//Simplification functions
+	bridge_data getBridgeData(QString ID);
 	message_in convertServerReply(QString reply);
 	QString pubkeyMD5(QSslConfiguration cfg);
 	QString SSL_Encode_String(QString str, QSslConfiguration cfg);

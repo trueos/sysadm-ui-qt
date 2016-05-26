@@ -11,6 +11,12 @@
 
 #include <globals.h>
 
+// OpenSSL includes
+#include <openssl/x509.h>
+#include <openssl/pem.h>
+#include <openssl/pkcs12.h>
+#include <openssl/err.h>
+
 #define EXPORTFILEDELIM "____^^^^^^^__^^^^^^^_____" //Don't care if this is unreadable - nobody should be viewing this file directly anyway
 
 extern QHash<QString,sysadm_client*> CORES; // hostIP / core

@@ -44,6 +44,7 @@ private:
 private slots:
 	//Tray activated
 	void trayActivated(){
+         //menu->UpdateMenu();
 	  this->contextMenu()->popup( this->geometry().center());
 	}
 	//Allow popups

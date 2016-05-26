@@ -1,7 +1,7 @@
 TEMPLATE	= app
 LANGUAGE	= C++
 
-CONFIG	+= qt warn_on release
+CONFIG	+= qt warn_on release debug
 QT = core gui widgets svg
 QMAKE_LIBDIR = /usr/local/lib/qt5 /usr/local/lib
 
