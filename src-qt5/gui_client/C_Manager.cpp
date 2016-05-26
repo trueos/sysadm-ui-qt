@@ -242,8 +242,8 @@ bool C_Manager::generateKeyCertBundle(QString bundlefile, QString nickname, QStr
     p12 = PKCS12_create(passphrase.toLocal8Bit().data(), name, pkey, req, NULL, 0,0,0,0,0);
     if(p12==NULL){ 
       qDebug() << "Error creating pkcs12 bundle";
-      printf (ERR_error_string (ERR_peek_error(), NULL));
-      printf ("\n%s\n", ERR_error_string (ERR_peek_last_error(), NULL)); 
+      qDebug() << ERR_error_string (ERR_peek_error(), NULL);
+      qDebug() << ERR_error_string (ERR_peek_last_error(), NULL); 
       return false;
     }
       BIO * p12Bio = BIO_new(BIO_s_mem());

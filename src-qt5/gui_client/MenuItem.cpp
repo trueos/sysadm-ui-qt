@@ -45,9 +45,10 @@ CoreAction::CoreAction(sysadm_client*core, QObject *parent, QString bridge_id) :
     else if(core->isConnecting()){ CoreConnecting(); }
     else{ CoreClosed(); }
     //Setup the core connections
-    connect(core, SIGNAL(bridgeAuthorized(QString)), this, SLOT(bridgeAuthorized(QString)) );
+    /*connect(core, SIGNAL(bridgeAuthorized(QString)), this, SLOT(bridgeAuthorized(QString)) );
     connect(core, SIGNAL(bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue)) );
     connect(core, SIGNAL(bridgeStatePriorityChanged(QString, int)), this, SLOT(bridgePriorityChanged(QString, int)) );
+    */
   }
   if(b_id.isEmpty()){ connect(core, SIGNAL(clientTypeChanged()), this, SLOT(CoreTypeChanged()) ); }
   //if(core->isBridge() && b_id.isEmpty()){ b_id = "bridge_dummy"; } //just used for a short time while the bridge is disconnected
@@ -129,16 +130,7 @@ void CoreAction::priorityChanged(int priority){
   this->setIcon(QIcon(icon));
   emit UpdateTrayIcon(); //let the main tray icon know it needs to update as needed
 }
-//Bridged versions of the normal slots
-void CoreAction::bridgeAuthorized(QString ID){
-  if(b_id==ID){ CoreActive(); }
-}
-void CoreAction::bridgeEvent(QString ID, sysadm_client::EVENT_TYPE type, QJsonValue val){
-  if(b_id==ID){ CoreEvent(type, val); }
-}
-void CoreAction::bridgePriorityChanged(QString ID, int priority){
-  if(b_id==ID){ priorityChanged(priority); }
-}
+
 
 //=================
 //    CORE MENU
@@ -169,6 +161,9 @@ CoreMenu::CoreMenu(sysadm_client* core, QWidget *parent) : QMenu(parent){
   connect(core, SIGNAL(clientReconnecting()), this, SLOT(CoreConnecting()) );
   connect(core, SIGNAL(bridgeConnectionsChanged(QStringList)), this, SLOT(BridgeConnectionsChanged(QStringList)) );
   connect(core, SIGNAL(clientTypeChanged()), this, SLOT(CoreTypeChanged()) );
+  connect(core, SIGNAL(bridgeAuthorized(QString)), this, SLOT(bridgeAuthorized(QString)) );
+  connect(core, SIGNAL(bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue)) );
+  connect(core, SIGNAL(bridgeStatePriorityChanged(QString, int)), this, SLOT(bridgePriorityChanged(QString, int)) );
   //Now add any additional menus as needed
   QTimer::singleShot(100, this, SLOT(BridgeConnectionsChanged()) );
 }
@@ -249,6 +244,22 @@ void CoreMenu::BridgeConnectionsChanged(QStringList conns){
   }
   if(this->isEmpty() && !Core->isActive()){
     this->addAction(QIcon(":/icons/black/sync.svg"), tr("Reconnect Now"), this, SLOT(triggerReconnect()) );
+  }
+}
+//Bridged versions of the normal slots
+void CoreMenu::bridgeAuthorized(QString ID){
+  for(int i=0; i<acts.length(); i++){
+    if(acts[i]->whatsThis()==ID){ acts[i]->CoreActive(); return; }
+  }
+}
+void CoreMenu::bridgeEvent(QString ID, sysadm_client::EVENT_TYPE type, QJsonValue val){
+  for(int i=0; i<acts.length(); i++){
+    if(acts[i]->whatsThis()==ID){ acts[i]->CoreEvent(type, val); return; }
+  }
+}
+void CoreMenu::bridgePriorityChanged(QString ID, int priority){
+  for(int i=0; i<acts.length(); i++){
+    if(acts[i]->whatsThis()==ID){ acts[i]->priorityChanged(priority); return; } 
   }
 }
 

@@ -111,15 +111,14 @@ inline bool LoadSSLFile(QString pass){
     //If successfully unencrypted, save the SSL structs for use later
     if(imported){
       //First load the system defaults
-      QSslConfiguration cfg = QSslConfiguration::defaultConfiguration();
+      QSslConfiguration cfg;// = QSslConfiguration::defaultConfiguration();
       //QList<QSslCertificate> certs = SSL_cfg.caCertificates();
       QList<QSslCertificate> localCerts = cfg.localCertificateChain();
-      //cfg.setLocalCertificate(certificate); //add the new local certs (main cert)
+      cfg.setLocalCertificate(certificate); //add the new local certs (main cert)
       localCerts.append(certificate);
       if(!importedCerts.isEmpty()){ localCerts.append(importedCerts); } //any other certs
       //Now save the changes to the global struct
       cfg.setLocalCertificateChain(localCerts);
-      //SSL_cfg.setCaCertificates(certs);
       cfg.setPrivateKey(key);
       //Now set the global variable(s)
       if(i==0){ SSL_cfg = cfg; }

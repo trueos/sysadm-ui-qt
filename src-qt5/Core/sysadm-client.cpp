@@ -321,9 +321,11 @@ message_in sysadm_client::convertServerReply(QString reply){
     msg.from_bridge_id = reply.left(index);
     reply = reply.remove(0,index+1);
   }
-  if(!msg.from_bridge_id.isEmpty() && BRIDGE.contains(msg.from_bridge_id) ){
+  if(!msg.from_bridge_id.isEmpty() && !getBridgeData(msg.from_bridge_id).enc_key.isEmpty() ){
     //encrypted message through bridge - decrypt it
+    qDebug() << "Fully encoded message:" << reply;
     reply = DecodeString(reply, getBridgeData(msg.from_bridge_id).enc_key);
+    qDebug() << " - Decoded:" << reply;
   }
   //if(!msg.from_bridge_id.isEmpty()){  qDebug() << "Convert reply:" << reply; }
   QJsonDocument doc = QJsonDocument::fromJson(reply.toUtf8());
@@ -389,7 +391,7 @@ QString sysadm_client::EncodeString(QString str, QByteArray key){
   unsigned char *encode = (unsigned char*)malloc(2*str.length()); //give it plenty of extra space as needed
   RSA *rsa= NULL;
   BIO *keybio = NULL;
-  keybio = BIO_new_mem_buf(key.data(), key.size());
+  keybio = BIO_new_mem_buf(key.data(), -1);
   if(keybio==NULL){ qDebug() << " - Bad keybio"; return ""; }
 
   if(!pub){
@@ -417,14 +419,17 @@ QString sysadm_client::EncodeString(QString str, QByteArray key){
 
 QString sysadm_client::DecodeString(QString str, QByteArray key){
   bool pub=true;
-  if(key.contains("--BEGIN PUBLIC KEY--")){ pub=true; }
+  if(key.contains(" PUBLIC KEY--")){ pub=true; }
   else if(key.contains(" PRIVATE KEY--")){ pub=false; }
-  else{ return str; } //unknown encryption - just return as-is
+  else{  //unknown encryption - just return as-is
+    if(!key.isEmpty()){ qDebug() << "Unknown key type!!" << key; } 
+    return str; 
+  }
   QByteArray bytes; bytes.append(str);
   bytes = QByteArray::fromBase64(bytes);
   //qDebug() << "Decoded String:" << bytes;
   //return QString(bytes); //TEMPORARY BYPASS
-  if(str.startsWith("{") && str.endsWith("}")){ return str; } //not encrypted?
+  //if(str.startsWith("{") && str.endsWith("}")){ return str; } //not encrypted?
 
    //qDebug() << "Start decoding String:" << pub << str;//<< key;
   //Reset/Load some SSL stuff
@@ -441,10 +446,15 @@ QString sysadm_client::DecodeString(QString str, QByteArray key){
   if(pub){
     //PUBLIC KEY
     rsa = PEM_read_bio_RSA_PUBKEY(keybio, &rsa,NULL, NULL);
-    if(rsa==NULL){ qDebug() << " - Invalid RSA key!!"; return ""; }
+    if(rsa==NULL){ qDebug() << " - Invalid Public RSA key!!" <<  key; return ""; }
     //qDebug() << " - Decrypt string";
     int len = RSA_public_decrypt(bytes.size(), (unsigned char*)(bytes.data()), decode, rsa, RSA_PKCS1_PADDING);
-    if(len<0){ qDebug() << " - Could not decrypt"; return ""; }
+    if(len<0){ 
+      qDebug() << " - Could not decrypt"; 
+      qDebug() << ERR_error_string (ERR_peek_error(), NULL);
+      qDebug() << ERR_error_string (ERR_peek_last_error(), NULL); 
+      return ""; 
+    }
     //qDebug() << " - done";
     return QString( QByteArray( (char*)(decode), len) );
   }else{
@@ -453,7 +463,12 @@ QString sysadm_client::DecodeString(QString str, QByteArray key){
     if(rsa==NULL){ qDebug() << " - Invalid RSA key!!"; return ""; }
     //qDebug() << " - Decrypt string";
     int len = RSA_private_decrypt(bytes.size(), (unsigned char*)(bytes.data()), decode, rsa, RSA_PKCS1_PADDING);
-    if(len<0){ qDebug() << " - Could not decrypt"; return ""; }
+    if(len<0){ 
+      qDebug() << " - Could not decrypt"; 
+      qDebug() << ERR_error_string (ERR_peek_error(), NULL);
+      qDebug() << ERR_error_string (ERR_peek_last_error(), NULL); 
+      return ""; 
+    }
     //qDebug() << " - done";
     return QString( QByteArray( (char*)(decode), len) );
   }
@@ -700,19 +715,19 @@ bool sysadm_client::handleMessageInternally(message_in msg){
         //SSL Auth Stage 2
         qDebug() << "Got Stage 2 SSL Auth:" << chost << msg.from_bridge_id;//<< msg.args.toObject();
         QString randomkey = msg.args.toObject().value("test_string").toString();
-          qDebug() << " - randomkey (raw):" << randomkey;
+          //qDebug() << " - randomkey (raw):" << randomkey;
         if(msg.args.toObject().contains("new_ssl_key") && !msg.from_bridge_id.isEmpty()){
           //New Encryption layer starting - randomkey needs decoding too
-          QByteArray c_key = SSL_cfg.localCertificate().publicKey().toPem();
+          QByteArray c_key = SSL_cfg.privateKey().toPem(); //SSL_cfg.localCertificate().publicKey().toPem();
           randomkey = DecodeString(randomkey, c_key);
-          qDebug() << "randomkey (decoded):" << randomkey;
+          //qDebug() << "randomkey (decoded):" << randomkey;
           //Also re-assemble the new private key to use in the future
           QJsonArray pkeyarr = msg.args.toObject().value("new_ssl_key") .toArray();
           QByteArray p_key;
           for(int i=0; i<pkeyarr.count(); i++){
 	    p_key.append( DecodeString(pkeyarr[i].toString(), c_key) );
           }
-          //qDebug() << "New Private Key:" << p_key;
+          //qDebug() << "New Key:" << p_key;
           getBridgeData(msg.from_bridge_id); //make sure the data struct is initialized first
           BRIDGE[msg.from_bridge_id].enc_key = p_key; //save this new private key for use later
         }
@@ -794,7 +809,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
     if(!reply.contains("id")){ reply.insert("id",msg.id); } //re-use this special ID if necessary
     if(!reply.contains("name")){ reply.insert("name","response"); }
     if(!reply.contains("namespace")){ reply.insert("namespace",msg.namesp); }
-    //qDebug() << "INTERNAL REPLY:" << reply;
+    if(!msg.from_bridge_id.isEmpty()){ qDebug() << "INTERNAL REPLY:" << reply; }
     if(msg.from_bridge_id.isEmpty()){ this->communicate(reply); }
     else{ this->communicate_bridge(msg.from_bridge_id, reply); }
   }

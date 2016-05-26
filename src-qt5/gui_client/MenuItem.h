@@ -23,17 +23,14 @@ public:
 	CoreAction(sysadm_client*core, QObject *parent=0, QString bridge_id = "");
 	~CoreAction();
 		
-private slots:
+public slots:
 	void CoreClosed();
 	void CoreConnecting();
 	void CoreActive();
 	void CoreEvent(sysadm_client::EVENT_TYPE, QJsonValue);
 	void CoreTypeChanged();
 	void priorityChanged(int);
-	//Bridge connection signals
-	void bridgeAuthorized(QString);
-	void bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue);
-	void bridgePriorityChanged(QString, int);
+
 
 signals:
 	void updateParent(QString); //parent menu needs to update (significant change to CORE)
@@ -64,6 +61,10 @@ private slots:
 	void CoreActive();
 	void CoreTypeChanged();
 	void BridgeConnectionsChanged(QStringList conns = QStringList());
+
+        void bridgeAuthorized(QString);
+	void bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue);
+	void bridgePriorityChanged(QString, int);
 
 signals:
 	// CORE Actions
