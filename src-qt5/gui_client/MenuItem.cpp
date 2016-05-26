@@ -12,7 +12,7 @@ extern QHash<QString,sysadm_client*> CORES; // hostIP / core
 //      CORE ACTION
 //=================
 CoreAction::CoreAction(sysadm_client*core, QObject *parent, QString bridge_id) : QAction(parent){
-   qDebug() << "New CoreAction:" << core->currentHost() << bridge_id;
+   //qDebug() << "New CoreAction:" << core->currentHost() << bridge_id;
   //Load the current core settings into the action
   host = core->currentHost();
   b_id = bridge_id;
@@ -54,7 +54,7 @@ CoreAction::CoreAction(sysadm_client*core, QObject *parent, QString bridge_id) :
 }
 
 CoreAction::~CoreAction(){
-  qDebug() << "CoreAction destructor:" << host << b_id;
+  //qDebug() << "CoreAction destructor:" << host << b_id;
   //disconnect(this);
 }
 void CoreAction::CoreClosed(){
@@ -145,7 +145,7 @@ void CoreAction::bridgePriorityChanged(QString ID, int priority){
 //=================
 CoreMenu::CoreMenu(sysadm_client* core, QWidget *parent) : QMenu(parent){
   //This is a bridge connection - make a menu of all connections availeable through bridge
-  qDebug() << "New CoreMenu:" << core->currentHost();
+  //qDebug() << "New CoreMenu:" << core->currentHost();
   Core = core; //save pointer for later
   host = core->currentHost();
   this->setWhatsThis("core::"+host);
@@ -174,7 +174,7 @@ CoreMenu::CoreMenu(sysadm_client* core, QWidget *parent) : QMenu(parent){
 }
 
 CoreMenu::~CoreMenu(){
-  qDebug() << "CoreMenu destructor";
+  //qDebug() << "CoreMenu destructor";
   //disconnect(this);
 }
 
