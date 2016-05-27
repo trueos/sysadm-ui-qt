@@ -214,12 +214,15 @@ void CoreMenu::CoreTypeChanged(){
 
 void CoreMenu::BridgeConnectionsChanged(QStringList conns){
   qDebug() << " - Got Bridge Connections Changed";
+  bool showagain = false;
+  if(this->isVisible()){ this->hide(); showagain = true; }
   if(!CORES.contains(host) || Core==0){ return; }
   if(conns.isEmpty() && Core->isActive() ){  conns = Core->bridgeConnections(); }
   this->setEnabled(true);
   conns.sort(); //sort alphabetically
   //Clear all the actions first
   for(int i=0; i<acts.length(); i++){
+    //qDebug() << " - Remove action:" << acts[i]->whatsThis();
     this->removeAction(acts[i]); //remove from menu temporarily
     if(!conns.contains(acts[i]->whatsThis()) ){
       emit ShowMessage( createMessage(host, "connection", QString(tr("%1: Lost Connection")).arg(acts[i]->whatsThis()), ":/icons/grey/off.svg") );
@@ -228,12 +231,14 @@ void CoreMenu::BridgeConnectionsChanged(QStringList conns){
   }
   //Now go through and add connections as needed (don't use the "acts" list - it is invalid now)
   for(int i=0; i<conns.length(); i++){
+    //qDebug() << " - Add action:" << conns[i];
     bool found = false;
     for(int j=0; j<acts.length(); j++){
       if(acts[j]->whatsThis()==conns[i]){ found = true; this->addAction(acts[j]); }
     }
     //Need to create a new action
     if(!found){
+      //qDebug() << " - - New Action";
       CoreAction *act = new CoreAction(Core, this, conns[i]);
       connect(act, SIGNAL(ShowMessage(HostMessage)), this, SIGNAL(ShowMessage(HostMessage)) );
       connect(act, SIGNAL(ClearMessage(QString, QString)), this, SIGNAL(ClearMessage(QString, QString)) );
@@ -245,6 +250,8 @@ void CoreMenu::BridgeConnectionsChanged(QStringList conns){
   if(this->isEmpty() && !Core->isActive()){
     this->addAction(QIcon(":/icons/black/sync.svg"), tr("Reconnect Now"), this, SLOT(triggerReconnect()) );
   }
+  //qDebug() << " - Done updating bridge menu";
+  if(showagain){ this->show(); }
 }
 //Bridged versions of the normal slots
 void CoreMenu::bridgeAuthorized(QString ID){
@@ -323,7 +330,12 @@ void MenuItem::addCoreAction(QString host){
 
 // === PUBLIC SLOTS ===
 void MenuItem::UpdateMenu(){
-  //qDebug() << "Update Menu";
+  bool showagain = false;
+  if(this->isVisible()){ 
+    this->hide();
+    showagain = true;
+  }
+  qDebug() << "Update Menu" << showagain;
   QString pathkey = this->whatsThis();
   if(!pathkey.startsWith("C_Groups/") && !pathkey.isEmpty()){pathkey.prepend("C_Groups/"); }
   else if(pathkey.isEmpty()){ pathkey = "C_Groups"; }
@@ -416,7 +428,9 @@ void MenuItem::UpdateMenu(){
       tmp = this->addAction(QIcon(":/icons/black/off.svg"),tr("Close SysAdm Client"));
         tmp->setWhatsThis("close_app");
     }
-    
+  if(showagain){ 
+    this->show();
+  }
 }
 
 

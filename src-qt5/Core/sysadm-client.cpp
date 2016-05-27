@@ -742,8 +742,23 @@ bool sysadm_client::handleMessageInternally(message_in msg){
     //qDebug() << "Auth Reply" << msg.name << msg.namesp << msg.args;
     //Reply to automated auth system
     if(msg.name=="error"){
-      closeConnection();
-      emit clientUnauthorized();
+      qDebug() << "Authentication error:" << chost << msg.from_bridge_id;
+      if(msg.from_bridge_id.isEmpty()){
+        closeConnection();
+        emit clientUnauthorized();
+      }else{
+        //Clear out the data for this bridged connection
+        bridge_data data = getBridgeData(msg.from_bridge_id);
+          data.enc_key.clear();
+          data.auth_tok.clear();
+        BRIDGE.insert(msg.from_bridge_id, data);
+        //Now send out an updated list of which bridged connections are available
+        QStringList curr = BRIDGE.keys();
+          for(int i=0; i<curr.length(); i++){
+            if(getBridgeData(curr[i]).auth_tok.isEmpty()){ curr.removeAt(i); i--; }
+          }
+          emit bridgeConnectionsChanged(curr);
+      }
     }else{
       if(msg.args.isArray() && msg.args.toArray().count()>=2){ 
 	//Successful authorization
@@ -845,7 +860,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
         QStringList curr = BRIDGE.keys();
         bool removeonly = false;
         for(int i=0; i<curr.length(); i++){
-          if(!conns.contains(curr[i])){ removeonly = true; BRIDGE.remove(curr[i]); }
+          if(!conns.contains(curr[i])){ removeonly = true; qDebug() << "Removing bridge data"; BRIDGE.remove(curr[i]); }
         }
       QStringList avail;
       for(int i=0; i<conns.count(); i++){
