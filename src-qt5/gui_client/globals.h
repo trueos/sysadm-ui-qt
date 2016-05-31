@@ -104,8 +104,8 @@ inline bool LoadSSLFile(QString pass){
     QSslKey key;
     QList<QSslCertificate> importedCerts;
     //Reset/Load some SSL stuff
-    //OpenSSL_add_all_algorithms();
-    //ERR_load_crypto_strings();
+    OpenSSL_add_all_algorithms();
+    ERR_load_crypto_strings();
     imported = QSslCertificate::importPkcs12(&certFile, &key, &certificate, &importedCerts, QByteArray::fromStdString(pass.toStdString()));
     certFile.close();
     //If successfully unencrypted, save the SSL structs for use later
