@@ -22,6 +22,7 @@ NewConnectionWizard::NewConnectionWizard(QWidget *parent, QString nickname) : QD
   connect(ui->line_host, SIGNAL(textEdited(const QString&)), this, SLOT(checkInputs()) );
   connect(ui->line_user, SIGNAL(textEdited(const QString&)), this, SLOT(checkInputs()) );
   connect(ui->line_pass, SIGNAL(textEdited(const QString&)), this, SLOT(checkInputs()) );
+  connect(ui->radio_server, SIGNAL(toggled(bool)), this, SLOT(checkInputs()) );
 }
 
 NewConnectionWizard::~NewConnectionWizard(){
@@ -36,7 +37,14 @@ void NewConnectionWizard::LoadPrevious(QString host, QString user){
 
 // === PRIVATE SLOTS ===
 void NewConnectionWizard::checkInputs(){
-  ui->push_start_test->setEnabled( !ui->line_host->text().isEmpty() && !ui->line_user->text().isEmpty() && !ui->line_pass->text().isEmpty() );
+  bool typeok = !ui->radio_server->isChecked();
+  ui->line_user->setVisible(!typeok);
+  ui->line_pass->setVisible(!typeok);
+  ui->label_user->setVisible(!typeok);
+  ui->label_pass->setVisible(!typeok);
+  if(!typeok){ typeok = (!ui->line_user->text().isEmpty() && !ui->line_pass->text().isEmpty()); }
+
+  ui->push_start_test->setEnabled( !ui->line_host->text().isEmpty() && typeok );
 }
 
 //core signals/slots
@@ -72,7 +80,19 @@ void NewConnectionWizard::coreDisconnected(){
 void NewConnectionWizard::on_push_start_test_clicked(){
   ui->group_host->setEnabled(false); //de-activate for the moment
   ui->label_results->setText( tr("Host Invalid") );
-  core->openConnection(ui->line_user->text(), ui->line_pass->text(), ui->line_host->text());
+  if(ui->radio_server->isChecked()){
+    core->openConnection(ui->line_user->text(), ui->line_pass->text(), ui->line_host->text());
+  }else{
+    //SSL Auth only - keys need to have already been imported onto the server
+    //Verify that the port is specified for a bridge - otherwise use the default
+    bool hasport = false;
+    QString url = ui->line_host->text();
+    url.section(":",-1).toInt(&hasport); //check if the last piece of the url is a valid number
+    //Could add a check for a valid port number as well - but that is a bit overkill right now
+    if(!hasport){ url.append(":12149"); }
+    //Now start the connection
+    core->openConnection(url);
+  }
 }
 
 void NewConnectionWizard::on_push_finished_clicked(){
