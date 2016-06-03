@@ -19,7 +19,7 @@ CoreAction::CoreAction(sysadm_client*core, QObject *parent, QString bridge_id) :
   if(b_id.isEmpty()){ this->setWhatsThis("core::"+host); }
   else{ this->setWhatsThis(b_id); }
   if(b_id.isEmpty()){ nickname = settings->value("Hosts/"+host,"").toString(); }
-  else{ nickname = b_id.section("::{",0,0); } //(hostname+UUID) Only need hostname for visuals
+  else{ nickname = core->bridgedHostname(b_id); }
   if(nickname.isEmpty()){
     if( core->isLocalHost() ){ nickname = tr("Local System"); }
     else{ nickname = host; }

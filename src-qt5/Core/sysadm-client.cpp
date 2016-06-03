@@ -13,6 +13,7 @@
 #include <QSettings>
 #include <QSslKey>
 #include <QSslCertificate>
+#include <QHostInfo>
 
 //SSL Stuff
 #include <openssl/pem.h>
@@ -129,6 +130,11 @@ bool sysadm_client::isBridge(){
 
 QStringList sysadm_client::bridgeConnections(){
   return BRIDGE.keys();
+}
+
+QString sysadm_client::bridgedHostname(QString bridge_id){
+  if(!BRIDGE.contains(bridge_id)){ return ""; }
+  return BRIDGE[bridge_id].hostname;
 }
 
 //Check if the sysadm server is running on the local system
@@ -649,7 +655,12 @@ void sysadm_client::setupSocket(){
 }
 
 void sysadm_client::sendPing(){
-  communicate("sysadm_client_ping", "rpc","identify","");
+  communicate("sysadm_client_identify", "rpc","identify","");
+  if(!this->isReady()){ return; }
+  QStringList b_id = BRIDGE.keys();
+  for(int i=0; i<b_id.length(); i++){
+    communicate_bridge(b_id[i], "sysadm_client_identify", "rpc", "identify","");
+  }
 }
 
 //Socket signal/slot connections
@@ -732,27 +743,35 @@ bool sysadm_client::handleMessageInternally(message_in msg){
   //HANDLE AUTH SYSTEMS
   QJsonObject reply;
   if(msg.id=="sysadm_client_identify"){
-    QString type = msg.args.toObject().value("type").toString();
-    bool startauth = false;
-    bool oldisbridge = isbridge;
-    if(type=="bridge"){ isbridge = true; startauth = true; }
-    else if(type=="server"){ isbridge = false; startauth = true; }
-    else{  
-      qDebug() << "Unknown system type:" << type <<"\nClosing Connection..."; 
-      this->closeConnection();  //unknown type of system - disconnect now
-    }
-    //qDebug() << "Got identify response:" << type << isbridge << startauth;
+    if(msg.from_bridge_id.isEmpty()){
+      QString type = msg.args.toObject().value("type").toString();
+      bool startauth = false;
+      bool oldisbridge = isbridge;
+      if(type=="bridge"){ isbridge = true; startauth = cauthkey.isEmpty(); }
+      else if(type=="server"){ isbridge = false; startauth = cauthkey.isEmpty(); }
+      else{  
+        qDebug() << "Unknown system type:" << type <<"\nClosing Connection..."; 
+        this->closeConnection();  //unknown type of system - disconnect now
+      }
+      //qDebug() << "Got identify response:" << type << isbridge << startauth;
     
-    if(startauth){
-      keepActive = true; //got a valid connection - try to keep this open automatically unless the user closes it
-      emit clientConnected();
-      if(isbridge){ cauthkey.clear(); performAuth("", ""); } //force SSL auth
-      else{ performAuth(cuser, cpass); }
-      cpass.clear(); //just to ensure no trace left in memory
-      //Ensure SSL connection to non-localhost (only user needed for localhost)
-      if(chost!=LOCALHOST && !chost.startsWith(LOCALHOST+":") ){ cuser.clear(); }
+      if(startauth){
+        keepActive = true; //got a valid connection - try to keep this open automatically unless the user closes it
+        emit clientConnected();
+        if(isbridge){ cauthkey.clear(); performAuth("", ""); } //force SSL auth
+        else{ performAuth(cuser, cpass); }
+        cpass.clear(); //just to ensure no trace left in memory
+        //Ensure SSL connection to non-localhost (only user needed for localhost)
+        if(chost!=LOCALHOST && !chost.startsWith(LOCALHOST+":") ){ cuser.clear(); }
+      }
+      if(oldisbridge != isbridge){ emit clientTypeChanged(); }
+    }else{
+      //Bridged relay identification
+      bridge_data data = getBridgeData(msg.from_bridge_id);
+        data.hostname = msg.args.toObject().value("hostname").toString();
+      BRIDGE.insert(msg.from_bridge_id, data);
     }
-    if(oldisbridge != isbridge){ emit clientTypeChanged(); }
+
   }else if(msg.id=="sysadm-client-auth-auto"){
     //qDebug() << "Auth Reply" << msg.name << msg.namesp << msg.args;
     //Reply to automated auth system
@@ -888,6 +907,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
         //Now add the connection to the internal DB if needed
         if(getBridgeData(conn).auth_tok.isEmpty() && getBridgeData(conn).enc_key.isEmpty()){
           removeonly = false;
+          communicate_bridge(conn, "sysadm_client_identify", "rpc", "identify","");
           performAuth_bridge(conn);
         }
       }
@@ -896,6 +916,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
   }else if(msg.namesp=="rpc" && msg.name=="identify"){
           QJsonObject args;
           args.insert("type", "client");
+          args.insert("hostname", QHostInfo::localHostName() );
           reply.insert("args",args);
   }else if(msg.namesp=="rpc" && msg.name=="settings"){
     if(msg.args.isObject() && msg.args.toObject().value("action").toString()=="list_ssl_checksums"){

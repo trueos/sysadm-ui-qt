@@ -35,6 +35,7 @@ struct message_in{
 struct bridge_data{
   QByteArray enc_key; //current encryption key to use
   QString auth_tok; //current authentication token
+  QString hostname;
 };
 
 class sysadm_client : public QObject{
@@ -62,6 +63,7 @@ public:
 	//Bridged Connection Functions
 	bool isBridge();
 	QStringList bridgeConnections(); //list the known connections through the bridge	
+	QString bridgedHostname(QString bridge_id);
 
 	//Check if the sysadm server is running on the local system
 	static bool localhostAvailable();
