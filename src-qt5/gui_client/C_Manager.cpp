@@ -621,5 +621,5 @@ void C_Manager::on_push_ssl_cert_to_file_clicked(){
   file.write(pubkey);
   file.close();
   qDebug() << "Public Key saved to file:" << dir+filename;
-  
+  QMessageBox::information(this, tr("Key Exported"), QString(tr("Public SSL key saved to file:\n %1")).arg(dir+filename)  );
 }
