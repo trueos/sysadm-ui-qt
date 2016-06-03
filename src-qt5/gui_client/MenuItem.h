@@ -46,7 +46,7 @@ class CoreMenu : public QMenu{
 private:
 	QString nickname, host;
 	sysadm_client *Core;
-	QList<CoreAction*> acts;
+	//QList<CoreAction*> acts;
 
 public:
 	CoreMenu(sysadm_client* core, QWidget *parent = 0);
@@ -92,8 +92,8 @@ private:
 	QWidgetAction *lineA;
 	QMenu *msgMenu;
 
-	QList<QAction*> coreActions;
-	QList<QMenu*> coreMenus;
+	//QList<QAction*> coreActions;
+	//QList<QMenu*> coreMenus;
 
 	void addSubMenu(MenuItem *menu);
 	void addCoreAction(QString host);

@@ -168,6 +168,8 @@ void sysadm_tray::OpenCore(QString host){
   QString b_id = host.section("/",1,-1);
   if(!b_id.isEmpty()){ host = host.section("/",0,0); }
   if(getCore(host)->isConnecting()){ return; } //wait - still trying to connect
+  else if(!getCore(host)->isReady()){ getCore(host)->openConnection(); return; }
+  if(b_id.isEmpty() && getCore(host)->isBridge()){ return; }
   //Open a new window for this host
   sysadm_client *core = getCore(host);
     MainUI *tmp = new MainUI(core,"", b_id);

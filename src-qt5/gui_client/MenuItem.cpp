@@ -28,30 +28,20 @@ CoreAction::CoreAction(sysadm_client*core, QObject *parent, QString bridge_id) :
     this->setText(nickname); 
     nickname.append(" ("+host+")"); 
   }
+  //Update the icon as needed
+  if(core->isActive()){ CoreActive(); }
+  else if(core->isConnecting()){ CoreConnecting(); }
+  else{ CoreClosed(); }
+
   if(b_id.isEmpty()){
-    //Update the icon as needed
-    if(core->isActive()){ CoreActive(); }
-    else if(core->isConnecting()){ CoreConnecting(); }
-    else{ CoreClosed(); }
     //Setup the core connections
     connect(core, SIGNAL(clientAuthorized()), this, SLOT(CoreActive()) );
     connect(core, SIGNAL(clientDisconnected()), this, SLOT(CoreClosed()) );
     connect(core, SIGNAL(clientReconnecting()), this, SLOT(CoreConnecting()) );
     connect(core, SIGNAL(NewEvent(sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(CoreEvent(sysadm_client::EVENT_TYPE, QJsonValue)) );
     connect(core, SIGNAL(statePriorityChanged(int)), this, SLOT(priorityChanged(int)) );
-  }else{
-     //Update the icon as needed
-    if(core->isActive()){ CoreActive(); }
-    else if(core->isConnecting()){ CoreConnecting(); }
-    else{ CoreClosed(); }
-    //Setup the core connections
-    /*connect(core, SIGNAL(bridgeAuthorized(QString)), this, SLOT(bridgeAuthorized(QString)) );
-    connect(core, SIGNAL(bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue)) );
-    connect(core, SIGNAL(bridgeStatePriorityChanged(QString, int)), this, SLOT(bridgePriorityChanged(QString, int)) );
-    */
+    connect(core, SIGNAL(clientTypeChanged()), this, SLOT(CoreTypeChanged()) );
   }
-  if(b_id.isEmpty()){ connect(core, SIGNAL(clientTypeChanged()), this, SLOT(CoreTypeChanged()) ); }
-  //if(core->isBridge() && b_id.isEmpty()){ b_id = "bridge_dummy"; } //just used for a short time while the bridge is disconnected
 }
 
 CoreAction::~CoreAction(){
@@ -118,6 +108,7 @@ void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
 }
 
 void CoreAction::CoreTypeChanged(){
+  qDebug() << "Core Type Changed";
   emit updateParent(this->whatsThis());
 }
 
@@ -165,11 +156,11 @@ CoreMenu::CoreMenu(sysadm_client* core, QWidget *parent) : QMenu(parent){
   connect(core, SIGNAL(bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue)), this, SLOT(bridgeEvent(QString, sysadm_client::EVENT_TYPE, QJsonValue)) );
   connect(core, SIGNAL(bridgeStatePriorityChanged(QString, int)), this, SLOT(bridgePriorityChanged(QString, int)) );
   //Now add any additional menus as needed
-  QTimer::singleShot(100, this, SLOT(BridgeConnectionsChanged()) );
+  BridgeConnectionsChanged();
 }
 
 CoreMenu::~CoreMenu(){
-  //qDebug() << "CoreMenu destructor";
+  qDebug() << "CoreMenu destructor";
   //disconnect(this);
 }
 
@@ -209,7 +200,7 @@ void CoreMenu::CoreActive(){
 }
 
 void CoreMenu::CoreTypeChanged(){
-  emit updateParent(this->whatsThis());
+  //emit updateParent(this->whatsThis());
 }
 
 void CoreMenu::BridgeConnectionsChanged(QStringList conns){
@@ -221,52 +212,56 @@ void CoreMenu::BridgeConnectionsChanged(QStringList conns){
   this->setEnabled(true);
   conns.sort(); //sort alphabetically
   //Clear all the actions first
-  for(int i=0; i<acts.length(); i++){
-    //qDebug() << " - Remove action:" << acts[i]->whatsThis();
+  /*for(int i=0; i<acts.length(); i++){
+    qDebug() << " - Remove action:" << acts[i]->whatsThis();
     this->removeAction(acts[i]); //remove from menu temporarily
     if(!conns.contains(acts[i]->whatsThis()) ){
       emit ShowMessage( createMessage(host, "connection", QString(tr("%1: Lost Connection")).arg(acts[i]->whatsThis()), ":/icons/grey/off.svg") );
       acts.takeAt(i)->deleteLater(); i--;
     }
-  }
+  }*/
+  this->clear();
   //Now go through and add connections as needed (don't use the "acts" list - it is invalid now)
   for(int i=0; i<conns.length(); i++){
-    //qDebug() << " - Add action:" << conns[i];
+    qDebug() << " - Add action:" << conns[i];
     bool found = false;
-    for(int j=0; j<acts.length(); j++){
+    /*for(int j=0; j<acts.length(); j++){
       if(acts[j]->whatsThis()==conns[i]){ found = true; this->addAction(acts[j]); }
-    }
+    }*/
     //Need to create a new action
     if(!found){
-      //qDebug() << " - - New Action";
-      CoreAction *act = new CoreAction(Core, this, conns[i]);
+      qDebug() << " - - New Action";
+      CoreAction *act = new CoreAction(Core, 0, conns[i]);
       connect(act, SIGNAL(ShowMessage(HostMessage)), this, SIGNAL(ShowMessage(HostMessage)) );
       connect(act, SIGNAL(ClearMessage(QString, QString)), this, SIGNAL(ClearMessage(QString, QString)) );
       connect(act, SIGNAL(UpdateTrayIcon()), this, SIGNAL(UpdateTrayIcon()) );
-      acts << act;
+      //acts << act;
       this->addAction(act);
     }
   }
   if(this->isEmpty() && !Core->isActive()){
     this->addAction(QIcon(":/icons/black/sync.svg"), tr("Reconnect Now"), this, SLOT(triggerReconnect()) );
   }
-  //qDebug() << " - Done updating bridge menu";
+  qDebug() << " - Done updating bridge menu";
   if(showagain){ this->show(); }
 }
 //Bridged versions of the normal slots
 void CoreMenu::bridgeAuthorized(QString ID){
+  QList<QAction*> acts = this->actions();
   for(int i=0; i<acts.length(); i++){
-    if(acts[i]->whatsThis()==ID){ acts[i]->CoreActive(); return; }
+    if(acts[i]->whatsThis()==ID){ static_cast<CoreAction*>(acts[i])->CoreActive(); return; }
   }
 }
 void CoreMenu::bridgeEvent(QString ID, sysadm_client::EVENT_TYPE type, QJsonValue val){
+  QList<QAction*> acts = this->actions();
   for(int i=0; i<acts.length(); i++){
-    if(acts[i]->whatsThis()==ID){ acts[i]->CoreEvent(type, val); return; }
+    if(acts[i]->whatsThis()==ID){ static_cast<CoreAction*>(acts[i])->CoreEvent(type, val); return; }
   }
 }
 void CoreMenu::bridgePriorityChanged(QString ID, int priority){
+  QList<QAction*> acts = this->actions();
   for(int i=0; i<acts.length(); i++){
-    if(acts[i]->whatsThis()==ID){ acts[i]->priorityChanged(priority); return; } 
+    if(acts[i]->whatsThis()==ID){ static_cast<CoreAction*>(acts[i])->priorityChanged(priority); return; } 
   }
 }
 
@@ -307,7 +302,7 @@ void MenuItem::addCoreAction(QString host){
   //Find the core associated with the host
   if(!CORES.contains(host)){ return; }
   sysadm_client *core = CORES[host];
-  connect(core, SIGNAL(clientTypeChanged()), this, SLOT(UpdateMenu()) );
+  //connect(core, SIGNAL(clientTypeChanged()), this, SLOT(UpdateMenu()) );
   if(core->isBridge()){
     CoreMenu *bmen = new CoreMenu(core, this);
     this->addMenu(bmen);
@@ -316,7 +311,7 @@ void MenuItem::addCoreAction(QString host){
     connect(bmen, SIGNAL(ClearMessage(QString, QString)), this, SIGNAL(ClearMessage(QString, QString)) );
     connect(bmen, SIGNAL(UpdateTrayIcon()), this, SIGNAL(UpdateTrayIcon()) );
     connect(bmen, SIGNAL(updateParent(QString)), this, SLOT(CoreItemChanged(QString)) );
-    coreMenus << bmen;
+    //coreMenus << bmen;
   }else{
     CoreAction *act = new CoreAction(core, this);
     this->addAction(act);
@@ -324,7 +319,7 @@ void MenuItem::addCoreAction(QString host){
     connect(act, SIGNAL(ClearMessage(QString, QString)), this, SIGNAL(ClearMessage(QString, QString)) );
     connect(act, SIGNAL(UpdateTrayIcon()), this, SIGNAL(UpdateTrayIcon()) );
     connect(act, SIGNAL(updateParent(QString)), this, SLOT(CoreItemChanged(QString)) );
-    coreActions << act;
+    //coreActions << act;
   }
 }
 
@@ -332,8 +327,10 @@ void MenuItem::addCoreAction(QString host){
 void MenuItem::UpdateMenu(){
   bool showagain = false;
   if(this->isVisible()){ 
+    qDebug() << "Hide Menu:";
     this->hide();
     showagain = true;
+    QApplication::processEvents();
   }
   qDebug() << "Update Menu" << showagain;
   QString pathkey = this->whatsThis();
@@ -349,23 +346,23 @@ void MenuItem::UpdateMenu(){
       }
     }
   QStringList hosts = settings->value(pathkey).toStringList();
-  //qDebug() << "Update Menu:" << this->whatsThis() << "Has Core:" << !hosts.isEmpty();
+  qDebug() << "Update Menu:" << this->whatsThis() << "Has Core:" << !hosts.isEmpty();
   //qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
   //Now go through and update the menu
 
   //Clean up any obsolete core actions/menus (need special care)
-  for(int i=0; i<coreMenus.length(); i++){ 
+  /*for(int i=0; i<coreMenus.length(); i++){ 
       //coreMenus[i]->disconnect(); 
-      this->removeAction(coreMenus[i]->menuAction()); 
+      //this->removeAction(coreMenus[i]->menuAction()); 
       coreMenus.takeAt(i)->deleteLater(); 
       i--;
   }
   for(int i=0; i<coreActions.length(); i++){     
       //coreActions[i]->disconnect(); 
-      this->removeAction(coreActions[i]); 
+      //this->removeAction(coreActions[i]); 
       coreActions.takeAt(i)->deleteLater(); 
       i--;
-  }
+  }*/
   this->clear(); //clear out anything else
 	
     //Check for the localhost first
@@ -431,6 +428,7 @@ void MenuItem::UpdateMenu(){
   if(showagain){ 
     this->show();
   }
+  qDebug() << "Done Updating menu";
 }
 
 

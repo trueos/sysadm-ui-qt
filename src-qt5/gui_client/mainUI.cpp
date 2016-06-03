@@ -42,21 +42,20 @@ MainUI::MainUI(sysadm_client *core, QString pageID, QString bridgeID) : QMainWin
   }
   //Now finish up the rest of the init
   InitializeUI();
+  currentPage = pageID;
   if(!CORE->isActive()){
     if(CORE->needsBaseAuth() && !CORE->isLocalHost()){
       QMessageBox *dlg = new QMessageBox(QMessageBox::Warning, tr("Authentication Settings Invalid"), tr("Please reset your authentication procedures for this server within the connection manager."),QMessageBox::Ok, this);
       dlg->setModal(true);
       connect(dlg, SIGNAL(finished(int)), this, SLOT(close()) );
       dlg->show();
-      //this->close();
-      //return;
     }else{
       CORE->openConnection();
     }
   }
-  currentPage = pageID;
   if( CORE->isReady() ){
-    loadPage(pageID);
+    if(CORE->isBridge() && b_id.isEmpty()){ QTimer::singleShot(5,this, SLOT(close()) ); }
+    else{ loadPage(pageID); }
   }
 }
 
@@ -193,7 +192,8 @@ void MainUI::NoAuthorization(){
 
 void MainUI::Authorized(){
   qDebug() << "Got Server Authentication";
-  loadPage( currentPage );
+  if(CORE->isBridge() && b_id.isEmpty()){ this->close(); }
+  else{ loadPage( currentPage ); }
 }
 
 void MainUI::Disconnected(){

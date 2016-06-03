@@ -41,15 +41,16 @@ C_Manager::C_Manager() : QMainWindow(), ui(new Ui::C_Manager){
   //Setup all the connections
   connect(ui->actionFinished, SIGNAL(triggered()), this, SLOT(close()) );
   connect(treeTimer, SIGNAL(timeout()), this, SLOT(SaveConnectionInfo()) );
-  connect(ui->tree_conn->model(), SIGNAL(rowsInserted(const QModelIndex&,int,int)), this, SLOT(tree_items_changed()) );
   connect(ui->radio_ssl_bridge, SIGNAL(toggled(bool)), this, SLOT(LoadCertView()) );
 
   LoadConnectionInfo();
   verify_cert_inputs();
+
   //Connect some late signals/slots which might be impacted by the default loads
   connect(ui->line_cert_email, SIGNAL(textEdited(const QString&)), this, SLOT(verify_cert_inputs()) );
   connect(ui->line_cert_nick, SIGNAL(textEdited(const QString&)), this, SLOT(verify_cert_inputs()) );
-	
+  connect(ui->tree_conn->model(), SIGNAL(rowsInserted(const QModelIndex&,int,int)), this, SLOT(tree_items_changed()) );
+
   //Show the proper page
   checkFilesLoaded();
   //this->resize(this->sizeHint());
@@ -94,7 +95,7 @@ void C_Manager::LoadConnectionInfo(){
         if(item==0){ ui->tree_conn->addTopLevelItem(tmp); }
 	else{ item->addChild(tmp); }
     }
-    QApplication::processEvents();
+    //QApplication::processEvents();
   }
   on_tree_conn_itemSelectionChanged();
 }
