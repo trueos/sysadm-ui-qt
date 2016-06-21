@@ -329,10 +329,11 @@ message_in sysadm_client::convertServerReply(QString reply){
     msg.from_bridge_id = reply.left(index);
     reply = reply.remove(0,index+1);
   }
-  if(!msg.from_bridge_id.isEmpty() && !getBridgeData(msg.from_bridge_id).enc_key.isEmpty() ){
+  if(!msg.from_bridge_id.isEmpty() ){
+    QByteArray key = getBridgeData(msg.from_bridge_id).enc_key;
     //encrypted message through bridge - decrypt it
     //qDebug() << "Fully encoded message:" << reply;
-    reply = DecodeString(reply, getBridgeData(msg.from_bridge_id).enc_key);
+    if(!key.isEmpty()){ reply = DecodeString(reply, key); }
     //qDebug() << " - Decoded:" << reply;
   }
   //if(!msg.from_bridge_id.isEmpty()){  qDebug() << "Convert reply:" << reply; }
@@ -467,12 +468,12 @@ QString sysadm_client::DecodeString(QString str, QByteArray key){
   }
   //Convert the input string into block elements as needed (and decode base64);
   QList<QByteArray> blocks;
-  QJsonDocument doc = QJsonDocument::fromJson(str.toLocal8Bit());
-  if(doc.isNull()){
+  //QJsonDocument doc = QJsonDocument::fromJson(str.toLocal8Bit());
+  //if(doc.isNull()){
     //No individual blocks - just one string
     QByteArray bytes; bytes.append(str);
     blocks << QByteArray::fromBase64(bytes);
-  }else if(doc.isArray()){
+  /*}else if(doc.isArray()){
     for(int i=0; i<doc.array().count(); i++){
       QByteArray bytes; bytes.append(doc.array()[i].toString());
       blocks << QByteArray::fromBase64(bytes);
@@ -480,7 +481,7 @@ QString sysadm_client::DecodeString(QString str, QByteArray key){
   }else{
     //Already valid JSON - return it
     return str;
-  }
+  }*/
   //qDebug() << "Decoded String:" << bytes;
   return QString(blocks.join()); //TEMPORARY BYPASS
 
