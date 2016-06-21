@@ -392,7 +392,7 @@ QString sysadm_client::EncodeString(QString str, QByteArray key){
   if(key.contains(" PUBLIC KEY--")){ pub=true; }
   else if(key.contains(" PRIVATE KEY--")){ pub=false; }
   else{ qDebug() << " - No Encode"; return str; } //unknown encryption - just return as-is
-  //return str.toLocal8Bit().toBase64(); //TEMPORARY BYPASS
+  return str.toLocal8Bit().toBase64(); //TEMPORARY BYPASS
   //qDebug() << "Start encoding String:" << pub << str.length() << str <<  key;
   //Reset/Load some SSL stuff
     //OpenSSL_add_all_algorithms();
@@ -482,7 +482,7 @@ QString sysadm_client::DecodeString(QString str, QByteArray key){
     return str;
   }
   //qDebug() << "Decoded String:" << bytes;
-  //return QString(bytes); //TEMPORARY BYPASS
+  return QString(blocks.join()); //TEMPORARY BYPASS
 
    //qDebug() << "Start decoding String:" << pub << str;//<< key;
   //Reset/Load some SSL stuff
