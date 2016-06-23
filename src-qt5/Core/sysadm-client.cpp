@@ -305,7 +305,9 @@ void sysadm_client::sendSocketMessage(QJsonObject msg){
 void sysadm_client::sendSocketMessage(QString msg){
   if(!isActive()){ return; }
   //if(DEBUG){ qDebug() << "Send Socket Message:" << msg; }
-  SOCKET->sendTextMessage(msg);
+  if(SOCKET->isValid()){
+    SOCKET->sendTextMessage(msg);
+  }
 }
 
 //Simplification functions
@@ -575,10 +577,9 @@ void sysadm_client::communicate(QList<QJsonObject> requests){
     if(BACK.contains(ID)){ BACK.remove(ID); }
     PENDING << ID;
     //Now send off the message
-    if(SOCKET->isValid()){ 
-	sendSocketMessage(requests[i]);
-	if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
-    }
+    sendSocketMessage(requests[i]);
+    if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
+    
   }  
 }
 void sysadm_client::communicate_bridge(QString bridge_host_id, QString ID, QString namesp, QString name, QJsonValue args){
@@ -623,14 +624,12 @@ void sysadm_client::communicate_bridge(QString bridge_host_id, QList<QJsonObject
     //if(BACK.contains(bridge_host_id+"::::"+ID)){ BACK.remove(bridge_host_id+"::::"+ID); }
     //PENDING << bridge_host_id+"::::"+ID;
     //Now send off the message
-    if(SOCKET->isValid()){ 
-         qDebug() << "Start encoding message";
-        QString enc_msg = EncodeString( QJsonDocument(requests[i]).toJson(QJsonDocument::Compact), key);
-        qDebug() << "Send encoded message";
-	sendSocketMessage(bridge_host_id+"\n"+enc_msg);
-        qDebug() << " - finished sending message";
-	if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
-    }
+    qDebug() << "Start encoding message";
+    QString enc_msg = EncodeString( QJsonDocument(requests[i]).toJson(QJsonDocument::Compact), key);
+    qDebug() << "Send encoded message";
+    sendSocketMessage(bridge_host_id+"\n"+enc_msg);
+    qDebug() << " - finished sending message";
+    if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
   }
 }
 
