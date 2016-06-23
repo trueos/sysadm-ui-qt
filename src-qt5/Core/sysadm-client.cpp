@@ -601,8 +601,8 @@ void sysadm_client::communicate_bridge(QString bridge_host_id, QJsonObject reque
 }
 
 void sysadm_client::communicate_bridge(QString bridge_host_id, QList<QJsonObject> requests){
-  qDebug() << "Communicate Bridge:" << bridge_host_id;
   if(bridge_host_id.isEmpty()){ communicate(requests); return; } //run the non-bridge version
+  qDebug() << "Communicate Bridge:" << bridge_host_id;
   if(!BRIDGE.contains(bridge_host_id)){
     qDebug() << "Invalid bridge host:" << bridge_host_id;
     return;

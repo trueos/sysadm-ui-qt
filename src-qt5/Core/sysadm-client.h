@@ -32,10 +32,13 @@ struct message_in{
   QJsonValue args;
 };
 
-struct bridge_data{
+class bridge_data{
+public:
   QByteArray enc_key; //current encryption key to use
   QString auth_tok; //current authentication token
   QString hostname;
+  bridge_data(){}
+  ~bridge_data(){}
 };
 
 class sysadm_client : public QObject{
