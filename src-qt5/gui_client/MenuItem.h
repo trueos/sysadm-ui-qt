@@ -46,6 +46,7 @@ class CoreMenu : public QMenu{
 private:
 	QString nickname, host;
 	sysadm_client *Core;
+	bool updating;
 	//QList<CoreAction*> acts;
 
 public:

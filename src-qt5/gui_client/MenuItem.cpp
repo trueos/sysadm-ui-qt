@@ -131,6 +131,7 @@ CoreMenu::CoreMenu(sysadm_client* core, QWidget *parent) : QMenu(parent){
   //qDebug() << "New CoreMenu:" << core->currentHost();
   Core = core; //save pointer for later
   host = core->currentHost();
+  updating = false;
   this->setWhatsThis("core::"+host);
   nickname = settings->value("Hosts/"+host,"").toString();
   if(nickname.isEmpty()){
@@ -204,8 +205,9 @@ void CoreMenu::CoreTypeChanged(){
 }
 
 void CoreMenu::BridgeConnectionsChanged(QStringList conns){
-  qDebug() << " - Got Bridge Connections Changed";
+  qDebug() << " - Got Bridge Connections Changed:" << updating;
   bool showagain = false;
+  updating = true;
   if(this->isVisible()){ this->hide(); showagain = true; }
   if(!CORES.contains(host) || Core==0){ return; }
   if(conns.isEmpty() && Core->isActive() ){  conns = Core->bridgeConnections(); }
@@ -231,11 +233,13 @@ void CoreMenu::BridgeConnectionsChanged(QStringList conns){
     //Need to create a new action
     if(!found){
       qDebug() << " - - New Action";
-      CoreAction *act = new CoreAction(Core, 0, conns[i]);
+      CoreAction *act = new CoreAction(Core, this, conns[i]);
+      qDebug() << "  -- Connect Action";
       connect(act, SIGNAL(ShowMessage(HostMessage)), this, SIGNAL(ShowMessage(HostMessage)) );
       connect(act, SIGNAL(ClearMessage(QString, QString)), this, SIGNAL(ClearMessage(QString, QString)) );
       connect(act, SIGNAL(UpdateTrayIcon()), this, SIGNAL(UpdateTrayIcon()) );
       //acts << act;
+      qDebug() << "  -- Add Action to Menu";
       this->addAction(act);
     }
   }
@@ -243,6 +247,7 @@ void CoreMenu::BridgeConnectionsChanged(QStringList conns){
     this->addAction(QIcon(":/icons/black/sync.svg"), tr("Reconnect Now"), this, SLOT(triggerReconnect()) );
   }
   qDebug() << " - Done updating bridge menu";
+  updating = false;
   if(showagain){ this->show(); }
 }
 //Bridged versions of the normal slots
