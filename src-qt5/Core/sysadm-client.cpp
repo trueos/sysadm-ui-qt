@@ -14,6 +14,7 @@
 #include <QSslKey>
 #include <QSslCertificate>
 #include <QHostInfo>
+#include <QtConcurrent>
 
 //SSL Stuff
 #include <openssl/pem.h>
@@ -43,6 +44,8 @@ extern QSslConfiguration SSL_cfg, SSL_cfg_bridge; //Check "isNull()" to see if t
 
 // === PUBLIC ===
 sysadm_client::sysadm_client(){
+  qRegisterMetaType<sysadm_client::EVENT_TYPE>("sysadm_client::EVENT_TYPE");
+  connect(this, SIGNAL(sendOutputMessage(QString)), this, SLOT(forwardSocketMessage(QString)) );
   SOCKET = new QWebSocket("sysadm-client", QWebSocketProtocol::VersionLatest, this);
     SOCKET->setSslConfiguration(QSslConfiguration::defaultConfiguration());
     //use the new Qt5 connection syntax for compile time checks that connections are valid
@@ -62,6 +65,7 @@ sysadm_client::sysadm_client(){
   pingTimer = new QTimer(this);
     pingTimer->setInterval(90000); //90 second intervals 
     connect(pingTimer, SIGNAL(timeout()), this, SLOT(sendPing()) );
+    connect(this, SIGNAL(clientAuthorized()), pingTimer, SLOT(start()) );
 }
 
 sysadm_client::~sysadm_client(){
@@ -303,9 +307,7 @@ void sysadm_client::sendSocketMessage(QJsonObject msg){
   sendSocketMessage(QJsonDocument(msg).toJson(QJsonDocument::Compact));
 }
 void sysadm_client::sendSocketMessage(QString msg){
-  if(!isActive()){ return; }
-  //if(DEBUG){ qDebug() << "Send Socket Message:" << msg; }
-  SOCKET->sendTextMessage(msg);
+   emit sendOutputMessage(msg);
 }
 
 //Simplification functions
@@ -577,7 +579,6 @@ void sysadm_client::communicate(QList<QJsonObject> requests){
     //Now send off the message
     if(SOCKET->isValid()){ 
 	sendSocketMessage(requests[i]);
-	if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
     }
   }  
 }
@@ -629,7 +630,7 @@ void sysadm_client::communicate_bridge(QString bridge_host_id, QList<QJsonObject
         qDebug() << "Send encoded message";
 	sendSocketMessage(bridge_host_id+"\n"+enc_msg);
         qDebug() << " - finished sending message";
-	if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
+	//if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
     }
   }
 }
@@ -718,8 +719,21 @@ void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: er
 }
 //void sysadm_client::socketProxyAuthRequired(const QNetworkProxy &proxy, QAuthenticator *auth); //Signal: proxyAuthenticationRequired()
 
+// - Main message output routine (tied to an internal signal - don't use manually)
+void sysadm_client::forwardSocketMessage(QString msg){
+  if(SOCKET->isValid()){ 
+    SOCKET->sendTextMessage(msg);
+    if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
+  }
+}
+
 // - Main message input parsing
 void sysadm_client::socketMessage(QString msg){ //Signal: textMessageReceived()
+  //Handle this message in a separate thread
+  QtConcurrent::run(this, &sysadm_client::handleMessage, msg);
+}
+
+void sysadm_client::handleMessage(const QString msg){
   //if(DEBUG){  qDebug() << "New Reply From Server:" << msg; }
   if(DEBUG){ qDebug() << "Got Message"; }
   message_in msg_in = convertServerReply(msg);
@@ -802,7 +816,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
 	  cauthkey = msg.args.toArray().first().toString();
           qDebug() << "Connection Authorized:" << chost;
 	  emit clientAuthorized();
-	  pingTimer->start();
+	  //pingTimer->start();
 	  //Now automatically re-subscribe to events as needed
 	  //qDebug() << "Re-subscribe to events:" << events;
 	  for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }

@@ -136,8 +136,12 @@ private slots:
 	void socketError(QAbstractSocket::SocketError err); //Signal:: error()
 	//void socketProxyAuthRequired(const QNetworkProxy &proxy, QAuthenticator *auth); //Signal: proxyAuthenticationRequired()
 
+	// - Main message output routine (tied to an internal signal - don't use manually)
+        void forwardSocketMessage(QString);
+
 	// - Main message input parsing
 	void socketMessage(QString msg); //Signal: textMessageReceived()
+	void handleMessage(const QString msg); //Run within a separate thread
 	bool handleMessageInternally(message_in msg);
 
 signals:
@@ -155,7 +159,8 @@ signals:
 	void bridgeEvent(QString bridgeID, sysadm_client::EVENT_TYPE, QJsonValue);
 	void statePriorityChanged(int);
 	void bridgeStatePriorityChanged(QString bridgeID, int);
-
+        //Private signals
+	void sendOutputMessage(QString);
 };
 
 #endif
