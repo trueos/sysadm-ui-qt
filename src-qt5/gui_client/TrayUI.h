@@ -43,10 +43,8 @@ private:
 	
 private slots:
 	//Tray activated
-	void trayActivated(){
-         //menu->UpdateMenu();
-	  this->contextMenu()->popup( this->geometry().center());
-	}
+	void trayActivated();
+
 	//Allow popups
 	void allowPopups(){
 	  showNotices = true;

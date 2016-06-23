@@ -577,9 +577,7 @@ void sysadm_client::communicate(QList<QJsonObject> requests){
     if(BACK.contains(ID)){ BACK.remove(ID); }
     PENDING << ID;
     //Now send off the message
-    if(SOCKET->isValid()){ 
-	sendSocketMessage(requests[i]);
-    }
+    sendSocketMessage(requests[i]);
   }  
 }
 void sysadm_client::communicate_bridge(QString bridge_host_id, QString ID, QString namesp, QString name, QJsonValue args){
@@ -602,8 +600,8 @@ void sysadm_client::communicate_bridge(QString bridge_host_id, QJsonObject reque
 }
 
 void sysadm_client::communicate_bridge(QString bridge_host_id, QList<QJsonObject> requests){
-  qDebug() << "Communicate Bridge:" << bridge_host_id;
   if(bridge_host_id.isEmpty()){ communicate(requests); return; } //run the non-bridge version
+  qDebug() << "Communicate Bridge:" << bridge_host_id;
   if(!BRIDGE.contains(bridge_host_id)){
     qDebug() << "Invalid bridge host:" << bridge_host_id;
     return;

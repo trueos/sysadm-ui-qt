@@ -77,6 +77,13 @@ sysadm_client* sysadm_tray::getCore(QString host){
 }
 
 // === PRIVATE SLOTS ===
+void sysadm_tray::trayActivated(){
+  qDebug() << "tray activated";
+  if(this->contextMenu()!=0){
+     this->contextMenu()->popup( this->geometry().center());
+  }
+}
+
 // - Application-wide setting changed
 void sysadm_tray::UpdateWindows(){
   //First check for any of the special windows (skip settings window)
