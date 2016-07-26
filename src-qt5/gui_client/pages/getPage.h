@@ -34,6 +34,7 @@ static QList<PAGEINFO> KnownPages(){
   list << PageInfo("page_system", QObject::tr("System Manager"), QObject::tr("System Manager"), ":/icons/black/boxfilled.svg",QObject::tr("Information About the System"), "utils", QStringList() << "sysadm/system");
   list << PageInfo("page_updates", QObject::tr("Update Manager"), QObject::tr("Update Manager"), ":/icons/black/sync.svg",QObject::tr("Perform Updates on the System"), "appmgmt", QStringList() << "sysadm/update");
   list << PageInfo("page_pkg", QObject::tr("AppCafe"), QObject::tr("AppCafe"), ":/icons/custom/appcafe.png",QObject::tr("Manage Applications/Packages"), "appmgmt", QStringList() << "sysadm/pkg");
+  list << PageInfo("page_users", QObject::tr("User Manager"), QObject::tr("User Manager"), ":/icons/custom/appcafe.png",QObject::tr("Manage Users/Groups"), "sysmgmt", QStringList() << "sysadm/users");
 	return list;
 }
 
@@ -48,6 +49,7 @@ static QList<PAGEINFO> KnownPages(){
 #include "page_system.h"
 #include "page_updates.h"
 #include "page_pkg.h"
+#include "page_users.h"
 
 static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   //Find the page that matches this "id"
@@ -60,6 +62,7 @@ static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   else if(id=="page_system"){ return new system_page(parent, core); }
   else if(id=="page_updates"){ return new updates_page(parent, core); }
   else if(id=="page_pkg"){ return new pkg_page(parent, core); }
+  else if(id=="page_users"){ return new users_page(parent, core); }
   //Return the main control_panel page as the fallback/default
   return new control_panel(parent, core);
 }

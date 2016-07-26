@@ -41,21 +41,27 @@ MainUI::MainUI(sysadm_client *core, QString pageID, QString bridgeID) : QMainWin
     ui->toolBar->removeAction(ui->actionPower);
   }
   //Now finish up the rest of the init
+  qDebug() << "Init UI";
   InitializeUI();
   currentPage = pageID;
   if(!CORE->isActive()){
+    qDebug() << " - CORE not active";
     if(CORE->needsBaseAuth() && !CORE->isLocalHost()){
       QMessageBox *dlg = new QMessageBox(QMessageBox::Warning, tr("Authentication Settings Invalid"), tr("Please reset your authentication procedures for this server within the connection manager."),QMessageBox::Ok, this);
       dlg->setModal(true);
       connect(dlg, SIGNAL(finished(int)), this, SLOT(close()) );
       dlg->show();
     }else{
+      qDebug() << " - open connection";
       CORE->openConnection();
     }
   }
   if( CORE->isReady() ){
+    qDebug() << " - Core is ready:" << CORE->isBridge() << b_id;
     if(CORE->isBridge() && b_id.isEmpty()){ QTimer::singleShot(5,this, SLOT(close()) ); }
     else{ loadPage(pageID); }
+  }else{
+    QTimer::singleShot(500, this, SLOT(loadPage()) ); //1/2 second wait max for a connection
   }
 }
 

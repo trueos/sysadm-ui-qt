@@ -165,9 +165,12 @@ void sysadm_tray::CloseApplication(){
 
 void sysadm_tray::OpenCore(QString host){
   //See if a window for this host is already open and use that
+  qDebug() << "Open Host Window:" << host;
   for(int i=0; i<CLIENTS.length(); i++){
     if(CLIENTS[i]->currentHost()==host){
-       if(CLIENTS[i]->currentCore()->isReady()){  CLIENTS[i]->showNormal(); }
+       //if(CLIENTS[i]->currentCore()->isReady()){  
+         CLIENTS[i]->showNormal();
+      //}
       return;
     }
   }
