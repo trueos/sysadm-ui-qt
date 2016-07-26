@@ -668,6 +668,7 @@ void sysadm_client::socketConnected(){ //Signal: connected()
   if(connectTimer->isActive()){ connectTimer->stop(); }
   //keepActive = true; //got a valid connection - try to keep this open automatically unless the user closes it
   //emit clientConnected();
+  if(DEBUG){ qDebug() << "Socket Connected:"; }
   communicate("sysadm_client_identify","rpc","identify",""); //ask the other system to identify itself
   //performAuth(cuser, cpass);
   //cpass.clear(); //just to ensure no trace left in memory
@@ -681,6 +682,7 @@ void sysadm_client::socketClosed(){ //Signal: disconnected()
   if(pingTimer->isActive()){ pingTimer->stop(); }
   BRIDGE.clear();
   isbridge = false;
+  cauthkey.clear();
   if(keepActive){ 
     //Socket closed due to timeout/server
     // Go ahead and re-open it in one minute if possible with the last-used settings/auth
@@ -756,6 +758,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
   //HANDLE AUTH SYSTEMS
   QJsonObject reply;
   if(msg.id=="sysadm_client_identify"){
+    if(DEBUG){ qDebug() << "Identification Reply:" << msg.from_bridge_id << msg.args; }
     if(msg.from_bridge_id.isEmpty()){
       QString type = msg.args.toObject().value("type").toString();
       bool startauth = false;
