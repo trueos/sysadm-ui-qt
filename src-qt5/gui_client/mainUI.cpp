@@ -60,7 +60,7 @@ MainUI::MainUI(sysadm_client *core, QString pageID, QString bridgeID) : QMainWin
     qDebug() << " - Core is ready:" << CORE->isBridge() << b_id;
     if(CORE->isBridge() && b_id.isEmpty()){ QTimer::singleShot(5,this, SLOT(close()) ); }
     else{ loadPage(pageID); }
-  }else{
+  }else if(pageID.isEmpty()){
     QTimer::singleShot(500, this, SLOT(loadPage()) ); //1/2 second wait max for a connection
   }
 }
@@ -71,6 +71,7 @@ MainUI::~MainUI(){
 sysadm_client* MainUI::currentCore(){
   return CORE;
 }
+
 QString MainUI::currentHost(){
   if(b_id.isEmpty()){ return host; }
   else{ return host+"/"+b_id; }
