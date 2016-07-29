@@ -28,7 +28,7 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
   updateCoreList();
   
   //Setup the tray icon
-  this->setIcon( QIcon(":/icons/grey/lock.svg") );
+  UpdateIcon();
   connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayActivated()) );
   //Setup the message menu
   msgMenu = new QMenu(); 
@@ -189,7 +189,7 @@ void sysadm_tray::OpenCore(QString host){
 }
 
 void sysadm_tray::UnlockConnections(){
-  this->setIcon( QIcon(":/icons/grey/disk2.svg") );
+  UpdateIcon();
   //Open all the cores
   updateCoreList();  
   //Update the menu
@@ -287,14 +287,29 @@ void sysadm_tray::UpdateIconPriority(){
 }
 
 void sysadm_tray::UpdateIcon(){
-  QString icon;
+  /*QImage icon(":/icons/custom/sysadm_circle.svg");
+  QString overlay;
   if(iconreset || cPriority <3){
-    if(SSL_cfg.isNull()){ icon = ":/icons/grey/lock.svg"; }
-    else{ icon = ":/icons/grey/disk2.svg"; }
-  }else if(cPriority < 6){  icon = ":/icons/grey/exclamationmark.svg"; }
-  else if(cPriority < 9){  icon = ":/icons/grey/warning.svg"; }
-  else{  icon = ":/icons/grey/attention.svg"; }
-  this->setIcon(QIcon(icon));
+    if(SSL_cfg.isNull()){ overlay = ":/icons/grey/lock.svg"; }
+  }else if(cPriority < 6){  overlay = ":/icons/grey/exclamationmark.svg"; }
+  else if(cPriority < 9){  overlay = ":/icons/grey/warning.svg"; }
+  else{  overlay = ":/icons/grey/attention.svg"; }
+  if(!overlay.isEmpty()){
+    qDebug() << "Apply icon overlay:" << overlay;
+    QPainter pnt;
+      pnt.begin(&icon);
+      pnt.drawPixmap( icon.width()/2, icon.height()/2, QPixmap(overlay).scaled(icon.width()/2, icon.height()/2) );
+      pnt.end();
+  }
+  this->setIcon( QIcon(QPixmap::fromImage(icon)) );
+  */
+  QString icon = ":/icons/custom/sysadm_circle.svg";
+  if(iconreset || cPriority <3){
+    if(SSL_cfg.isNull()){ icon = ":/icons/custom/sysadm_circle_grey.png"; }
+  }else if(cPriority < 6){  icon = ":/icons/custom/sysadm_circle_yellow.png"; }
+  else if(cPriority < 9){  icon = ":/icons/custom/sysadm_circle_orange.png"; }
+  else if(cPriority==9){  icon = ":/icons/custom/sysadm_circle_red.png"; }
+  this->setIcon( QIcon(icon) );
   //Reset the icon flag as needed (for next run)
   iconreset = !iconreset;
 

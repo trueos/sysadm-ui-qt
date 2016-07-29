@@ -32,8 +32,8 @@ void pkg_page::GenerateHomePage(QStringList cats, QString repo){
   
   //qDebug() << "Creating Home Page...";
   //Create a simple non-interactive widget
-  layout->addWidget(CreateBannerItem(QStringList() << ":/icons/custom/pcbsd-banner.png"<<":/icons/custom/pcbsd-banner.png", \
-		QStringList() << "search::::pcbsd" << "search::::pcbsd") \
+  layout->addWidget(CreateBannerItem(QStringList() << ":/icons/custom/trueos-banner.svg"<<":/icons/custom/trueos-banner.svg", \
+		QStringList() << "search::::trueos" << "search::::trueos") \
 		,0,0,1,2);
   //Create a group of items (horizontal);
   layout->addWidget( CreateGroup(tr("Popular Searches"), QList<QWidget*>() \

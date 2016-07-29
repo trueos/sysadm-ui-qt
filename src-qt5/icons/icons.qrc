@@ -1,7 +1,13 @@
 <RCC>
   <qresource prefix="/icons">
   <file>custom/appcafe.png</file>
-  <file>custom/pcbsd-banner.png</file>
+  <file>custom/trueos-banner.svg</file>
+  <file>custom/sysadm.svg</file>
+  <file>custom/sysadm_circle.svg</file>
+  <file>custom/sysadm_circle_grey.png</file>
+  <file>custom/sysadm_circle_yellow.png</file>
+  <file>custom/sysadm_circle_orange.png</file>
+  <file>custom/sysadm_circle_red.png</file>
   <file>custom/lifepreserver.png</file>
   </qresource>
   <qresource prefix="/icons/black">
