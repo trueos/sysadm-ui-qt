@@ -28,7 +28,7 @@ freebsd-*{
   
   #Install the icon for the XDG files
   xdg_icon.files=extras/sysadm.svg \
-	extras/pcbsd.png \
+	extras/trueos.png \
 	extras/appcafe.png
   xdg_icon.path=/usr/local/share/pixmaps
   
