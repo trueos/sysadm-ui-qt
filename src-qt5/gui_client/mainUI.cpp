@@ -112,7 +112,7 @@ void MainUI::InitializeUI(){
     else{ host = CORE->currentHost(); }
   }else{ host.append(" ("+CORE->currentHost()+")" ); }
   this->setWindowTitle("SysAdm: "+host );
-  this->setWindowIcon( QIcon(":/icons/black/desktop.svg") );
+  this->setWindowIcon( QIcon(":/icons/custom/sysadm.svg") );
 }
 
 // === PRIVATE SLOTS ===

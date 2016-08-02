@@ -47,7 +47,7 @@ void beadm_page::startingRequest(QString notice){
 
 // === PRIVATE SLOTS ===
 void beadm_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
-  qDebug() << "New Reply:" << id << namesp << name << args;
+  //qDebug() << "New Reply:" << id << namesp << name << args;
   if(!id.startsWith("beadm_auto")){ return; }
   if(id=="beadm_auto_page_list" && name!="error"){
     //populate the tree widget with the info

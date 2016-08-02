@@ -168,15 +168,16 @@ void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue ar
   }else if(id==TAG+"list_replication"){
     QJsonObject data = args.toObject().value("listreplication").toObject();
     QStringList ids = data.keys();
+    qDebug() << "Replication List keys" << ids;
     ui->tree_rep->clear();
     for(int i=0; i<ids.length(); i++){
       QTreeWidgetItem *it = new QTreeWidgetItem();
-      it->setText(0, data.value("dataset").toString());
-      it->setText(1, data.value("host").toString());
-      it->setText(2, data.value("rdset").toString());
-      it->setText(3, data.value("port").toString());
-      it->setText(4, data.value("frequency").toString());
-      it->setText(5, data.value("user").toString());
+      it->setText(0, data.value(ids[i]).toObject().value("dataset").toString());
+      it->setText(1, data.value(ids[i]).toObject().value("host").toString());
+      it->setText(2, data.value(ids[i]).toObject().value("rdset").toString());
+      it->setText(3, data.value(ids[i]).toObject().value("port").toString());
+      it->setText(4, data.value(ids[i]).toObject().value("frequency").toString());
+      it->setText(5, data.value(ids[i]).toObject().value("user").toString());
       ui->tree_rep->addTopLevelItem(it);
     }
     ui->tab_replication->setEnabled(true);
