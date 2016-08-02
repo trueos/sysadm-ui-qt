@@ -47,7 +47,7 @@ void beadm_page::startingRequest(QString notice){
 
 // === PRIVATE SLOTS ===
 void beadm_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
-  qDebug() << "New Reply:" << id << namesp << name;
+  qDebug() << "New Reply:" << id << namesp << name << args;
   if(!id.startsWith("beadm_auto")){ return; }
   if(id=="beadm_auto_page_list" && name!="error"){
     //populate the tree widget with the info
@@ -172,9 +172,10 @@ void beadm_page::activate_be(){
   if(ui->tree_BE->currentItem()==0){ return; } //nothing selected
   QString selbe = ui->tree_BE->currentItem()->text(0); //currently selected BE
   QJsonObject obj;
-    obj.insert("action","activate");
+    obj.insert("action","activatebe");
     obj.insert("target",selbe);
   communicate("beadm_auto_page_activate", "sysadm", "beadm", obj);
+  qDebug() << "Send Request:" << obj;
   startingRequest(tr("Activating Boot Environment...") );	
 }
 
