@@ -42,6 +42,7 @@ private:
 	QNetworkAccessManager *NMAN;
 	QList<QUrl> imagepending;
 	QHash<QUrl, QImage> imagecache; // URL/image
+	QHash<QUrl,QUrl> urlRedirects; // Redirect/Original
 	//Internal lists of origins being handled
 	QStringList origin_installed, origin_pending;
 

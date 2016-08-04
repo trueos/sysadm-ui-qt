@@ -625,6 +625,7 @@ void pkg_page::LoadImageFromURL(QLabel *widget, QString url){
     widget->setVisible(true);
   }else{
     //Need to fetch the image - put a placeholder in for now
+    qDebug() << "Load Image From URL:" << qurl;
     widget->setWhatsThis(qurl.toString());
     widget->setPixmap( QPixmap(":/icons/black/photo.svg") );
     if(!imagepending.contains(qurl)){
@@ -642,6 +643,7 @@ void pkg_page::LoadImageFromURL(QTreeWidgetItem *it, QString url){
     it->setIcon(1, QIcon(QPixmap::fromImage(imagecache[qurl] )) );
   }else{
     //Need to fetch the image - put a placeholder in for now
+    qDebug() << "Load Image From URL:" << qurl;
     it->setWhatsThis(1,qurl.toString());
     it->setIcon(1, QIcon(":/icons/black/photo.svg") );
     if(!imagepending.contains(qurl)){
@@ -841,14 +843,29 @@ void pkg_page::update_repo_changed(){
 }
 
 void pkg_page::icon_available(QNetworkReply *reply){
+  QUrl redirecturl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
+  QUrl qurl = reply->url(); //original URL (changed as needed by redirects
+  if(redirecturl.isValid() && (redirecturl.toString() != qurl.toString() )){
+    //New URL redirect - make the change and send a new request
+    //qDebug() << "Got a redirect URL:" << qurl << "->" << redirecturl;
+    urlRedirects.insert(redirecturl, qurl);
+    NMAN->get( QNetworkRequest(redirecturl) );
+    return;
+  }else{
+    //Icon found - clean up the redirect paths and find the original URL
+    //qDebug() << "Icon Found:" << qurl;
+    while(urlRedirects.contains(qurl) ){
+      qurl = urlRedirects.take(qurl);
+    }
+  }
   //Get the widget for this reply
-  //qDebug() << "Icon Available:" << reply->url();
+  //qDebug() << "Icon Available:" << qurl;
   QImage img = QImage::fromData(reply->readAll());
   //Save this image into the hash
-  if(!img.isNull()){ imagecache.insert(reply->url(), img); } //save image for later
-  imagepending.removeAll(reply->url()); //no longer pending
+  if(!img.isNull()){ imagecache.insert(qurl, img); } //save image for later
+  imagepending.removeAll(qurl); //no longer pending
   //Now go through all the widgets waiting for this icon and put it in as needed
-  QString url = reply->url().toString();
+  QString url = qurl.toString();
   // browser/pkg page
   if(ui->label_app_icon->whatsThis() == url){ 
     if(img.isNull()){ ui->label_app_icon->setVisible(false); }  
