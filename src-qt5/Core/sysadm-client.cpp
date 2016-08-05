@@ -655,8 +655,9 @@ void sysadm_client::setupSocket(){
 }
 
 void sysadm_client::sendPing(){
-  communicate("sysadm_client_identify", "rpc","identify","");
+  communicate("sysadm_client_identify", "rpc","identify","");  
   if(!this->isReady()){ return; }
+  communicate("sysadm_client_ping", "rpc","query","");
   QStringList b_id = BRIDGE.keys();
   for(int i=0; i<b_id.length(); i++){
     communicate_bridge(b_id[i], "sysadm_client_identify", "rpc", "identify","");
