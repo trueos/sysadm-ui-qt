@@ -192,15 +192,24 @@ void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue ar
       QJsonObject data = args.toObject().value("listcron").toObject();
       QStringList pools = data.keys();
       ui->tree_schedule->clear();
-	for(int i=0; i<pools.length(); i++){
+      int numsnaps, numscrubs;
+      numsnaps = numscrubs = 0;
+      for(int i=0; i<pools.length(); i++){
         QTreeWidgetItem *it = new QTreeWidgetItem();
         it->setText(0, pools[i]);
         it->setText(1, data.value(pools[i]).toObject().value("keep").toString()); //snapshots to keep
         it->setText(2, data.value(pools[i]).toObject().value("schedule").toString()); //snapshot schedule
         it->setText(3, data.value(pools[i]).toObject().value("scrub").toString()); //scrub schedule
+        if(!it->text(2).simplified().isEmpty()){ numsnaps++; }
+        if(!it->text(3).simplified().isEmpty()){ numscrubs++; }
         ui->tree_schedule->addTopLevelItem(it);
       }
-
+      ui->tool_schedule_addsnap->setEnabled(zpools.length() > numsnaps);
+      ui->tool_schedule_addscrub->setEnabled(zpools.length() > numscrubs);
+      ui->tool_schedule_rmsnap->setEnabled(numsnaps>0);
+      ui->tool_schedule_rmscrub->setEnabled(numscrubs>0);
+      ui->tool_schedule_modifysnap->setEnabled(numsnaps>0);
+      ui->tool_schedule_modifyscrub->setEnabled(numscrubs>0);
   }//end check of the "id"
 
 }
