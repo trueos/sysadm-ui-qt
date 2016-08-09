@@ -93,7 +93,7 @@ void beadm_page::updateButtons(){
 
 //GUI Buttons
 void beadm_page::create_be(){
-  QString newname = QInputDialog::getText(this, tr("New Boot Environment"), tr("Name:"));
+  QString newname = QInputDialog::getText(this, tr("New Boot Environment"), tr("Name:"), QLineEdit::Normal, "CustomBE-"+QDateTime::currentDateTime().toString("yyyyMMddhhmm") );
   if(newname.isEmpty()){ return; }
   //Also verify that the name is not already used
   if( !ui->tree_BE->findItems(newname, Qt::MatchExactly, 0).isEmpty() ){ create_be(); return;}
