@@ -48,6 +48,10 @@ private slots:
 	void send_check_updates();
 	void check_start_updates();
 	void send_start_updates();
+	void send_stop_updates();
+	void send_list_settings();
+	void send_save_settings();
+
 	//UI slots
 	void check_current_branch();
 	void check_current_update();

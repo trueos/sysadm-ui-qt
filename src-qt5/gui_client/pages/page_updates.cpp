@@ -13,6 +13,8 @@ updates_page::updates_page(QWidget *parent, sysadm_client *core) : PageWidget(pa
   ui->setupUi(this);
   ui->page_stat_layout->setStretchFactor(ui->text_up_log, 2);
   connect(ui->push_start_updates, SIGNAL(clicked()), this, SLOT(check_start_updates()) );
+  connect(ui->push_stop_updates, SIGNAL(clicked()), this, SLOT(send_stop_updates()) );
+  connect(ui->push_settings_save, SIGNAL(clicked()), this, SLOT(send_save_settings()) );
   connect(ui->push_chbranch, SIGNAL(clicked()), this, SLOT(send_change_branch()) );
   connect(ui->list_branches, SIGNAL(currentRowChanged(int)), this, SLOT(check_current_branch()) );
   connect(ui->tree_updates, SIGNAL(itemSelectionChanged()), this, SLOT(check_current_update()) );
@@ -37,6 +39,7 @@ void updates_page::startPage(){
   //Now run any CORE communications
   send_list_branches();
   send_check_updates();
+  send_list_settings();
   check_current_branch();
   check_current_update();
 }
@@ -70,22 +73,14 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
       ui->stacked_updates->setCurrentWidget(ui->page_stat);
       ui->label_uptodate->setVisible(true);
       ui->label_rebootrequired->setVisible(false);
-      //ui->group_up_log->setVisible(false);
     }else if(stat=="rebootrequired"){
       ui->stacked_updates->setCurrentWidget(ui->page_stat);
       ui->label_uptodate->setVisible(false);
       ui->label_rebootrequired->setVisible(true);
-      //ui->group_up_log->setVisible(false);
     }else if(stat=="updaterunning"){
       ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
-      /*ui->label_uptodate->setVisible(false);
-      ui->label_rebootrequired->setVisible(false);
-      ui->group_up_log->setVisible(true);*/
     }else if(stat=="updatesavailable"){
       ui->stacked_updates->setCurrentWidget(ui->page_updates);
-      //ui->label_uptodate->setVisible(false);
-      //ui->label_rebootrequired->setVisible(false);
-      //ui->group_up_log->setVisible(false);
       QStringList types = args.toObject().value("checkupdates").toObject().keys();
 	types.removeAll("status");
 	qDebug() << "Types:" << types;
@@ -144,9 +139,26 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
     ui->page_updates->setEnabled(true);
     ui->label_checking->setVisible(false);
     check_current_update();
+
+//  }else if(id==IDTAG+"stop_updates"){
+    
+  }else if(id==IDTAG+"list_settings"){
+    QJsonObject obj = args.toObject().value("listsettings").toObject();
+    int mbe = 3;
+    if(obj.contains("maxbe")){ mbe = qRound( obj.value("maxbe").toString().toFloat() ); }
+    ui->spin_maxbe->setValue(mbe);
+    bool autoup = true;
+    if(obj.contains("auto_update")){ autoup = !(obj.value("auto_update").toString().toLower()=="disabled"); }
+    ui->check_settings_autoup->setChecked(autoup);
+    bool crepo = false;
+    if(obj.contains("package_set")){ crepo = (obj.value("package_set").toString()=="CUSTOM"); }
+    ui->group_settings_customrepo->setChecked(crepo);
+    ui->line_settings_url->setText( obj.value("package_url").toString() ); //normally empty/nonexistant
+
   }else{
     send_list_branches();
     send_check_updates();
+    send_list_settings();
   }
 }
 
@@ -258,6 +270,32 @@ void updates_page::send_start_updates(){
     //ui->label_rebootrequired->setVisible(false);
     //ui->group_up_log->setVisible(true);
     ui->text_up_log->clear();
+}
+
+void updates_page::send_stop_updates(){
+  QJsonObject obj;
+    obj.insert("action","stopupdate");
+  communicate(IDTAG+"stop_updates", "sysadm", "update",obj);
+}
+
+void updates_page::send_list_settings(){
+  QJsonObject obj;
+    obj.insert("action","listsettings");
+  communicate(IDTAG+"list_settings", "sysadm", "update",obj);
+}
+
+void updates_page::send_save_settings(){
+  QJsonObject obj;
+    obj.insert("action","changesettings");
+    obj.insert("maxbe", ui->spin_maxbe->cleanText() );
+    obj.insert("auto_update", ui->check_settings_autoup->isChecked() ? "all" : "disabled");
+    if(ui->group_settings_customrepo->isChecked()){
+      obj.insert("package_set","CUSTOM");
+      obj.insert("package_url", ui->line_settings_url->text() );
+    }else{
+      obj.insert("package_set","EDGE");
+    }
+  communicate(IDTAG+"save_settings", "sysadm", "update",obj);
 }
 
 void updates_page::check_current_branch(){

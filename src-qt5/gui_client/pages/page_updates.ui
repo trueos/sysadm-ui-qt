@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>307</height>
+    <width>413</width>
+    <height>328</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,12 +16,19 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="tabPosition">
+      <enum>QTabWidget::West</enum>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
+      <attribute name="icon">
+       <iconset resource="../../icons/icons.qrc">
+        <normaloff>:/icons/black/download.svg</normaloff>:/icons/black/download.svg</iconset>
+      </attribute>
       <attribute name="title">
-       <string>System Updates</string>
+       <string>Updates</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
@@ -95,6 +102,10 @@
               <widget class="QPushButton" name="push_start_updates">
                <property name="text">
                 <string>Start Updates</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../icons/icons.qrc">
+                 <normaloff>:/icons/black/triangle-right-circled-border.svg</normaloff>:/icons/black/triangle-right-circled-border.svg</iconset>
                </property>
               </widget>
              </item>
@@ -258,6 +269,47 @@
                 </property>
                </widget>
               </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <item>
+                 <spacer name="horizontalSpacer_6">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="push_stop_updates">
+                  <property name="text">
+                   <string>Stop Updates</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../icons/icons.qrc">
+                    <normaloff>:/icons/black/stop-circled.svg</normaloff>:/icons/black/stop-circled.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_7">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
              </layout>
             </widget>
            </item>
@@ -268,8 +320,12 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2">
+      <attribute name="icon">
+       <iconset resource="../../icons/icons.qrc">
+        <normaloff>:/icons/black/repeat.svg</normaloff>:/icons/black/repeat.svg</iconset>
+      </attribute>
       <attribute name="title">
-       <string>Change Branches</string>
+       <string>Branches</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="2" column="0">
@@ -294,6 +350,124 @@
        </item>
        <item row="0" column="0" rowspan="2" colspan="2">
         <widget class="QListWidget" name="list_branches"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="icon">
+       <iconset resource="../../icons/icons.qrc">
+        <normaloff>:/icons/black/disk2.svg</normaloff>:/icons/black/disk2.svg</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Settings</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Max Boot Environments</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spin_maxbe">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>10</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="check_settings_autoup">
+         <property name="text">
+          <string>Automatically perform updates</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="group_settings_customrepo">
+         <property name="title">
+          <string>Custom Package Repository</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>URL</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="line_settings_url"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="push_settings_save">
+           <property name="text">
+            <string>Save Settings</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/download.svg</normaloff>:/icons/black/download.svg</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
