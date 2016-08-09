@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>461</width>
-    <height>449</height>
+    <width>476</width>
+    <height>460</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
       <enum>QTabWidget::West</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_snapshot">
       <attribute name="icon">
@@ -100,20 +100,6 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QToolButton" name="tool_snap_remove">
-           <property name="text">
-            <string>Remove</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/minus.svg</normaloff>:/icons/black/minus.svg</iconset>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QToolButton" name="tool_snap_create">
            <property name="text">
             <string>Create</string>
@@ -121,6 +107,20 @@
            <property name="icon">
             <iconset resource="../../icons/icons.qrc">
              <normaloff>:/icons/black/plus.svg</normaloff>:/icons/black/plus.svg</iconset>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextBesideIcon</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="tool_snap_remove">
+           <property name="text">
+            <string>Remove</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/minus.svg</normaloff>:/icons/black/minus.svg</iconset>
            </property>
            <property name="toolButtonStyle">
             <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -136,6 +136,15 @@
          </item>
          <item>
           <widget class="QToolButton" name="tool_snap_revert">
+           <property name="toolTip">
+            <string>Reverts the selected dataset to match the selected snapshot (DESTRUCTIVE).</string>
+           </property>
+           <property name="statusTip">
+            <string>Reverts the selected dataset to match the selected snapshot (DESTRUCTIVE).</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
            <property name="text">
             <string>Revert</string>
            </property>
