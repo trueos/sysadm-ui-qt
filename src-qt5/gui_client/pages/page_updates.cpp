@@ -69,6 +69,11 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
     QString stat = args.toObject().value("checkupdates").toObject().value("status").toString();
     ui->tree_updates->clear();
     qDebug() << "Got update check:" << stat;
+    ui->frame_lastcheck->setVisible( args.toObject().value("checkupdates").toObject().contains("last_check") );
+    if(args.toObject().value("checkupdates").toObject().contains("last_check")){ 
+      QString text = tr("Latest Check: %1");
+      ui->label_lastcheck->setText( text.arg(QDateTime::fromString(args.toObject().value("checkupdates").toObject().value("last_check").toString() , Qt::ISODate).toString(Qt::DefaultLocaleShortDate)) ); 
+    }
     if(stat=="noupdates"){
       ui->stacked_updates->setCurrentWidget(ui->page_stat);
       ui->label_uptodate->setVisible(true);
@@ -198,12 +203,14 @@ void updates_page::send_change_branch(){
   communicate(IDTAG+"chbranch", "sysadm", "update",obj);
 }
 
-void updates_page::send_check_updates(){
+void updates_page::send_check_updates(bool force){
   QJsonObject obj;
     obj.insert("action","checkupdates");
+    if(force){ obj.insert("force","true"); }
   communicate(IDTAG+"checkup", "sysadm", "update",obj);
   ui->page_updates->setEnabled(false);
   ui->label_checking->setVisible(true);
+  ui->frame_lastcheck->setVisible(false);
 }
 
 void updates_page::check_start_updates(){

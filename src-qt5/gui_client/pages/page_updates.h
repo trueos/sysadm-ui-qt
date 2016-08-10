@@ -45,7 +45,7 @@ private slots:
 	//Core communications
 	void send_list_branches();
 	void send_change_branch();
-	void send_check_updates();
+	void send_check_updates(bool force = false);
 	void check_start_updates();
 	void send_start_updates();
 	void send_stop_updates();
@@ -56,5 +56,6 @@ private slots:
 	void check_current_branch();
 	void check_current_update();
 	void check_current_update_item(QTreeWidgetItem*);
+	void on_push_check_updates_clicked(){ send_check_updates(true); }
 };
 #endif
