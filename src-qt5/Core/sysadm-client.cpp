@@ -26,7 +26,7 @@
 
 
 #define LOCALHOST QString("127.0.0.1")
-#define DEBUG 1
+#define DEBUG 0
 
 //==================================
 // Note about connection flow:
@@ -661,6 +661,7 @@ void sysadm_client::sendPing(){
   QStringList b_id = BRIDGE.keys();
   for(int i=0; i<b_id.length(); i++){
     communicate_bridge(b_id[i], "sysadm_client_identify", "rpc", "identify","");
+    communicate_bridge(b_id[i], "sysadm_client_ping", "rpc", "query","");
   }
 }
 

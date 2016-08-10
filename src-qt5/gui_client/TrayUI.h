@@ -60,7 +60,7 @@ private slots:
 	void OpenConnectionManager();
 	void OpenSettings();
 	void CloseApplication();
-	void OpenCore(QString);
+	void OpenCore(QString, QString page="");
 	void UnlockConnections();
 	//Message Notifications
 	void ShowMessage(HostMessage);

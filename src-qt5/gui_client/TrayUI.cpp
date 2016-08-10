@@ -163,7 +163,7 @@ void sysadm_tray::CloseApplication(){
   QCoreApplication::exit(0);	
 }
 
-void sysadm_tray::OpenCore(QString host){
+void sysadm_tray::OpenCore(QString host, QString page){
   //See if a window for this host is already open and use that
   qDebug() << "Open Host Window:" << host;
   for(int i=0; i<CLIENTS.length(); i++){
@@ -182,7 +182,7 @@ void sysadm_tray::OpenCore(QString host){
   if(b_id.isEmpty() && getCore(host)->isBridge()){ return; }
   //Open a new window for this host
   sysadm_client *core = getCore(host);
-    MainUI *tmp = new MainUI(core,"", b_id);
+    MainUI *tmp = new MainUI(core, page, b_id);
     if(core->isReady()){  tmp->showNormal(); }
     connect(tmp, SIGNAL(ClientClosed(MainUI*)), this, SLOT(ClientClosed(MainUI*)) );
     CLIENTS << tmp;	
@@ -240,12 +240,12 @@ void sysadm_tray::MessageTriggered(QAction *act){
     QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
   }else if(MESSAGES.contains(act->whatsThis())){
     //Open the designated host and hide this message
-    //QString host = MESSAGES[act->whatsThis()].host_id;
     HostMessage msg = MESSAGES[act->whatsThis()];
       msg.date_time = QDateTime::currentDateTime().addDays(1); //hide for one day if unresolved in the meantime;
     MESSAGES.insert(act->whatsThis(),msg);
     QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
-    OpenCore(msg.host_id);
+    if(act->whatsThis().section("/",-1)=="updates"){ OpenCore(msg.host_id, "page_updates"); }
+    else{ OpenCore(msg.host_id); }
   }
 }
 
