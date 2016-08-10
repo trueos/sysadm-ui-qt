@@ -72,15 +72,17 @@ void CoreAction::CoreActive(){
 void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
   if(type!=sysadm_client::SYSSTATE || !val.isObject()){ return; }
   //Update notices
-  if(val.toObject().contains("updating")){
-    QString stat = val.toObject().value("updating").toObject().value("status").toString();
+  //qDebug() << "Got a system State Event:" << nickname << val;
+  if(val.toObject().contains("updates")){
+    QString stat = val.toObject().value("updates").toObject().value("status").toString();
+    qDebug() << "Update Status:" << stat;
     if(stat=="noupdates"){ emit ClearMessage(host,"updates"); }
     else{
       QString msg, icon;
       if(stat=="rebootrequired"){ msg = tr("%1: Reboot required to finish updates"); icon = ":/icons/black/sync-circled.svg"; }
       else if(stat=="updaterunning"){ msg = tr("%1: Updates in progress"); icon = ":/icons/grey/sync.svg"; }
       else if(stat=="updatesavailable"){ msg = tr("%1: Updates available"); icon = ":/icons/black/sync.svg"; }
-      if(!msg.isEmpty()){ emit ShowMessage( createMessage(host,"updates", msg.arg(nickname), icon) ); }
+      if(!msg.isEmpty()){ emit ShowMessage( createMessage(host,"updates", msg.arg(nickname), icon, 3) ); }
    }
   }
   //ZFS notices
@@ -100,7 +102,7 @@ void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
       //update the message for known issues
       if(priority==6){ msg = tr("%1: zpool running low on disk space"); }
       else if(priority==9){ msg = tr("%1: zpool degraded - possible hardware issue"); }
-      emit ShowMessage( createMessage(host, "zfs", msg.arg(nickname), ":/icons/black/disk.svg") );
+      emit ShowMessage( createMessage(host, "zfs", msg.arg(nickname), ":/icons/black/disk.svg", priority) );
     }else{
       emit ClearMessage(host, "zfs");
     }
@@ -119,7 +121,7 @@ void CoreAction::priorityChanged(int priority){
   else if(priority < 9){  icon = ":/icons/black/warning.svg"; } //Critical - change icon and popup message
   else{  icon = ":/icons/black/attention.svg"; } //Urgent - change icon and popup client window 
   this->setIcon(QIcon(icon));
-  emit UpdateTrayIcon(); //let the main tray icon know it needs to update as needed
+  //emit UpdateTrayIcon(); //let the main tray icon know it needs to update as needed
 }
 
 
@@ -309,11 +311,11 @@ void MenuItem::addCoreAction(QString host){
     //coreMenus << bmen;
   }else{
     CoreAction *act = new CoreAction(core, this);
-    this->addAction(act);
     connect(act, SIGNAL(ShowMessage(HostMessage)), this, SIGNAL(ShowMessage(HostMessage)) );
     connect(act, SIGNAL(ClearMessage(QString, QString)), this, SIGNAL(ClearMessage(QString, QString)) );
     connect(act, SIGNAL(UpdateTrayIcon()), this, SIGNAL(UpdateTrayIcon()) );
     connect(act, SIGNAL(updateParent(QString)), this, SLOT(CoreItemChanged(QString)) );
+    this->addAction(act);
     //coreActions << act;
   }
 }

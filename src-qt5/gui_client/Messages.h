@@ -16,15 +16,17 @@ struct HostMessage{
 	QString message;
 	QString iconfile;
 	QDateTime date_time;
+        int priority; // 0-9, in blocks of 3 for criticality (0-2: not important, 3-5: warning, 6-8: Critical, 9: URGENT)
 };
 
-inline HostMessage createMessage(QString host, QString msg_type, QString msg, QString ico, QDateTime dt = QDateTime::currentDateTime()){
+inline HostMessage createMessage(QString host, QString msg_type, QString msg, QString ico, int pri = 0, QDateTime dt = QDateTime::currentDateTime()){
   HostMessage hmsg;
     hmsg.host_id = host;
     hmsg.message_id = msg_type;
     hmsg.message = msg;
     hmsg.iconfile = ico;
     hmsg.date_time = dt;
+    hmsg.priority = pri;
   return hmsg;
 }
 

@@ -199,6 +199,7 @@ void sysadm_tray::UnlockConnections(){
 
 //Popup Notifications
 void sysadm_tray::ShowMessage(HostMessage msg){
+  //qDebug() << "Got Show Message";
   bool refreshlist = true;
   //Update the internal database of messages
   if(MESSAGES.contains(msg.host_id+"/"+msg.message_id) ){
@@ -210,13 +211,16 @@ void sysadm_tray::ShowMessage(HostMessage msg){
     MESSAGES.insert(msg.host_id+"/"+msg.message_id, msg);
   }
   //Now update the user-viewable menu's
-  if(refreshlist){ QTimer::singleShot(0,this, SLOT(updateMessageMenu()) ); }
+  if(refreshlist){ 
+    QTimer::singleShot(10,this, SLOT(updateMessageMenu()) ); 
+  }
 }
 
 void sysadm_tray::ClearMessage(QString host, QString msg_id){
+  //qDebug() << "Clear Message:" << host << msg_id;
   if(MESSAGES.contains(host+"/"+msg_id)){
     MESSAGES.remove(host+"/"+msg_id);
-    QTimer::singleShot(0,this, SLOT(updateMessageMenu()) );
+    QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
   }
 }
 
@@ -225,39 +229,53 @@ void sysadm_tray::MessageTriggered(QAction *act){
     QStringList keys = MESSAGES.keys();
     QDateTime cdt = QDateTime::currentDateTime();
     QDateTime delay = cdt.addDays(1);
+    //qDebug() << "Clear all messages:" << cdt << " -to-" << delay;
     for(int i=0; i<keys.length(); i++){
-      if(MESSAGES[keys[i]].date_time < cdt){ MESSAGES[keys[i]].date_time = delay; }
+      if(MESSAGES[keys[i]].date_time.secsTo(cdt)>1 ){ 
+        HostMessage msg = MESSAGES[keys[i]];
+          msg.date_time = delay;
+        MESSAGES.insert(keys[i],msg);
+      }
     }
-    QTimer::singleShot(0,this, SLOT(updateMessageMenu()) );
+    QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
   }else if(MESSAGES.contains(act->whatsThis())){
     //Open the designated host and hide this message
-    QString host = MESSAGES[act->whatsThis()].host_id;
-    MESSAGES[act->whatsThis()].date_time = QDateTime::currentDateTime().addDays(1); //hide for one day if unresolved in the meantime
-    QTimer::singleShot(0,this, SLOT(updateMessageMenu()) );
-    OpenCore(host);
+    //QString host = MESSAGES[act->whatsThis()].host_id;
+    HostMessage msg = MESSAGES[act->whatsThis()];
+      msg.date_time = QDateTime::currentDateTime().addDays(1); //hide for one day if unresolved in the meantime;
+    MESSAGES.insert(act->whatsThis(),msg);
+    QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
+    OpenCore(msg.host_id);
   }
 }
 
 //Function to update the messageMenu
 void sysadm_tray::updateMessageMenu(){
+  //qDebug() << "Update Message Menu:";
   QStringList keys = MESSAGES.keys();
   QList<QAction*> acts = msgMenu->actions();
   //First update the existing actions as needed
   int num = 0; //for the final tally of messages which are visible
   QDateTime cdt = QDateTime::currentDateTime();
+  //qDebug() << "Current DT/keys" << cdt << keys;
+  uint cdt_t = cdt.toTime_t();
   for(int i=0; i<acts.length(); i++){
-    if(keys.contains(acts[i]->whatsThis()) && (MESSAGES[acts[i]->whatsThis()].date_time < cdt) ){
+    //qDebug() << " - Check Act:" << acts[i]->whatsThis();
+    if(keys.contains(acts[i]->whatsThis()) && (MESSAGES[acts[i]->whatsThis()].date_time.toTime_t() < cdt_t) ){
+      //qDebug() << " - Update action" << MESSAGES[acts[i]->whatsThis()].date_time;
       acts[i]->setText( MESSAGES[acts[i]->whatsThis()].message );
       acts[i]->setIcon( QIcon(MESSAGES[acts[i]->whatsThis()].iconfile) );
       num++;
       keys.removeAll(acts[i]->whatsThis()); //already handled
     }else if( acts[i]->whatsThis()!="clearall" && !acts[i]->whatsThis().isEmpty() ) {
+      //qDebug() << " - Remove Action";
       msgMenu->removeAction(acts[i]);
     }
   }
   //Now add in any new messages
   for(int i=0; i<keys.length(); i++){
-    if(MESSAGES[keys[i]].date_time < cdt){
+    if(MESSAGES[keys[i]].date_time.secsTo(cdt)>-1){
+      //qDebug() << " Add new action:" << keys[i];
       QAction *act = msgMenu->addAction( QIcon(MESSAGES[keys[i]].iconfile),MESSAGES[keys[i]].message );
 	act->setWhatsThis(keys[i]);
 	num++;
@@ -268,16 +286,21 @@ void sysadm_tray::updateMessageMenu(){
   if(num>0){ title.prepend("("+QString::number(num)+") "); }
   msgMenu->setTitle(title);
   msgMenu->setEnabled(num>0);
+  UpdateIconPriority();
 }
 
 //Icon Updates
 void sysadm_tray::UpdateIconPriority(){
-  //A core's priority changed - go through and re-update the current max priority
-  QStringList cores = CORES.keys();
-  cPriority = 0;
-  for(int i=0; i<cores.length(); i++){
-    if(CORES[ cores[i] ]->statePriority() > cPriority){ cPriority = CORES[ cores[i] ]->statePriority(); }
+  int pri = 0;
+  QStringList keys = MESSAGES.keys();
+  QDateTime cdt = QDateTime::currentDateTime();
+  //qDebug() << "Update Priority:" << cdt;
+  for(int i=0; i<keys.length(); i++){
+    //qDebug() << "Check Key:" << keys[i] << MESSAGES[keys[i]].priority << MESSAGES[keys[i]].date_time;
+    if(MESSAGES[keys[i]].date_time.secsTo(cdt) <-1 ){ continue; } //hidden message - ignore it for priorities
+    if(MESSAGES[keys[i]].priority > pri){ pri = MESSAGES[keys[i]].priority; }
   }
+  cPriority = pri; //save for use
   //Update the icon right now
   if(iconTimer->isActive()){ iconTimer->stop(); }
   iconreset = false;
@@ -287,22 +310,7 @@ void sysadm_tray::UpdateIconPriority(){
 }
 
 void sysadm_tray::UpdateIcon(){
-  /*QImage icon(":/icons/custom/sysadm_circle.svg");
-  QString overlay;
-  if(iconreset || cPriority <3){
-    if(SSL_cfg.isNull()){ overlay = ":/icons/grey/lock.svg"; }
-  }else if(cPriority < 6){  overlay = ":/icons/grey/exclamationmark.svg"; }
-  else if(cPriority < 9){  overlay = ":/icons/grey/warning.svg"; }
-  else{  overlay = ":/icons/grey/attention.svg"; }
-  if(!overlay.isEmpty()){
-    qDebug() << "Apply icon overlay:" << overlay;
-    QPainter pnt;
-      pnt.begin(&icon);
-      pnt.drawPixmap( icon.width()/2, icon.height()/2, QPixmap(overlay).scaled(icon.width()/2, icon.height()/2) );
-      pnt.end();
-  }
-  this->setIcon( QIcon(QPixmap::fromImage(icon)) );
-  */
+  //qDebug() << "Update Icon:" << cPriority << QDateTime::currentDateTime();
   QString icon = ":/icons/custom/sysadm_circle.svg";
   if(iconreset || cPriority <3){
     if(SSL_cfg.isNull()){ icon = ":/icons/custom/sysadm_circle_grey.png"; }
