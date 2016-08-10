@@ -79,10 +79,14 @@ void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
     if(stat=="noupdates"){ emit ClearMessage(host,"updates"); }
     else{
       QString msg, icon;
+      int priority = 3;
       if(stat=="rebootrequired"){ msg = tr("%1: Reboot required to finish updates"); icon = ":/icons/black/sync-circled.svg"; }
       else if(stat=="updaterunning"){ msg = tr("%1: Updates in progress"); icon = ":/icons/grey/sync.svg"; }
       else if(stat=="updatesavailable"){ msg = tr("%1: Updates available"); icon = ":/icons/black/sync.svg"; }
-      if(!msg.isEmpty()){ emit ShowMessage( createMessage(host,"updates", msg.arg(nickname), icon, 3) ); }
+      if(val.toObject().value("updates").toObject().contains("priority")){
+       priority =  val.toObject().value("updates").toObject().value("priority").toString().section("-",0,0).simplified().toInt();
+      }
+      if(!msg.isEmpty()){ emit ShowMessage( createMessage(host,"updates", msg.arg(nickname), icon, priority) ); }
    }
   }
   //ZFS notices
