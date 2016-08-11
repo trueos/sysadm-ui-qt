@@ -24,7 +24,7 @@ void beadm_page::setupCore(){
 //Page embedded, go ahead and startup any core requests
 void beadm_page::startPage(){
   //Let the main window know the name of this page
-  emit ChangePageTitle( tr("PC-BSD Boot-Up Configuration") );
+  emit ChangePageTitle( tr("Boot-Up Configuration") );
   //Connect any signals/slots
   connect(ui->createBE, SIGNAL(clicked()), this, SLOT(create_be()) );
   connect(ui->deleteBE, SIGNAL(clicked()), this, SLOT(delete_be()) );
