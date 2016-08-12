@@ -1122,7 +1122,10 @@ void pkg_page::send_local_cleanpkgs(){
 
 // - repo tab
 void pkg_page::send_repo_rmpkg(QString origin){
-  if(origin.isEmpty()){ origin = ui->page_pkg->whatsThis(); }
+  if(origin.isEmpty()){ 
+    origin = ui->page_pkg->whatsThis(); 
+    ui->tool_app_uninstall->setVisible(false);
+  }
   QJsonObject obj;
     obj.insert("action","pkg_remove");
     obj.insert("recursive","true"); //cleanup orphaned packages
@@ -1132,7 +1135,10 @@ void pkg_page::send_repo_rmpkg(QString origin){
 
 void pkg_page::send_repo_installpkg(QString origin){
   //This is called from the app page or the search/browse pages
-  if(origin.isEmpty()){ origin = ui->page_pkg->whatsThis(); } //app page used
+  if(origin.isEmpty()){   //app page used
+    origin = ui->page_pkg->whatsThis(); 
+    ui->tool_app_install->setVisible(false);
+  }
   QString repo = ui->combo_repo->currentText();
   QJsonObject obj;
     obj.insert("action","pkg_install");

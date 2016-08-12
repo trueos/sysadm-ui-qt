@@ -35,3 +35,15 @@ void users_page::startPage(){
 void users_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
 	
 }
+
+void users_page::updateUserList(){ //uses the userObj variable
+
+}
+
+void users_page::updateUserSelection(){ //uses the userObj variable
+
+}
+
+void users_page::checkUidSelection(){ //uses the userObj variable (validate manual UID selection)
+
+}

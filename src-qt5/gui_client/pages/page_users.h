@@ -35,6 +35,16 @@ public:
 
 private:
 	Ui::users_ui *ui;
+        QJsonObject userObj; //keep this saved for instant read on selection change as needed
 
+private slots:
+	//Widget update routines
+	void updateUserList(); //uses the userObj variable
+	void updateUserSelection(); //uses the userObj variable
+	void checkUidSelection(); //uses the userObj variable (validate manual UID selection)
+
+	//Core Request routines
+
+	//Button routines
 };
 #endif
