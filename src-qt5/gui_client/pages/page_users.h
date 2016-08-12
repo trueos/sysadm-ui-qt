@@ -30,6 +30,8 @@ public:
 	void startPage();
 		
 	QString pageID(){ return "users"; } //ID is used to identify which type of page this is
+
+public slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
 	//void ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue);
 
@@ -44,6 +46,9 @@ private slots:
 	void checkUidSelection(); //uses the userObj variable (validate manual UID selection)
 
 	//Core Request routines
+	void send_list_users();
+	void send_user_save();
+	void send_user_remove();
 
 	//Button routines
 };
