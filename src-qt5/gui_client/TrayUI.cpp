@@ -205,7 +205,7 @@ void sysadm_tray::ShowMessage(HostMessage msg){
   if(MESSAGES.contains(msg.host_id+"/"+msg.message_id) ){
     //see if this message is new or not
     HostMessage old = MESSAGES[msg.host_id+"/"+msg.message_id];
-    if(old.message==msg.message && old.date_time > msg.date_time){ refreshlist=false; } //same hidden message - don't re-show it
+    if(old.message==msg.message /*&& old.date_time > msg.date_time*/){ refreshlist=false; } //same hidden message - don't re-show it
     else{ MESSAGES.insert(msg.host_id+"/"+msg.message_id, msg); }
   }else{
     MESSAGES.insert(msg.host_id+"/"+msg.message_id, msg);
@@ -241,7 +241,9 @@ void sysadm_tray::MessageTriggered(QAction *act){
   }else if(MESSAGES.contains(act->whatsThis())){
     //Open the designated host and hide this message
     HostMessage msg = MESSAGES[act->whatsThis()];
-      msg.date_time = QDateTime::currentDateTime().addDays(1); //hide for one day if unresolved in the meantime;
+      //Lower the priority down to stop the tray notifications
+      if(msg.priority>2){ msg.priority=2; }
+      //msg.date_time = QDateTime::currentDateTime().addDays(1); //hide for one day if unresolved in the meantime;
     MESSAGES.insert(act->whatsThis(),msg);
     QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
     if(act->whatsThis().section("/",-1)=="updates"){ OpenCore(msg.host_id, "page_updates"); }

@@ -79,10 +79,12 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
       ui->label_uptodate->setVisible(true);
       ui->label_rebootrequired->setVisible(false);
     }else if(stat=="rebootrequired"){
+      ui->frame_lastcheck->setVisible(false);
       ui->stacked_updates->setCurrentWidget(ui->page_stat);
       ui->label_uptodate->setVisible(false);
       ui->label_rebootrequired->setVisible(true);
     }else if(stat=="updaterunning"){
+      ui->frame_lastcheck->setVisible(false);
       ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
     }else if(stat=="updatesavailable"){
       ui->stacked_updates->setCurrentWidget(ui->page_updates);
@@ -145,8 +147,9 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
     ui->label_checking->setVisible(false);
     check_current_update();
 
-//  }else if(id==IDTAG+"stop_updates"){
-    
+  }else if(id==IDTAG+"stop_updates"){
+    //Just finished stopping the current updates
+    send_check_updates();
   }else if(id==IDTAG+"list_settings"){
     QJsonObject obj = args.toObject().value("listsettings").toObject();
     int mbe = 3;
@@ -273,16 +276,16 @@ void updates_page::send_start_updates(){
   //Update the UI right away (so the user knows it is working)
   qDebug() << "Sending update request";
     ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
-    //ui->label_uptodate->setVisible(false);
-    //ui->label_rebootrequired->setVisible(false);
-    //ui->group_up_log->setVisible(true);
     ui->text_up_log->clear();
+    ui->push_stop_updates->setEnabled(true);
+    ui->frame_lastcheck->setVisible(false);
 }
 
 void updates_page::send_stop_updates(){
   QJsonObject obj;
     obj.insert("action","stopupdate");
   communicate(IDTAG+"stop_updates", "sysadm", "update",obj);
+  ui->push_stop_updates->setEnabled(false);
 }
 
 void updates_page::send_list_settings(){

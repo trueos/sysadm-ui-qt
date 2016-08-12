@@ -65,7 +65,8 @@ void CoreAction::CoreActive(){
   this->setIcon( QIcon(":/icons/black/disk.svg") );
   this->setToolTip( tr("Connection Active") );
   this->setEnabled(true);
-  emit ShowMessage( createMessage(host, "connection", QString(tr("%1: Connected")).arg(nickname), ":/icons/black/off.svg") );
+  emit ClearMessage(host, "connection");
+  //emit ShowMessage( createMessage(host, "connection", QString(tr("%1: Connected")).arg(nickname), ":/icons/black/off.svg") );
   if(b_id=="bridge_dummy"){ qDebug() << " - Rebuild Menu"; emit updateParent(this->whatsThis()); }
 }
 
