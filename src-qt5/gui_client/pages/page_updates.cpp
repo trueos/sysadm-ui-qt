@@ -152,7 +152,7 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
     send_check_updates();
   }else if(id==IDTAG+"list_settings"){
     QJsonObject obj = args.toObject().value("listsettings").toObject();
-    int mbe = 3;
+    int mbe = 5;
     if(obj.contains("maxbe")){ mbe = qRound( obj.value("maxbe").toString().toFloat() ); }
     ui->spin_maxbe->setValue(mbe);
     bool autoup = true;
