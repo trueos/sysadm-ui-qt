@@ -45,6 +45,7 @@ private slots:
 	void sendSnapshotRevert();
 	void sendSnapshotRemove();
 	void sendSnapshotCreate();
+	void snapSelectionChanged();
       // - replication page
 	void updateReplicationPage();
 	void sendRepCreate();

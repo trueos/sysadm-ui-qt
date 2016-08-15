@@ -15,6 +15,7 @@ lp_page::lp_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core
   connect(ui->tool_snap_remove, SIGNAL(clicked()), this, SLOT(sendSnapshotRemove()) );
   connect(ui->tool_snap_revert, SIGNAL(clicked()), this, SLOT(sendSnapshotRevert()) );
   connect(ui->tool_snap_create, SIGNAL(clicked()), this, SLOT(sendSnapshotCreate()) );
+  connect(ui->tree_snaps, SIGNAL(itemSelectionChanged()), this, SLOT(snapSelectionChanged()) );
 
   connect(ui->push_set_save, SIGNAL(clicked()), this, SLOT(sendSaveSettings()) );
 
@@ -148,7 +149,7 @@ void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue ar
       ui->tree_snaps->addTopLevelItem( new QTreeWidgetItem( QStringList() << keys[i].section("@",1,-1) << data.value(keys[i]).toObject().value("comment").toString() ));
     }
     ui->tree_snaps->setEnabled(true);
-
+    snapSelectionChanged();
   }else if(id==TAG+"list_settings"){
     QJsonObject data = args.toObject().value("settings").toObject();
     ui->spin_set_diskusage->setValue( data.value("diskwarn").toString().section("%",0,0).toInt() );
@@ -268,9 +269,14 @@ void lp_page::sendSnapshotCreate(){
     obj.insert("action","createsnap");
     obj.insert("dataset",ds);
     obj.insert("snap", snapname);
-    obj.insert("comment", "GUI Snapshot");
+    obj.insert("comment", "GUI Snapshot"+QDateTime::currentDateTime().toString("-yyyy-MM-dd-hh-mm-ss") );
   communicate(TAG+"create_snap", "sysadm", "lifepreserver",obj);
 }
+
+void lp_page::snapSelectionChanged(){
+  ui->group_snap_revert->setEnabled( ui->tree_snaps->currentItem() !=0 );
+}
+
 // - replication page
 void lp_page::updateReplicationPage(){
   ui->tab_replication->setEnabled(false);
