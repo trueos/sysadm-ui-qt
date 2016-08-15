@@ -11,6 +11,7 @@
 
 pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::pkg_page_ui){
   ui->setupUi(this);
+  hasupdatemanager = false;
   NMAN = new QNetworkAccessManager();
   local_showall = local_advmode = local_hasupdates = local_autocleanmode = false;
   //Create the special menus
@@ -129,7 +130,8 @@ void pkg_page::send_local_audit(){
 void pkg_page::send_local_check_upgrade(){
   QJsonObject obj;
     obj.insert("action","pkg_check_upgrade");
-  communicate(TAG+"check_upgrade", "sysadm", "pkg",obj);	  	
+  communicate(TAG+"check_upgrade", "sysadm", "pkg",obj);	  
+  communicate(TAG+"has_upgrade_manager", "rpc","query",QJsonObject());
 }
 
 void pkg_page::send_repo_app_info(QString origin, QString repo){
@@ -736,6 +738,8 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
     GenerateCategoryMenu(repo_catM, cats);
     //Now create the home page
     GenerateHomePage(cats, ui->combo_repo->currentText());
+  }else if(id==TAG+"has_upgrade_manager"){
+    hasupdatemanager = args.toObject().contains("sysadm/update");
   }else{
     //qDebug() << " - arguments:" << args;
   }
@@ -1106,6 +1110,15 @@ QStringList pkgs;
 }
 
 void pkg_page::send_local_upgradepkgs(){
+  if(hasupdatemanager){
+    if( QMessageBox::Yes == QMessageBox::question(this, tr("Launch Update Manager?"), tr("The system update manager is recommended for this operation, do you wish to open it now?"), QMessageBox::Yes | QMessageBox::No , QMessageBox::Yes) ){
+      emit ChangePage("page_updates"); 
+      return; 
+   }
+  }
+  if(QMessageBox::Cancel == QMessageBox::question(this, tr("Start Updates Now?"), tr("Do you wish to start updates now?\n\nWARNING: This will modify your live system packages. It is recommended that you close any running applications before continuing."), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) ){
+    return;
+  }
   QJsonObject obj;
     obj.insert("action","pkg_upgrade");
   communicate(TAG+"pkg_upgrade", "sysadm", "pkg",obj);

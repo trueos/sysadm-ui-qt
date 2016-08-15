@@ -93,7 +93,7 @@
         </widget>
        </item>
        <item row="0" column="2" rowspan="2">
-        <widget class="QTabWidget" name="tabWidget_2">
+        <widget class="QTabWidget" name="tabWidget_users">
          <property name="currentIndex">
           <number>0</number>
          </property>
@@ -127,8 +127,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>219</width>
-                <height>230</height>
+                <width>234</width>
+                <height>216</height>
                </rect>
               </property>
               <layout class="QFormLayout" name="formLayout_2">
@@ -165,7 +165,11 @@
                <item row="2" column="1">
                 <layout class="QHBoxLayout" name="horizontalLayout_5">
                  <item>
-                  <widget class="QSpinBox" name="spin_user_uid"/>
+                  <widget class="QSpinBox" name="spin_user_uid">
+                   <property name="maximum">
+                    <number>65535</number>
+                   </property>
+                  </widget>
                  </item>
                  <item>
                   <widget class="QCheckBox" name="check_user_autouid">
@@ -265,6 +269,9 @@
                   <bool>true</bool>
                  </property>
                  <layout class="QFormLayout" name="formLayout">
+                  <property name="labelAlignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
                   <property name="leftMargin">
                    <number>2</number>
                   </property>

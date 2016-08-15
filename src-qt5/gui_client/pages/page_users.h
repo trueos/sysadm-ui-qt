@@ -38,12 +38,13 @@ public slots:
 private:
 	Ui::users_ui *ui;
         QJsonObject userObj; //keep this saved for instant read on selection change as needed
+	bool usersLoading;
 
 private slots:
 	//Widget update routines
 	void updateUserList(); //uses the userObj variable
 	void updateUserSelection(); //uses the userObj variable
-	void checkUidSelection(); //uses the userObj variable (validate manual UID selection)
+	void checkSelectionChanges(); //uses the userObj variable (validate manual UID selection)
 
 	//Core Request routines
 	void send_list_users();

@@ -38,6 +38,7 @@ private:
 
 	//Internal flags
 	bool local_showall, local_advmode, local_hasupdates, local_autocleanmode; //Local tab options
+        bool hasupdatemanager;
 	QMenu *local_viewM, *repo_catM, *repo_catSM, *repo_backM;
 	QNetworkAccessManager *NMAN;
 	QList<QUrl> imagepending;
