@@ -162,7 +162,7 @@ void beadm_page::unmount_be(){
   if(ui->tree_BE->currentItem()==0){ return; } //nothing selected
   QString selbe = ui->tree_BE->currentItem()->text(0); //currently selected BE
   QJsonObject obj;
-    obj.insert("action","unmountbe");
+    obj.insert("action","umountbe");
     obj.insert("be",selbe);
   communicate("beadm_auto_page_unmount", "sysadm", "beadm", obj);
   startingRequest(tr("Unmounting Boot Environment...") );
