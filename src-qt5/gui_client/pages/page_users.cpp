@@ -69,12 +69,9 @@ void users_page::updateUserList(){ //uses the userObj variable
     }
   }
   if(setdef!=0){ ui->list_users->setCurrentItem(setdef); }
-  /*else if(ui->list_users->count()>0){ 
-    ui->list_users->setCurrentItem( ui->list_users->item(0) ); //just use the first item
-  }*/
   QCoreApplication::processEvents(); //throw away the list changed signals so far
   usersLoading = false;
-  ui->list_users->scrollToItem(ui->list_users->currentItem(),QAbstractItemView::PositionAtCenter);
+  if(ui->list_users->currentItem()!=0){ ui->list_users->scrollToItem(ui->list_users->currentItem(),QAbstractItemView::PositionAtCenter); }
   updateUserSelection();
 }
 
