@@ -28,6 +28,14 @@ users_page::users_page(QWidget *parent, sysadm_client *core) : PageWidget(parent
   connect(ui->tool_pc_showpassword, SIGNAL(toggled(bool)), this, SLOT(checkSelectionChanges()) );
   connect(ui->tool_pc_showpassword_disable, SIGNAL(toggled(bool)), this, SLOT(checkSelectionChanges()) );
   connect(ui->group_pc_enable, SIGNAL(toggled(bool)), this, SLOT(checkSelectionChanges()) );
+  ui->tabWidget->setCurrentWidget(ui->tab); //make sure the Users tab is shown initially
+  ui->tabWidget_users->setCurrentWidget(ui->tab_user_details); //make sure the user details are shown initially
+
+  connect(ui->radio_group_standard, SIGNAL(toggled(bool)), this, SLOT(updateGroupList()) );
+  connect(ui->list_groups, SIGNAL(currentRowChanged(int)), this, SLOT(updateGroupSelection()) );
+
+  //TEMPORARY: Disable the "groups" tab until it is finished
+  ui->tabWidget->setTabEnabled(1,false);
 }
 
 users_page::~users_page(){
@@ -45,6 +53,7 @@ void users_page::startPage(){
   emit ChangePageTitle( tr("User Manager") );
   //Now run any CORE communications
   send_list_users();
+  send_list_groups();
   send_update_pcdevs();
 }
 
@@ -54,6 +63,10 @@ void users_page::ParseReply(QString id, QString namesp, QString name, QJsonValue
   if(id==(USERTAG+"list_users")){
     if(!iserror){ userObj = args.toObject(); }
     updateUserList();
+
+  }else if(id==(USERTAG+"list_groups")){
+    if(!iserror){ groupObj = args.toObject(); }
+    updateGroupList();
 
   }else if(id==(USERTAG+"list_pcdevs")){
     QStringList devs = args.toObject().keys();
@@ -72,6 +85,8 @@ void users_page::ParseReply(QString id, QString namesp, QString name, QJsonValue
 void users_page::updateUserList(){ //uses the userObj variable
   QString sel;
   usersLoading = true;
+  ui->list_group_users->clear();
+  ui->list_group_users->addItems( userObj.keys() );
   if(ui->list_users->currentItem()!=0){ sel = ui->list_users->currentItem()->whatsThis(); }
   ui->list_users->clear();
   QStringList users = userObj.keys();
@@ -210,6 +225,45 @@ void users_page::validateUserChanges(){
   ui->push_user_save->setEnabled(good);
 }
 
+void users_page::updateGroupList(){
+   //uses the groupObj variable
+  groupsLoading = true;
+  QString sel;
+  if(ui->list_groups->currentItem()!=0){ sel = ui->list_groups->currentItem()->whatsThis(); }
+  ui->list_groups->clear();
+  QStringList grps = groupObj.keys();
+  bool filter = ui->radio_group_standard->isChecked();
+  QListWidgetItem *setdef = 0;
+  for(int i=0; i<grps.length(); i++){
+    if(filter){
+      //Only show the main groups (wheel, operator)
+      if(grps[i]!="wheel" and grps[i]!="operator"){ continue; }
+    }
+    QListWidgetItem *it = new QListWidgetItem(ui->list_groups);
+    it->setWhatsThis(grps[i]);
+    if(grps[i]==sel || setdef==0){ setdef = it; }
+    QJsonArray users = groupObj.value(grps[i]).toObject().value("users").toArray();
+    if(users.count()==1 && users[i].toString().isEmpty()){ users = QJsonArray(); } //check for an empty array
+    it->setText(grps[i]+" (gid: "+groupObj.value(grps[i]).toObject().value("gid").toString()+", users: "+QString::number( users.count())+")" );
+  }
+  if(setdef!=0){ ui->list_groups->setCurrentItem(setdef); }
+  QCoreApplication::processEvents(); //throw away the list changed signals so far
+  groupsLoading = false;
+  if(ui->list_groups->currentItem()!=0){ ui->list_users->scrollToItem(ui->list_groups->currentItem(),QAbstractItemView::PositionAtCenter); }
+  updateGroupSelection();
+}
+
+void users_page::updateGroupSelection(){
+  if(groupsLoading){ return; } //in the middle of changing the lists around
+  QStringList users;
+  if(ui->list_groups->currentItem()!=0){ 
+    QJsonArray uarr = groupObj.value( ui->list_groups->currentItem()->whatsThis() ).toObject().value("users").toArray();
+    for(int i=0; i<uarr.count(); i++){ users << uarr[i].toString(); }
+  }
+  ui->list_group_members->clear();
+  ui->list_group_members->addItems(users);
+}
+
 //Core Request routines
 void users_page::send_list_users(){
   QJsonObject obj;
@@ -317,6 +371,20 @@ void users_page::send_update_pcdevs(){
   QJsonObject obj;
     obj.insert("action","personacrypt_listdevs");
   communicate(USERTAG+"list_pcdevs", "sysadm", "users",obj);
+}
+
+void users_page::send_list_groups(){
+QJsonObject obj;
+    obj.insert("action","groupshow");
+  communicate(USERTAG+"list_groups", "sysadm", "users",obj);
+}
+
+void users_page::send_group_save(){
+
+}
+
+void users_page::send_group_remove(){
+
 }
 
 //Button routines

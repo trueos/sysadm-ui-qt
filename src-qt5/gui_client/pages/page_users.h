@@ -37,8 +37,8 @@ public slots:
 
 private:
 	Ui::users_ui *ui;
-        QJsonObject userObj; //keep this saved for instant read on selection change as needed
-	bool usersLoading;
+        QJsonObject userObj, groupObj; //keep this saved for instant read on selection change as needed
+	bool usersLoading, groupsLoading;
 
 private slots:
 	//Widget update routines
@@ -47,12 +47,19 @@ private slots:
 	void checkSelectionChanges(); //uses the userObj variable (validate manual UID selection)
 	void validateUserChanges();
 
+	void updateGroupList(); //uses the groupObj variable
+	void updateGroupSelection(); //uses the groupObj variable
+
 	//Core Request routines
 	void send_list_users();
 	void send_user_save();
 	void send_user_remove();
 	void send_update_pcdevs();
 
+	void send_list_groups();
+	void send_group_save();
+	void send_group_remove();
+	
 	//Button routines
 	void on_push_user_new_clicked();
 	void on_push_user_remove_clicked();
