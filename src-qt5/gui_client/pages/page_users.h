@@ -45,12 +45,17 @@ private slots:
 	void updateUserList(); //uses the userObj variable
 	void updateUserSelection(); //uses the userObj variable
 	void checkSelectionChanges(); //uses the userObj variable (validate manual UID selection)
+	void validateUserChanges();
 
 	//Core Request routines
 	void send_list_users();
 	void send_user_save();
 	void send_user_remove();
+	void send_update_pcdevs();
 
 	//Button routines
+	void on_push_user_new_clicked();
+	void on_push_user_remove_clicked();
+	void on_push_user_save_clicked();
 };
 #endif
