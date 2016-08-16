@@ -125,10 +125,10 @@
              <widget class="QWidget" name="scrollAreaWidgetContents">
               <property name="geometry">
                <rect>
-                <x>0</x>
+                <x>-30</x>
                 <y>0</y>
                 <width>235</width>
-                <height>275</height>
+                <height>283</height>
                </rect>
               </property>
               <layout class="QFormLayout" name="formLayout_2">
@@ -167,28 +167,21 @@
                <item row="1" column="1">
                 <widget class="QLineEdit" name="line_user_comment"/>
                </item>
-               <item row="2" column="0">
+               <item row="3" column="0">
                 <widget class="QLabel" name="label_9">
                  <property name="text">
                   <string>Password</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1">
-                <widget class="QLineEdit" name="line_user_password">
-                 <property name="echoMode">
-                  <enum>QLineEdit::Password</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
+               <item row="4" column="0">
                 <widget class="QLabel" name="label_3">
                  <property name="text">
                   <string>UID</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1">
+               <item row="4" column="1">
                 <layout class="QHBoxLayout" name="horizontalLayout_5">
                  <item>
                   <widget class="QSpinBox" name="spin_user_uid">
@@ -206,35 +199,35 @@
                  </item>
                 </layout>
                </item>
-               <item row="4" column="0">
+               <item row="5" column="0">
                 <widget class="QLabel" name="label_4">
                  <property name="text">
                   <string>Home Dir Path</string>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="1">
+               <item row="5" column="1">
                 <widget class="QLineEdit" name="line_user_home">
                  <property name="placeholderText">
                   <string notr="true">/nonexistant</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0">
+               <item row="6" column="0">
                 <widget class="QLabel" name="label_5">
                  <property name="text">
                   <string>Shell Path</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="1">
+               <item row="6" column="1">
                 <widget class="QLineEdit" name="line_user_shell">
                  <property name="placeholderText">
                   <string notr="true">/usr/sbin/nologin</string>
                  </property>
                 </widget>
                </item>
-               <item row="6" column="0" colspan="2">
+               <item row="7" column="0" colspan="2">
                 <widget class="QGroupBox" name="group_user_newperms">
                  <property name="title">
                   <string>New User Permissions</string>
@@ -272,6 +265,34 @@
                  </layout>
                 </widget>
                </item>
+               <item row="3" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <item>
+                  <widget class="QLineEdit" name="line_user_password">
+                   <property name="echoMode">
+                    <enum>QLineEdit::Password</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="tool_user_showpassword">
+                   <property name="text">
+                    <string notr="true"/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="../../icons/icons.qrc">
+                     <normaloff>:/icons/black/eye.svg</normaloff>:/icons/black/eye.svg</iconset>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
               </layout>
              </widget>
             </widget>
@@ -305,8 +326,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>217</width>
-                <height>228</height>
+                <width>203</width>
+                <height>260</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -323,10 +344,65 @@
                 <number>2</number>
                </property>
                <item>
-                <widget class="QCheckBox" name="check_pc_disable">
-                 <property name="text">
+                <widget class="QGroupBox" name="group_pc_disable">
+                 <property name="title">
                   <string>Disable PersonaCrypt</string>
                  </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
+                 </property>
+                 <layout class="QFormLayout" name="formLayout_3">
+                  <property name="leftMargin">
+                   <number>2</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>2</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>2</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>2</number>
+                  </property>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_10">
+                    <property name="text">
+                     <string>Password</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_9">
+                    <item>
+                     <widget class="QLineEdit" name="line_pc_password_disable">
+                      <property name="echoMode">
+                       <enum>QLineEdit::Password</enum>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="tool_pc_showpassword_disable">
+                      <property name="text">
+                       <string notr="true"/>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="../../icons/icons.qrc">
+                        <normaloff>:/icons/black/eye.svg</normaloff>:/icons/black/eye.svg</iconset>
+                      </property>
+                      <property name="checkable">
+                       <bool>true</bool>
+                      </property>
+                      <property name="autoRaise">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item>
@@ -366,28 +442,21 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="0">
+                  <item row="2" column="0">
                    <widget class="QLabel" name="label_6">
                     <property name="text">
                      <string>Password</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="1">
-                   <widget class="QLineEdit" name="line_pc_password">
-                    <property name="echoMode">
-                     <enum>QLineEdit::Password</enum>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0">
+                  <item row="3" column="0">
                    <widget class="QLabel" name="label_7">
                     <property name="text">
                      <string>Device</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="1">
+                  <item row="3" column="1">
                    <layout class="QHBoxLayout" name="horizontalLayout_6">
                     <item>
                      <widget class="QComboBox" name="combo_pc_device"/>
@@ -408,21 +477,21 @@
                     </item>
                    </layout>
                   </item>
-                  <item row="3" column="0" colspan="2">
+                  <item row="4" column="0" colspan="2">
                    <widget class="QRadioButton" name="radio_pc_import">
                     <property name="text">
                      <string>Import Key</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="0">
+                  <item row="5" column="0">
                    <widget class="QLabel" name="label_8">
                     <property name="text">
                      <string>Key File</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="1">
+                  <item row="5" column="1">
                    <layout class="QHBoxLayout" name="horizontalLayout_4">
                     <property name="spacing">
                      <number>2</number>
@@ -438,6 +507,34 @@
                       <property name="icon">
                        <iconset resource="../../icons/icons.qrc">
                         <normaloff>:/icons/black/document.svg</normaloff>:/icons/black/document.svg</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="2" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_8">
+                    <item>
+                     <widget class="QLineEdit" name="line_pc_password">
+                      <property name="echoMode">
+                       <enum>QLineEdit::Password</enum>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="tool_pc_showpassword">
+                      <property name="text">
+                       <string notr="true"/>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="../../icons/icons.qrc">
+                        <normaloff>:/icons/black/eye.svg</normaloff>:/icons/black/eye.svg</iconset>
+                      </property>
+                      <property name="checkable">
+                       <bool>true</bool>
+                      </property>
+                      <property name="autoRaise">
+                       <bool>true</bool>
                       </property>
                      </widget>
                     </item>

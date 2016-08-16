@@ -57,5 +57,7 @@ private slots:
 	void on_push_user_new_clicked();
 	void on_push_user_remove_clicked();
 	void on_push_user_save_clicked();
+	void on_tool_pc_findkey_clicked();
+
 };
 #endif

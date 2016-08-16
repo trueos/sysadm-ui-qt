@@ -20,9 +20,13 @@ users_page::users_page(QWidget *parent, sysadm_client *core) : PageWidget(parent
   connect(ui->line_user_comment, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
   connect(ui->line_user_home, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
   connect(ui->line_user_shell, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
+  connect(ui->line_pc_password, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
   connect(ui->check_user_autouid, SIGNAL(toggled(bool)), this, SLOT(checkSelectionChanges()) );
   connect(ui->spin_user_uid, SIGNAL(valueChanged(int)), this, SLOT(validateUserChanges()) );
   connect(ui->tool_refresh_pcdevs, SIGNAL(clicked()), this, SLOT(send_update_pcdevs()) );
+  connect(ui->tool_user_showpassword, SIGNAL(toggled(bool)), this, SLOT(checkSelectionChanges()) );
+  connect(ui->tool_pc_showpassword, SIGNAL(toggled(bool)), this, SLOT(checkSelectionChanges()) );
+  connect(ui->tool_pc_showpassword_disable, SIGNAL(toggled(bool)), this, SLOT(checkSelectionChanges()) );
   connect(ui->group_pc_enable, SIGNAL(toggled(bool)), this, SLOT(checkSelectionChanges()) );
 }
 
@@ -100,6 +104,9 @@ void users_page::updateUserSelection(){ //uses the userObj variable
   if(usersLoading){ return; } //stray signal from the clear/reload routine
   QString cuser;
   if(ui->list_users->currentItem()!=0){ cuser = ui->list_users->currentItem()->whatsThis(); }
+  ui->line_user_password->clear();
+  ui->line_pc_password->clear();
+  ui->line_pc_password_disable->clear();
   if(!cuser.isEmpty()){
     //Currently-existing user
     // - adjust UI elements
@@ -108,7 +115,7 @@ void users_page::updateUserSelection(){ //uses the userObj variable
     ui->check_user_autouid->setChecked(false); //can't change existing UID
     ui->spin_user_uid->setVisible(true);
     ui->spin_user_uid->setEnabled(false); //can't change existing UID
-    ui->check_pc_disable->setChecked(false);
+    ui->group_pc_disable->setChecked(false);
     ui->group_pc_enable->setChecked(false);
     // - load the data
     QJsonObject uobj = userObj.value(cuser).toObject();
@@ -119,7 +126,7 @@ void users_page::updateUserSelection(){ //uses the userObj variable
     ui->line_user_shell->setText( uobj.value("shell").toString() );
     bool haspc = uobj.contains("personacrypt_enabled");
     ui->group_pc_enable->setVisible(!haspc);
-    ui->check_pc_disable->setVisible(haspc);
+    ui->group_pc_disable->setVisible(haspc);
   }else{
     //New User
     // - adjust UI elements
@@ -127,8 +134,8 @@ void users_page::updateUserSelection(){ //uses the userObj variable
     ui->check_user_autouid->setVisible(true);
     ui->check_user_autouid->setChecked(true);
     ui->spin_user_uid->setEnabled(true); 
-    ui->check_pc_disable->setVisible(false);
-    ui->check_pc_disable->setChecked(false);
+    ui->group_pc_disable->setVisible(false);
+    ui->group_pc_disable->setChecked(false);
     ui->group_pc_enable->setVisible(true);
     ui->group_pc_enable->setChecked(false);  
     // - unload the data
@@ -146,7 +153,7 @@ void users_page::updateUserSelection(){ //uses the userObj variable
 void users_page::checkSelectionChanges(){ //uses the userObj variable (validate manual UID selection)
   ui->spin_user_uid->setVisible( !ui->check_user_autouid->isChecked() );
   bool initpc = ui->radio_pc_init->isChecked();
-  ui->label_6->setVisible(initpc); ui->line_pc_password->setVisible(initpc);  //password init options
+  ui->label_6->setVisible(initpc); ui->line_pc_password->setVisible(initpc);  ui->tool_pc_showpassword->setVisible(initpc); //password init options
   ui->label_7->setVisible(initpc); ui->combo_pc_device->setVisible(initpc);  ui->tool_refresh_pcdevs->setVisible(initpc); //device init options
   ui->label_8->setVisible(!initpc); ui->line_pc_key->setVisible(!initpc); ui->tool_pc_findkey->setVisible(!initpc); //key import options
   QString uname = ui->line_user_name->text();
@@ -155,6 +162,9 @@ void users_page::checkSelectionChanges(){ //uses the userObj variable (validate 
     if(ui->line_user_shell->text().isEmpty()){ ui->line_user_shell->setText("/bin/csh"); }
   }
   ui->push_user_remove->setEnabled(ui->list_users->currentItem()!=0);
+  ui->line_user_password->setEchoMode( ui->tool_user_showpassword->isChecked() ? QLineEdit::Normal : QLineEdit::Password);
+  ui->line_pc_password->setEchoMode( ui->tool_pc_showpassword->isChecked() ? QLineEdit::Normal : QLineEdit::Password);
+  ui->line_pc_password_disable->setEchoMode( ui->tool_pc_showpassword_disable->isChecked() ? QLineEdit::Normal : QLineEdit::Password);
   validateUserChanges();
 }
 
@@ -226,10 +236,66 @@ void users_page::send_user_save(){
     if(ui->check_user_wheelpriv->isChecked()){ groups << "wheel"; }
     if(ui->check_user_operatorpriv->isChecked()){ groups << "operator"; }
     if(!groups.isEmpty()){ obj.insert("other_groups", QJsonArray::fromStringList(groups)); }
+    //PersonaCrypt Options
+    if(ui->group_pc_enable->isChecked()){
+      if(ui->radio_pc_init->isChecked()){
+        //Initialize new device
+        obj.insert("personacrypt_init",ui->combo_pc_device->currentData().toString());
+        obj.insert("personacrypt_password",ui->line_pc_password->text() );
+      }else{
+        //import key from file
+        QFile keyfile(ui->line_pc_key->text());
+        if(keyfile.open(QIODevice::ReadOnly)){
+          QByteArray key = keyfile.readAll().toBase64();
+          keyfile.close();
+           obj.insert("personacrypt_import", QString(key) );
+        }
+      }
+    }
     communicate(USERTAG+"add_user", "sysadm", "users",obj);
   }else{
     //Modify Existing User
-
+    QJsonObject obj;
+    QString cuser = ui->list_users->currentItem()->whatsThis();
+    obj.insert("action","usermod");
+    obj.insert("name", cuser );
+    // - username
+    if(ui->line_user_name->text()!=cuser){
+      obj.insert("newname", ui->line_user_name->text());
+    }
+    // - password
+    if(!ui->line_user_password->text().isEmpty()){
+      obj.insert("password", ui->line_user_password->text());
+    }
+    // - comment
+    if(ui->line_user_comment->text()!=userObj.value(cuser).toObject().value("comment").toString()){ obj.insert("comment", ui->line_user_comment->text()); }
+    // - home_dir
+    QString home = ui->line_user_home->placeholderText();
+    if(!ui->line_user_home->text().isEmpty()){ home = ui->line_user_home->text(); }
+    if(home!=userObj.value(cuser).toObject().value("home_dir").toString()){ obj.insert("home_dir", home); }
+     QString shell = ui->line_user_shell->placeholderText();
+    if(!ui->line_user_shell->text().isEmpty()){ shell = ui->line_user_shell->text(); }
+    if(shell!=userObj.value(cuser).toObject().value("shell").toString()){ obj.insert("shell", shell); }
+    //PersonaCrypt Options
+    if(ui->group_pc_enable->isChecked()){
+      if(ui->radio_pc_init->isChecked()){
+        //Initialize new device
+        obj.insert("personacrypt_init",ui->combo_pc_device->currentData().toString());
+        obj.insert("personacrypt_password",ui->line_pc_password->text() );
+      }else{
+        //import key from file
+        QFile keyfile(ui->line_pc_key->text());
+        if(keyfile.open(QIODevice::ReadOnly)){
+          QByteArray key = keyfile.readAll().toBase64();
+          keyfile.close();
+           obj.insert("personacrypt_import", QString(key) );
+        }
+      }
+    }else if(ui->group_pc_disable->isChecked()){
+      QString password = ui->line_pc_password_disable->text(); //could be empty
+      obj.insert("personacrypt_disable", password);
+    }
+    communicate(USERTAG+"add_user", "sysadm", "users",obj);
   }
 }
 
@@ -269,4 +335,11 @@ void users_page::on_push_user_remove_clicked(){
 
 void users_page::on_push_user_save_clicked(){
   send_user_save();
+}
+
+void users_page::on_tool_pc_findkey_clicked(){
+  QString keyfile = QFileDialog::getOpenFileName(this, tr("Select PersonaCrypt Key File"), QDir::homePath(), tr("PersonaCrypt Key (*)") );
+  if(keyfile.isEmpty()){ return; }
+  ui->line_pc_key->setText(keyfile);
+  validateUserChanges();
 }
