@@ -107,6 +107,7 @@ void users_page::updateUserSelection(){ //uses the userObj variable
   ui->line_user_password->clear();
   ui->line_pc_password->clear();
   ui->line_pc_password_disable->clear();
+  ui->push_user_remove->setEnabled( !cuser.isEmpty() && userObj.value(cuser).toObject().value("canremove").toString()!="false" );
   if(!cuser.isEmpty()){
     //Currently-existing user
     // - adjust UI elements
@@ -161,7 +162,6 @@ void users_page::checkSelectionChanges(){ //uses the userObj variable (validate 
     if(ui->line_user_home->text().isEmpty()){ ui->line_user_home->setText("/home/"+uname); }
     if(ui->line_user_shell->text().isEmpty()){ ui->line_user_shell->setText("/bin/csh"); }
   }
-  ui->push_user_remove->setEnabled(ui->list_users->currentItem()!=0);
   ui->line_user_password->setEchoMode( ui->tool_user_showpassword->isChecked() ? QLineEdit::Normal : QLineEdit::Password);
   ui->line_pc_password->setEchoMode( ui->tool_pc_showpassword->isChecked() ? QLineEdit::Normal : QLineEdit::Password);
   ui->line_pc_password_disable->setEchoMode( ui->tool_pc_showpassword_disable->isChecked() ? QLineEdit::Normal : QLineEdit::Password);
