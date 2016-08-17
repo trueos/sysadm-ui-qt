@@ -35,7 +35,9 @@ users_page::users_page(QWidget *parent, sysadm_client *core) : PageWidget(parent
   connect(ui->list_groups, SIGNAL(currentRowChanged(int)), this, SLOT(updateGroupSelection()) );
 
   //TEMPORARY: Disable the "groups" tab until it is finished
-  ui->tabWidget->setTabEnabled(1,false);
+  //ui->tabWidget->setTabEnabled(1,false);
+  ui->push_group_new->setVisible(false); //not finished yet
+  ui->push_group_remove->setVisible(false); //not finished yet
 }
 
 users_page::~users_page(){
@@ -78,6 +80,9 @@ void users_page::ParseReply(QString id, QString namesp, QString name, QJsonValue
 
   }else if(id==(USERTAG+"remove_user") || id==(USERTAG+"add_user") || id==(USERTAG+"modify_user") ){
     send_list_users(); //update the user lists
+    send_list_groups(); //update the groups (automatically get changed if users are changed)
+  }else if(id==(USERTAG+"modify_group")){
+    send_list_groups(); //does not change user info
   }
 
 }
@@ -237,13 +242,13 @@ void users_page::updateGroupList(){
   for(int i=0; i<grps.length(); i++){
     if(filter){
       //Only show the main groups (wheel, operator)
-      if(grps[i]!="wheel" and grps[i]!="operator"){ continue; }
+      if(grps[i]!="wheel" && grps[i]!="operator" && !grps[i].contains("users") ){ continue; }
     }
     QListWidgetItem *it = new QListWidgetItem(ui->list_groups);
     it->setWhatsThis(grps[i]);
     if(grps[i]==sel || setdef==0){ setdef = it; }
     QJsonArray users = groupObj.value(grps[i]).toObject().value("users").toArray();
-    if(users.count()==1 && users[i].toString().isEmpty()){ users = QJsonArray(); } //check for an empty array
+    if(users.count()==1 && users[0].toString().isEmpty()){ users = QJsonArray(); } //check for an empty array
     it->setText(grps[i]+" (gid: "+groupObj.value(grps[i]).toObject().value("gid").toString()+", users: "+QString::number( users.count())+")" );
   }
   if(setdef!=0){ ui->list_groups->setCurrentItem(setdef); }
@@ -262,6 +267,41 @@ void users_page::updateGroupSelection(){
   }
   ui->list_group_members->clear();
   ui->list_group_members->addItems(users);
+  ui->list_group_members->sortItems(Qt::AscendingOrder);
+  validateGroupSettings();
+}
+
+void users_page::validateGroupSettings(){
+  QString cgroup;
+  if(ui->list_groups->currentItem()!=0){ cgroup = ui->list_groups->currentItem()->whatsThis(); }
+  bool ok = false;
+  if(cgroup.isEmpty()){
+    //New Group - check different inputs
+
+  }else{
+    //Existing Group - check for difference in users
+    QStringList cur, members;
+    QJsonArray uarr = groupObj.value(cgroup).toObject().value("users").toArray();
+    //Read off all the current users in this group from master object
+    for(int i=0; i<uarr.count(); i++){ 
+      if( !uarr[i].toString().isEmpty() ){ cur << uarr[i].toString(); }
+    }
+    //Now get all the members listed in the UI
+    for(int i=0; i<ui->list_group_members->count(); i++){
+      members << ui->list_group_members->item(i)->text();
+    }
+    //Now see if the two lists are different
+    ok = (cur.length()!=members.length()); //different lengths mean changes made
+    if(!ok){
+      //same length - need to look for differences in items
+      cur.sort();
+      members.sort();
+      for(int i=0; i<cur.length() && !ok; i++){
+        ok = (cur[i] != members[i]);
+      }
+    }
+  }
+  ui->push_group_save->setEnabled(ok);
 }
 
 //Core Request routines
@@ -373,6 +413,7 @@ void users_page::send_update_pcdevs(){
   communicate(USERTAG+"list_pcdevs", "sysadm", "users",obj);
 }
 
+//GROUP API calls
 void users_page::send_list_groups(){
 QJsonObject obj;
     obj.insert("action","groupshow");
@@ -380,14 +421,36 @@ QJsonObject obj;
 }
 
 void users_page::send_group_save(){
+  if(ui->list_groups->currentItem()==0){
+    //New Group
 
+  }else{
+    //Modify Existing Group
+    QString name = ui->list_groups->currentItem()->whatsThis(); //currently-selected group
+    QStringList users;
+    for(int i=0; i<ui->list_group_members->count(); i++){
+      users << ui->list_group_members->item(i)->text();
+    }
+    qDebug() << "Modify Users in Group:" << name << users;
+    QJsonObject obj;
+    obj.insert("action","groupmod");
+    obj.insert("name",name);
+    if(users.isEmpty()){
+      //Need to clear all the current users
+      obj.insert("remove_users", groupObj.value(name).toObject().value("users") );
+    }else{
+      //Need to change the list of users over to this new list
+      obj.insert("users", QJsonArray::fromStringList(users));
+    }
+    communicate(USERTAG+"modify_group", "sysadm","users", obj);
+  }
 }
 
 void users_page::send_group_remove(){
 
 }
 
-//Button routines
+//USER Button routines
 void users_page::on_push_user_new_clicked(){
   ui->list_users->setCurrentItem(0); //clear the current item
 }
@@ -410,4 +473,36 @@ void users_page::on_tool_pc_findkey_clicked(){
   if(keyfile.isEmpty()){ return; }
   ui->line_pc_key->setText(keyfile);
   validateUserChanges();
+}
+ // GROUP buttons
+void users_page::on_push_group_rmuser_clicked(){
+  QList<QListWidgetItem*> sel = ui->list_group_members->selectedItems();
+  for(int i=0; i<sel.length(); i++){ delete sel[i]; }
+  validateGroupSettings();
+}
+
+void users_page::on_push_group_adduser_clicked(){
+  //Note: Never change the items in the list_group_users widget - those are auto-populated as needed
+  QList<QListWidgetItem*> sel = ui->list_group_users->selectedItems();
+  for(int i=0; i<sel.length(); i++){ 
+    //Make sure this is not a duplicate
+    if(ui->list_group_members->findItems(sel[i]->text(), Qt::MatchExactly).isEmpty()){
+      ui->list_group_members->addItem(sel[i]->text());
+    }
+  }
+  //Now re-sort the items
+  ui->list_group_members->sortItems(Qt::AscendingOrder);
+  validateGroupSettings();
+}
+
+void users_page::on_push_group_new_clicked(){
+
+}
+
+void users_page::on_push_group_remove_clicked(){
+
+}
+
+void users_page::on_push_group_save_clicked(){
+  send_group_save();
 }
