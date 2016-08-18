@@ -12,10 +12,10 @@
 
 # SysAdm Qt Client
 
-Official repo for PC-BSD's sysadm WebSocket Client
+Official repo for TrueOS' sysadm WebSocket Client
 
-This multi-platform client is designed to work with [PC-BSD's sysadm server](https://github.com/pcbsd/sysadm) <br />
-for administration of Free/PC-BSD systems
+This multi-platform client is designed to work with [TrueOS' sysadm server](https://github.com/trueos/sysadm) <br />
+for administration of Free/TrueOS systems
 
 ### Required Qt Modules
 
@@ -29,7 +29,7 @@ Qt5 Websockets (pkg install qt5-websockets)
 ### Building SysAdm Qt Client
 
 ```
-% git clone https://github.com/pcbsd/sysadm-ui-qt.git
+% git clone https://github.com/trueos/sysadm-ui-qt.git
 % cd sysadm/src-qt5
 % /usr/local/lib/qt5/bin/qmake -recursive
 % make && sudo make install
