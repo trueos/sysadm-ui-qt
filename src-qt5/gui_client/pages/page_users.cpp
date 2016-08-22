@@ -6,6 +6,7 @@
 //===========================================
 #include "page_users.h"
 #include "ui_page_users.h" //auto-generated from the .ui file
+#include <QRegExpValidator>
 
 #define USERTAG QString("sysadm_client_user_")
 
@@ -34,6 +35,8 @@ users_page::users_page(QWidget *parent, sysadm_client *core) : PageWidget(parent
   connect(ui->radio_group_standard, SIGNAL(toggled(bool)), this, SLOT(updateGroupList()) );
   connect(ui->list_groups, SIGNAL(currentRowChanged(int)), this, SLOT(updateGroupSelection()) );
 
+  //Setup all the validators for the line edits
+  ui->line_user_name->setValidator( new QRegExpValidator(QRegExp("[\\w-.]{0,16}"), this) );
   //TEMPORARY: Disable the "groups" tab until it is finished
   ui->tabWidget->setTabEnabled(1,false);
 }
