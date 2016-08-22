@@ -425,6 +425,8 @@ void MenuItem::UpdateMenu(){
 	this->addSeparator();
       }
       tmp = this->addAction(QIcon(":/icons/black/off.svg"),tr("Close SysAdm Client"));
+        //tmp->setShortcut(QKeySequence(Qt::CTRL+Qt::Key_Q));
+        //tmp->setShortcutContext(Qt::ApplicationShortcut);
         tmp->setWhatsThis("close_app");
     }
   if(showagain){ 

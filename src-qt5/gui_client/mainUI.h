@@ -27,7 +27,7 @@ private:
 	QString currentPage, host, b_id, nickname;
 	void InitializeUI();
 	sysadm_client *CORE;
-	QShortcut *s_quit;
+	QShortcut *s_quit, *s_closewin;
 
 private slots:
 	//Simple UI slots

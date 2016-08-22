@@ -49,6 +49,7 @@ private slots:
 
 	void updateGroupList(); //uses the groupObj variable
 	void updateGroupSelection(); //uses the groupObj variable
+	void validateGroupSettings(); //uses the groupObj variable
 
 	//Core Request routines
 	void send_list_users();
@@ -65,6 +66,12 @@ private slots:
 	void on_push_user_remove_clicked();
 	void on_push_user_save_clicked();
 	void on_tool_pc_findkey_clicked();
+
+	void on_push_group_rmuser_clicked();
+	void on_push_group_adduser_clicked();
+	void on_push_group_new_clicked();
+	void on_push_group_remove_clicked();
+	void on_push_group_save_clicked();
 
 };
 #endif

@@ -29,6 +29,8 @@ MainUI::MainUI(sysadm_client *core, QString pageID, QString bridgeID) : QMainWin
   //Create the shortcut for closing the window
   s_quit = new QShortcut(QKeySequence(Qt::Key_Escape), this);
   connect(s_quit, SIGNAL(activated()), this, SLOT(close()) );
+  s_closewin = new QShortcut(QKeySequence(Qt::CTRL+Qt::Key_W), this);
+  connect(s_closewin, SIGNAL(activated()), this, SLOT(close()) );
   //Create the menu of power options for the server/connection
   if(!CORE->isLocalHost()){
     ui->actionPower->setMenu(new QMenu(this));
