@@ -21,6 +21,7 @@ updates_page::updates_page(QWidget *parent, sysadm_client *core) : PageWidget(pa
   connect(ui->tree_updates, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(check_current_update_item(QTreeWidgetItem*)) );
   connect(ui->group_up_details, SIGNAL(toggled(bool)), this, SLOT(check_current_update()) );
   ui->stacked_updates->setCurrentWidget(ui->page_updates); //always start on this page - has the "checking" notice
+  ui->tabWidget->setTabEnabled(1, false); //disable the "branches" tab by default - will be enabled if/when branches become available
 }
 
 updates_page::~updates_page(){
@@ -353,7 +354,8 @@ void updates_page::check_current_update_item(QTreeWidgetItem *it){
 // === PRIVATE ===
 void updates_page::updateBranchList(QString active, QStringList avail){
   ui->list_branches->clear();
-  avail.sort();
+  avail.sort();\
+
   for(int i=0; i<avail.length(); i++){
     QListWidgetItem *tmp = new QListWidgetItem();
       tmp->setText(avail[i]);
@@ -367,4 +369,5 @@ void updates_page::updateBranchList(QString active, QStringList avail){
     ui->list_branches->addItem(tmp);
   }
   check_current_branch();
+  ui->tabWidget->setTabEnabled(1, !avail.isEmpty());
 }
