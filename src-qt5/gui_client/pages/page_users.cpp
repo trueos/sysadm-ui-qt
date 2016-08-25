@@ -17,7 +17,7 @@ users_page::users_page(QWidget *parent, sysadm_client *core) : PageWidget(parent
   connect(ui->list_users, SIGNAL(currentRowChanged(int)), this, SLOT(updateUserSelection()) );
   //All the UI elements which need to re-run the check routine
   connect(ui->radio_pc_init, SIGNAL(toggled(bool)), this, SLOT(checkSelectionChanges()) );
-  connect(ui->line_user_name, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
+  connect(ui->line_user_name, SIGNAL(editingFinished()), this, SLOT(generateUserDefaults()) );
   connect(ui->line_user_password, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
   connect(ui->line_user_comment, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
   connect(ui->line_user_home, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
@@ -38,6 +38,7 @@ users_page::users_page(QWidget *parent, sysadm_client *core) : PageWidget(parent
 
   //Setup all the validators for the line edits
   ui->line_user_name->setValidator( new QRegExpValidator(QRegExp("[\\w-.]{0,16}"), this) );
+  ui->line_user_comment->setValidator( new QRegExpValidator(QRegExp("[\\w-.@, ]{0,80}"), this) );
   //TEMPORARY: Disable the "groups" tab until it is finished
   //ui->tabWidget->setTabEnabled(1,false);
   ui->push_group_new->setVisible(false); //not finished yet
@@ -189,7 +190,7 @@ void users_page::updateUserSelection(){ //uses the userObj variable
     ui->line_user_home->clear();
     ui->line_user_shell->clear();
     ui->tabWidget_users->setCurrentWidget(ui->tab_user_details); //show main tab
-    ui->line_user_name->setFocus(); //focus on the first input box
+    ui->line_user_comment->setFocus(); //focus on the first input box
 
   }
   checkSelectionChanges();
@@ -201,10 +202,15 @@ void users_page::checkSelectionChanges(){ //uses the userObj variable (validate 
   ui->label_6->setVisible(initpc); ui->line_pc_password->setVisible(initpc);  ui->tool_pc_showpassword->setVisible(initpc); //password init options
   ui->label_7->setVisible(initpc); ui->combo_pc_device->setVisible(initpc);  ui->tool_refresh_pcdevs->setVisible(initpc); //device init options
   ui->label_8->setVisible(!initpc); ui->line_pc_key->setVisible(!initpc); ui->tool_pc_findkey->setVisible(!initpc); //key import options
-  QString uname = ui->line_user_name->text();
-  if(!uname.isEmpty()){
-    if(ui->line_user_home->text().isEmpty()){ ui->line_user_home->setText("/home/"+uname); }
-    if(ui->line_user_shell->text().isEmpty()){ ui->line_user_shell->setText("/bin/csh"); }
+  if(!ui->line_user_comment->text().isEmpty() && ui->line_user_name->text().isEmpty()){
+    //Automatically generate a user name based on the real name
+    QStringList words = ui->line_user_comment->text().section(",",0,0).split(" ", QString::SkipEmptyParts);
+    QString tmp;
+    for(int i=0; i<words.length(); i++){
+      if(i==words.length()-1){ tmp.append(words[i].toLower()); } //last word - use full thing
+      else{ tmp.append( words[i].toLower()[0] ); } //Just first letter from word
+    }
+    ui->line_user_name->setText(tmp);
   }
   ui->line_user_password->setEchoMode( ui->tool_user_showpassword->isChecked() ? QLineEdit::Normal : QLineEdit::Password);
   ui->line_pc_password->setEchoMode( ui->tool_pc_showpassword->isChecked() ? QLineEdit::Normal : QLineEdit::Password);
@@ -252,6 +258,15 @@ void users_page::validateUserChanges(){
   ui->line_user_password->setStyleSheet( pwgood ? "" : "QLineEdit{ border: 1px solid red; color: red;  border-radius: 4px; }");
   good = good && pwgood;
   ui->push_user_save->setEnabled(good);
+}
+
+void users_page::generateUserDefaults(){
+  QString uname = ui->line_user_name->text();
+  if(!uname.isEmpty()){
+    if(ui->line_user_home->text().isEmpty()){ ui->line_user_home->setText("/home/"+uname); }
+    if(ui->line_user_shell->text().isEmpty()){ ui->line_user_shell->setText("/bin/csh"); }
+  }
+  checkSelectionChanges();
 }
 
 void users_page::updateGroupList(){

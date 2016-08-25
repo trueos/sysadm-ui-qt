@@ -49,6 +49,7 @@ private slots:
 	void updateUserSelection(); //uses the userObj variable
 	void checkSelectionChanges(); //uses the userObj variable (validate manual UID selection)
 	void validateUserChanges();
+	void generateUserDefaults();
 
 	void updateGroupList(); //uses the groupObj variable
 	void updateGroupSelection(); //uses the groupObj variable
