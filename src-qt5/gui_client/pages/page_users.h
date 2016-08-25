@@ -37,8 +37,11 @@ public slots:
 
 private:
 	Ui::users_ui *ui;
+	QMessageBox *msgbox;
         QJsonObject userObj, groupObj; //keep this saved for instant read on selection change as needed
 	bool usersLoading, groupsLoading;
+
+	void ShowError(QString msg, QString details);
 
 private slots:
 	//Widget update routines

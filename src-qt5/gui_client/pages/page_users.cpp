@@ -11,7 +11,8 @@
 #define USERTAG QString("sysadm_client_user_")
 
 users_page::users_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::users_ui){
-  ui->setupUi(this);	
+  ui->setupUi(this);
+  msgbox = 0;
   connect(ui->radio_standard, SIGNAL(toggled(bool)), this, SLOT(updateUserList()) );
   connect(ui->list_users, SIGNAL(currentRowChanged(int)), this, SLOT(updateUserSelection()) );
   //All the UI elements which need to re-run the check routine
@@ -65,6 +66,8 @@ void users_page::startPage(){
 void users_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
   if(!id.startsWith(USERTAG)){ return; } //not interested
   bool iserror = (name.toLower()=="error") || (namesp.toLower()=="error");
+  QString errtext;
+  if(iserror && args.toObject().contains("error")){ errtext = args.toObject().value("error").toString(); }
   if(id==(USERTAG+"list_users")){
     if(!iserror){ userObj = args.toObject(); }
     updateUserList();
@@ -82,12 +85,30 @@ void users_page::ParseReply(QString id, QString namesp, QString name, QJsonValue
     validateUserChanges();
 
   }else if(id==(USERTAG+"remove_user") || id==(USERTAG+"add_user") || id==(USERTAG+"modify_user") ){
+    if(iserror){
+      if(id.endsWith("remove_user")){ ShowError(tr("Could not remove user"), errtext); }
+      if(id.endsWith("add_user")){ ShowError(tr("Could not create user"), errtext); }
+      if(id.endsWith("modify_user")){ ShowError(tr("Could not modify user"), errtext); }
+    }
     send_list_users(); //update the user lists
     send_list_groups(); //update the groups (automatically get changed if users are changed)
   }else if(id==(USERTAG+"modify_group")){
+    if(iserror){ ShowError(tr("Could not modify group"), errtext); }
     send_list_groups(); //does not change user info
   }
 
+}
+
+void users_page::ShowError(QString msg, QString details){
+  if(msgbox==0){ 
+    msgbox = new QMessageBox(this);
+    msgbox->setIcon(QMessageBox::Warning);
+    msgbox->setWindowTitle( tr("Error") );
+    msgbox->addButton( QMessageBox::Ok );
+  }
+  msgbox->setDetailedText(details);
+  msgbox->setText(msg);
+  msgbox->show();
 }
 
 void users_page::updateUserList(){ //uses the userObj variable
