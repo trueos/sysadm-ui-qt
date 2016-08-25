@@ -202,6 +202,9 @@
                  </item>
                  <item>
                   <widget class="QToolButton" name="tool_user_showpassword">
+                   <property name="focusPolicy">
+                    <enum>Qt::ClickFocus</enum>
+                   </property>
                    <property name="text">
                     <string notr="true"/>
                    </property>
@@ -349,7 +352,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>203</width>
+                <width>182</width>
                 <height>260</height>
                </rect>
               </property>
