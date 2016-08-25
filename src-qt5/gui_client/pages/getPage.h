@@ -53,18 +53,24 @@ static QList<PAGEINFO> KnownPages(){
 
 static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   //Find the page that matches this "id"
-  if(id=="page_beadm"){ return new beadm_page(parent, core); }
-  else if(id=="page_taskmanager"){ return new taskmanager_page(parent, core); }
-  else if(id=="page_iohyve"){ return new iohyve_page(parent, core); }
-  else if(id=="page_ssl_auth"){ return new ssl_auth_page(parent, core); }
-  else if(id=="page_about"){ return new about_page(parent, core); } 
-  else if(id=="page_lp"){ return new lp_page(parent, core); }
-  else if(id=="page_system"){ return new system_page(parent, core); }
-  else if(id=="page_updates"){ return new updates_page(parent, core); }
-  else if(id=="page_pkg"){ return new pkg_page(parent, core); }
-  else if(id=="page_users"){ return new users_page(parent, core); }
+  PageWidget *page = 0;
+  if(id=="page_beadm"){ page =  new beadm_page(parent, core); }
+  else if(id=="page_taskmanager"){ page = new taskmanager_page(parent, core); }
+  else if(id=="page_iohyve"){ page =  new iohyve_page(parent, core); }
+  else if(id=="page_ssl_auth"){ page = new ssl_auth_page(parent, core); }
+  else if(id=="page_about"){ page =new about_page(parent, core); } 
+  else if(id=="page_lp"){ page = new lp_page(parent, core); }
+  else if(id=="page_system"){ page = new system_page(parent, core); }
+  else if(id=="page_updates"){ page = new updates_page(parent, core); }
+  else if(id=="page_pkg"){ page = new pkg_page(parent, core); }
+  else if(id=="page_users"){ page = new users_page(parent, core); }
   //Return the main control_panel page as the fallback/default
-  return new control_panel(parent, core);
+  if(page==0){
+    page = new control_panel(parent, core);
+  }else{
+    page->setWhatsThis(id); //tag it with the ID
+  }
+  return page;
 }
 
 #endif

@@ -49,6 +49,10 @@ void control_panel::startPage(){
   emit ChangePageTitle( tr("Control Panel") );
 }
 
+void control_panel::setPreviousPage(QString id){
+  lastPageID = id;
+}
+
 // === PRIVATE ===
 void control_panel::setupPageButton(QString id, QTreeWidgetItem *item){
   PAGEINFO info;
@@ -129,6 +133,7 @@ void control_panel::ParseReply(QString id, QString namesp, QString name, QJsonVa
     }
     kpages.sort(); //sort them by category/name
       //qDebug() << "ids:" << ids << "pages:" << pages;
+    QTreeWidgetItem *showPage = 0;
       QTreeWidgetItem *ccat = 0;
       for(int i=0; i<kpages.length(); i++){
         QString cat = kpages[i].section("::::",0,0);
@@ -152,7 +157,13 @@ void control_panel::ParseReply(QString id, QString namesp, QString name, QJsonVa
 	    it->setWhatsThis(0,id);
 	    setupPageButton(id, it);
 	  ccat->addChild(it);
+          if(id==lastPageID){ it->setSelected(true); showPage = it; }
         } //end key check
       }
+    //Now make sure the previously-used page is visible/highlighted as needed
+    if(showPage!=0){
+      
+      tree->scrollToItem(showPage);
+    }
   } //end of object check
 }

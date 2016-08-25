@@ -20,9 +20,12 @@ public:
 	QString pageID(){ return ""; }
 	void ParseReply(QString, QString, QString, QJsonValue);
 
+	virtual void setPreviousPage(QString id);
+
 private:
 	QTreeWidget *tree;
 	QList<PAGEINFO> pages;
+	QString lastPageID;
 
 	void setupCategoryButton(QString cat, QTreeWidgetItem *item);
 	void setupPageButton(QString id, QTreeWidgetItem *item);

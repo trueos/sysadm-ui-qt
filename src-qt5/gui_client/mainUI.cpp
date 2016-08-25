@@ -142,11 +142,13 @@ void MainUI::ServerShutdown(){
 //Page Management
 void MainUI::loadPage(QString id){
   //qDebug() << "Load Page:" << id;
+  QString lastPage = this->centralWidget()->whatsThis();
   PageWidget *page = GetNewPage(id, this, CORE);
   //qDebug() << "Got Page:" << page;
   if(page==0){ return; }
   page->setObjectName(id);
-  currentPage = id;
+  page->setPreviousPage(lastPage);
+  currentPage = page->whatsThis();
   //Connect Page
   connect(page, SIGNAL(HasPendingChanges()), this, SLOT(ShowSaveButton()) );
   connect(page, SIGNAL(ChangePageTitle(QString)), this, SLOT(ShowPageTitle(QString)) );

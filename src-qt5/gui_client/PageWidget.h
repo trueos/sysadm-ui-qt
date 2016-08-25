@@ -38,10 +38,10 @@ public:
 		
 	//Page embedded, go ahead and startup any core requests
 	virtual void startPage(){}
-		
+	virtual void setPreviousPage(QString){} // will let the page respond appropriately to the previously-viewed page as needed
 	//Simple visual information about the page (icon, title, ID)
 	// use the "windowTitle" and "windowIcon" properties on the QWidget for the display icon/title
-	virtual QString pageID(){ return ""; } //ID is used to identify which type of page this is
+	//virtual QString pageID(){ return ""; } //ID is used to identify which type of page this is
 	
 	//Received Messages from CORE
 	virtual void ParseReply(QString, QString, QString, QJsonValue){}
