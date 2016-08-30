@@ -307,6 +307,10 @@ void pkg_page::update_pending_process(QJsonObject obj){
   ui->tabWidget->setTabText( ui->tabWidget->indexOf(ui->tab_queue), title);
   ui->tree_pending->resizeColumnToContents(0);
   ui->tree_pending->resizeColumnToContents(1);
+  if(ui->tree_pending->topLevelItemCount()==1){
+    ui->tree_pending->resizeColumnToContents(3);
+    ui->tree_pending->resizeColumnToContents(4);
+  }
 }
 
 void pkg_page::update_repo_app_info(QJsonObject obj){
