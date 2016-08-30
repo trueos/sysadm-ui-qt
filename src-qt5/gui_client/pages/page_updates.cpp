@@ -90,6 +90,7 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
     }else if(stat=="updatesavailable"){
       ui->stacked_updates->setCurrentWidget(ui->page_updates);
       QStringList types = args.toObject().value("checkupdates").toObject().keys();
+      QString fulldetails = args.toObject().value("checkupdates").toObject().value("details").toString();
 	types.removeAll("status");
 	qDebug() << "Types:" << types;
 	for(int i=0; i<types.length(); i++){
@@ -100,6 +101,7 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
 	      tmp->setText(0, tr("FreeBSD Security Updates"));
 	      tmp->setWhatsThis(0, "fbsdupdate");
 	      tmp->setCheckState(0,Qt::Unchecked);
+              tmp->setToolTip(0,fulldetails);
 	    ui->tree_updates->addTopLevelItem(tmp);
 	  }else if(types[i]=="majorupgrade"){
 	    QString txt = tr("Major OS Update"); QString tag = tname;
@@ -109,6 +111,7 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
 	      tmp->setText(0, txt );
 	      tmp->setWhatsThis(0, "standalone-major::"+tag);
 	      tmp->setCheckState(0,Qt::Unchecked);
+              tmp->setToolTip(0,fulldetails);
 	    ui->tree_updates->addTopLevelItem(tmp);
 	  }else if(types[i].startsWith("patch")){
 	    //See if the patch category has been created yet first
@@ -139,6 +142,7 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
 	      tmp->setText(0, tr("Package Updates"));
 	      tmp->setWhatsThis(0, "pkgupdate");
 	      tmp->setCheckState(0,Qt::Unchecked);
+              tmp->setToolTip(0,fulldetails);
 	    ui->tree_updates->addTopLevelItem(tmp);
 	  }
 	}
