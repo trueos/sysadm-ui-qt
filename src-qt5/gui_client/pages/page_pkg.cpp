@@ -767,7 +767,7 @@ void pkg_page::ParseEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
   }else{
     if(finished){ 
       //Need to update the list of installed packages    
-      send_local_update();
+      QTimer::singleShot(500, this, SLOT(send_local_update()) ); //give it a moment
     }
     // Need to update the list of pending processes
     update_pending_process(val.toObject());
