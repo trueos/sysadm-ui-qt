@@ -3,7 +3,7 @@
 # from a checked out git repo
 
 # Set the port
-port="sysutils/sysadm-ui-qt"
+port="sysutils/sysadm-client"
 dfile="sysadm-ui-qt"
 
 massage_subdir() {
