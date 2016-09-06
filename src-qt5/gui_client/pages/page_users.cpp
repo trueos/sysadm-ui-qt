@@ -18,11 +18,11 @@ users_page::users_page(QWidget *parent, sysadm_client *core) : PageWidget(parent
   //All the UI elements which need to re-run the check routine
   connect(ui->radio_pc_init, SIGNAL(toggled(bool)), this, SLOT(checkSelectionChanges()) );
   connect(ui->line_user_name, SIGNAL(editingFinished()), this, SLOT(generateUserDefaults()) );
-  connect(ui->line_user_password, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
+  connect(ui->line_user_password, SIGNAL(textChanged(const QString&)), this, SLOT(checkSelectionChanges()) );
   connect(ui->line_user_comment, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
-  connect(ui->line_user_home, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
-  connect(ui->line_user_shell, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
-  connect(ui->line_pc_password, SIGNAL(editingFinished()), this, SLOT(checkSelectionChanges()) );
+  connect(ui->line_user_home, SIGNAL(textChanged(const QString&)), this, SLOT(checkSelectionChanges()) );
+  connect(ui->line_user_shell, SIGNAL(textChanged(const QString&)), this, SLOT(checkSelectionChanges()) );
+  connect(ui->line_pc_password, SIGNAL(textChanged(const QString&)), this, SLOT(checkSelectionChanges()) );
   connect(ui->check_user_autouid, SIGNAL(toggled(bool)), this, SLOT(checkSelectionChanges()) );
   connect(ui->spin_user_uid, SIGNAL(valueChanged(int)), this, SLOT(validateUserChanges()) );
   connect(ui->tool_refresh_pcdevs, SIGNAL(clicked()), this, SLOT(send_update_pcdevs()) );
