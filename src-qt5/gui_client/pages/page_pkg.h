@@ -50,7 +50,7 @@ private:
 	//Core requests
 	void send_list_repos();
 	void send_list_cats(QString repo);
-	void send_local_update();
+	//void send_local_update(); //Moved to private slots below
 	void send_local_audit();
 	void send_local_check_upgrade();
 	void send_repo_app_info(QString origin, QString repo);
@@ -118,6 +118,7 @@ private slots:
 
 	//GUI -> Core Requests
 	// - local tab
+	void send_local_update();
 	void send_local_rmpkgs();
 	void send_local_lockpkgs();
 	void send_local_unlockpkgs();
