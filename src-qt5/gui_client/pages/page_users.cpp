@@ -302,7 +302,10 @@ void users_page::updateGroupSelection(){
   QStringList users;
   if(ui->list_groups->currentItem()!=0){ 
     QJsonArray uarr = groupObj.value( ui->list_groups->currentItem()->whatsThis() ).toObject().value("users").toArray();
-    for(int i=0; i<uarr.count(); i++){ users << uarr[i].toString(); }
+    for(int i=0; i<uarr.count(); i++){ 
+      if(uarr[i].toString().simplified().isEmpty()){ continue; } //skip empty entries
+      users << uarr[i].toString(); 
+    }
   }
   ui->list_group_members->clear();
   ui->list_group_members->addItems(users);
