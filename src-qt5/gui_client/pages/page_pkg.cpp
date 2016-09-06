@@ -979,6 +979,12 @@ void pkg_page::browser_go_back(QAction *act){
   }else{
     //use the last action in the history menu
     QList<QAction*> acts = repo_backM->actions();
+    QString cur; 
+    if(acts.length()>0){ cur = acts[acts.length()-1]->whatsThis(); }
+    //special case - looking at local info for an app *without*  coming from the browse tab
+    if(cur.startsWith("pkg::") && (cur.section("::",1,1)=="local") && ui->tree_local->currentItem()!=0 && (cur.section("::",2,-1)==ui->tree_local->currentItem()->whatsThis(0)) ){
+      ui->tabWidget->setCurrentWidget(ui->tab_local);
+    }
     if(acts.length()>1){
       go = acts[acts.length()-2]->whatsThis();
       repo_backM->removeAction( acts[acts.length()-1] );
