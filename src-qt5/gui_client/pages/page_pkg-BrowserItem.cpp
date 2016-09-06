@@ -67,7 +67,7 @@ QString BrowserItem::ID(){
 
 void BrowserItem::setText(QString obj, QString text){
   //obj: "name","version","comment"
-  if(obj=="name"){ name->setText(text); }
+  if(obj=="name"){ name->setText("<b>"+text+"</b>"); }
   else if(obj=="version"){ version->setText(text); }
   else if(obj=="comment"){ comment->setText(text); }
 }
@@ -93,4 +93,3 @@ void BrowserItem::remove_clicked(){
   setInteraction(2); //pending
   emit RemoveClicked(objID);
 }
-
