@@ -56,8 +56,8 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
 }
 
 sysadm_tray::~sysadm_tray(){
-  if(CMAN!=0){ delete CMAN; }
-  if(SDLG!=0){ delete SDLG; }
+  if(CMAN!=0){ CMAN->deleteLater(); }
+  if(SDLG!=0){ SDLG->deleteLater(); }
   delete this->contextMenu(); //Note in docs that the tray does not take ownership of this menu
 }
 
@@ -148,15 +148,17 @@ void sysadm_tray::CloseApplication(){
   QStringList cores = CORES.keys();
   for(int i=0; i<cores.length(); i++){
     qDebug() << "Closing Connection:" << CORES[cores[i]]->currentHost();
-    CORES[ cores[i] ]->closeConnection();
+    QTimer::singleShot(0, CORES[ cores[i] ], SLOT(closeConnection()));
   }
     // Close any clients
   if(!CLIENTS.isEmpty()){ qDebug() << "Closing open client:" << CLIENTS.length();}
   for(int i=0; i<CLIENTS.length(); i++){
-    CLIENTS[i]->close();
+    CLIENTS[i]->deleteLater();
   }
+  QApplication::processEvents();
     // Delete any cores (should be disconnected by now)
   for(int i=0; i<cores.length(); i++){
+    QApplication::processEvents();
     qDebug() << "Deleting Cores...";
     delete CORES.take(cores[i]);
   }
