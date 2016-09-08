@@ -184,19 +184,21 @@ int sysadm_client::statePriority(){
 
 //Register the custom SSL Certificate with the server
 void sysadm_client::registerCustomCert(){
+  qDebug() << "Register SSL Certificate on Server:" << currentHost();
   if(SSL_cfg.isNull() || SOCKET==0 || !SOCKET->isValid()){ return; }
   //Get the custom cert
-  QList<QSslCertificate> certs = SSL_cfg.localCertificateChain();
+  QSslCertificate cert = SSL_cfg.localCertificate();
   QString pubkey, email, nickname;
-  for(int i=0; i<certs.length(); i++){
-    if(certs[i].issuerInfo(QSslCertificate::Organization).contains("SysAdm-client")){
-      pubkey = QString(certs[i].publicKey().toPem().toBase64());
-      email = certs[i].issuerInfo(QSslCertificate::EmailAddress).join("");
-      nickname = certs[i].issuerInfo(QSslCertificate::CommonName).join("");
-      break;
-    }
-  }
+  //for(int i=0; i<certs.length(); i++){
+    //if(certs[i].issuerInfo(QSslCertificate::Organization).contains("SysAdm-client")){
+      pubkey = QString(cert.publicKey().toPem().toBase64());
+      email = cert.issuerInfo(QSslCertificate::EmailAddress).join("");
+      nickname = cert.issuerInfo(QSslCertificate::CommonName).join("");
+      //break;
+    //}
+  //}
   if(pubkey.isEmpty()){ return; } //no cert found
+  qDebug() << " - Sent registration";
   //Now assemble the request JSON
   SSLsuccess = true; //set the internal flag to use SSL on next attempt
   QJsonObject obj;
@@ -204,7 +206,7 @@ void sysadm_client::registerCustomCert(){
     obj.insert("pub_key", pubkey);
     obj.insert("email",email);
     obj.insert("nickname",nickname);
-  this->communicate("sysadm-auto-cert-register","sysadm","settings", obj);
+  this->communicate("sysadm-auto-cert-register","rpc","settings", obj);
   
 }
 
@@ -225,6 +227,7 @@ QJsonValue sysadm_client::cachedReply(QString id){
 // === PRIVATE ===
 //Functions to do the initial socket setup
 void sysadm_client::performAuth(QString user, QString pass){
+  //qDebug() << "Start Auth:" << currentHost();
   //uses cauthkey if empty inputs
   QJsonObject obj;
   obj.insert("namespace","rpc");
@@ -233,11 +236,13 @@ void sysadm_client::performAuth(QString user, QString pass){
   //bool noauth = false;
   if(user.isEmpty() || isbridge){
     if(cauthkey.isEmpty()){
+      qDebug() << " - SSL Auth stage 1";
       //SSL Authentication (Stage 1)
       usedSSL = true;
       obj.insert("name","auth_ssl");
       obj.insert("args","");
     }else{
+      //qDebug() << " - Saved Token";
       //Saved token authentication
       obj.insert("name","auth_token");
       QJsonObject arg;
@@ -245,6 +250,7 @@ void sysadm_client::performAuth(QString user, QString pass){
       obj.insert("args", arg);
     }
   }else{
+    //qDebug() << " - User/Pass Auth";
     //User/password authentication
     obj.insert("name","auth");
     QJsonObject arg;
@@ -360,7 +366,9 @@ QString sysadm_client::pubkeyMD5(QSslConfiguration cfg){
 QString sysadm_client::SSL_Encode_String(QString str, QSslConfiguration cfg){
   //Get the private key
   QByteArray privkey = cfg.privateKey().toPem();
-  
+  //Print out the public key associated with this private key for debugging
+  //qDebug() << "Associated Public Key:" << cfg.localCertificate().publicKey().toPem();
+
     //Reset/Load some SSL stuff
     //OpenSSL_add_all_algorithms();
     //ERR_load_crypto_strings();
@@ -369,22 +377,22 @@ QString sysadm_client::SSL_Encode_String(QString str, QSslConfiguration cfg){
   RSA *rsa= NULL;
   BIO *keybio = NULL;
   keybio = BIO_new_mem_buf(privkey.data(), -1);
-  if(keybio==NULL){ return ""; }
+  if(keybio==NULL){ qDebug() << "Could not create keybio"; return ""; }
   rsa = PEM_read_bio_RSAPrivateKey(keybio, &rsa,NULL, NULL);
-  if(rsa==NULL){ BIO_free_all(keybio); return ""; }
+  if(rsa==NULL){ BIO_free_all(keybio); qDebug() << "Could not read private key"; return ""; }
   int len = RSA_private_encrypt(str.length(), (unsigned char*)(str.toLatin1().data()), encode, rsa, RSA_PKCS1_PADDING);
   RSA_free(rsa);
   BIO_free_all(keybio);
-  if(len <0){ return ""; }
+  if(len <0){ qDebug() << "Could not encrypt string"; return ""; }
   else{ 
     //Now return this as a base64 encoded string
     QByteArray str_encode( (char*)(encode), len);
-    /*qDebug() << "Encoded String Info";
-    qDebug() << " - Raw string:" << str << "Length:" << str.length();
-    qDebug() << " - Encoded string:" << str_encode << "Length:" << str_encode.length();*/
+    //qDebug() << "Encoded String Info";
+    //qDebug() << " - Raw string:" << str << "Length:" << str.length();
+    //qDebug() << " - Encoded string:" << str_encode << "Length:" << str_encode.length();
     str_encode = str_encode.toBase64();
-    /*qDebug() << " - Enc string (base64):" << str_encode << "Length:" << str_encode.length();
-    qDebug() << " - Enc string (QString):" << QString(str_encode);*/
+    //qDebug() << " - Enc string (base64):" << str_encode << "Length:" << str_encode.length();
+    //qDebug() << " - Enc string (QString):" << QString(str_encode);
     return QString( str_encode ); 
   }
 
@@ -795,8 +803,9 @@ bool sysadm_client::handleMessageInternally(message_in msg){
     //Reply to automated auth system
     if(msg.name=="error"){
       qDebug() << "Authentication error:" << chost << "Bridge:" << isbridge << "Bridge_Relay:" << msg.from_bridge_id;
+      qDebug() << " - Error Information:" << msg.args;
       if(msg.from_bridge_id.isEmpty()){
-        closeConnection();
+        QTimer::singleShot(0, this, SLOT(closeConnection()) );
         emit clientUnauthorized();
       }else{
         //Clear out the data for this bridged connection

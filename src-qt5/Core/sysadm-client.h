@@ -54,7 +54,6 @@ public:
 	void openConnection(QString authkey, QString hostIP);
 	void openConnection(QString hostIP); //uses SSL auth if possible
 	void openConnection(); //uses last valid auth settings
-	void closeConnection();
 	
 	QString currentHost();
 	bool isActive();
@@ -118,6 +117,8 @@ private:
 	QString DecodeString(QString str, QByteArray key);
 
 public slots:
+	void closeConnection();
+
 	// Overloaded Communication functions
 	// Reply from server may be obtained later from the newReply() signal
 	void communicate(QString ID, QString namesp, QString name, QJsonValue args);
