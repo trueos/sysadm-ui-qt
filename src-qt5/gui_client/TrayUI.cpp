@@ -178,7 +178,17 @@ void sysadm_tray::OpenCore(QString host, QString page){
   QString b_id = host.section("/",1,-1);
   if(!b_id.isEmpty()){ host = host.section("/",0,0); }
   if(getCore(host)->isConnecting()){ return; } //wait - still trying to connect
-  else if(!getCore(host)->isReady()){ getCore(host)->openConnection(); return; }
+  else if(!getCore(host)->isReady()){
+    if(getCore(host)->needsBaseAuth()){
+      //Need to use username/password to re-connect
+      QString user = settings->value("Hosts/"+host+"/username").toString(); //Have username already in settings
+      QString pass = QInputDialog::getText(0, host + ": "+tr("Password Required"), QString(tr("Password for %1")).arg(user), QLineEdit::Password);
+      if(!pass.isEmpty()){ getCore(host)->openConnection(user, pass, host); }
+    }else{
+      getCore(host)->openConnection();
+    }
+    return; 
+  }
   if(b_id.isEmpty() && getCore(host)->isBridge()){ return; }
   //Open a new window for this host
   sysadm_client *core = getCore(host);
