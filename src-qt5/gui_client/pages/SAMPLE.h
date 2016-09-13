@@ -30,6 +30,8 @@ public:
 	void startPage();
 		
 	QString pageID(){ return "sample"; } //ID is used to identify which type of page this is
+
+public slots:
 	void ParseReply(QString, QString, QString, QJsonValue);
 	void ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue);
 
