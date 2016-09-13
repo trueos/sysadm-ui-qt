@@ -457,7 +457,7 @@ File Location: %1</source>
     <message>
         <location filename="../MenuItem.cpp" line="427"></location>
         <source>Close SysAdm Client</source>
-        <translation>Закрыть SysAdm клиент </translation>
+        <translation>Закрыть SysAdm клиент</translation>
     </message>
 </context>
 <context>
@@ -470,7 +470,7 @@ File Location: %1</source>
     <message>
         <location filename="../NewConnectionWizard.ui" line="24"></location>
         <source>Connect to a Remote System </source>
-        <translation>Подключение к удаленной системе</translation>
+        <translation>Подключение к удаленной системе </translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="33"></location>
@@ -563,7 +563,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/control_panel.cpp" line="85"></location>
         <source>SysAdm Server Settings</source>
-        <translation>Настройки сервера SysAdm </translation>
+        <translation>Настройки сервера SysAdm</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="88"></location>
@@ -613,12 +613,12 @@ File Location: %1</source>
     <message>
         <location filename="../pages/getPage.h" line="31"></location>
         <source>SSL Key Manager</source>
-        <translation>Менеджер ключей SSL </translation>
+        <translation>Менеджер ключей SSL</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"></location>
         <source>List and Revoke SSL key registrations</source>
-        <translation>Показать и аннулировать ключ регистрации SSL </translation>
+        <translation>Показать и аннулировать ключ регистрации SSL</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="32"></location>
@@ -724,7 +724,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_about.cpp" line="27"></location>
         <source>About PC-BSD</source>
-        <translation>О PC-BSD </translation>
+        <translation>О PC-BSD</translation>
     </message>
 </context>
 <context>
@@ -816,7 +816,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="231"></location>
         <source>ISO Fetch:</source>
-        <translation>Выбрать ISO: </translation>
+        <translation>Выбрать ISO:</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="231"></location>
@@ -836,7 +836,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="248"></location>
         <source>Rename ISO</source>
-        <translation>Переименовать ISO </translation>
+        <translation>Переименовать ISO</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="248"></location>
@@ -919,12 +919,12 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_iohyve.ui" line="233"></location>
         <source>Manage ISOs</source>
-        <translation>Управление ISOs </translation>
+        <translation>Управление ISOs</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="241"></location>
         <source>Fetch ISO</source>
-        <translation>Выбрать ISO </translation>
+        <translation>Выбрать ISO</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="265"></location>
@@ -942,107 +942,107 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.cpp" line="49"></location>
         <source>Sync with snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Синхронизация со снимком</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="50"></location>
         <location filename="../pages/page_lp.cpp" line="57"></location>
         <location filename="../pages/page_lp.cpp" line="64"></location>
         <source>Daily</source>
-        <translation type="unfinished"></translation>
+        <translation>Ежедневно</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="51"></location>
         <location filename="../pages/page_lp.cpp" line="58"></location>
         <source>Hourly</source>
-        <translation type="unfinished"></translation>
+        <translation>Почасовая</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="52"></location>
         <location filename="../pages/page_lp.cpp" line="59"></location>
         <source>30 Minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>30 минут </translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="53"></location>
         <location filename="../pages/page_lp.cpp" line="60"></location>
         <source>10 Minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>10 минут</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="54"></location>
         <source>Manual Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Только вручную</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="61"></location>
         <source>5 Minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>5 минут</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="65"></location>
         <source>Weekly</source>
-        <translation type="unfinished"></translation>
+        <translation>Еженедельно</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="66"></location>
         <source>Monthly</source>
-        <translation type="unfinished"></translation>
+        <translation>Ежемесячно</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="69"></location>
         <source>Sunday</source>
-        <translation type="unfinished"></translation>
+        <translation>Воскресенье</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="70"></location>
         <source>Monday</source>
-        <translation type="unfinished"></translation>
+        <translation>Понедельник</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="71"></location>
         <source>Tuesday</source>
-        <translation type="unfinished"></translation>
+        <translation>Вторник</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="72"></location>
         <source>Wednesday</source>
-        <translation type="unfinished"></translation>
+        <translation>Среда</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="73"></location>
         <source>Thursday</source>
-        <translation type="unfinished"></translation>
+        <translation>Четверг</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="74"></location>
         <source>Friday</source>
-        <translation type="unfinished"></translation>
+        <translation>Пятница</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="75"></location>
         <source>Saturday</source>
-        <translation type="unfinished"></translation>
+        <translation>Суббота</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="90"></location>
         <source>Life Preserver</source>
-        <translation type="unfinished"></translation>
+        <translation>Life Preserver</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="266"></location>
         <source>Create Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать снимок</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="266"></location>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="266"></location>
         <source>NewSnap</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый снимок</translation>
     </message>
 </context>
 <context>
@@ -1050,98 +1050,98 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="14"></location>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="43"></location>
         <source>Snapshots</source>
-        <translation type="unfinished"></translation>
+        <translation>Снимки</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="51"></location>
         <source>ZFS Pool</source>
-        <translation type="unfinished"></translation>
+        <translation>Пул ZFS</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="90"></location>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="95"></location>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Комментарий</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="105"></location>
         <source>Create</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="119"></location>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="135"></location>
         <source>Revert to Selected Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Вернуть к выбранному снимку</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="156"></location>
         <location filename="../pages/page_lp.ui" line="159"></location>
         <source>Reverts the selected dataset to match the selected snapshot (DESTRUCTIVE).</source>
-        <translation type="unfinished"></translation>
+        <translation>Вернуть выбранный набор данных к соответствию с выбранным снимком (РАЗРУШАЮЩИЙ).</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="165"></location>
         <source>Revert</source>
-        <translation type="unfinished"></translation>
+        <translation>Вернуть</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="190"></location>
         <source>Replication</source>
-        <translation type="unfinished"></translation>
+        <translation>Репликация</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="203"></location>
         <source>Dataset</source>
-        <translation type="unfinished"></translation>
+        <translation>Набор данных</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="208"></location>
         <source>Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Хост</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="213"></location>
         <source>Remote Dataset</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить набор данных</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="218"></location>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Порт</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="223"></location>
         <source>Frequency</source>
-        <translation type="unfinished"></translation>
+        <translation>Частота</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="228"></location>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="238"></location>
         <source>Create a new replication</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать новую репликацию</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="252"></location>
         <source>Remove a replication</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить репликацию </translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="255"></location>
@@ -1152,233 +1152,233 @@ File Location: %1</source>
         <location filename="../pages/page_lp.ui" line="676"></location>
         <location filename="../pages/page_lp.ui" line="690"></location>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="266"></location>
         <source>Modify selected replication</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить выбранную репликацию</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="293"></location>
         <source>Start replication task</source>
-        <translation type="unfinished"></translation>
+        <translation>Запустить задачу репликации</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="296"></location>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Запуск</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="310"></location>
         <source>Re-initialize replication target (remote data will be lost)</source>
-        <translation type="unfinished"></translation>
+        <translation>Переинициализация целевой репликации (удаленные данные будут потеряны)</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="313"></location>
         <source>Initialize</source>
-        <translation type="unfinished"></translation>
+        <translation>Инициализация</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="329"></location>
         <source>Setup Replication</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка репликации</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="355"></location>
         <source>Host IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP хоста:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="365"></location>
         <source>SSH Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Порт SSH: </translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="372"></location>
         <source>Dataset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Набор данных:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="395"></location>
         <location filename="../pages/page_lp.ui" line="760"></location>
         <location filename="../pages/page_lp.ui" line="848"></location>
         <source>Frequency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Частота:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="407"></location>
         <location filename="../pages/page_lp.ui" line="772"></location>
         <location filename="../pages/page_lp.ui" line="879"></location>
         <source>:00</source>
-        <translation type="unfinished"></translation>
+        <translation>:00</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="410"></location>
         <location filename="../pages/page_lp.ui" line="775"></location>
         <location filename="../pages/page_lp.ui" line="882"></location>
         <source>@ </source>
-        <translation type="unfinished"></translation>
+        <translation>@</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="432"></location>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="442"></location>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="456"></location>
         <source>Local DS:</source>
-        <translation type="unfinished"></translation>
+        <translation>Локальный набор данных:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="481"></location>
         <location filename="../pages/page_lp.ui" line="805"></location>
         <location filename="../pages/page_lp.ui" line="912"></location>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="492"></location>
         <location filename="../pages/page_lp.ui" line="816"></location>
         <location filename="../pages/page_lp.ui" line="923"></location>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="515"></location>
         <source>Schedules</source>
-        <translation type="unfinished"></translation>
+        <translation>Расписания</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="528"></location>
         <source>ZPool</source>
-        <translation type="unfinished"></translation>
+        <translation>ZPool</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="533"></location>
         <source>Snapshots to Keep</source>
-        <translation type="unfinished"></translation>
+        <translation>Снимки для сохранения</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="538"></location>
         <source>Snapshot Schedule</source>
-        <translation type="unfinished"></translation>
+        <translation>Расписание снимка</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="543"></location>
         <source>Scrub Schedule</source>
-        <translation type="unfinished"></translation>
+        <translation>Расписание чистки</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="577"></location>
         <source>Add snapshot to schedule</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить снимок в расписание</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="591"></location>
         <source>Modify the selected snapshot schedule</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить расписание выбранного снимка</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="605"></location>
         <source>Remove snapshot from schedule</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить снимок из расписания</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="659"></location>
         <source>Add ZFS scrub to schedule</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить чистку ZFS в расписание</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="673"></location>
         <source>Modify the selected scrub schedule</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить расписание выбранной чистки</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="687"></location>
         <source>Remove scheduled scrub</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить запланированную чистку</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="706"></location>
         <source>Setup Snapshot Schedule</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка расписания снимка</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="746"></location>
         <location filename="../pages/page_lp.ui" line="838"></location>
         <source>ZPool:</source>
-        <translation type="unfinished"></translation>
+        <translation>ZPool:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="753"></location>
         <source>Snapshots to keep:</source>
-        <translation type="unfinished"></translation>
+        <translation>Снимки для сохранения:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="832"></location>
         <source>Setup Scrub Schedule</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка расписания чистки</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="863"></location>
         <source>Date: </source>
-        <translation type="unfinished"></translation>
+        <translation>Дата:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="944"></location>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="950"></location>
         <source>Disk Usage Warning:</source>
-        <translation type="unfinished"></translation>
+        <translation>Предупреждение используемого диска:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="957"></location>
         <source> % Full</source>
-        <translation type="unfinished"></translation>
+        <translation> % заполненности</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="967"></location>
         <source>Email:</source>
-        <translation type="unfinished"></translation>
+        <translation>Email:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="974"></location>
         <source>Email Trigger:</source>
-        <translation type="unfinished"></translation>
+        <translation>Email триггер:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="985"></location>
         <source>ALL</source>
-        <translation type="unfinished"></translation>
+        <translation>ВСЕ</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="990"></location>
         <source>WARN</source>
-        <translation type="unfinished"></translation>
+        <translation>ПРЕДУПРЕЖДЕНИЕ</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="995"></location>
         <source>ERROR</source>
-        <translation type="unfinished"></translation>
+        <translation>ОШИБКА</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="1003"></location>
         <source>Recursive Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Рекурсивный управление</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="1010"></location>
         <source>Save Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить настройки</translation>
     </message>
 </context>
 <context>
