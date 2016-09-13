@@ -54,7 +54,7 @@
     <message>
         <location filename="../C_Manager.ui" line="181"></location>
         <source>Export Connections</source>
-        <translation>Экспортировать соединения </translation>
+        <translation>Экспорт соединений</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="218"></location>
@@ -196,7 +196,7 @@ p, li { white-space: pre-wrap; }
         <source>SysAdm settings export successful.
 File Location: %1</source>
         <translation>Экспорт настроек SysAdm успешен.
-Расположение файла: %1 </translation>
+Расположение файла: %1</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="442"></location>
@@ -218,7 +218,7 @@ File Location: %1</source>
         <location filename="../C_Manager.cpp" line="516"></location>
         <location filename="../C_Manager.cpp" line="518"></location>
         <source>SSL Passphrase</source>
-        <translation>Кодовая фраза SSL </translation>
+        <translation>Кодовая фраза SSL</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="514"></location>
@@ -243,7 +243,7 @@ File Location: %1</source>
     <message>
         <location filename="../C_Manager.cpp" line="537"></location>
         <source>SysAdm settings (*.export)</source>
-        <translation>Настройки SysAdm (*.export) </translation>
+        <translation>Настройки SysAdm (*.export)</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="542"></location>
@@ -442,22 +442,22 @@ File Location: %1</source>
     <message>
         <location filename="../MenuItem.cpp" line="405"></location>
         <source>Unlock Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Разблокировать соединения</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="416"></location>
         <source>Manage Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление соединениями</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="419"></location>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="427"></location>
         <source>Close SysAdm Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть SysAdm клиент </translation>
     </message>
 </context>
 <context>
@@ -465,77 +465,77 @@ File Location: %1</source>
     <message>
         <location filename="../NewConnectionWizard.ui" line="14"></location>
         <source>SysAdm connection setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка SysAdm соединения</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="24"></location>
         <source>Connect to a Remote System </source>
-        <translation type="unfinished"></translation>
+        <translation>Подключение к удаленной системе</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="33"></location>
         <source>Host IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP хоста:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="47"></location>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="54"></location>
         <source>myuser</source>
-        <translation type="unfinished"></translation>
+        <translation>myuser</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="61"></location>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="71"></location>
         <source>(initial test only)</source>
-        <translation type="unfinished"></translation>
+        <translation>(только первичный тест)</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="93"></location>
         <source>Test Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки тестирования</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="133"></location>
         <source>Server Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Подключение сервера</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="143"></location>
         <source>Bridge Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>Смена моста</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="183"></location>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Закончено</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="194"></location>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="52"></location>
         <source>Host Valid</source>
-        <translation type="unfinished"></translation>
+        <translation>Верный хост</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="55"></location>
         <source>Test Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Успешный тест</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="82"></location>
         <source>Host Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Неверный хост</translation>
     </message>
 </context>
 <context>
@@ -543,152 +543,152 @@ File Location: %1</source>
     <message>
         <location filename="../pages/control_panel.cpp" line="74"></location>
         <source>Application Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление приложением</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="76"></location>
         <source>App Management Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Статус управления приложением</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="79"></location>
         <source>System Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление системой</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="82"></location>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Соединение</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="85"></location>
         <source>SysAdm Server Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки сервера SysAdm </translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="88"></location>
         <source>Utilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Утилиты</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="28"></location>
         <source>Boot Environment Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер загрузки среды</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="28"></location>
         <source>Manage operating system snapshots</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление снимками операционной системы</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="29"></location>
         <source>Task Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Диспетчер задач</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="29"></location>
         <source>Monitor system tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Монитор системы задач</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="30"></location>
         <source>iohyve</source>
-        <translation type="unfinished"></translation>
+        <translation>iohyve</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="30"></location>
         <source>iohyve VM Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер виртуальных машин iohyve</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="30"></location>
         <source>Manage virtual OS instances</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление экземплярами виртуальных ОС</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"></location>
         <source>Manage SSL Keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление ключами SSL</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"></location>
         <source>SSL Key Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер ключей SSL </translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"></location>
         <source>List and Revoke SSL key registrations</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать и аннулировать ключ регистрации SSL </translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="32"></location>
         <source>About TrueOS</source>
-        <translation type="unfinished"></translation>
+        <translation>О TrueOS</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="32"></location>
         <source>More information on TrueOS</source>
-        <translation type="unfinished"></translation>
+        <translation>Более подробная информация о TrueOS</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="33"></location>
         <source>Life Preserver</source>
-        <translation type="unfinished"></translation>
+        <translation>Life Preserver</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="33"></location>
         <source>Manage Local and Remote Backups</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление локальным и удаленным резервным копированием</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="34"></location>
         <source>System Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер системы</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="34"></location>
         <source>Information About the System</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о системе</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="35"></location>
         <source>Update Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер обновлений</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="35"></location>
         <source>Perform Updates on the System</source>
-        <translation type="unfinished"></translation>
+        <translation>Выполнение обновления системы</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="36"></location>
         <source>AppCafe</source>
-        <translation type="unfinished"></translation>
+        <translation>AppCafe</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="36"></location>
         <source>Manage Applications/Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление приложениями/пакетами</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="37"></location>
         <source>User Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер пользователей</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="37"></location>
         <source>Manage Users/Groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление пользователями/группами</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="38"></location>
         <source>Service Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер сервисов</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="38"></location>
         <source>Manage Services</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление сервисами</translation>
     </message>
 </context>
 <context>
@@ -696,27 +696,27 @@ File Location: %1</source>
     <message>
         <location filename="../SettingsDialog.ui" line="14"></location>
         <source>sysadm: Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>SysAdm: Настройки</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="35"></location>
         <source>Interface Style:</source>
-        <translation type="unfinished"></translation>
+        <translation>Стиль интерфейса:</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="47"></location>
         <source>Use Custom Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать пользовательский шрифт</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="130"></location>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Закончено</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.cpp" line="45"></location>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Ничего</translation>
     </message>
 </context>
 <context>
@@ -724,7 +724,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_about.cpp" line="27"></location>
         <source>About PC-BSD</source>
-        <translation type="unfinished"></translation>
+        <translation>О PC-BSD </translation>
     </message>
 </context>
 <context>
@@ -732,65 +732,65 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_beadm.cpp" line="27"></location>
         <source>Boot-Up Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Конфигурация загрузчика</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="96"></location>
         <location filename="../pages/page_beadm.cpp" line="112"></location>
         <source>New Boot Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Новая загрузочная среда</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="96"></location>
         <location filename="../pages/page_beadm.cpp" line="112"></location>
         <location filename="../pages/page_beadm.cpp" line="138"></location>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя:</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="105"></location>
         <source>Creating Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Создание загрузочной среды...</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="121"></location>
         <source>Cloning Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Клонирование загрузочной среды...</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="131"></location>
         <source>Deleting Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Удаление загрузочной среды...</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="138"></location>
         <source>Rename Boot Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать загрузочную среду</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="147"></location>
         <source>Renaming Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименование загрузочной среды...</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="158"></location>
         <source>Mounting Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Монтирование загрузочной среды...</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="168"></location>
         <source>Unmounting Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Размонтирование загрузочной среды...</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="179"></location>
         <source>Activating Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Активирование загрузочной среды...</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="186"></location>
         <source>Retrieving List...</source>
-        <translation type="unfinished"></translation>
+        <translation>Получение списка...</translation>
     </message>
 </context>
 <context>
@@ -798,7 +798,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/control_panel.cpp" line="49"></location>
         <source>Control Panel</source>
-        <translation type="unfinished"></translation>
+        <translation>Панель управления</translation>
     </message>
 </context>
 <context>
@@ -806,42 +806,42 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="45"></location>
         <source>iohyve VMs</source>
-        <translation type="unfinished"></translation>
+        <translation>iohyve VMs</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="165"></location>
         <source>%1 (%2, %3)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 (%2, %3)</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="231"></location>
         <source>ISO Fetch:</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать ISO: </translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="231"></location>
         <source>URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>URL:</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="235"></location>
         <source>Invalid URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Неверный URL</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="235"></location>
         <source>Invalid ISO URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Неверный ISO URL</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="248"></location>
         <source>Rename ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать ISO </translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="248"></location>
         <source>New Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Новое имя:</translation>
     </message>
 </context>
 <context>
@@ -849,92 +849,92 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_iohyve.ui" line="14"></location>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>iohyve</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="39"></location>
         <source>Initial Setup Required</source>
-        <translation type="unfinished"></translation>
+        <translation>Первоначальная необходимая настройка</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="50"></location>
         <source>ZFS Pool:</source>
-        <translation type="unfinished"></translation>
+        <translation>Пул ZFS:</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="57"></location>
         <source>Network Interface:</source>
-        <translation type="unfinished"></translation>
+        <translation>Сетевой интерфейс:</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="87"></location>
         <source>Initialize iohyve</source>
-        <translation type="unfinished"></translation>
+        <translation>Инициализировать iohyve</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="137"></location>
         <source>Manage VMs</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление VMs</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="145"></location>
         <source>Start VM</source>
-        <translation type="unfinished"></translation>
+        <translation>Старт VM</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="156"></location>
         <source>Stop VM</source>
-        <translation type="unfinished"></translation>
+        <translation>Стоп VM</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="180"></location>
         <source>Create VM</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать VM</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="200"></location>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="205"></location>
         <source>VMM</source>
-        <translation type="unfinished"></translation>
+        <translation>VMM</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="210"></location>
         <source>Running</source>
-        <translation type="unfinished"></translation>
+        <translation>Работающий</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="215"></location>
         <source>rcboot</source>
-        <translation type="unfinished"></translation>
+        <translation>rcboot</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="220"></location>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="233"></location>
         <source>Manage ISOs</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление ISOs </translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="241"></location>
         <source>Fetch ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать ISO </translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="265"></location>
         <source>Rename ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать ISO</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="276"></location>
         <source>Remove ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить ISO</translation>
     </message>
 </context>
 <context>
