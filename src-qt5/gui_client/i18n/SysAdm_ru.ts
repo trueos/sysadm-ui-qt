@@ -961,7 +961,7 @@ File Location: %1</source>
         <location filename="../pages/page_lp.cpp" line="52"></location>
         <location filename="../pages/page_lp.cpp" line="59"></location>
         <source>30 Minutes</source>
-        <translation>30 минут </translation>
+        <translation>30 минут</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="53"></location>
@@ -1141,7 +1141,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="252"></location>
         <source>Remove a replication</source>
-        <translation>Удалить репликацию </translation>
+        <translation>Удалить репликацию</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="255"></location>
@@ -1192,7 +1192,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="365"></location>
         <source>SSH Port:</source>
-        <translation>Порт SSH: </translation>
+        <translation>Порт SSH:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="372"></location>
@@ -1218,7 +1218,7 @@ File Location: %1</source>
         <location filename="../pages/page_lp.ui" line="775"></location>
         <location filename="../pages/page_lp.ui" line="882"></location>
         <source>@ </source>
-        <translation>@</translation>
+        <translation>@ </translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="432"></location>
@@ -1328,7 +1328,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="863"></location>
         <source>Date: </source>
-        <translation>Дата:</translation>
+        <translation>Дата: </translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="944"></location>
@@ -1386,18 +1386,18 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_about.ui" line="14"></location>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="49"></location>
         <source>Package set:</source>
-        <translation type="unfinished"></translation>
+        <translation>Комплект поставки:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="171"></location>
         <location filename="../pages/page_about.ui" line="274"></location>
         <source>Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="178"></location>
@@ -1410,98 +1410,98 @@ File Location: %1</source>
         <location filename="../pages/page_about.ui" line="557"></location>
         <location filename="../pages/page_about.ui" line="597"></location>
         <source>&lt;Unknown&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Неизвестный&gt;</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="226"></location>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть[&amp;C]</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="262"></location>
         <source>FreeBSD base</source>
-        <translation type="unfinished"></translation>
+        <translation>База FreeBSD</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="297"></location>
         <source>Arch:</source>
-        <translation type="unfinished"></translation>
+        <translation>Arch:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="320"></location>
         <source>ident</source>
-        <translation type="unfinished"></translation>
+        <translation>ident</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="340"></location>
         <source>Software and system components...</source>
-        <translation type="unfinished"></translation>
+        <translation>Программное обеспечение и системные компоненты...</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="347"></location>
         <source>Hardware</source>
-        <translation type="unfinished"></translation>
+        <translation>Аппаратные средства</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="359"></location>
         <source>CPU:</source>
-        <translation type="unfinished"></translation>
+        <translation>CPU:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="382"></location>
         <source>Mem.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mem.</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="408"></location>
         <location filename="../pages/page_about.ui" line="480"></location>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Назад</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="432"></location>
         <source>Desktop environments:</source>
-        <translation type="unfinished"></translation>
+        <translation>Окружение рабочего стола:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="439"></location>
         <source>(Please wait...)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Пожалуйста, подождите...)</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="455"></location>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="466"></location>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="510"></location>
         <source>X.org server version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия X.org server: </translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="550"></location>
         <source>PC-BSD CLI utilities:</source>
-        <translation type="unfinished"></translation>
+        <translation>PC-BSD CLI утилиты:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="590"></location>
         <source>PC-BSD UI utilities:</source>
-        <translation type="unfinished"></translation>
+        <translation>PC-BSD UI утилиты:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="667"></location>
         <source>Host:</source>
-        <translation type="unfinished"></translation>
+        <translation>Хост:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="674"></location>
         <source>????</source>
-        <translation type="unfinished"></translation>
+        <translation>????</translation>
     </message>
 </context>
 <context>
@@ -1509,72 +1509,72 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_beadm.ui" line="14"></location>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="48"></location>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="53"></location>
         <source>Nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>Псевдоним</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="58"></location>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Активный</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="63"></location>
         <source>Space</source>
-        <translation type="unfinished"></translation>
+        <translation>Место</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="68"></location>
         <source>Mountpoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Точка монтирования</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="73"></location>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата </translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="83"></location>
         <source>Create BE</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать BE</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="94"></location>
         <source>cloneBE</source>
-        <translation type="unfinished"></translation>
+        <translation>Клонировать BE</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="105"></location>
         <source>Delete BE</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить BE</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="116"></location>
         <source>Rename BE</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать BE</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="127"></location>
         <source>Mount BE</source>
-        <translation type="unfinished"></translation>
+        <translation>Монтировать BE</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="138"></location>
         <source>Unmount BE</source>
-        <translation type="unfinished"></translation>
+        <translation>Размонтировать BE</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="149"></location>
         <source>Activate BE</source>
-        <translation type="unfinished"></translation>
+        <translation>Активировать BE</translation>
     </message>
 </context>
 <context>
@@ -1582,17 +1582,17 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_ssl_auth.ui" line="14"></location>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="../pages/page_ssl_auth.ui" line="70"></location>
         <source>Certificate Details:</source>
-        <translation type="unfinished"></translation>
+        <translation>Детали сертификата:</translation>
     </message>
     <message>
         <location filename="../pages/page_ssl_auth.ui" line="107"></location>
         <source>Revoke Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Отозвать сертификат</translation>
     </message>
 </context>
 <context>
