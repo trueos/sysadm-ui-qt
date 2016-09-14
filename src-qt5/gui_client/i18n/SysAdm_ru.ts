@@ -1481,7 +1481,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_about.ui" line="510"></location>
         <source>X.org server version:</source>
-        <translation>Версия X.org server: </translation>
+        <translation>Версия X.org сервера:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="550"></location>
@@ -1539,7 +1539,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_beadm.ui" line="73"></location>
         <source>Date</source>
-        <translation>Дата </translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.ui" line="83"></location>
@@ -1600,112 +1600,112 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_system.ui" line="14"></location>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="30"></location>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Общие</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="65"></location>
         <source>You may also generate a diagnostic sheet, with information about your system. This sheet can be used by technicians for troubleshooting purposes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы также можете создать диагностический лист с информацией о вашей системе. Этот лист может быть использован техническими специалистами для устранения неполадок.</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="96"></location>
         <source>&amp;Generate</source>
-        <translation type="unfinished"></translation>
+        <translation>Сгенерировать[&amp;G]</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="137"></location>
         <source>PC-BSD Versions</source>
-        <translation type="unfinished"></translation>
+        <translation>Версии PC-BSD</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="161"></location>
         <source>Base:</source>
-        <translation type="unfinished"></translation>
+        <translation>База:</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="171"></location>
         <source>Backend Utilities:</source>
-        <translation type="unfinished"></translation>
+        <translation>Backend утилиты:</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="195"></location>
         <source>Graphical Utilities:</source>
-        <translation type="unfinished"></translation>
+        <translation>Графические утилиты:</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="304"></location>
         <source>System Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о системе</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="343"></location>
         <source>FreeBSD Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия FreeBSD:</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="381"></location>
         <source>CPU Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>CPU Type:</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="425"></location>
         <source>System Memory:</source>
-        <translation type="unfinished"></translation>
+        <translation>Системная память:</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="479"></location>
         <source>Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Задачи</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="485"></location>
         <source>System Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Системные задачи</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="493"></location>
         <source>Fetch PC-BSD &amp;System Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Получить исходный код PC-BSD [&amp;S]</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="496"></location>
         <source>Alt+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+S</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="520"></location>
         <source>Fetch PC-BSD P&amp;orts Tree</source>
-        <translation type="unfinished"></translation>
+        <translation>Получить дерево портов PC-BSD [&amp;o]</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="559"></location>
         <source>Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Разное</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="581"></location>
         <source>&amp;Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Применить[&amp;A]</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="601"></location>
         <source>Other Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Другие опции</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="607"></location>
         <source>Force IBUS keyboard input</source>
-        <translation type="unfinished"></translation>
+        <translation>Принудительный ввод IBUS клавиатуры</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="643"></location>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть</translation>
     </message>
 </context>
 <context>
@@ -2264,227 +2264,227 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_pkg.ui" line="14"></location>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="43"></location>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Смотреть</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="85"></location>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Назад</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="135"></location>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Поиск</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="142"></location>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="186"></location>
         <source>Home Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Домашняя страница</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="206"></location>
         <source>Browse Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Обзор категории</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="263"></location>
         <source>Currently Browsing:</source>
-        <translation type="unfinished"></translation>
+        <translation>В данный момент просматриваем:</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="339"></location>
         <source>Search Results:</source>
-        <translation type="unfinished"></translation>
+        <translation>Результаты поиска:</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="496"></location>
         <source>Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Установить</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="516"></location>
         <source>Uninstall</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="615"></location>
         <source>Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия:</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="629"></location>
         <source>Maintainer:</source>
-        <translation type="unfinished"></translation>
+        <translation>Сопровождающий:</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="643"></location>
         <source>Architecture:</source>
-        <translation type="unfinished"></translation>
+        <translation>Архитектура:</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="657"></location>
         <source>OS Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия ОС:</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="681"></location>
         <source>License:</source>
-        <translation type="unfinished"></translation>
+        <translation>Лицензия:</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="695"></location>
         <source>Install Size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер после установки:</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="709"></location>
         <source>Download Size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер загружаемого файла:</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="960"></location>
         <source>Installed</source>
-        <translation type="unfinished"></translation>
+        <translation>Установлен</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="980"></location>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Все</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="987"></location>
         <location filename="../pages/page_pkg.ui" line="990"></location>
         <source>Uninstall Selected Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Удаление выбранных пакетов</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="993"></location>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1007"></location>
         <location filename="../pages/page_pkg.ui" line="1010"></location>
         <source>Lock Selected Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Заблокировать выбранные пакеты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1013"></location>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Заблокировать</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1027"></location>
         <location filename="../pages/page_pkg.ui" line="1030"></location>
         <source>Unlock Selected Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Разаблокировать выбранные пакеты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1033"></location>
         <source>Unlock</source>
-        <translation type="unfinished"></translation>
+        <translation>Разаблокировать</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1060"></location>
         <source>Automatically remove any orphaned packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматическое удаление осиротевших пакетов</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1063"></location>
         <source>Clean</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистка</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1080"></location>
         <location filename="../pages/page_pkg.ui" line="1083"></location>
         <source>Upgrade All Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновление всех пакетов</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1086"></location>
         <source>Upgrade</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновление</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1116"></location>
         <source>Adjust View Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Установить параметры просмотра</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1119"></location>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметры</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1149"></location>
         <source>Loading Package List...</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка списка пакетов...</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1181"></location>
         <location filename="../pages/page_pkg.ui" line="1245"></location>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Состояние</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1186"></location>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1191"></location>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1196"></location>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1201"></location>
         <source>Category</source>
-        <translation type="unfinished"></translation>
+        <translation>Категория</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1214"></location>
         <source>Pending</source>
-        <translation type="unfinished"></translation>
+        <translation>Ожидаемый</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1250"></location>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Активный</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1255"></location>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Детали</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1260"></location>
         <source>Time Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Время начала</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1265"></location>
         <source>Time Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Время окончания</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1273"></location>
         <source>View Process Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Просмотреть статистику процесса</translation>
     </message>
 </context>
 <context>
@@ -2492,7 +2492,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_services.cpp" line="34"></location>
         <source>Service Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер сервисов</translation>
     </message>
 </context>
 <context>
@@ -2500,57 +2500,57 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_services.ui" line="14"></location>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="22"></location>
         <source>Start the selected service</source>
-        <translation type="unfinished"></translation>
+        <translation>Запустить выбранную службу</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="36"></location>
         <source>Stop the selected service</source>
-        <translation type="unfinished"></translation>
+        <translation>Завершить выбранную службу</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="50"></location>
         <source>Restart the selected service</source>
-        <translation type="unfinished"></translation>
+        <translation>Перезапустить выбранную службу</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="77"></location>
         <source>Enable automatic start on boot</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить автозапуск при загрузке</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="91"></location>
         <source>Disable automatic start on boot</source>
-        <translation type="unfinished"></translation>
+        <translation>Выключить автозапуск при загрузке</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="114"></location>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="119"></location>
         <source>Running</source>
-        <translation type="unfinished"></translation>
+        <translation>Работающий</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="124"></location>
         <source>Start on Boot</source>
-        <translation type="unfinished"></translation>
+        <translation>Запуск при загрузке </translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="129"></location>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="145"></location>
         <source>Syncing Service Information....</source>
-        <translation type="unfinished"></translation>
+        <translation>Синхронизация службы информации....</translation>
     </message>
 </context>
 <context>
@@ -2558,12 +2558,12 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_ssl_auth.cpp" line="26"></location>
         <source>SSL Key Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер ключей SSL</translation>
     </message>
     <message>
         <location filename="../pages/page_ssl_auth.cpp" line="66"></location>
         <source>SSL Certificate %1</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL сертификат %1</translation>
     </message>
 </context>
 <context>
@@ -2571,22 +2571,22 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../TrayUI.cpp" line="36"></location>
         <source>Hide all messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрыть все сообщения</translation>
     </message>
     <message>
         <location filename="../TrayUI.cpp" line="187"></location>
         <source>Password Required</source>
-        <translation type="unfinished"></translation>
+        <translation>Требуется пароль</translation>
     </message>
     <message>
         <location filename="../TrayUI.cpp" line="187"></location>
         <source>Password for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль для %1</translation>
     </message>
     <message>
         <location filename="../TrayUI.cpp" line="299"></location>
         <source>Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Сообщения</translation>
     </message>
 </context>
 <context>
@@ -2594,7 +2594,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_system.cpp" line="26"></location>
         <source>System Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер системы</translation>
     </message>
 </context>
 <context>
