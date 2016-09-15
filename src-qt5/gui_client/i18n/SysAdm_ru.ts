@@ -2540,7 +2540,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_services.ui" line="124"></location>
         <source>Start on Boot</source>
-        <translation>Запуск при загрузке </translation>
+        <translation>Запуск при загрузке</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="129"></location>
@@ -2602,52 +2602,52 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_taskmanager.cpp" line="32"></location>
         <source>Task Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Диспетчер задач</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.cpp" line="179"></location>
         <source>Memory Stats (MB)</source>
-        <translation type="unfinished"></translation>
+        <translation>Статистика памяти (Мб)</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.cpp" line="180"></location>
         <source> - Total: %1</source>
-        <translation type="unfinished"></translation>
+        <translation> - Всего: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.cpp" line="184"></location>
         <source> - Wired: %1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation> - Примонтировано: %1 (%2)</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.cpp" line="192"></location>
         <source> - Active: %1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation> - Активно: %1 (%2)</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.cpp" line="199"></location>
         <source> - Cache: %1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation> - Кэш: %1 (%2)</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.cpp" line="203"></location>
         <source>Total Memory: %1 MB,   Used: %2%</source>
-        <translation type="unfinished"></translation>
+        <translation>Всего памяти: %1 Мб,   Использовано: %2%</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.cpp" line="207"></location>
         <source> - Inactive: %1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation> - Неактивно: %1 (%2)</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.cpp" line="211"></location>
         <source> - Free: %1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation> - Свободно: %1 (%2)</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.cpp" line="256"></location>
         <source>CPU %1: %2%</source>
-        <translation type="unfinished"></translation>
+        <translation>CPU %1: %2%</translation>
     </message>
 </context>
 <context>
@@ -2655,88 +2655,88 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_taskmanager.ui" line="14"></location>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="20"></location>
         <source>Running Programs</source>
-        <translation type="unfinished"></translation>
+        <translation>Запущенные программы</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="33"></location>
         <source>PID</source>
-        <translation type="unfinished"></translation>
+        <translation>PID</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="38"></location>
         <location filename="../pages/page_taskmanager.ui" line="88"></location>
         <source>USER</source>
-        <translation type="unfinished"></translation>
+        <translation>USER</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="43"></location>
         <source>THR</source>
-        <translation type="unfinished"></translation>
+        <translation>THR</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="48"></location>
         <source>PRI</source>
-        <translation type="unfinished"></translation>
+        <translation>PRI</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="53"></location>
         <source>NICE</source>
-        <translation type="unfinished"></translation>
+        <translation>NICE</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="58"></location>
         <source>SIZE</source>
-        <translation type="unfinished"></translation>
+        <translation>SIZE</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="63"></location>
         <source>RES</source>
-        <translation type="unfinished"></translation>
+        <translation>RES</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="68"></location>
         <source>STATE</source>
-        <translation type="unfinished"></translation>
+        <translation>STATE</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="73"></location>
         <source>C</source>
-        <translation type="unfinished"></translation>
+        <translation>C</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="78"></location>
         <source>TIME</source>
-        <translation type="unfinished"></translation>
+        <translation>TIME</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="83"></location>
         <source>WCPU</source>
-        <translation type="unfinished"></translation>
+        <translation>WCPU</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="98"></location>
         <source>Kill Selected Process</source>
-        <translation type="unfinished"></translation>
+        <translation>Убить выбранный процесс</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="127"></location>
         <source>Resource Usage</source>
-        <translation type="unfinished"></translation>
+        <translation>Ресурсов используется</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="139"></location>
         <source>Memory Usage:</source>
-        <translation type="unfinished"></translation>
+        <translation>Памяти используется:</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="156"></location>
         <source>CPU Usage:</source>
-        <translation type="unfinished"></translation>
+        <translation>CPU используется:</translation>
     </message>
 </context>
 <context>
@@ -2744,59 +2744,59 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_updates.cpp" line="39"></location>
         <source>Update Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер обновлений</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="75"></location>
         <source>Latest Check: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Последняя проверка: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="101"></location>
         <source>FreeBSD Security Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновления безопасности FreeBSD</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="107"></location>
         <source>Major OS Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Основные обновления ОС</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="119"></location>
         <location filename="../pages/page_updates.cpp" line="120"></location>
         <location filename="../pages/page_updates.cpp" line="123"></location>
         <source>Standalone Patches</source>
-        <translation type="unfinished"></translation>
+        <translation>Автономные патчи</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="129"></location>
         <source>Size: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="130"></location>
         <source>Date: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="131"></location>
         <source>Tag: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Тэг: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="132"></location>
         <source>Additional Details: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Дополнительные детали: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="142"></location>
         <source>Package Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновления пакетов</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="371"></location>
         <source>Current Branch</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущая ветвь</translation>
     </message>
 </context>
 <context>
@@ -2804,92 +2804,92 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_updates.ui" line="14"></location>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="31"></location>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновления</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="86"></location>
         <source>Start Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Запуск обновлений</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="118"></location>
         <source>View Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Просмотреть детали</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="174"></location>
         <source>System is up to date!!</source>
-        <translation type="unfinished"></translation>
+        <translation>Система находится в актуальном состоянии!!</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="187"></location>
         <source>Reboot Required to Finish Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Требуется перезагрузка, чтобы закончить обновления</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="232"></location>
         <source>System Performing Updates:</source>
-        <translation type="unfinished"></translation>
+        <translation>Система выполнения обновлений:</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="272"></location>
         <source>Stop Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Остановить обновления</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="339"></location>
         <source>Check For Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Проверить наличие обновлений</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="361"></location>
         <source>Checking for updates....</source>
-        <translation type="unfinished"></translation>
+        <translation>Проверка обновлений....</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="376"></location>
         <source>Branches</source>
-        <translation type="unfinished"></translation>
+        <translation>Ветви</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="382"></location>
         <source>Change Branch</source>
-        <translation type="unfinished"></translation>
+        <translation>Сменить ветвь</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="410"></location>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="418"></location>
         <source>Max Boot Environments</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальное количество загрузочных окружений</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="437"></location>
         <source>Automatically perform updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматически выполнять обновления</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="444"></location>
         <source>Custom Package Repository</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользовательский репозиторий пакетов</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="456"></location>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="497"></location>
         <source>Save Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить настройки</translation>
     </message>
 </context>
 <context>
@@ -2897,62 +2897,62 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_users.cpp" line="60"></location>
         <source>User Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер пользователей</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="90"></location>
         <source>Could not remove user</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось удалить пользователя</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="91"></location>
         <source>Could not create user</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось создать пользователя</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="92"></location>
         <source>Could not modify user</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось изменить пользователя</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="97"></location>
         <source>Could not modify group</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось изменить группу</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="107"></location>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="444"></location>
         <source>Clean Home Directory?</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить Домашний каталог?</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="444"></location>
         <source>Also remove the home directory for this user?</source>
-        <translation type="unfinished"></translation>
+        <translation>Также удалить домашний каталог для этого пользователя?</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="504"></location>
         <source>Remove User?</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить пользователя?</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="504"></location>
         <source>Are you sure you wish to remove this user account?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы уверены, что хотите удалить эту учетную запись?</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="514"></location>
         <source>Select PersonaCrypt Key File</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать файл ключа PersonaCrypt</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="514"></location>
         <source>PersonaCrypt Key (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ключ PersonaCrypt (*)</translation>
     </message>
 </context>
 <context>
@@ -2960,173 +2960,173 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_users.ui" line="14"></location>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="40"></location>
         <location filename="../pages/page_users.ui" line="876"></location>
         <source>Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователи</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="66"></location>
         <location filename="../pages/page_users.ui" line="857"></location>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Стандартный</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="82"></location>
         <location filename="../pages/page_users.ui" line="867"></location>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Расширенный</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="102"></location>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Детали</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="153"></location>
         <source>Full Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Полное имя</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="160"></location>
         <source>Full name of user (some character restrictions)</source>
-        <translation type="unfinished"></translation>
+        <translation>Полное имя пользователя (некоторые ограничения символов)</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="167"></location>
         <source>User Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="174"></location>
         <source>Shorted username (character restrictions and 16 character limit)</source>
-        <translation type="unfinished"></translation>
+        <translation>Краткое имя пользователя (ограничение символов и длина 16 символов)</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="190"></location>
         <location filename="../pages/page_users.ui" line="399"></location>
         <location filename="../pages/page_users.ui" line="474"></location>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="228"></location>
         <source>UID</source>
-        <translation type="unfinished"></translation>
+        <translation>UID</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="244"></location>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="253"></location>
         <source>Home Dir Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Путь домашнего каталога</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="267"></location>
         <source>Shell Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Путь оболочки</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="281"></location>
         <source>New User Permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>Права нового пользователя</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="299"></location>
         <source>Places the user within the "wheel" group for administration abilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Разместите пользователя в группе "wheel" для привелегий администратора</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="302"></location>
         <source>Administrator Access</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступ Администратора</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="309"></location>
         <source>Places the user within the "operator" group for partial system control</source>
-        <translation type="unfinished"></translation>
+        <translation>Разместите пользователя в группе "operator" для частичного управления системой </translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="312"></location>
         <source>Operator Access (Recommended)</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступ Оператора (рекомендуемый) </translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="330"></location>
         <source>PersonaCrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>PersonaCrypt</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="375"></location>
         <source>Disable PersonaCrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключить PersonaCrypt</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="437"></location>
         <source>Enable PersonaCrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить PersonaCrypt</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="464"></location>
         <source>Initialize Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Инициализировать устройство</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="481"></location>
         <source>Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Устройство</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="509"></location>
         <source>Import Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Импорт ключа</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="516"></location>
         <source>Key File</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл ключа</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="531"></location>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="645"></location>
         <source>New User</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый пользователь</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="712"></location>
         <location filename="../pages/page_users.ui" line="789"></location>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="730"></location>
         <source>Groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Группы</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="829"></location>
         <source>New Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Новая группа</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="990"></location>
         <source>Members</source>
-        <translation type="unfinished"></translation>
+        <translation>Члены</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="1000"></location>
         <source>Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступно</translation>
     </message>
 </context>
 </TS>
