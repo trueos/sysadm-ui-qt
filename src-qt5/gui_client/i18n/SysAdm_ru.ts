@@ -1713,550 +1713,552 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="39"></location>
         <source>Popular Searches</source>
-        <translation type="unfinished"></translation>
+        <translation>Популярные запросы</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="40"></location>
         <source>Web Browsers</source>
-        <translation type="unfinished"></translation>
+        <translation>Web браузеры</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="41"></location>
         <source>Email Clients</source>
-        <translation type="unfinished"></translation>
+        <translation>Email клиенты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="42"></location>
         <source>Office Suites</source>
-        <translation type="unfinished"></translation>
+        <translation>Офисные пакеты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="43"></location>
         <source>Desktops</source>
-        <translation type="unfinished"></translation>
+        <translation>Десктопные</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="46"></location>
         <source>Popular Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Популярные категории</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="47"></location>
         <location filename="../pages/page_pkg-extras.cpp" line="109"></location>
         <source>Games</source>
-        <translation type="unfinished"></translation>
+        <translation>Игры</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="48"></location>
         <location filename="../pages/page_pkg-extras.cpp" line="122"></location>
         <source>Multimedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Мультимедиа</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="49"></location>
         <location filename="../pages/page_pkg-extras.cpp" line="93"></location>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудио</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="50"></location>
         <location filename="../pages/page_pkg-extras.cpp" line="101"></location>
         <source>Desktop Utilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Десктопные утилиты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="89"></location>
         <source>Accessibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Общедоступные</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="90"></location>
         <source>Arabic</source>
-        <translation type="unfinished"></translation>
+        <translation>Арабские</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="91"></location>
         <source>Archivers</source>
-        <translation type="unfinished"></translation>
+        <translation>Архиваторы</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="92"></location>
         <source>Astro</source>
-        <translation type="unfinished"></translation>
+        <translation>Астрономия</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="94"></location>
         <source>Benchmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Тесты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="95"></location>
         <source>Biology</source>
-        <translation type="unfinished"></translation>
+        <translation>Биологические</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="96"></location>
         <source>CAD</source>
-        <translation type="unfinished"></translation>
+        <translation>CAD</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="97"></location>
         <source>Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Китайские</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="98"></location>
         <source>Comms</source>
-        <translation type="unfinished"></translation>
+        <translation>Коммуникационные</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="99"></location>
         <source>Converters</source>
-        <translation type="unfinished"></translation>
+        <translation>Конвертеры</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="100"></location>
         <source>Databases</source>
-        <translation type="unfinished"></translation>
+        <translation>Базы данных</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="102"></location>
         <location filename="../pages/page_pkg-extras.cpp" line="185"></location>
         <source>Development</source>
-        <translation type="unfinished"></translation>
+        <translation>Разработка</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="103"></location>
         <source>DNS</source>
-        <translation type="unfinished"></translation>
+        <translation>DNS</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="104"></location>
         <source>Editors</source>
-        <translation type="unfinished"></translation>
+        <translation>Редакторы</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="105"></location>
         <source>Emulators</source>
-        <translation type="unfinished"></translation>
+        <translation>Эмуляторы</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="106"></location>
         <source>Finance</source>
-        <translation type="unfinished"></translation>
+        <translation>Финансы</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="107"></location>
         <source>French</source>
-        <translation type="unfinished"></translation>
+        <translation>Французские</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="108"></location>
         <source>FTP</source>
-        <translation type="unfinished"></translation>
+        <translation>FTP</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="110"></location>
         <source>German</source>
-        <translation type="unfinished"></translation>
+        <translation>Немецкие</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="111"></location>
         <source>Graphics</source>
-        <translation type="unfinished"></translation>
+        <translation>Графические</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="112"></location>
         <source>Hebrew</source>
-        <translation type="unfinished"></translation>
+        <translation>Иврит</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="113"></location>
         <source>Hungarian</source>
-        <translation type="unfinished"></translation>
+        <translation>Венгерские</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="114"></location>
         <source>IRC</source>
-        <translation type="unfinished"></translation>
+        <translation>IRC</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="115"></location>
         <source>Japanese</source>
-        <translation type="unfinished"></translation>
+        <translation>Японские</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="116"></location>
         <source>Java</source>
-        <translation type="unfinished"></translation>
+        <translation>Java</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="117"></location>
         <source>Korean</source>
-        <translation type="unfinished"></translation>
+        <translation>Корейские</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="118"></location>
         <source>Languages</source>
-        <translation type="unfinished"></translation>
+        <translation>Языки</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="119"></location>
         <source>Mail</source>
-        <translation type="unfinished"></translation>
+        <translation>Почта</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="120"></location>
         <source>Math</source>
-        <translation type="unfinished"></translation>
+        <translation>Математика</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="121"></location>
         <source>Miscellaneous</source>
-        <translation type="unfinished"></translation>
+        <translation>Разное</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="123"></location>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Сеть</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="124"></location>
         <source>Network-IM</source>
-        <translation type="unfinished"></translation>
+        <translation>Сеть-IM</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="125"></location>
         <source>Network-Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Сеть-управление</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="126"></location>
         <source>Network-P2P</source>
-        <translation type="unfinished"></translation>
+        <translation>Сеть-P2P</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="127"></location>
         <source>News</source>
-        <translation type="unfinished"></translation>
+        <translation>Новости</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="128"></location>
         <source>Palm</source>
-        <translation type="unfinished"></translation>
+        <translation>Palm</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="129"></location>
         <source>Polish</source>
-        <translation type="unfinished"></translation>
+        <translation>Польские</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="130"></location>
         <source>Ports Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление портами</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="131"></location>
         <source>Portuguese</source>
-        <translation type="unfinished"></translation>
+        <translation>Португальские</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="132"></location>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Печать</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="133"></location>
         <source>Russian</source>
-        <translation type="unfinished"></translation>
+        <translation>Русские</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="134"></location>
         <source>Science</source>
-        <translation type="unfinished"></translation>
+        <translation>Наука</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="135"></location>
         <source>Security</source>
-        <translation type="unfinished"></translation>
+        <translation>Защита</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="136"></location>
         <source>Shells</source>
-        <translation type="unfinished"></translation>
+        <translation>Оболочки</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="137"></location>
         <source>System Utilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Системные утилиты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="138"></location>
         <source>Text Processing</source>
-        <translation type="unfinished"></translation>
+        <translation>Обработка текста</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="139"></location>
         <source>Ukrainian</source>
-        <translation type="unfinished"></translation>
+        <translation>Украинские</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="140"></location>
         <source>Vietnamese</source>
-        <translation type="unfinished"></translation>
+        <translation>Вьетнамские</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="141"></location>
         <source>WWW</source>
-        <translation type="unfinished"></translation>
+        <translation>WWW</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="142"></location>
         <location filename="../pages/page_pkg-extras.cpp" line="221"></location>
         <source>X11</source>
-        <translation type="unfinished"></translation>
+        <translation>X11</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="143"></location>
         <source>X11-Clocks</source>
-        <translation type="unfinished"></translation>
+        <translation>X11-Часы</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="144"></location>
         <source>X11-Drivers</source>
-        <translation type="unfinished"></translation>
+        <translation>X11-Драйверы</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="145"></location>
         <source>X11-File Managers</source>
-        <translation type="unfinished"></translation>
+        <translation>X11-Файловые менеджеры</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="146"></location>
         <source>X11-Fonts</source>
-        <translation type="unfinished"></translation>
+        <translation>X11-Шрифты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="147"></location>
         <source>X11-Servers</source>
-        <translation type="unfinished"></translation>
+        <translation>X11-Серверы</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="148"></location>
         <source>X11-Themes</source>
-        <translation type="unfinished"></translation>
+        <translation>X11-Темы</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="149"></location>
         <source>X11-Toolkits</source>
-        <translation type="unfinished"></translation>
+        <translation>X11-Инструменты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="150"></location>
         <source>X11-Window Managers</source>
-        <translation type="unfinished"></translation>
+        <translation>X11-Оконные менеджеры</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="180"></location>
         <source>Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Категории</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="194"></location>
         <source>Locale Specific</source>
-        <translation type="unfinished"></translation>
+        <translation>Языковая специфика</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="203"></location>
         <source>Networking</source>
-        <translation type="unfinished"></translation>
+        <translation>Сетевые</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="212"></location>
         <source>Utilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Утилиты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="229"></location>
         <source>All Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Все пакеты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="30"></location>
         <source>View All Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Посмотреть все пакеты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="34"></location>
         <source>View Advanced Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Посмотреть дополнительные параметры</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="39"></location>
         <source>Auto-clean packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоочистка пакетов</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="90"></location>
         <source>AppCafe</source>
-        <translation type="unfinished"></translation>
+        <translation>AppCafe</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="229"></location>
         <source>Top-Level Packages: %1,  Total Installed Packages: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Пакеты верхнего уровня: %1,  Всего установленных пакетов: %2</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="306"></location>
         <source>(%1) Pending</source>
-        <translation type="unfinished"></translation>
+        <translation>(%1) ожидания</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="354"></location>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Неизвестный</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="379"></location>
         <source>Build Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Опции сборки</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="387"></location>
         <source>Dependencies</source>
-        <translation type="unfinished"></translation>
+        <translation>Зависимости</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="396"></location>
         <source>Required By</source>
-        <translation type="unfinished"></translation>
+        <translation>Требуется</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="405"></location>
         <source>Conflicts</source>
-        <translation type="unfinished"></translation>
+        <translation>Конфликты</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="414"></location>
         <source>Shared Libraries (Required)</source>
-        <translation type="unfinished"></translation>
+        <translation>Общие библиотеки (обязательные)</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="422"></location>
         <source>Shared Libraries (Provided)</source>
-        <translation type="unfinished"></translation>
+        <translation>Общие библиотеки (дополнительные)</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="430"></location>
         <source>Provides</source>
-        <translation type="unfinished"></translation>
+        <translation>Обеспечивает</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="438"></location>
         <source>Requires</source>
-        <translation type="unfinished"></translation>
+        <translation>Требует</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="446"></location>
         <source>Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователи</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="454"></location>
         <source>Groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Группы</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="462"></location>
         <source>Configuration Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Конфигурационные файлы</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="470"></location>
         <source>Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Файлы</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="483"></location>
         <source>Pending..</source>
-        <translation type="unfinished"></translation>
+        <translation>Ожидается..</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="554"></location>
         <source>No Packages Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Пакеты не найдены</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="559"></location>
         <source>Number of packages: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество пакетов: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="587"></location>
         <source>* Locked</source>
-        <translation type="unfinished"></translation>
+        <translation>* Заблокировано</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="588"></location>
         <source>* Security vulnerability</source>
-        <translation type="unfinished"></translation>
+        <translation>* Уязвимость системы безопасности</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="589"></location>
         <source>* Dependency has security vulnerability</source>
-        <translation type="unfinished"></translation>
+        <translation>* Зависимость имеет уязвимость системы безопасности</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="590"></location>
         <source>* Used by other packages</source>
-        <translation type="unfinished"></translation>
+        <translation>* Используется другими пакетами</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="591"></location>
         <source>* Orphaned package - may be automatically cleaned</source>
-        <translation type="unfinished"></translation>
+        <translation>* Осиротевший пакет - может быть автоматически очищен</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="1027"></location>
         <source>Home Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Домашняя страница</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="1029"></location>
         <source>Browse Category: %1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Просмотрено категорий: %1 (%2)</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="1030"></location>
         <source>View Package: %1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Просмотрено пакетов: %1 (%2)</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="1031"></location>
         <source>Search: %1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Поиск: %1 (%2)</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="1124"></location>
         <source>Launch Update Manager?</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузить менеджер обновлений?</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="1124"></location>
         <source>The system update manager is recommended for this operation, do you wish to open it now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Для этой операции рекомендуется менеджер обновления системы, Вы хотите открыть его сейчас?</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="1129"></location>
         <source>Start Updates Now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Запустить обновление сейчас?</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="1129"></location>
         <source>Do you wish to start updates now?
 
 WARNING: This will modify your live system packages. It is recommended that you close any running applications before continuing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы хотите начать обновления сейчас?
+
+ВНИМАНИЕ: Эта операция изменит Ваши действующие системные пакеты. Рекомендуется закрыть все запущенные приложения прежде чем Вы продолжите.</translation>
     </message>
 </context>
 <context>
@@ -3050,12 +3052,12 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_users.ui" line="309"></location>
         <source>Places the user within the "operator" group for partial system control</source>
-        <translation>Разместите пользователя в группе "operator" для частичного управления системой </translation>
+        <translation>Разместите пользователя в группе "operator" для частичного управления системой</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="312"></location>
         <source>Operator Access (Recommended)</source>
-        <translation>Доступ Оператора (рекомендуемый) </translation>
+        <translation>Доступ Оператора (рекомендуемый)</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="330"></location>
