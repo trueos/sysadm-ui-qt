@@ -69,7 +69,12 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;"&gt;
 &lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;&lt;span style=" font-weight:600;"&gt;SSL Configuration&lt;/span&gt;&lt;/p&gt;
 &lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;sysadm uses an encrypted SSL key/certificate bundle for automatically connecting to all the systems which are registered in this client. Once created, these files may later be exported from this client and imported into any other sysadm client on another machine.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name="qrichtext" content="1" /&gt;&lt;style type="text/css"&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;"&gt;
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;&lt;span style=" font-weight:600;"&gt;SSL Configuration&lt;/span&gt;&lt;/p&gt;
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;SysAdm käyttää salattua SSL-avaimen/varmenteen nippua tälle asiakkaalle rekisteröityihin järjestelmiin yhdistämiseksi. Kun tiedostot on luotu, ne viedään tältä asiakkaalta ja tuodaan toisella koneella olevalle SysAdm-asiakkaalle.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="266"></location>
@@ -109,7 +114,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../C_Manager.ui" line="426"></location>
         <source>Bridge Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Sillan varmenne</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="446"></location>
@@ -269,18 +274,19 @@ Tiedoston sijainti: %1</translation>
         <location filename="../C_Manager.cpp" line="576"></location>
         <location filename="../C_Manager.cpp" line="585"></location>
         <source>Could not overwrite sysadm SSL bundle</source>
-        <translation type="unfinished"></translation>
+        <translation>SysAdmin SSL-nippua ei voitu korvata</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="627"></location>
         <source>Key Exported</source>
-        <translation type="unfinished"></translation>
+        <translation>Avain viety</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="627"></location>
         <source>Public SSL key saved to file:
  %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Julkinen SSL-avain tallennettu tiedostoon:
+ %1</translation>
     </message>
 </context>
 <context>
@@ -338,7 +344,7 @@ Tiedoston sijainti: %1</translation>
     <message>
         <location filename="../MenuItem.cpp" line="109"></location>
         <source>%1: zpool degraded - possible hardware issue</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: zpool on hajonnut – mahdollisesti laitevika</translation>
     </message>
 </context>
 <context>
@@ -424,12 +430,12 @@ Tiedoston sijainti: %1</translation>
     <message>
         <location filename="../mainUI.cpp" line="53"></location>
         <source>Please reset your authentication procedures for this server within the connection manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nollaa tämän palvelimen tunnistautumistavat yhteydenhallinnassa.</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="114"></location>
         <source>Local System</source>
-        <translation type="unfinished"></translation>
+        <translation>Paikallinen järjestelmä</translation>
     </message>
 </context>
 <context>
@@ -437,22 +443,22 @@ Tiedoston sijainti: %1</translation>
     <message>
         <location filename="../MenuItem.cpp" line="405"></location>
         <source>Unlock Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Poista yhteyksien lukitus</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="416"></location>
         <source>Manage Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Yhteyksien hallinta</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="419"></location>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Asetukset</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="427"></location>
         <source>Close SysAdm Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Sulje SysAdm-asiakas</translation>
     </message>
 </context>
 <context>
@@ -460,47 +466,47 @@ Tiedoston sijainti: %1</translation>
     <message>
         <location filename="../NewConnectionWizard.ui" line="14"></location>
         <source>SysAdm connection setup</source>
-        <translation type="unfinished"></translation>
+        <translation>SysAdm-yhteyden asetus</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="24"></location>
         <source>Connect to a Remote System </source>
-        <translation type="unfinished"></translation>
+        <translation>Yhdistä etäjärjestelmään </translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="33"></location>
         <source>Host IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>Koneen IP:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="47"></location>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Käyttäjätunnus:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="54"></location>
         <source>myuser</source>
-        <translation type="unfinished"></translation>
+        <translation>omatunnus</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="61"></location>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Salasana:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="71"></location>
         <source>(initial test only)</source>
-        <translation type="unfinished"></translation>
+        <translation>(vain alkutestiä varten)</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="93"></location>
         <source>Test Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Testiasetukset</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="133"></location>
         <source>Server Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Palvelinyhteys</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="143"></location>
@@ -510,27 +516,27 @@ Tiedoston sijainti: %1</translation>
     <message>
         <location filename="../NewConnectionWizard.ui" line="183"></location>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Valmis</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="194"></location>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="52"></location>
         <source>Host Valid</source>
-        <translation type="unfinished"></translation>
+        <translation>Kelvollinen kone</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="55"></location>
         <source>Test Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Testi onnistui</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="82"></location>
         <source>Host Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Virheellinen kone</translation>
     </message>
 </context>
 <context>
@@ -538,152 +544,152 @@ Tiedoston sijainti: %1</translation>
     <message>
         <location filename="../pages/control_panel.cpp" line="74"></location>
         <source>Application Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Sovellushallinta</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="76"></location>
         <source>App Management Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Sovellushallinnan tila</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="79"></location>
         <source>System Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Järjestelmänhallinta</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="82"></location>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Yhteys</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="85"></location>
         <source>SysAdm Server Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>SysAdm-palvelinasetukset</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="88"></location>
         <source>Utilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Työkalut</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="28"></location>
         <source>Boot Environment Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Käynnistysympäristön hallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="28"></location>
         <source>Manage operating system snapshots</source>
-        <translation type="unfinished"></translation>
+        <translation>Käyttöjärjestelmätilannekuvien hallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="29"></location>
         <source>Task Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Tehtävänhallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="29"></location>
         <source>Monitor system tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Tarkkaile järjestelmätehtäviä</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="30"></location>
         <source>iohyve</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">iohyve</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="30"></location>
         <source>iohyve VM Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>iohyve-VM-hallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="30"></location>
         <source>Manage virtual OS instances</source>
-        <translation type="unfinished"></translation>
+        <translation>Virtuaalijärjestelmien hallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"></location>
         <source>Manage SSL Keys</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL-avainten hallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"></location>
         <source>SSL Key Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL-avainten hallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"></location>
         <source>List and Revoke SSL key registrations</source>
-        <translation type="unfinished"></translation>
+        <translation>Luettele ja peru SSL-avainten rekisteröintejä</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="32"></location>
         <source>About TrueOS</source>
-        <translation type="unfinished"></translation>
+        <translation>Tietoa TrueOSista</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="32"></location>
         <source>More information on TrueOS</source>
-        <translation type="unfinished"></translation>
+        <translation>Lisätietoa TrueOSista</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="33"></location>
         <source>Life Preserver</source>
-        <translation type="unfinished"></translation>
+        <translation>Life-Preserver</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="33"></location>
         <source>Manage Local and Remote Backups</source>
-        <translation type="unfinished"></translation>
+        <translation>Paikallisten ja etävarmuuskopioiden hallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="34"></location>
         <source>System Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Järjestelmänhallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="34"></location>
         <source>Information About the System</source>
-        <translation type="unfinished"></translation>
+        <translation>Tietoa järjestelmästä</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="35"></location>
         <source>Update Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Päivitysten hallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="35"></location>
         <source>Perform Updates on the System</source>
-        <translation type="unfinished"></translation>
+        <translation>Tee järjestelmäpäivityksiä</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="36"></location>
         <source>AppCafe</source>
-        <translation type="unfinished"></translation>
+        <translation>AppCafé</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="36"></location>
         <source>Manage Applications/Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Sovellusten ja pakettien hallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="37"></location>
         <source>User Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Käyttäjähallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="37"></location>
         <source>Manage Users/Groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Käyttäjien ja ryhmien hallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="38"></location>
         <source>Service Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Palvelunhallinta</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="38"></location>
         <source>Manage Services</source>
-        <translation type="unfinished"></translation>
+        <translation>Palvelujen hallinta</translation>
     </message>
 </context>
 <context>
@@ -691,27 +697,27 @@ Tiedoston sijainti: %1</translation>
     <message>
         <location filename="../SettingsDialog.ui" line="14"></location>
         <source>sysadm: Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>sysadm: Asetukset</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="35"></location>
         <source>Interface Style:</source>
-        <translation type="unfinished"></translation>
+        <translation>Käyttöliittymätyyli:</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="47"></location>
         <source>Use Custom Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Käytä omaa kirjasinta</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="130"></location>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Valmis</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.cpp" line="45"></location>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Ei mitään</translation>
     </message>
 </context>
 <context>
@@ -719,7 +725,7 @@ Tiedoston sijainti: %1</translation>
     <message>
         <location filename="../pages/page_about.cpp" line="27"></location>
         <source>About PC-BSD</source>
-        <translation type="unfinished"></translation>
+        <translation>Tietoa PC-BSD:stä</translation>
     </message>
 </context>
 <context>
@@ -727,65 +733,65 @@ Tiedoston sijainti: %1</translation>
     <message>
         <location filename="../pages/page_beadm.cpp" line="27"></location>
         <source>Boot-Up Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Käynnistysasetukset</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="96"></location>
         <location filename="../pages/page_beadm.cpp" line="112"></location>
         <source>New Boot Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Uusi käynnistysympäristö</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="96"></location>
         <location filename="../pages/page_beadm.cpp" line="112"></location>
         <location filename="../pages/page_beadm.cpp" line="138"></location>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nimi:</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="105"></location>
         <source>Creating Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Luodaan käynnistysympäristöä…</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="121"></location>
         <source>Cloning Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Monistetaan käynnistysympäristöä…</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="131"></location>
         <source>Deleting Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Poistetaan käynnistysympäristöä…</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="138"></location>
         <source>Rename Boot Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Muuta käynnistysympäristön nimeä</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="147"></location>
         <source>Renaming Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Muutetaan käynnistysympäristön nimeä…</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="158"></location>
         <source>Mounting Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Liitetään käynnistysympäristöä…</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="168"></location>
         <source>Unmounting Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Irrotetaan käynnistysympäristöä…</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="179"></location>
         <source>Activating Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivoidaan käynnistysympäristöä…</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="186"></location>
         <source>Retrieving List...</source>
-        <translation type="unfinished"></translation>
+        <translation>Noudetaan luetteloa…</translation>
     </message>
 </context>
 <context>
@@ -793,7 +799,7 @@ Tiedoston sijainti: %1</translation>
     <message>
         <location filename="../pages/control_panel.cpp" line="49"></location>
         <source>Control Panel</source>
-        <translation type="unfinished"></translation>
+        <translation>Ohjauspaneeli</translation>
     </message>
 </context>
 <context>
@@ -801,42 +807,42 @@ Tiedoston sijainti: %1</translation>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="45"></location>
         <source>iohyve VMs</source>
-        <translation type="unfinished"></translation>
+        <translation>iohyve-VM:t</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="165"></location>
         <source>%1 (%2, %3)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 (%2, %3)</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="231"></location>
         <source>ISO Fetch:</source>
-        <translation type="unfinished"></translation>
+        <translation>ISO-nouto:</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="231"></location>
         <source>URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verkko-osoite:</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="235"></location>
         <source>Invalid URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Virheellinen verkko-osoite</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="235"></location>
         <source>Invalid ISO URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Virheellinen ISOn verkko-osoite</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="248"></location>
         <source>Rename ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>Muuta ISOn nimeä</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="248"></location>
         <source>New Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uusi nimi:</translation>
     </message>
 </context>
 <context>
@@ -844,22 +850,22 @@ Tiedoston sijainti: %1</translation>
     <message>
         <location filename="../pages/page_iohyve.ui" line="14"></location>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Lomake</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="39"></location>
         <source>Initial Setup Required</source>
-        <translation type="unfinished"></translation>
+        <translation>Alkuasetus vaaditaan</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="50"></location>
         <source>ZFS Pool:</source>
-        <translation type="unfinished"></translation>
+        <translation>ZFS-pooli:</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="57"></location>
         <source>Network Interface:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verkkoliitäntä:</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="87"></location>
