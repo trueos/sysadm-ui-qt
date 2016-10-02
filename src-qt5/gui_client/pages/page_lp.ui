@@ -525,7 +525,7 @@
          </attribute>
          <column>
           <property name="text">
-           <string>ZPool</string>
+           <string>Storage Pool</string>
           </property>
          </column>
          <column>
@@ -743,7 +743,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="label_12">
             <property name="text">
-             <string>ZPool:</string>
+             <string>Storage Pool:</string>
             </property>
            </widget>
           </item>
@@ -835,7 +835,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="label_15">
             <property name="text">
-             <string>ZPool:</string>
+             <string>Storage Pool:</string>
             </property>
            </widget>
           </item>
