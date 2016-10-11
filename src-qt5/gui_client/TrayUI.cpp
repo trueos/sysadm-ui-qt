@@ -259,6 +259,7 @@ void sysadm_tray::MessageTriggered(QAction *act){
     MESSAGES.insert(act->whatsThis(),msg);
     QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
     if(act->whatsThis().section("/",-1)=="updates"){ OpenCore(msg.host_id, "page_updates"); }
+    else if(act->whatsThis().count("/")==2){ OpenCore(msg.host_id, "page_"+act->whatsThis().section("/",1,1)); } //Life Preserver Message
     else{ OpenCore(msg.host_id); }
   }
 }

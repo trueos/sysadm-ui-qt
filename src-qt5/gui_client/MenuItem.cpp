@@ -71,7 +71,8 @@ void CoreAction::CoreActive(){
 }
 
 void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
-  if(type!=sysadm_client::SYSSTATE || !val.isObject()){ return; }
+  if(!val.isObject() ){ return; }
+  if(type == sysadm_client::SYSSTATE ){
   //Update notices
   //qDebug() << "Got a system State Event:" << nickname << val;
   if(val.toObject().contains("updates")){
@@ -112,6 +113,15 @@ void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
       emit ClearMessage(host, "zfs");
     }
   }
+
+ }else if(type == sysadm_client::LIFEPRESERVER){
+  qDebug() << "Got LP Event:" << val;
+  int priority = 0;
+   if(val.toObject().contains("priority")){ priority = val.toObject().value("priority").toString().section(" ",0,0).toInt(); }
+  emit ShowMessage( createMessage(host, "lp/"+val.toObject().value("class").toString(), val.toObject().value("message").toString(), ":/custom/lifepreserver.png", priority) );
+ }else if(type == sysadm_client::DISPATCHER){
+
+ } //end loop over event type
 }
 
 void CoreAction::CoreTypeChanged(){
