@@ -105,7 +105,7 @@ void lp_page::send_list_zpools(){
 // === PRIVATE SLOTS ===
 void lp_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
   if( !id.startsWith(TAG) ){ return; }
-  qDebug() << "Got Reply:" << id << namesp << name << args;
+  //qDebug() << "Got Reply:" << id << namesp << name << args;
   if(namesp=="error" || name=="error"){ return; }
 
   if(id==TAG+"list_zpools"){

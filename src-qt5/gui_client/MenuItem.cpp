@@ -77,7 +77,7 @@ void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
   //qDebug() << "Got a system State Event:" << nickname << val;
   if(val.toObject().contains("updates")){
     QString stat = val.toObject().value("updates").toObject().value("status").toString();
-    qDebug() << "Update Status:" << stat;
+    //qDebug() << "Update Status:" << stat;
     if(stat=="noupdates"){ emit ClearMessage(host,"updates"); }
     else{
       QString msg, icon;
@@ -115,12 +115,38 @@ void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
   }
 
  }else if(type == sysadm_client::LIFEPRESERVER){
-  qDebug() << "Got LP Event:" << val;
+  //qDebug() << "Got LP Event:" << val;
   int priority = 0;
    if(val.toObject().contains("priority")){ priority = val.toObject().value("priority").toString().section(" ",0,0).toInt(); }
-  emit ShowMessage( createMessage(host, "lp/"+val.toObject().value("class").toString(), val.toObject().value("message").toString(), ":/custom/lifepreserver.png", priority) );
- }else if(type == sysadm_client::DISPATCHER){
+  emit ShowMessage( createMessage(host, "lp/"+val.toObject().value("class").toString(), nickname+": "+val.toObject().value("message").toString(), ":/icons/custom/lifepreserver.png", priority) );
 
+ }else if(type == sysadm_client::DISPATCHER){
+   //catch update process messages
+   QJsonObject details = val.toObject().value("process_details").toObject();
+   if(details.value("process_id").toString().startsWith("sysadm_update_runupdates::")){
+     QString msg, icon;
+      QString stat = val.toObject().value("state").toString();
+      int priority = 3;
+      if(stat=="finished"){ msg = tr("%1: Reboot required to finish updates"); icon = ":/icons/black/sync-circled.svg"; }
+      else if(stat=="running"){ msg = tr("%1: Updates in progress"); icon = ":/icons/grey/sync.svg"; }
+      if(val.toObject().value("updates").toObject().contains("priority")){
+       priority =  val.toObject().value("updates").toObject().value("priority").toString().section("-",0,0).simplified().toInt();
+      }
+      if(!msg.isEmpty()){ emit ShowMessage( createMessage(host,"updates", msg.arg(nickname), icon, priority) ); }
+
+   }else if(details.value("process_id").toString().startsWith("sysadm_pkg_")){
+    QString stat = details.value("state").toString();
+    QString act = details.value("process_id").toString().section("-",0,0).section("_",-1);
+    //qDebug() << "pkg state:" << stat << act;
+    if( (stat=="running" || stat=="finished") && !act.contains("lock") && act!="audit" && act!="upgrade"){
+      //Always use priority 0 for pkg change events
+      QString icon = ":/icons/custom/appcafe.png";
+      QString msg = tr("%1: Package %2 %3");
+      emit ShowMessage( createMessage(host, "pkg", msg.arg(nickname, act, stat), icon, 0) );
+    }
+  }else{
+    //qDebug() << "Unhandled dispatcher event:" << val;
+  }
  } //end loop over event type
 }
 
