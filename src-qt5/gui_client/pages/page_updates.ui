@@ -20,7 +20,7 @@
       <enum>QTabWidget::North</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="icon">
@@ -437,6 +437,30 @@
           <string>Automatically perform updates</string>
          </property>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QCheckBox" name="check_auto_reboot">
+           <property name="text">
+            <string>Automatically reboot to finish updates</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTimeEdit" name="time_auto_reboot">
+           <property name="specialValueText">
+            <string/>
+           </property>
+           <property name="currentSection">
+            <enum>QDateTimeEdit::HourSection</enum>
+           </property>
+           <property name="displayFormat">
+            <string>@ h AP</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QGroupBox" name="group_settings_customrepo">

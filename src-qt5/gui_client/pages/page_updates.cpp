@@ -163,6 +163,12 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
     bool autoup = true;
     if(obj.contains("auto_update")){ autoup = !(obj.value("auto_update").toString().toLower()=="disabled"); }
     ui->check_settings_autoup->setChecked(autoup);
+    autoup = false;
+    if(obj.contains("auto_update_reboot")){
+      int hour = obj.value("auto_update_reboot").toString().toInt(&autoup);
+      if(hour>=0 && hour<24){ ui->time_auto_reboot->setTime(QTime(hour,0)); }
+    }
+    ui->check_auto_reboot->setChecked(autoup);
     bool crepo = false;
     if(obj.contains("package_set")){ crepo = (obj.value("package_set").toString()=="CUSTOM"); }
     ui->group_settings_customrepo->setChecked(crepo);
@@ -304,6 +310,7 @@ void updates_page::send_save_settings(){
     obj.insert("action","changesettings");
     obj.insert("maxbe", ui->spin_maxbe->cleanText() );
     obj.insert("auto_update", ui->check_settings_autoup->isChecked() ? "all" : "disabled");
+    obj.insert("auto_update_reboot", ui->check_auto_reboot->isChecked() ? QString::number(ui->time_auto_reboot->time().hour()) : "disabled");
     if(ui->group_settings_customrepo->isChecked()){
       obj.insert("package_set","CUSTOM");
       obj.insert("package_url", ui->line_settings_url->text() );
@@ -353,6 +360,10 @@ void updates_page::check_current_update_item(QTreeWidgetItem *it){
   }
   //Also update this widget itself
   check_current_update();  
+}
+
+void updates_page::on_check_auto_reboot_toggled(bool checked){
+  ui->time_auto_reboot->setEnabled(checked);
 }
 
 // === PRIVATE ===
