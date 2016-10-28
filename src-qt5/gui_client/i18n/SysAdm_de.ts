@@ -352,37 +352,37 @@ Dateiort: %1</translation>
     <message>
         <location filename="../MenuItem.cpp" line="145"></location>
         <source>Local System</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokales System</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="189"></location>
         <source>Connection Closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindung beendet</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="192"></location>
         <source>%1: Lost Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: Verbindung abgebrochen</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="198"></location>
         <source>Trying to connect....</source>
-        <translation type="unfinished"></translation>
+        <translation>Versuche zu verbinden...</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="205"></location>
         <source>Connection Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindung aktiv</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="207"></location>
         <source>%1: Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: Verbunden</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="242"></location>
         <source>Reconnect Now</source>
-        <translation type="unfinished"></translation>
+        <translation>Erneut verbinden</translation>
     </message>
 </context>
 <context>
@@ -390,22 +390,22 @@ Dateiort: %1</translation>
     <message>
         <location filename="../mainUI.ui" line="14"></location>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>Hauptfenster</translation>
     </message>
     <message>
         <location filename="../mainUI.ui" line="25"></location>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>Werkzeugleiste</translation>
     </message>
     <message>
         <location filename="../mainUI.ui" line="56"></location>
         <source>Control Panel</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwaltungskonsole</translation>
     </message>
     <message>
         <location filename="../mainUI.ui" line="65"></location>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="37"></location>
@@ -415,12 +415,12 @@ Dateiort: %1</translation>
     <message>
         <location filename="../mainUI.cpp" line="39"></location>
         <source>Reboot System</source>
-        <translation type="unfinished"></translation>
+        <translation>System neu starten</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="40"></location>
         <source>Shutdown System</source>
-        <translation type="unfinished"></translation>
+        <translation>System herunterfahren</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="53"></location>
@@ -448,7 +448,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../MenuItem.cpp" line="416"></location>
         <source>Manage Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindungen verwalten</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="419"></location>
@@ -458,7 +458,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../MenuItem.cpp" line="427"></location>
         <source>Close SysAdm Client</source>
-        <translation type="unfinished"></translation>
+        <translation>SysAdm beenden</translation>
     </message>
 </context>
 <context>
@@ -491,7 +491,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../NewConnectionWizard.ui" line="61"></location>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kennwort:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="71"></location>
@@ -521,7 +521,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../NewConnectionWizard.ui" line="194"></location>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="52"></location>
@@ -531,7 +531,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="55"></location>
         <source>Test Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Test erfolgreich</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="82"></location>
@@ -554,12 +554,12 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/control_panel.cpp" line="79"></location>
         <source>System Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Systemverwaltung</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="82"></location>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindung</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="85"></location>
@@ -579,7 +579,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/getPage.h" line="28"></location>
         <source>Manage operating system snapshots</source>
-        <translation type="unfinished"></translation>
+        <translation>Betriebssystem-Snapshots verwalten</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="29"></location>
@@ -609,12 +609,12 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/getPage.h" line="31"></location>
         <source>Manage SSL Keys</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL Zertifikate verwalten</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"></location>
         <source>SSL Key Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL Key Manager (Zertifikatsverwaltung)</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"></location>
@@ -624,17 +624,17 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/getPage.h" line="32"></location>
         <source>About TrueOS</source>
-        <translation type="unfinished"></translation>
+        <translation>Über TrueOS</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="32"></location>
         <source>More information on TrueOS</source>
-        <translation type="unfinished"></translation>
+        <translation>Weitere Informationen zu TrueOS</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="33"></location>
         <source>Life Preserver</source>
-        <translation type="unfinished"></translation>
+        <translation>Life Preserver</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="33"></location>
@@ -649,7 +649,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/getPage.h" line="34"></location>
         <source>Information About the System</source>
-        <translation type="unfinished"></translation>
+        <translation>Informationen über das System</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="35"></location>
@@ -669,27 +669,27 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/getPage.h" line="36"></location>
         <source>Manage Applications/Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Programme/Pakete verwalten</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="37"></location>
         <source>User Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerverwaltung</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="37"></location>
         <source>Manage Users/Groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer/Gruppen verwalten</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="38"></location>
         <source>Service Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Diensteverwaltung</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="38"></location>
         <source>Manage Services</source>
-        <translation type="unfinished"></translation>
+        <translation>Dienste verwalten</translation>
     </message>
 </context>
 <context>
@@ -725,7 +725,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_about.cpp" line="27"></location>
         <source>About PC-BSD</source>
-        <translation type="unfinished"></translation>
+        <translation>Über TrueOS</translation>
     </message>
 </context>
 <context>
@@ -3066,12 +3066,12 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_users.ui" line="375"></location>
         <source>Disable PersonaCrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>PersonaCrypt deaktivieren</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="437"></location>
         <source>Enable PersonaCrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>PersonaCrypt aktivieren</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="464"></location>
@@ -3101,33 +3101,33 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_users.ui" line="645"></location>
         <source>New User</source>
-        <translation type="unfinished"></translation>
+        <translation>Neuer Benutzer</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="712"></location>
         <location filename="../pages/page_users.ui" line="789"></location>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="730"></location>
         <source>Groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Gruppen</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="829"></location>
         <source>New Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Gruppe</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="990"></location>
         <source>Members</source>
-        <translation type="unfinished"></translation>
+        <translation>Mitglieder</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="1000"></location>
         <source>Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Verfügbar</translation>
     </message>
 </context>
 </TS>
