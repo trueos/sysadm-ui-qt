@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>455</width>
-    <height>317</height>
+    <height>324</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -229,8 +229,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>28</height>
+                <width>449</width>
+                <height>232</height>
                </rect>
               </property>
              </widget>
@@ -305,8 +305,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>28</height>
+                <width>449</width>
+                <height>236</height>
                </rect>
               </property>
              </widget>
@@ -409,8 +409,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>28</height>
+                <width>449</width>
+                <height>232</height>
                </rect>
               </property>
              </widget>
@@ -872,8 +872,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>378</width>
-                    <height>158</height>
+                    <width>98</width>
+                    <height>35</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -984,10 +984,10 @@
          <item>
           <widget class="QToolButton" name="tool_local_rem">
            <property name="toolTip">
-            <string>Uninstall Selected Packages</string>
+            <string>Uninstall Checked Packages</string>
            </property>
            <property name="statusTip">
-            <string>Uninstall Selected Packages</string>
+            <string>Uninstall Checked Packages</string>
            </property>
            <property name="text">
             <string>Remove</string>
@@ -1004,10 +1004,10 @@
          <item>
           <widget class="QToolButton" name="tool_local_lock">
            <property name="toolTip">
-            <string>Lock Selected Packages</string>
+            <string>Lock Checked Packages</string>
            </property>
            <property name="statusTip">
-            <string>Lock Selected Packages</string>
+            <string>Lock Checked Packages</string>
            </property>
            <property name="text">
             <string>Lock</string>
@@ -1024,10 +1024,10 @@
          <item>
           <widget class="QToolButton" name="tool_local_unlock">
            <property name="toolTip">
-            <string>Unlock Selected Packages</string>
+            <string>Unlock Checked Packages</string>
            </property>
            <property name="statusTip">
-            <string>Unlock Selected Packages</string>
+            <string>Unlock Checked Packages</string>
            </property>
            <property name="text">
             <string>Unlock</string>
