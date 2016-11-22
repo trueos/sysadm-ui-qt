@@ -67,6 +67,7 @@ sysadm_client* sysadm_tray::getCore(QString host){
   if(!CORES.contains(host)){ 
     CORES.insert(host, new sysadm_client()); 
     CORES[host]->registerForEvents(sysadm_client::SYSSTATE);
+    CORES[host]->registerForEvents(sysadm_client::LIFEPRESERVER);
     #ifdef __FreeBSD__
      //Also load the currently-running user for this process and place that into the UI automatically
       //Note: This will only be valid on FreeBSD systems (since the server is only for FreeBSD)
@@ -259,6 +260,8 @@ void sysadm_tray::MessageTriggered(QAction *act){
     MESSAGES.insert(act->whatsThis(),msg);
     QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
     if(act->whatsThis().section("/",-1)=="updates"){ OpenCore(msg.host_id, "page_updates"); }
+    else if(act->whatsThis().section("/",-1)=="pkg"){ OpenCore(msg.host_id, "page_pkg"); }
+    else if(act->whatsThis().count("/")==2){ OpenCore(msg.host_id, "page_"+act->whatsThis().section("/",1,1)); } //Life Preserver Message
     else{ OpenCore(msg.host_id); }
   }
 }

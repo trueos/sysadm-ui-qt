@@ -57,5 +57,7 @@ private slots:
 	void check_current_update();
 	void check_current_update_item(QTreeWidgetItem*);
 	void on_push_check_updates_clicked(){ send_check_updates(true); }
+	void on_check_auto_reboot_toggled(bool);
+
 };
 #endif
