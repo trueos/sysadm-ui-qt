@@ -453,7 +453,7 @@
             <string/>
            </property>
            <property name="currentSection">
-            <enum>QDateTimeEdit::HourSection</enum>
+            <enum>QDateTimeEdit::NoSection</enum>
            </property>
            <property name="displayFormat">
             <string>@ h AP</string>
@@ -463,12 +463,36 @@
         </layout>
        </item>
        <item>
+        <widget class="QRadioButton" name="radio_repo_stable">
+         <property name="text">
+          <string>STABLE Repository</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radio_repo_unstable">
+         <property name="text">
+          <string>UNSTABLE Repository (staging repository for testing the next STABLE updates)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radio_repo_custom">
+         <property name="text">
+          <string>CUSTOM</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="group_settings_customrepo">
          <property name="title">
           <string>Custom Package Repository</string>
          </property>
          <property name="checkable">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="checked">
           <bool>false</bool>
