@@ -136,7 +136,7 @@ void pkg_page::send_local_check_upgrade(){
 
 void pkg_page::send_repo_app_info(QString origin, QString repo){
   ui->page_pkg->setEnabled(false);
-  qDebug() << "Send app info request:" << origin << repo;
+  //qDebug() << "Send app info request:" << origin << repo;
   if(repo.isEmpty()){ repo = "local"; }
   QJsonObject obj;
     obj.insert("action","pkg_info");
@@ -631,7 +631,7 @@ void pkg_page::LoadImageFromURL(QLabel *widget, QString url){
     widget->setVisible(true);
   }else{
     //Need to fetch the image - put a placeholder in for now
-    qDebug() << "Load Image From URL:" << qurl;
+    //qDebug() << "Load Image From URL:" << qurl;
     widget->setWhatsThis(qurl.toString());
     widget->setPixmap( QPixmap(":/icons/black/photo.svg") );
     if(!imagepending.contains(qurl)){
@@ -649,7 +649,7 @@ void pkg_page::LoadImageFromURL(QTreeWidgetItem *it, QString url){
     it->setIcon(1, QIcon(QPixmap::fromImage(imagecache[qurl] )) );
   }else{
     //Need to fetch the image - put a placeholder in for now
-    qDebug() << "Load Image From URL:" << qurl;
+    //qDebug() << "Load Image From URL:" << qurl;
     it->setWhatsThis(1,qurl.toString());
     it->setIcon(1, QIcon(":/icons/black/photo.svg") );
     if(!imagepending.contains(qurl)){

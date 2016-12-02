@@ -20,7 +20,7 @@
       <enum>QTabWidget::North</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="icon">
@@ -439,12 +439,60 @@
         </widget>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QCheckBox" name="check_auto_reboot">
+           <property name="text">
+            <string>Automatically reboot to finish updates</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTimeEdit" name="time_auto_reboot">
+           <property name="specialValueText">
+            <string/>
+           </property>
+           <property name="currentSection">
+            <enum>QDateTimeEdit::NoSection</enum>
+           </property>
+           <property name="displayFormat">
+            <string>@ h AP</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radio_repo_stable">
+         <property name="text">
+          <string>STABLE Repository</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radio_repo_unstable">
+         <property name="text">
+          <string>UNSTABLE Repository (staging repository for testing the next STABLE updates)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radio_repo_custom">
+         <property name="text">
+          <string>CUSTOM</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="group_settings_customrepo">
          <property name="title">
           <string>Custom Package Repository</string>
          </property>
          <property name="checkable">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="checked">
           <bool>false</bool>

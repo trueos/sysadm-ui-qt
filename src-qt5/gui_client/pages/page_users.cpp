@@ -69,6 +69,7 @@ void users_page::ParseReply(QString id, QString namesp, QString name, QJsonValue
   bool iserror = (name.toLower()=="error") || (namesp.toLower()=="error");
   QString errtext;
   if(iserror && args.toObject().contains("error")){ errtext = args.toObject().value("error").toString(); }
+  if(id==USERTAG+"add_user"){ qDebug() << "Got Message:" << id << iserror << errtext << args; }
   if(id==(USERTAG+"list_users")){
     if(!iserror){ userObj = args.toObject(); }
     updateUserList();
@@ -81,7 +82,7 @@ void users_page::ParseReply(QString id, QString namesp, QString name, QJsonValue
     QStringList devs = args.toObject().keys();
     ui->combo_pc_device->clear();
     for(int i=0; i<devs.length(); i++){
-      ui->combo_pc_device->addItem(devs[i], args.toObject().value(devs[i]).toString());
+      ui->combo_pc_device->addItem(args.toObject().value(devs[i]).toString(), devs[i]);
     }
     validateUserChanges();
 
@@ -431,6 +432,7 @@ void users_page::send_user_save(){
       QString password = ui->line_pc_password_disable->text(); //could be empty
       obj.insert("personacrypt_disable", password);
     }
+    qDebug() << "Send add_user:" << obj;
     communicate(USERTAG+"add_user", "sysadm", "users",obj);
   }
 }

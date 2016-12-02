@@ -116,6 +116,10 @@ private:
 	QString EncodeString(QString str, QByteArray key);
 	QString DecodeString(QString str, QByteArray key);
 
+	//Queuing system for data submission to prevent crashes
+	QStringList QUEUE;
+	QTimer *QueueTimer;
+
 public slots:
 	void closeConnection();
 
@@ -142,6 +146,7 @@ private slots:
 
 	// - Main message output routine (tied to an internal signal - don't use manually)
         void forwardSocketMessage(QString);
+	void sendFromQueue();
 
 	// - Main message input parsing
 	void socketMessage(QString msg); //Signal: textMessageReceived()

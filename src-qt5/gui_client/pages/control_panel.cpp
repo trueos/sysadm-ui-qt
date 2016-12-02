@@ -118,7 +118,7 @@ void control_panel::ItemClicked(QTreeWidgetItem *item, int col){
 }
 
 void control_panel::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
-  qDebug() << "CP Reply:" << id << namesp << name << args;
+  //qDebug() << "CP Reply:" << id << namesp << name << args;
   if(id!=REQ_ID || name=="error" || namesp=="error"){ return; }
   //Got the reply to our request
   tree->clear();
