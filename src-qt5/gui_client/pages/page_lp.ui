@@ -48,7 +48,7 @@
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>ZFS Pool</string>
+            <string>Storage Pool</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
