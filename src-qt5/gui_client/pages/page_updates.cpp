@@ -22,6 +22,7 @@ updates_page::updates_page(QWidget *parent, sysadm_client *core) : PageWidget(pa
   connect(ui->group_up_details, SIGNAL(toggled(bool)), this, SLOT(check_current_update()) );
   ui->stacked_updates->setCurrentWidget(ui->page_updates); //always start on this page - has the "checking" notice
   ui->tabWidget->setTabEnabled(1, false); //disable the "branches" tab by default - will be enabled if/when branches become available
+  ui->tabWidget->setCurrentIndex(0);
   connect(ui->radio_repo_custom, SIGNAL(toggled(bool)), ui->group_settings_customrepo, SLOT(setEnabled(bool)) );
 }
 

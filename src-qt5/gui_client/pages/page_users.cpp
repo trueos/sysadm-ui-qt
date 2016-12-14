@@ -81,6 +81,7 @@ void users_page::ParseReply(QString id, QString namesp, QString name, QJsonValue
   }else if(id==(USERTAG+"list_pcdevs")){
     QStringList devs = args.toObject().keys();
     ui->combo_pc_device->clear();
+    ui->combo_pc_device->addItem(tr("On-Disk Encryption (PEFS)"),"PEFS");
     for(int i=0; i<devs.length(); i++){
       ui->combo_pc_device->addItem(args.toObject().value(devs[i]).toString(), devs[i]);
     }

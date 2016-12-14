@@ -66,6 +66,10 @@ sysadm_client::sysadm_client(){
     pingTimer->setInterval(90000); //90 second intervals 
     connect(pingTimer, SIGNAL(timeout()), this, SLOT(sendPing()) );
     connect(this, SIGNAL(clientAuthorized()), pingTimer, SLOT(start()) );
+  QueueTimer = new QTimer(this);
+    QueueTimer->setInterval(20); //20ms interval between sending of messages (prevent overflowing the socket)
+    QueueTimer->setSingleShot(true);
+    connect(QueueTimer, SIGNAL(timeout()), this, SLOT(sendFromQueue()));
 }
 
 sysadm_client::~sysadm_client(){
@@ -731,10 +735,22 @@ void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: er
 
 // - Main message output routine (tied to an internal signal - don't use manually)
 void sysadm_client::forwardSocketMessage(QString msg){
+  /*if(SOCKET->isValid()){ 
+    SOCKET->sendTextMessage(msg);
+    if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
+  }*/
+  QUEUE << msg;
+  if(!QueueTimer->isActive()){ QueueTimer->start(); }
+}
+
+void sysadm_client::sendFromQueue(){
+  if(QUEUE.isEmpty()){ return; }
+  QString msg = QUEUE.takeFirst();
   if(SOCKET->isValid()){ 
     SOCKET->sendTextMessage(msg);
     if(pingTimer->isActive()){ pingTimer->stop(); pingTimer->start(); } //reset the timer for this interval
   }
+  if(!QUEUE.isEmpty()){ QueueTimer->start(); }
 }
 
 // - Main message input parsing
