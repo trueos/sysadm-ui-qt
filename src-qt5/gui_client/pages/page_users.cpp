@@ -172,7 +172,7 @@ void users_page::updateUserSelection(){ //uses the userObj variable
     ui->line_user_home->setText( uobj.value("home_dir").toString() );
     ui->line_user_shell->setText( uobj.value("shell").toString() );
     bool haspc = uobj.contains("personacrypt_enabled");
-    ui->group_pc_enable->setVisible(!haspc);
+    ui->group_pc_enable->setVisible(false); //only allow init on new users (12/14/16)
     ui->group_pc_disable->setVisible(haspc);
   }else{
     //New User
