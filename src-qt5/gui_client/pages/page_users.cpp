@@ -81,6 +81,7 @@ void users_page::ParseReply(QString id, QString namesp, QString name, QJsonValue
   }else if(id==(USERTAG+"list_pcdevs")){
     QStringList devs = args.toObject().keys();
     ui->combo_pc_device->clear();
+    ui->combo_pc_device->addItem(tr("On-Disk Encryption (PEFS)"),"PEFS");
     for(int i=0; i<devs.length(); i++){
       ui->combo_pc_device->addItem(args.toObject().value(devs[i]).toString(), devs[i]);
     }
@@ -172,7 +173,7 @@ void users_page::updateUserSelection(){ //uses the userObj variable
     ui->line_user_home->setText( uobj.value("home_dir").toString() );
     ui->line_user_shell->setText( uobj.value("shell").toString() );
     bool haspc = uobj.contains("personacrypt_enabled");
-    ui->group_pc_enable->setVisible(!haspc);
+    ui->group_pc_enable->setVisible(false); //only allow init on new users (12/14/16)
     ui->group_pc_disable->setVisible(haspc);
   }else{
     //New User

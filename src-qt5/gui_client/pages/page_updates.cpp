@@ -22,6 +22,8 @@ updates_page::updates_page(QWidget *parent, sysadm_client *core) : PageWidget(pa
   connect(ui->group_up_details, SIGNAL(toggled(bool)), this, SLOT(check_current_update()) );
   ui->stacked_updates->setCurrentWidget(ui->page_updates); //always start on this page - has the "checking" notice
   ui->tabWidget->setTabEnabled(1, false); //disable the "branches" tab by default - will be enabled if/when branches become available
+  ui->tabWidget->setCurrentIndex(0);
+  connect(ui->radio_repo_custom, SIGNAL(toggled(bool)), ui->group_settings_customrepo, SLOT(setEnabled(bool)) );
 }
 
 updates_page::~updates_page(){
@@ -169,9 +171,12 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
       if(hour>=0 && hour<24){ ui->time_auto_reboot->setTime(QTime(hour,0)); }
     }
     ui->check_auto_reboot->setChecked(autoup);
-    bool crepo = false;
-    if(obj.contains("package_set")){ crepo = (obj.value("package_set").toString()=="CUSTOM"); }
-    ui->group_settings_customrepo->setChecked(crepo);
+    QString  repo = "STABLE";
+    if(obj.contains("package_set")){ repo = obj.value("package_set").toString().toUpper(); }
+    if(repo=="CUSTOM"){ ui->radio_repo_custom->setChecked(true); }
+    else if(repo=="UNSTABLE"){ ui->radio_repo_unstable->setChecked(true); }
+    else{ ui->radio_repo_stable->setChecked(true); }
+    ui->group_settings_customrepo->setEnabled(ui->radio_repo_custom->isChecked());
     ui->line_settings_url->setText( obj.value("package_url").toString() ); //normally empty/nonexistant
 
   }else{
@@ -311,11 +316,13 @@ void updates_page::send_save_settings(){
     obj.insert("maxbe", ui->spin_maxbe->cleanText() );
     obj.insert("auto_update", ui->check_settings_autoup->isChecked() ? "all" : "disabled");
     obj.insert("auto_update_reboot", ui->check_auto_reboot->isChecked() ? QString::number(ui->time_auto_reboot->time().hour()) : "disabled");
-    if(ui->group_settings_customrepo->isChecked()){
+    if(ui->radio_repo_custom->isChecked()){
       obj.insert("package_set","CUSTOM");
       obj.insert("package_url", ui->line_settings_url->text() );
+    }else if(ui->radio_repo_unstable->isChecked()){
+      obj.insert("package_set","UNSTABLE");
     }else{
-      obj.insert("package_set","EDGE");
+      obj.insert("package_set","STABLE");
     }
   communicate(IDTAG+"save_settings", "sysadm", "update",obj);
 }
