@@ -18,6 +18,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QToolButton" name="tool_start">
+       <property name="toolTip">
+        <string>Start</string>
+       </property>
        <property name="statusTip">
         <string>Start the selected service</string>
        </property>
@@ -32,6 +35,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="tool_stop">
+       <property name="toolTip">
+        <string>Stop</string>
+       </property>
        <property name="statusTip">
         <string>Stop the selected service</string>
        </property>
@@ -46,6 +52,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="tool_restart">
+       <property name="toolTip">
+        <string>Restart</string>
+       </property>
        <property name="statusTip">
         <string>Restart the selected service</string>
        </property>
@@ -73,6 +82,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="tool_enable">
+       <property name="toolTip">
+        <string>Enabled</string>
+       </property>
        <property name="statusTip">
         <string>Enable automatic start on boot</string>
        </property>
@@ -87,6 +99,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="tool_disable">
+       <property name="toolTip">
+        <string>Disabled</string>
+       </property>
        <property name="statusTip">
         <string>Disable automatic start on boot</string>
        </property>
