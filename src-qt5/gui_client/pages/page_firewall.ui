@@ -111,6 +111,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="tool_enable">
+       <property name="toolTip">
+        <string>Enabled at boot</string>
+       </property>
        <property name="statusTip">
         <string>Automatically start the firewall on boot</string>
        </property>
@@ -131,6 +134,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="tool_disable">
+       <property name="toolTip">
+        <string>Disbaled at boot</string>
+       </property>
        <property name="statusTip">
         <string>Do not start the firewall on boot</string>
        </property>
@@ -289,6 +295,9 @@
           </item>
           <item>
            <widget class="QToolButton" name="tool_open_port">
+            <property name="toolTip">
+             <string>Open Port</string>
+            </property>
             <property name="statusTip">
              <string>Open the designated port</string>
             </property>
