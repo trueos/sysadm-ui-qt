@@ -34,7 +34,7 @@ private:
 	QMenu *msgMenu; //The submenu for showing current messages
 
 	//Timers/flags to control the icon "flash" frequency
-	QTimer *iconTimer;
+	QTimer *iconTimer, *msgTimer;
 	bool iconreset;
 	int cPriority;
 
