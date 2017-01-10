@@ -296,6 +296,7 @@ void sysadm_tray::updateMessageMenu(){
     }else if( acts[i]->whatsThis()!="clearall" && !acts[i]->whatsThis().isEmpty() ) {
       //qDebug() << " - Remove Action";
       msgMenu->removeAction(acts[i]);
+      acts[i]->deleteLater();
     }
   }
   //Now add in any new messages
