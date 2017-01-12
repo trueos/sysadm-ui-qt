@@ -83,11 +83,11 @@
              <item>
               <widget class="QPushButton" name="push_start_updates">
                <property name="text">
-                <string>Start Updates</string>
+                <string>Download and Prepare Updates</string>
                </property>
                <property name="icon">
                 <iconset resource="../../icons/icons.qrc">
-                 <normaloff>:/icons/black/triangle-right-circled-border.svg</normaloff>:/icons/black/triangle-right-circled-border.svg</iconset>
+                 <normaloff>:/icons/black/download.svg</normaloff>:/icons/black/download.svg</iconset>
                </property>
               </widget>
              </item>
@@ -564,6 +564,43 @@
           </spacer>
          </item>
         </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="icon">
+       <iconset resource="../../icons/icons.qrc">
+        <normaloff>:/icons/black/archivebox.svg</normaloff>:/icons/black/archivebox.svg</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Recent Updates</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <widget class="QListWidget" name="list_logs">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPlainTextEdit" name="text_log">
+         <property name="tabChangesFocus">
+          <bool>true</bool>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
