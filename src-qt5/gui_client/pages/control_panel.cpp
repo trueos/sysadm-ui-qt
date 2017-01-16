@@ -24,6 +24,7 @@ control_panel::control_panel(QWidget *parent, sysadm_client *core) : PageWidget(
     tree->setDragDropMode(QTreeView::NoDragDrop);
     tree->setDragEnabled(false);
     tree->setFrameShape(QFrame::NoFrame);
+    tree->setColumnCount(2);
     int icosize = 2.3*tree->fontMetrics().height();
     tree->setIconSize(QSize(icosize,icosize));
   connect(tree, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(ItemClicked(QTreeWidgetItem*, int)) );
@@ -54,16 +55,16 @@ void control_panel::setPreviousPage(QString id){
 }
 
 // === PRIVATE ===
-void control_panel::setupPageButton(QString id, QTreeWidgetItem *item){
+void control_panel::setupPageButton(QString id, QTreeWidgetItem *item, int column){
   PAGEINFO info;
   for(int i=0; i<pages.length(); i++){
     if(pages[i].id==id){ info = pages[i]; break;}
   }
   if(info.id.isEmpty()){ return; }
   // *** Setup an icon/text for this page ***
-  item->setText(0, info.name);
-  item->setIcon(0, QIcon(info.icon));
-  item->setToolTip(0, info.comment);
+  item->setText(column, info.name);
+  item->setIcon(column, QIcon(info.icon));
+  item->setToolTip(column, info.comment);
 }
 
 void control_panel::setupCategoryButton(QString cat, QTreeWidgetItem *item){
@@ -97,7 +98,7 @@ void control_panel::ItemClicked(QTreeWidgetItem *item, int col){
     if(item->isExpanded()){
       tree->collapseItem(item);
     }else{
-      for(int i=0; i<tree->topLevelItemCount(); i++){
+      /*for(int i=0; i<tree->topLevelItemCount(); i++){
         if(tree->topLevelItem(i)!=item && tree->topLevelItem(i)->isExpanded()){
 	  tree->collapseItem(tree->topLevelItem(i));
 	  QTime time; time.start();
@@ -105,7 +106,7 @@ void control_panel::ItemClicked(QTreeWidgetItem *item, int col){
 	    QApplication::processEvents();
 	  }
 	}
-      }
+      }*/
       tree->expandItem(item);
     }
   }else if(!item->whatsThis(col).isEmpty()){
@@ -145,25 +146,39 @@ void control_panel::ParseReply(QString id, QString namesp, QString name, QJsonVa
 	}
         if(ok){
 	  //Found an existing key - go ahead and create the item for it
+          QTreeWidgetItem *it = 0;
+          int col = 0;
 	  if(ccat==0 || ccat->whatsThis(0)!=cat){
 	    //Need to create the category first
 	    ccat = new QTreeWidgetItem();
 	      ccat->setWhatsThis(0,cat);
+              ccat->setFirstColumnSpanned(true);
 	      setupCategoryButton(cat, ccat);
+            ccat->setExpanded(true);
 	    tree->addTopLevelItem(ccat);
-	  }
+	  }else if(ccat->childCount()>0){
+            //Look for an existing item we can add this to
+            if(ccat->child(ccat->childCount()-1)->whatsThis(1).isEmpty()){
+              it = ccat->child(ccat->childCount()-1);
+              col = 1;
+            }
+          }
 	  //Now create the child item for this page
-	  QTreeWidgetItem *it = new QTreeWidgetItem();
-	    it->setWhatsThis(0,id);
-	    setupPageButton(id, it);
-	  ccat->addChild(it);
+	  if(it==0){ it = new QTreeWidgetItem(); }
+	    it->setWhatsThis(col,id);
+	    setupPageButton(id, it, col);
+	  if(col==0){ ccat->addChild(it); }
           if(id==lastPageID){ it->setSelected(true); showPage = it; }
         } //end key check
       }
     //Now make sure the previously-used page is visible/highlighted as needed
     if(showPage!=0){
-      
       tree->scrollToItem(showPage);
     }
+    for(int i=0; i<tree->topLevelItemCount(); i++){
+      tree->expandItem(tree->topLevelItem(i));
+    }
+    tree->resizeColumnToContents(1);
+    tree->resizeColumnToContents(0);
   } //end of object check
 }
