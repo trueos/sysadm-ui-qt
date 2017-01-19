@@ -25,6 +25,7 @@ control_panel::control_panel(QWidget *parent, sysadm_client *core) : PageWidget(
     tree->setDragEnabled(false);
     tree->setFrameShape(QFrame::NoFrame);
     tree->setColumnCount(2);
+    tree->setSelectionBehavior(QAbstractItemView::SelectItems);
     int icosize = 2.3*tree->fontMetrics().height();
     tree->setIconSize(QSize(icosize,icosize));
   connect(tree, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(ItemClicked(QTreeWidgetItem*, int)) );
@@ -168,7 +169,7 @@ void control_panel::ParseReply(QString id, QString namesp, QString name, QJsonVa
 	    it->setWhatsThis(col,id);
 	    setupPageButton(id, it, col);
 	  if(col==0){ ccat->addChild(it); }
-          if(id==lastPageID){ it->setSelected(true); showPage = it; }
+          if(id==lastPageID){ tree->setCurrentItem(it, col); showPage = it; }
         } //end key check
       }
     //Now make sure the previously-used page is visible/highlighted as needed

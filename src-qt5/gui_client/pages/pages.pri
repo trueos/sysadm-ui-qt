@@ -13,7 +13,8 @@ HEADERS	+= 	$${PWD}/getPage.h \
 		$${PWD}/page_pkg-BrowserItem.h \
 		$${PWD}/page_users.h \
 		$${PWD}/page_services.h \
-		$${PWD}/page_firewall.h
+		$${PWD}/page_firewall.h \
+		$${PWD}/page_moused.h
 		
 
 SOURCES	+=	$${PWD}/control_panel.cpp \
@@ -30,7 +31,8 @@ SOURCES	+=	$${PWD}/control_panel.cpp \
 		$${PWD}/page_pkg-BrowserItem.cpp \
 		$${PWD}/page_users.cpp \
 		$${PWD}/page_services.cpp \
-		$${PWD}/page_firewall.cpp
+		$${PWD}/page_firewall.cpp \
+		$${PWD}/page_moused.cpp
 		
 FORMS	+=	$${PWD}/page_beadm.ui \
 		$${PWD}/page_taskmanager.ui \
@@ -43,4 +45,5 @@ FORMS	+=	$${PWD}/page_beadm.ui \
 		$${PWD}/page_pkg.ui \
 		$${PWD}/page_users.ui \
 		$${PWD}/page_services.ui \
-		$${PWD}/page_firewall.ui
+		$${PWD}/page_firewall.ui \
+		$${PWD}/page_moused.ui
