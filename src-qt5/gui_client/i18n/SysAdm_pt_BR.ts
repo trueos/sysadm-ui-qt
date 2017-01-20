@@ -1818,7 +1818,7 @@ Localização do Arquivo: %1</translation>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="100"/>
         <source>Databases</source>
-        <translation>Bancos de Dados</translation>
+        <translation>Bases de Dados</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="102"/>
