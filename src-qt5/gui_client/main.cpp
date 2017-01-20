@@ -66,6 +66,10 @@ int main( int argc, char ** argv )
     ret = A.exec();
     
   }else{
+    if( !sysadm_client::localhostRunning() ){
+      QMessageBox::warning(0, QObject::tr("Local Service Not Found"), QObject::tr("The local sysadm service does not appear to be running. Please start it and then try again."));
+      return 1;
+    }
     //Open the stand-alone client just for the localhost
     sysadm_client CORE;
       #ifdef __FreeBSD__
