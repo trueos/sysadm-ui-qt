@@ -156,9 +156,7 @@ bool sysadm_client::localhostAvailable(){
 bool sysadm_client::localhostRunning(){ 
   //If the local server is running
   #ifdef __FreeBSD__
-    if(QFile::exists("/var/run/sysadm.pid")){
-      return true; //(0 == system("pgrep -F /var/run/sysadm.pid"));
-    }
+  return (0 == system("service sysadm status"));
   #endif
 return false;
 }
