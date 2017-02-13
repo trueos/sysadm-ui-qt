@@ -24,6 +24,14 @@ QSslConfiguration SSL_cfg, SSL_cfg_bridge; //null-loaded config objects
 
 int main( int argc, char ** argv )
 {
+    // see if the user wants the args
+    if (argc == 2 && QString(argv[1]) == "-help")
+    {
+        qDebug() << "Usage: " << QString(argv[0]) << " [-localhost] [-page N]";
+        qDebug() << "    -page N start on page N";
+        qDebug() << "    -localhost connect to server on localhost";
+        return 0;
+    }
   //Load the application
   QApplication A(argc, argv);
 
