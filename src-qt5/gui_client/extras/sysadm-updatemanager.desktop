@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+StartupNotify=true
+Comment=TrueOS: Update Manager
+Categories=Settings;
+GenericName=system update manager
+Name=System Updates
+TryExec=pc-updatemanager
+Exec=sysadm-client -page page_updates
+Icon=trueos
