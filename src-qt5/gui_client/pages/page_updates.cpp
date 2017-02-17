@@ -19,6 +19,7 @@ updates_page::updates_page(QWidget *parent, sysadm_client *core) : PageWidget(pa
   connect(ui->list_branches, SIGNAL(currentRowChanged(int)), this, SLOT(check_current_branch()) );
   connect(ui->tree_updates, SIGNAL(itemSelectionChanged()), this, SLOT(check_current_update()) );
   connect(ui->tree_updates, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(check_current_update_item(QTreeWidgetItem*)) );
+  connect(ui->list_logs, SIGNAL(currentRowChanged(int)), this, SLOT(send_read_log()) );
   connect(ui->group_up_details, SIGNAL(toggled(bool)), this, SLOT(check_current_update()) );
   ui->stacked_updates->setCurrentWidget(ui->page_updates); //always start on this page - has the "checking" notice
   ui->tabWidget->setTabEnabled(1, false); //disable the "branches" tab by default - will be enabled if/when branches become available
@@ -43,6 +44,7 @@ void updates_page::startPage(){
   send_list_branches();
   send_check_updates();
   send_list_settings();
+  send_list_logs();
   check_current_branch();
   check_current_update();
 }
@@ -150,6 +152,7 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
 	}
     } //end status update type
     ui->tree_updates->sortItems(0,Qt::AscendingOrder);
+    if(ui->tree_updates->topLevelItemCount()>0){ ui->tree_updates->setCurrentItem( ui->tree_updates->topLevelItem(0) ); }
     ui->page_updates->setEnabled(true);
     ui->label_checking->setVisible(false);
     check_current_update();
@@ -179,10 +182,31 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
     ui->group_settings_customrepo->setEnabled(ui->radio_repo_custom->isChecked());
     ui->line_settings_url->setText( obj.value("package_url").toString() ); //normally empty/nonexistant
 
+  }else if(id==IDTAG+"list_logs"){
+    ui->list_logs->clear();
+    QStringList logs = args.toObject().value("listlogs").toObject().keys();
+    QString label = tr("%1");
+    for(int i=0; i<logs.length(); i++){
+      QJsonObject info = args.toObject().value("listlogs").toObject().value(logs[i]).toObject();
+      QListWidgetItem *it = new QListWidgetItem( label.arg(info.value("name").toString()) );
+        it->setWhatsThis(logs[i]);
+      ui->list_logs->addItem(it);
+    }
+  }else if(id==IDTAG+"read_log"){
+    ui->text_log->clear();
+    QStringList keys = args.toObject().value("readlogs").toObject().keys();
+    QString clog;
+    if(ui->list_logs->currentItem()!=0){ clog = ui->list_logs->currentItem()->whatsThis(); }
+    if(keys.contains(clog)){
+      ui->text_log->setWhatsThis(clog);
+      ui->text_log->setPlainText( args.toObject().value("readlogs").toObject().value(clog).toString() );
+    }
+
   }else{
     send_list_branches();
     send_check_updates();
     send_list_settings();
+    send_list_logs();
   }
 }
 
@@ -248,6 +272,11 @@ void updates_page::check_start_updates(){
     }
   }
   sel.removeAll("");
+  if(sel.isEmpty() && ui->tree_updates->currentItem() != 0){
+    if( !ui->tree_updates->currentItem()->whatsThis(0).isEmpty() ){
+      sel << ui->tree_updates->currentItem()->whatsThis(0);
+    }
+  }
   if(sel.isEmpty()){ return; }
   //Now determine the update command(s) to run
   qDebug() << "Selected Updates:" << sel;
@@ -326,6 +355,22 @@ void updates_page::send_save_settings(){
     }
   communicate(IDTAG+"save_settings", "sysadm", "update",obj);
 }
+
+void updates_page::send_list_logs(){
+  QJsonObject obj;
+    obj.insert("action","listlogs");
+  communicate(IDTAG+"list_logs", "sysadm", "update",obj);
+}
+
+void updates_page::send_read_log(){
+  if(ui->list_logs->currentItem()==0){ return; }
+  QString citem = ui->list_logs->currentItem()->whatsThis();
+  QJsonObject obj;
+    obj.insert("action","readlogs");
+    obj.insert("logs", citem);
+  communicate(IDTAG+"read_log", "sysadm", "update",obj);
+}
+
 
 void updates_page::check_current_branch(){
   bool ok = true;

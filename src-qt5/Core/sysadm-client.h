@@ -68,7 +68,8 @@ public:
 	QString bridgedHostname(QString bridge_id);
 
 	//Check if the sysadm server is running on the local system
-	static bool localhostAvailable();
+	static bool localhostAvailable(); //If the server is installed
+	static bool localhostRunning(); //If the local server is running
 
 	// Register for Event Notifications (no notifications by default)
 	void registerForEvents(EVENT_TYPE event, bool receive = true);

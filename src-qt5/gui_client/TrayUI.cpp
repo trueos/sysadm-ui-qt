@@ -26,6 +26,11 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
   iconTimer = new QTimer(this);
     iconTimer->setInterval(1500); //1.5 seconds
     connect(iconTimer, SIGNAL(timeout()), this, SLOT(UpdateIcon()) );
+  msgTimer = new QTimer(this);
+    msgTimer->setInterval(300); //~1/3 seconds
+    msgTimer->setSingleShot(true);
+    connect(msgTimer, SIGNAL(timeout()), this, SLOT(updateMessageMenu()) );
+
   //Load any CORES
   updateCoreList();
   
@@ -246,7 +251,8 @@ void sysadm_tray::ShowMessage(HostMessage msg){
   }
   //Now update the user-viewable menu's
   if(refreshlist){ 
-    QTimer::singleShot(10,this, SLOT(updateMessageMenu()) ); 
+    msgTimer->start();
+    //QTimer::singleShot(10,this, SLOT(updateMessageMenu()) ); 
   }
 }
 
@@ -254,7 +260,8 @@ void sysadm_tray::ClearMessage(QString host, QString msg_id){
   //qDebug() << "Clear Message:" << host << msg_id;
   if(MESSAGES.contains(host+"/"+msg_id)){
     MESSAGES.remove(host+"/"+msg_id);
-    QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
+    msgTimer->start();
+    //QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
   }
 }
 
@@ -271,11 +278,11 @@ void sysadm_tray::MessageTriggered(QAction *act){
         MESSAGES.insert(keys[i],msg);
       }
     }
-    QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
+    msgTimer->start();
   }else if(MESSAGES.contains(act->whatsThis())){
     //Open the designated host
     HostMessage msg = MESSAGES[act->whatsThis()];
-    QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
+    msgTimer->start();
     if(act->whatsThis().section("/",-1)=="updates"){ OpenCore(msg.host_id, "page_updates"); }
     else if(act->whatsThis().section("/",-1)=="pkg"){ OpenCore(msg.host_id, "page_pkg"); }
     else if(act->whatsThis().count("/")==2){ OpenCore(msg.host_id, "page_"+act->whatsThis().section("/",1,1)); } //Life Preserver Message
@@ -304,6 +311,7 @@ void sysadm_tray::updateMessageMenu(){
     }else if( acts[i]->whatsThis()!="clearall" && !acts[i]->whatsThis().isEmpty() ) {
       //qDebug() << " - Remove Action";
       msgMenu->removeAction(acts[i]);
+      acts[i]->deleteLater();
     }
   }
   //Now add in any new messages

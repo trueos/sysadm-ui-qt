@@ -234,6 +234,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <widget class="QToolButton" name="tool_rep_add">
+           <property name="toolTip">
+            <string>New</string>
+           </property>
            <property name="statusTip">
             <string>Create a new replication</string>
            </property>
@@ -248,6 +251,9 @@
          </item>
          <item>
           <widget class="QToolButton" name="tool_rep_remove">
+           <property name="toolTip">
+            <string>Remove</string>
+           </property>
            <property name="statusTip">
             <string>Remove a replication</string>
            </property>
@@ -262,6 +268,9 @@
          </item>
          <item>
           <widget class="QToolButton" name="tool_rep_modify">
+           <property name="toolTip">
+            <string>Modify</string>
+           </property>
            <property name="statusTip">
             <string>Modify selected replication</string>
            </property>
@@ -573,6 +582,9 @@
             </property>
             <item>
              <widget class="QToolButton" name="tool_schedule_addsnap">
+              <property name="toolTip">
+               <string>Add snapshot to schedule</string>
+              </property>
               <property name="statusTip">
                <string>Add snapshot to schedule</string>
               </property>
@@ -587,6 +599,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="tool_schedule_modifysnap">
+              <property name="toolTip">
+               <string>Modify the selected snapshot schedule</string>
+              </property>
               <property name="statusTip">
                <string>Modify the selected snapshot schedule</string>
               </property>
@@ -601,6 +616,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="tool_schedule_rmsnap">
+              <property name="toolTip">
+               <string>Remove snapshot from schedule</string>
+              </property>
               <property name="statusTip">
                <string>Remove snapshot from schedule</string>
               </property>
@@ -655,6 +673,9 @@
             </property>
             <item>
              <widget class="QToolButton" name="tool_schedule_addscrub">
+              <property name="toolTip">
+               <string>Add ZFS scrub to schedule</string>
+              </property>
               <property name="statusTip">
                <string>Add ZFS scrub to schedule</string>
               </property>
@@ -669,6 +690,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="tool_schedule_modifyscrub">
+              <property name="toolTip">
+               <string>Modify the selected scrub schedule</string>
+              </property>
               <property name="statusTip">
                <string>Modify the selected scrub schedule</string>
               </property>
@@ -683,6 +707,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="tool_schedule_rmscrub">
+              <property name="toolTip">
+               <string>Remove scheduled scrub</string>
+              </property>
               <property name="statusTip">
                <string>Remove scheduled scrub</string>
               </property>

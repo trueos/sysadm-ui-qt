@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+StartupNotify=true
+Comment=SysAdm: moused configuration
+Categories=Settings;
+GenericName=moused settings
+Name=Mouse Configuration
+TryExec=sysadm-client
+Exec=sysadm-client -page page_moused
+Icon=preferences-desktop-mouse

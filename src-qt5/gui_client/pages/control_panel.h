@@ -28,7 +28,7 @@ private:
 	QString lastPageID;
 
 	void setupCategoryButton(QString cat, QTreeWidgetItem *item);
-	void setupPageButton(QString id, QTreeWidgetItem *item);
+	void setupPageButton(QString id, QTreeWidgetItem *item, int column);
 
 private slots:
 	//GUI userevent handling

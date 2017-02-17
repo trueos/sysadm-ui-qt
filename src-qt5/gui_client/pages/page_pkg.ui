@@ -32,7 +32,7 @@
       <enum>QTabWidget::North</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_repo">
       <attribute name="icon">
@@ -138,6 +138,12 @@
           </item>
           <item>
            <widget class="QToolButton" name="tool_repo_search">
+            <property name="toolTip">
+             <string>Search</string>
+            </property>
+            <property name="statusTip">
+             <string>Search</string>
+            </property>
             <property name="text">
              <string>...</string>
             </property>
@@ -229,8 +235,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>449</width>
-                <height>232</height>
+                <width>98</width>
+                <height>28</height>
                </rect>
               </property>
              </widget>
@@ -305,8 +311,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>449</width>
-                <height>236</height>
+                <width>98</width>
+                <height>28</height>
                </rect>
               </property>
              </widget>
@@ -409,8 +415,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>449</width>
-                <height>232</height>
+                <width>98</width>
+                <height>28</height>
                </rect>
               </property>
              </widget>
@@ -872,8 +878,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>98</width>
-                    <height>35</height>
+                    <width>405</width>
+                    <height>138</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -1056,6 +1062,9 @@
          </item>
          <item>
           <widget class="QToolButton" name="tool_local_clean">
+           <property name="toolTip">
+            <string>Remove orphaned packages</string>
+           </property>
            <property name="statusTip">
             <string>Automatically remove any orphaned packages</string>
            </property>
@@ -1112,6 +1121,9 @@
          </item>
          <item>
           <widget class="QToolButton" name="tool_local_filter">
+           <property name="toolTip">
+            <string>View Options</string>
+           </property>
            <property name="statusTip">
             <string>Adjust View Options</string>
            </property>

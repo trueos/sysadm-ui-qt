@@ -35,7 +35,7 @@ private:
 	QIcon generateMsgIcon(QString iconfile, int priority);
 
 	//Timers/flags to control the icon "flash" frequency
-	QTimer *iconTimer;
+	QTimer *iconTimer, *msgTimer;
 	bool iconreset;
 	int cPriority;
 

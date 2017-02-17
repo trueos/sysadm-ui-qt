@@ -6,12 +6,12 @@
     <message>
         <location filename="../pages/page_pkg-BrowserItem.cpp" line="30"/>
         <source>Install Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Zainstaluj Pakiet</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-BrowserItem.cpp" line="33"/>
         <source>Uninstall Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Odinstaluj Pakiet</translation>
     </message>
 </context>
 <context>
@@ -19,32 +19,32 @@
     <message>
         <location filename="../C_Manager.ui" line="20"/>
         <source>SysAdm: Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>SysAdm: Połączenia</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="88"/>
         <source>Add Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj Grupę</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="99"/>
         <source>Remove Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń Grupę</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="117"/>
         <source>Add Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj połączenie</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="128"/>
         <source>Remove Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń połączenie</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="139"/>
         <source>Reset Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetuj ustawienia</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="157"/>
@@ -59,52 +59,57 @@
     <message>
         <location filename="../C_Manager.ui" line="218"/>
         <source>Configure Certificates</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguracja Certyfikatów</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="239"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <source>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name="qrichtext" content="1" /&gt;&lt;style type="text/css"&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;SSL Configuration&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;sysadm uses an encrypted SSL key/certificate bundle for automatically connecting to all the systems which are registered in this client. Once created, these files may later be exported from this client and imported into any other sysadm client on another machine.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;"&gt;
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;&lt;span style=" font-weight:600;"&gt;SSL Configuration&lt;/span&gt;&lt;/p&gt;
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;sysadm uses an encrypted SSL key/certificate bundle for automatically connecting to all the systems which are registered in this client. Once created, these files may later be exported from this client and imported into any other sysadm client on another machine.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name="qrichtext" content="1" /&gt;&lt;style type="text/css"&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;"&gt;
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;&lt;span style=" font-weight:600;"&gt;Konfiguracja SSL&lt;/span&gt;&lt;/p&gt;
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;sysadm wykorzystuje szyfrowany klucz/certyfikat SSL do automatycznego łączenia się z wszystkimi systemami, które są zarejestrowane na tym kliencie. Po utworzeniu pliki te mogą być później wyeksportowane z tego klienta i zaimportowane do jakiegokolwiek innego klienta sysadm na innym komputerze.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="266"/>
         <source>Import Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Importuj Certyfikat</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="304"/>
         <source>Create New SSL Certificates</source>
-        <translation type="unfinished"></translation>
+        <translation>Tworzenie nowych certyfikatów SSL</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="322"/>
         <source>Email Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres email</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="339"/>
         <source>Certificate Nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrócona nazwa certyfikatu</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="374"/>
         <source>Create Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz certyfikat</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="408"/>
         <source>View Public Certificates</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetl certyfikaty publiczne</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="416"/>
         <source>Server Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Certyfikat serwera</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="426"/>
@@ -114,23 +119,23 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../C_Manager.ui" line="446"/>
         <source>Export Public Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksportuj Klucz Publiczny</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="482"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>pasek narzędzi</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="512"/>
         <source>Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączenia</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="515"/>
         <location filename="../C_Manager.ui" line="518"/>
         <source>View Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetl połączenia</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="530"/>
@@ -138,17 +143,17 @@ p, li { white-space: pre-wrap; }
         <location filename="../C_Manager.ui" line="536"/>
         <location filename="../C_Manager.ui" line="539"/>
         <source>Setup SSL</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguracja SSL</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="548"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakończono</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="310"/>
         <source>New Connection Nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrócona nazwa połączenia</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="310"/>
@@ -158,87 +163,88 @@ p, li { white-space: pre-wrap; }
         <location filename="../C_Manager.cpp" line="483"/>
         <location filename="../C_Manager.cpp" line="485"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa:</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="312"/>
         <location filename="../C_Manager.cpp" line="485"/>
         <source>Invalid Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieprawidłowa nazwa</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="415"/>
         <location filename="../C_Manager.cpp" line="426"/>
         <source>Export Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd eksportu</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="415"/>
         <source>Could not read settings and SSL files</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można odczytać ustawień i plików SSL</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="426"/>
         <source>Could not create export file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można utworzyć pliku eksportu: %1</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="436"/>
         <source>Export Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport zakończony</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="436"/>
         <source>SysAdm settings export successful.
 File Location: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport ustawień SysAdm udany.
+Lokalizacja pliku: %1</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="442"/>
         <source>New Group Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa nowej grupy</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="444"/>
         <source>Invalid Group Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieprawidłowa nazwa grupy</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="483"/>
         <source>New Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowa nazwa</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="514"/>
         <location filename="../C_Manager.cpp" line="516"/>
         <location filename="../C_Manager.cpp" line="518"/>
         <source>SSL Passphrase</source>
-        <translation type="unfinished"></translation>
+        <translation>Hasło SSL</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="514"/>
         <source>Create Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz hasło</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="516"/>
         <source>Retype Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Powtórz hasło</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="518"/>
         <source>(Did not Match) Retype Password</source>
-        <translation type="unfinished"></translation>
+        <translation>(Nie pasują) Powtórz hasło</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="537"/>
         <source>Select sysadm export file</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik eksportu sysadm</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="537"/>
         <source>SysAdm settings (*.export)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia SysAdm (*.export)</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="542"/>
@@ -247,39 +253,40 @@ File Location: %1</source>
         <location filename="../C_Manager.cpp" line="576"/>
         <location filename="../C_Manager.cpp" line="585"/>
         <source>Import Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd importu</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="542"/>
         <source>Could not read selected file. (Check file permissions?)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można odczytać wybranego pliku. (Sprawdź uprawnienia do pliku?)</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="550"/>
         <source>File Contents are invalid. This does not appear to be a sysadm export file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawartość pliku jest nieprawidłowa. To nie wydaje się być plikiem eksportu sysadm.</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="567"/>
         <source>Could not overwrite sysadm settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się nadpisać ustawień sysadm</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="576"/>
         <location filename="../C_Manager.cpp" line="585"/>
         <source>Could not overwrite sysadm SSL bundle</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się nadpisać pakietu sysadm SSL</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="627"/>
         <source>Key Exported</source>
-        <translation type="unfinished"></translation>
+        <translation>Klucz wyeksportowany</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="627"/>
         <source>Public SSL key saved to file:
  %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Klucz publiczny SSL zapisany do pliku:
+ %1</translation>
     </message>
 </context>
 <context>
@@ -292,52 +299,52 @@ File Location: %1</source>
     <message>
         <location filename="../MenuItem.cpp" line="53"/>
         <source>Connection Closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączenia zakończone</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="56"/>
         <source>%1: Lost Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: połączenie przerwane</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="60"/>
         <source>Trying to connect....</source>
-        <translation type="unfinished"></translation>
+        <translation>Łączenie....</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="66"/>
         <source>Connection Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączenie aktywne</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="84"/>
         <source>%1: Reboot required to finish updates</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: Wymagany Reboot do zakończenia aktualizacji</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="85"/>
         <source>%1: Updates in progress</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: Aktualizacje w toku</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="86"/>
         <source>%1: Updates available</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: Dostępne aktualizacje</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="106"/>
         <source>%1: zpool needs attention</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: zpool wymaga uwagi</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="108"/>
         <source>%1: zpool running low on disk space</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: zpool zaczyna brakować miejsca na dysku</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="109"/>
         <source>%1: zpool degraded - possible hardware issue</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: zpool zdegradowane - możliwy problem ze sprzętem</translation>
     </message>
 </context>
 <context>
@@ -350,7 +357,7 @@ File Location: %1</source>
     <message>
         <location filename="../MenuItem.cpp" line="189"/>
         <source>Connection Closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączenie zakończone</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="192"/>
@@ -360,22 +367,22 @@ File Location: %1</source>
     <message>
         <location filename="../MenuItem.cpp" line="198"/>
         <source>Trying to connect....</source>
-        <translation type="unfinished"></translation>
+        <translation>Łączenie....</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="205"/>
         <source>Connection Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączenie aktywne</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="207"/>
         <source>%1: Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: Płączono</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="242"/>
         <source>Reconnect Now</source>
-        <translation type="unfinished"></translation>
+        <translation>Połącz ponownie teraz</translation>
     </message>
 </context>
 <context>
@@ -383,22 +390,22 @@ File Location: %1</source>
     <message>
         <location filename="../mainUI.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>GłówneOkno</translation>
     </message>
     <message>
         <location filename="../mainUI.ui" line="25"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>pasek narzędzi</translation>
     </message>
     <message>
         <location filename="../mainUI.ui" line="56"/>
         <source>Control Panel</source>
-        <translation type="unfinished"></translation>
+        <translation>Panel Sterowania</translation>
     </message>
     <message>
         <location filename="../mainUI.ui" line="65"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="37"/>
@@ -413,17 +420,17 @@ File Location: %1</source>
     <message>
         <location filename="../mainUI.cpp" line="40"/>
         <source>Shutdown System</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij system</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="53"/>
         <source>Authentication Settings Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieprawidłowe ustawienia uwierzytelniania</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="53"/>
         <source>Please reset your authentication procedures for this server within the connection manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę zresetować procedury uwierzytelniania dla tego serwera w menedżerze połączeń.</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="114"/>
@@ -436,22 +443,22 @@ File Location: %1</source>
     <message>
         <location filename="../MenuItem.cpp" line="405"/>
         <source>Unlock Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Odblokuj połączenia</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="416"/>
         <source>Manage Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Zarządzanie połączeniami</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="419"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="427"/>
         <source>Close SysAdm Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij klienta SysAdm</translation>
     </message>
 </context>
 <context>
@@ -459,22 +466,22 @@ File Location: %1</source>
     <message>
         <location filename="../NewConnectionWizard.ui" line="14"/>
         <source>SysAdm connection setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguracja połączenia SysAdm</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="24"/>
         <source>Connect to a Remote System </source>
-        <translation type="unfinished"></translation>
+        <translation>Połącz ze Zdalnym Systemem </translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="33"/>
         <source>Host IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP hosta:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="47"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa użytkownika:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="54"/>
@@ -484,7 +491,7 @@ File Location: %1</source>
     <message>
         <location filename="../NewConnectionWizard.ui" line="61"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hasło:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="71"/>
@@ -494,27 +501,27 @@ File Location: %1</source>
     <message>
         <location filename="../NewConnectionWizard.ui" line="93"/>
         <source>Test Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia testowe</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="133"/>
         <source>Server Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączenie z serwerem</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="143"/>
         <source>Bridge Relay</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Przekaźnik</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="183"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakończono</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="194"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Anuluj</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="52"/>
@@ -524,12 +531,12 @@ File Location: %1</source>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="55"/>
         <source>Test Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Test udany</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="82"/>
         <source>Host Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieprawidłowy host</translation>
     </message>
 </context>
 <context>
@@ -537,52 +544,52 @@ File Location: %1</source>
     <message>
         <location filename="../pages/control_panel.cpp" line="74"/>
         <source>Application Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Zarządzanie aplikacjami</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="76"/>
         <source>App Management Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Status zarządzania aplikacjami</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="79"/>
         <source>System Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Zarządzanie Systemem</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="82"/>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączenie</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="85"/>
         <source>SysAdm Server Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia SysAdm serwera</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="88"/>
         <source>Utilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Narzędzia</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="28"/>
         <source>Boot Environment Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Menedżer środowiska rozruchowego</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="28"/>
         <source>Manage operating system snapshots</source>
-        <translation type="unfinished"></translation>
+        <translation>Zarządzaj migawkami systemu operacyjnego</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="29"/>
         <source>Task Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Menedżer zadań</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="29"/>
         <source>Monitor system tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Monitoruj zasoby systemowe</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="30"/>
@@ -597,7 +604,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/getPage.h" line="30"/>
         <source>Manage virtual OS instances</source>
-        <translation type="unfinished"></translation>
+        <translation>Zarządzaj wirtualnymi instancjami systemu operacyjnego</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"/>
@@ -612,7 +619,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/getPage.h" line="31"/>
         <source>List and Revoke SSL key registrations</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż i unieważnij klucze SSL</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="32"/>
@@ -843,7 +850,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_iohyve.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="39"/>
@@ -1614,7 +1621,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_system.ui" line="137"/>
         <source>PC-BSD Versions</source>
-        <translation type="unfinished"></translation>
+        <translation>PC-BSD Wersje</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="161"/>
@@ -3033,7 +3040,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="299"/>
-        <source>Places the user within the &quot;wheel&quot; group for administration abilities</source>
+        <source>Places the user within the "wheel" group for administration abilities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3043,7 +3050,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="309"/>
-        <source>Places the user within the &quot;operator&quot; group for partial system control</source>
+        <source>Places the user within the "operator" group for partial system control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -51,6 +51,8 @@ private slots:
 	void send_stop_updates();
 	void send_list_settings();
 	void send_save_settings();
+	void send_list_logs();
+	void send_read_log();
 
 	//UI slots
 	void check_current_branch();
