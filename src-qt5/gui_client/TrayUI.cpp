@@ -12,6 +12,8 @@
 #include <unistd.h>
 #endif
 
+#include <QBitmap>
+
 QHash<QString,sysadm_client*> CORES; // hostIP / core
 QHash<QString, HostMessage> MESSAGES; // "hostIP/message_type", Message Structure
 
@@ -39,7 +41,8 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
       act->setFont(fnt);
     msgMenu->addSeparator();
     connect(msgMenu, SIGNAL(triggered(QAction*)), this, SLOT(MessageTriggered(QAction*)) );
-	
+    connect(msgMenu, SIGNAL(aboutToShow()), this, SLOT(MessagesViewed()));
+
   //Setup the menu
   menu = new MenuItem(0,"",msgMenu);
   this->setContextMenu(menu);
@@ -62,6 +65,24 @@ sysadm_tray::~sysadm_tray(){
 }
 
 // === PRIVATE ===
+QIcon sysadm_tray::generateMsgIcon(QString iconfile, int priority){
+  QColor color;
+  if(priority < 3){ return QIcon(iconfile); } //make it simple
+  else if(priority < 6){ color = QColor("yellow"); }
+  else if(priority < 9){  color = QColor("orange"); }
+  else{  color = QColor("red"); }
+  QPixmap pixmap(iconfile);
+  QPixmap total(pixmap.size());
+  total.fill(color);
+  //paint the icon over the top of the backgound
+  QPainter P(&total);
+    P.drawPixmap(total.rect(), pixmap, pixmap.rect());
+  /*QBitmap mask = pixmap.createMaskFromColor(QColor("transparent"), Qt::MaskOutColor);
+    pixmap.fill(color);
+    pixmap.setMask(mask);*/
+  return QIcon(total);
+}
+
 sysadm_client* sysadm_tray::getCore(QString host){
   //simplification to ensure that core always exists fot the given host
   if(!CORES.contains(host)){ 
@@ -252,12 +273,8 @@ void sysadm_tray::MessageTriggered(QAction *act){
     }
     QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
   }else if(MESSAGES.contains(act->whatsThis())){
-    //Open the designated host and hide this message
+    //Open the designated host
     HostMessage msg = MESSAGES[act->whatsThis()];
-      //Lower the priority down to stop the tray notifications
-      if(msg.priority>2){ msg.priority=2; }
-      //msg.date_time = QDateTime::currentDateTime().addDays(1); //hide for one day if unresolved in the meantime;
-    MESSAGES.insert(act->whatsThis(),msg);
     QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
     if(act->whatsThis().section("/",-1)=="updates"){ OpenCore(msg.host_id, "page_updates"); }
     else if(act->whatsThis().section("/",-1)=="pkg"){ OpenCore(msg.host_id, "page_pkg"); }
@@ -281,7 +298,7 @@ void sysadm_tray::updateMessageMenu(){
     if(keys.contains(acts[i]->whatsThis()) && (MESSAGES[acts[i]->whatsThis()].date_time.toTime_t() < cdt_t) ){
       //qDebug() << " - Update action" << MESSAGES[acts[i]->whatsThis()].date_time;
       acts[i]->setText( MESSAGES[acts[i]->whatsThis()].message );
-      acts[i]->setIcon( QIcon(MESSAGES[acts[i]->whatsThis()].iconfile) );
+      acts[i]->setIcon( generateMsgIcon(MESSAGES[acts[i]->whatsThis()].iconfile,MESSAGES[acts[i]->whatsThis()].priority) );
       num++;
       keys.removeAll(acts[i]->whatsThis()); //already handled
     }else if( acts[i]->whatsThis()!="clearall" && !acts[i]->whatsThis().isEmpty() ) {
@@ -293,7 +310,7 @@ void sysadm_tray::updateMessageMenu(){
   for(int i=0; i<keys.length(); i++){
     if(MESSAGES[keys[i]].date_time.secsTo(cdt)>-1){
       //qDebug() << " Add new action:" << keys[i];
-      QAction *act = msgMenu->addAction( QIcon(MESSAGES[keys[i]].iconfile),MESSAGES[keys[i]].message );
+      QAction *act = msgMenu->addAction( generateMsgIcon(MESSAGES[keys[i]].iconfile, MESSAGES[keys[i]].priority),MESSAGES[keys[i]].message );
 	act->setWhatsThis(keys[i]);
 	num++;
     }
@@ -306,6 +323,16 @@ void sysadm_tray::updateMessageMenu(){
   UpdateIconPriority();
 }
 
+void sysadm_tray::MessagesViewed(){
+  QStringList keys = MESSAGES.keys();
+  for(int i=0; i<keys.length(); i++){
+      HostMessage msg = MESSAGES[keys[i]];
+        msg.viewed = true;
+      MESSAGES.insert(keys[i],msg);
+  }
+  UpdateIconPriority();
+}
+
 //Icon Updates
 void sysadm_tray::UpdateIconPriority(){
   int pri = 0;
@@ -314,7 +341,7 @@ void sysadm_tray::UpdateIconPriority(){
   //qDebug() << "Update Priority:" << cdt;
   for(int i=0; i<keys.length(); i++){
     //qDebug() << "Check Key:" << keys[i] << MESSAGES[keys[i]].priority << MESSAGES[keys[i]].date_time;
-    if(MESSAGES[keys[i]].date_time.secsTo(cdt) <-1 ){ continue; } //hidden message - ignore it for priorities
+    if(MESSAGES[keys[i]].date_time.secsTo(cdt) <-1 || MESSAGES[keys[i]].viewed){ continue; } //hidden message - ignore it for priorities
     if(MESSAGES[keys[i]].priority > pri){ pri = MESSAGES[keys[i]].priority; }
   }
   cPriority = pri; //save for use

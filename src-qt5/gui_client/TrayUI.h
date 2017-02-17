@@ -32,6 +32,7 @@ private:
 	//Menu's attached to the tray
 	MenuItem *menu; //the main menu
 	QMenu *msgMenu; //The submenu for showing current messages
+	QIcon generateMsgIcon(QString iconfile, int priority);
 
 	//Timers/flags to control the icon "flash" frequency
 	QTimer *iconTimer;
@@ -67,6 +68,7 @@ private slots:
 	void ClearMessage(QString,QString);
 	void MessageTriggered(QAction*);
 	void updateMessageMenu();
+	void MessagesViewed();
 	//Icon Updates
 	void UpdateIconPriority();
 	void UpdateIcon();
