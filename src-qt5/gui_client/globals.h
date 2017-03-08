@@ -84,14 +84,14 @@ extern QSslConfiguration SSL_cfg_bridge;
 inline QString SSLFile(){
   if(settings==0){ return ""; } //should never happen: settings gets loaded at the start
   else{
-    QDir dir(settings->fileName()); dir.cdUp(); //need the containing dir in an OS-agnostic way
+    QDir dir(settings->fileName().section("/",0,-2) ); //need the containing dir in an OS-agnostic way
     return dir.absoluteFilePath("sysadm_ssl.pfx12");
   }
 }
 inline QString SSLBridgeFile(){
   if(settings==0){ return ""; } //should never happen: settings gets loaded at the start
   else{
-    QDir dir(settings->fileName()); dir.cdUp(); //need the containing dir in an OS-agnostic way
+    QDir dir(settings->fileName().section("/",0,-2)); //need the containing dir in an OS-agnostic way
     return dir.absoluteFilePath("sysadm_ssl_bridge.pfx12");
   }
 }

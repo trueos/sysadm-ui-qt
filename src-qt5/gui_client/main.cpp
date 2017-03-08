@@ -19,7 +19,7 @@
 #endif
 
 //Initialize the global variables (defined in globals.h)
-QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PCBSD","sysadm-client", 0);
+QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "SysAdm","sysadm-client", 0);
 QSslConfiguration SSL_cfg, SSL_cfg_bridge; //null-loaded config objects
 
 int main( int argc, char ** argv )
@@ -64,6 +64,31 @@ int main( int argc, char ** argv )
       qDebug() << "Could not find any available system tray after 5 minutes: exiting....";
       return 1;
     }
+    //Verify that the settings directory exists first - and create it as needed
+    QDir sdir(settings->fileName().section("/",0,-2));
+      bool check = false;
+      if(!sdir.exists()){ 
+        check = true;
+        sdir.mkpath(sdir.absolutePath());
+        qDebug() << "Creating Settings Directory:" << sdir.absolutePath(); 
+      }
+      if(check){
+        //Now see if the settings files exist in the old PC-BSD directory, and move them over to the new dir as needed
+        if(QFile::exists(settings->fileName().replace("/SysAdm/", "/PCBSD/") )){
+	  QString ndir = sdir.absolutePath();
+          sdir.cd(settings->fileName().section("/",0,-3)+"/PCBSD");
+          qDebug() << " - Migrating old settings files from:" << sdir.absolutePath();
+	  QStringList files = sdir.entryList(QDir::Files | QDir::NoDotAndDotDot);
+          for(int i=0; i<files.length(); i++){
+            QFile::rename(sdir.absoluteFilePath(files[i]), ndir+"/"+files[i]);
+          }
+          //Now remove the old directory
+          qDebug() << " - Removing old settings directory";
+          sdir.rmpath(sdir.absolutePath());
+          settings->sync(); //resync with new settings file
+        }
+
+      }
     //Now start up the system tray
     qDebug() << "Loading Settings From:" << settings->fileName();
     qDebug() << " - Encrypted SSL Cert Bundle:" << SSLFile();

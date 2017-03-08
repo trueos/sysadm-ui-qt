@@ -178,7 +178,7 @@ bool C_Manager::generateKeyCertBundle(QString bundlefile, QString nickname, QStr
     OpenSSL_add_all_algorithms();
     ERR_load_crypto_strings();
 
-  //qDebug() << "Generate key bundle:" << bundlefile << nickname << email <<  passphrase;
+  qDebug() << "Generating key bundle:" << bundlefile;
     RSA *rsakey=0;
     X509 *req=0;
     X509_NAME *subj=0;
