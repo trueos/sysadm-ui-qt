@@ -78,7 +78,7 @@ int main( int argc, char ** argv )
 	  QString ndir = sdir.absolutePath();
           sdir.cd(settings->fileName().section("/",0,-3)+"/PCBSD");
           qDebug() << " - Migrating old settings files from:" << sdir.absolutePath();
-	  QStringList files = sdir.entryList(QDir::Files | QDir::NoDotAndDotDot);
+	  QStringList files = sdir.entryList(QStringList()<<"sysadm*", QDir::Files | QDir::NoDotAndDotDot);
           for(int i=0; i<files.length(); i++){
             QFile::rename(sdir.absoluteFilePath(files[i]), ndir+"/"+files[i]);
           }
