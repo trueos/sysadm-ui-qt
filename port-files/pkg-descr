@@ -1,3 +1,7 @@
-Sysadm Qt5 client
+The SysAdm client is a cross-platform, graphical utility written in
+pure Qt5 which provides multi-system management capabilities.
+The client connects via the websocket protocols to a SysAdm server
+and keeps the session alive to provide regular system health
+notifications, event updates, and much more.
 
-WWW: https://github.com/pcbsd/sysadm-ui-qt
+WWW: https://sysadm.us
