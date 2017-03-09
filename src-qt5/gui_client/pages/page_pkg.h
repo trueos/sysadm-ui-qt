@@ -201,4 +201,21 @@ public:
 	~HomeSlider(){}
 
 };
+
+class InstalledItem : public QTreeWidgetItem{
+public:
+	InstalledItem(int type = Type) : QTreeWidgetItem(type) {}
+	virtual ~InstalledItem() {}
+
+	virtual bool operator<(const QTreeWidgetItem &tmp) const {
+	  int column = this->treeWidget()->sortColumn();
+	  if(column == 3){
+	    return (this->data(3,Qt::UserRole).toDouble() < tmp.data(3,Qt::UserRole).toDouble());
+	  }else{
+	    return QTreeWidgetItem::operator<(tmp);
+	  }
+	}
+
+};
+
 #endif
