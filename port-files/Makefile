@@ -12,11 +12,12 @@ LICENSE=	BSD3CLAUSE
 
 WRKSRC_SUBDIR=	src-qt5
 USE_QT5=	core buildtools_build gui network qmake websockets widgets svg concurrent
-USES=		pkgconfig tar:xz qmake
+USES=		pkgconfig tar:xz qmake ssl
+USE_GL+=	gl
 MAKE_ARGS=	PREFIX=${STAGEDIR}${PREFIX}
 
 USE_GITHUB=	yes
-GH_ACCOUNT=	pcbsd
+GH_ACCOUNT=	trueos
 GH_PROJECT=	sysadm-ui-qt
 GH_TAGNAME=	%%GHTAG%%
 
