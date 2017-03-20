@@ -516,7 +516,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../NewConnectionWizard.ui" line="183"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Beendet</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="194"/>
@@ -569,7 +569,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/control_panel.cpp" line="88"/>
         <source>Utilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Werkzeuge</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="28"/>
