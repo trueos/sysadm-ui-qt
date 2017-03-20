@@ -344,7 +344,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../MenuItem.cpp" line="109"/>
         <source>%1: zpool degraded - possible hardware issue</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: zpool herabgesetzt - evtl. Hardware Fehler</translation>
     </message>
 </context>
 <context>
