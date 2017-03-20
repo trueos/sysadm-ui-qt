@@ -471,7 +471,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../NewConnectionWizard.ui" line="24"/>
         <source>Connect to a Remote System </source>
-        <translation>Mit einem entfernten System verbinden </translation>
+        <translation>Zu einem entfernten System verbinden</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="33"/>
@@ -511,7 +511,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../NewConnectionWizard.ui" line="143"/>
         <source>Bridge Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>Bridge Relay</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="183"/>
