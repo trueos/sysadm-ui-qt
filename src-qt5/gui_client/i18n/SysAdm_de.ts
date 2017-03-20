@@ -739,7 +739,7 @@ Dateiort: %1</translation>
         <location filename="../pages/page_beadm.cpp" line="96"/>
         <location filename="../pages/page_beadm.cpp" line="112"/>
         <source>New Boot Environment</source>
-        <translation>Neue Bootumgebung</translation>
+        <translation>Neue Startumgebung</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="96"/>
