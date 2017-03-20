@@ -584,7 +584,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/getPage.h" line="29"/>
         <source>Task Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Task Manager</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="29"/>
@@ -599,7 +599,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/getPage.h" line="30"/>
         <source>iohyve VM Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>iohyve VM Manager</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="30"/>
