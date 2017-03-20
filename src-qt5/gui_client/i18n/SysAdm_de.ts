@@ -791,7 +791,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_beadm.cpp" line="186"/>
         <source>Retrieving List...</source>
-        <translation>Liste wird abgerufen...</translation>
+        <translation>Empfange Liste...</translation>
     </message>
 </context>
 <context>
