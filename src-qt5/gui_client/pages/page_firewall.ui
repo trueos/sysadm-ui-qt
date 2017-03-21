@@ -135,7 +135,7 @@
      <item>
       <widget class="QToolButton" name="tool_disable">
        <property name="toolTip">
-        <string>Disbaled at boot</string>
+        <string>Disabled at boot</string>
        </property>
        <property name="statusTip">
         <string>Do not start the firewall on boot</string>
