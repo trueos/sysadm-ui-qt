@@ -228,7 +228,8 @@ void sysadm_tray::OpenCore(QString host, QString page){
 }
 
 void sysadm_tray::UnlockConnections(){
-  UpdateIcon();
+  qDebug() << "UnlockConnections";
+    UpdateIcon();
   //Open all the cores
   updateCoreList();  
   //Update the menu
@@ -238,7 +239,7 @@ void sysadm_tray::UnlockConnections(){
 
 //Popup Notifications
 void sysadm_tray::ShowMessage(HostMessage msg){
-  //qDebug() << "Got Show Message";
+  qDebug() << "Got Show Message";
   bool refreshlist = true;
   //Update the internal database of messages
   if(MESSAGES.contains(msg.host_id+"/"+msg.message_id) ){
@@ -257,7 +258,7 @@ void sysadm_tray::ShowMessage(HostMessage msg){
 }
 
 void sysadm_tray::ClearMessage(QString host, QString msg_id){
-  //qDebug() << "Clear Message:" << host << msg_id;
+  qDebug() << "Clear Message:" << host << msg_id;
   if(MESSAGES.contains(host+"/"+msg_id)){
     MESSAGES.remove(host+"/"+msg_id);
     msgTimer->start();
@@ -270,7 +271,7 @@ void sysadm_tray::MessageTriggered(QAction *act){
     QStringList keys = MESSAGES.keys();
     QDateTime cdt = QDateTime::currentDateTime();
     QDateTime delay = cdt.addDays(1);
-    //qDebug() << "Clear all messages:" << cdt << " -to-" << delay;
+    qDebug() << "Clear all messages:" << cdt << " -to-" << delay;
     for(int i=0; i<keys.length(); i++){
       if(MESSAGES[keys[i]].date_time.secsTo(cdt)>1 ){ 
         HostMessage msg = MESSAGES[keys[i]];
@@ -292,24 +293,24 @@ void sysadm_tray::MessageTriggered(QAction *act){
 
 //Function to update the messageMenu
 void sysadm_tray::updateMessageMenu(){
-  //qDebug() << "Update Message Menu:";
+  qDebug() << "Update Message Menu:";
   QStringList keys = MESSAGES.keys();
   QList<QAction*> acts = msgMenu->actions();
   //First update the existing actions as needed
   int num = 0; //for the final tally of messages which are visible
   QDateTime cdt = QDateTime::currentDateTime();
-  //qDebug() << "Current DT/keys" << cdt << keys;
+  qDebug() << "Current DT/keys" << cdt << keys;
   uint cdt_t = cdt.toTime_t();
   for(int i=0; i<acts.length(); i++){
-    //qDebug() << " - Check Act:" << acts[i]->whatsThis();
+    qDebug() << " - Check Act:" << acts[i]->whatsThis();
     if(keys.contains(acts[i]->whatsThis()) && (MESSAGES[acts[i]->whatsThis()].date_time.toTime_t() < cdt_t) ){
-      //qDebug() << " - Update action" << MESSAGES[acts[i]->whatsThis()].date_time;
+      qDebug() << " - Update action" << MESSAGES[acts[i]->whatsThis()].date_time;
       acts[i]->setText( MESSAGES[acts[i]->whatsThis()].message );
       acts[i]->setIcon( generateMsgIcon(MESSAGES[acts[i]->whatsThis()].iconfile,MESSAGES[acts[i]->whatsThis()].priority) );
       num++;
       keys.removeAll(acts[i]->whatsThis()); //already handled
     }else if( acts[i]->whatsThis()!="clearall" && !acts[i]->whatsThis().isEmpty() ) {
-      //qDebug() << " - Remove Action";
+      qDebug() << " - Remove Action";
       msgMenu->removeAction(acts[i]);
       acts[i]->deleteLater();
     }
@@ -317,7 +318,7 @@ void sysadm_tray::updateMessageMenu(){
   //Now add in any new messages
   for(int i=0; i<keys.length(); i++){
     if(MESSAGES[keys[i]].date_time.secsTo(cdt)>-1){
-      //qDebug() << " Add new action:" << keys[i];
+      qDebug() << " Add new action:" << keys[i];
       QAction *act = msgMenu->addAction( generateMsgIcon(MESSAGES[keys[i]].iconfile, MESSAGES[keys[i]].priority),MESSAGES[keys[i]].message );
 	act->setWhatsThis(keys[i]);
 	num++;
@@ -346,9 +347,9 @@ void sysadm_tray::UpdateIconPriority(){
   int pri = 0;
   QStringList keys = MESSAGES.keys();
   QDateTime cdt = QDateTime::currentDateTime();
-  //qDebug() << "Update Priority:" << cdt;
+  qDebug() << "Update Priority:" << cdt;
   for(int i=0; i<keys.length(); i++){
-    //qDebug() << "Check Key:" << keys[i] << MESSAGES[keys[i]].priority << MESSAGES[keys[i]].date_time;
+    qDebug() << "Check Key:" << keys[i] << MESSAGES[keys[i]].priority << MESSAGES[keys[i]].date_time;
     if(MESSAGES[keys[i]].date_time.secsTo(cdt) <-1 || MESSAGES[keys[i]].viewed){ continue; } //hidden message - ignore it for priorities
     if(MESSAGES[keys[i]].priority > pri){ pri = MESSAGES[keys[i]].priority; }
   }
@@ -362,7 +363,7 @@ void sysadm_tray::UpdateIconPriority(){
 }
 
 void sysadm_tray::UpdateIcon(){
-  //qDebug() << "Update Icon:" << cPriority << QDateTime::currentDateTime();
+  qDebug() << "Update Icon:" << cPriority << QDateTime::currentDateTime();
   QString icon = ":/icons/custom/sysadm_circle.svg";
   if(iconreset || cPriority <3){
     if(SSL_cfg.isNull()){ icon = ":/icons/custom/sysadm_circle_grey.png"; }

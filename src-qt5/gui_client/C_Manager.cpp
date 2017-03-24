@@ -67,7 +67,7 @@ void C_Manager::LoadConnectionInfo(){
   QStringList dirs = settings->allKeys().filter("C_Groups/");
   dirs.prepend("C_Groups"); //also need the "base" dir
   dirs.sort(); //this will ensure that we decend through the tree progressively
-  //qDebug() << "Load Dirs:" << dirs;
+  qDebug() << "Load Dirs:" << dirs;
   for(int i=0; i<dirs.length(); i++){
     //Create the item for this dir
     QTreeWidgetItem *item = 0;
@@ -85,7 +85,7 @@ void C_Manager::LoadConnectionInfo(){
     }
     //Load all the connections within this dir
     QStringList conns = settings->value(dirs[i]).toStringList();
-    //qDebug() << "Check Connections:" << dirs[i] << conns;
+    qDebug() << "Check Connections:" << dirs[i] << conns;
     for(int c=0; c<conns.length(); c++){
       if(conns[c].simplified().isEmpty()){ continue; }
        QTreeWidgetItem *tmp = new QTreeWidgetItem();
@@ -137,9 +137,9 @@ void C_Manager::SaveConnectionInfo(){
 //Simplification functions for reading/writing tree widget paths
 QTreeWidgetItem* C_Manager::FindItemParent(QString path){
   QString ppath = path.section("/",1,-2); //Cut off the C_Groups/ and current dir from the ends
-  //qDebug() << "Item Parent:" << path << ppath;
+  qDebug() << "Item Parent:" << path << ppath;
   QList<QTreeWidgetItem*> found = ui->tree_conn->findItems(ppath.section("/",-1), Qt::MatchExactly | Qt::MatchRecursive);
-  //qDebug() << "Matches Found:" << found;
+  qDebug() << "Matches Found:" << found;
   for(int i=0; i<found.length(); i++){
     QString check = found[i]->text(0);
     QTreeWidgetItem *tmp = found[i];
@@ -147,7 +147,7 @@ QTreeWidgetItem* C_Manager::FindItemParent(QString path){
       tmp = tmp->parent();
       check.prepend(tmp->text(0)+"/");
     }
-    //qDebug() << "Check parent path:" << ppath << check;
+    qDebug() << "Check parent path:" << ppath << check;
     if(ppath==check){ return found[i]; } //found the parent item
   }
   return 0; //none found
@@ -238,10 +238,10 @@ bool C_Manager::generateKeyCertBundle(QString bundlefile, QString nickname, QStr
       qDebug() << "Error initializing pkcs12 bundle";
       return false;
     }
-    //qDebug() << "pkcs12 passphrase:" << passphrase.toLocal8Bit().data();
+    qDebug() << "pkcs12 passphrase:" << passphrase.toLocal8Bit().data();
     char name[40] = "sysadm-client-";
     strcat(name, QString::number(qrand()%10000).toLocal8Bit().data());
-    //qDebug() << "Name:" << name;
+    qDebug() << "Name:" << name;
     p12 = PKCS12_create(passphrase.toLocal8Bit().data(), name, pkey, req, NULL, 0,0,0,0,0);
     if(p12==NULL){ 
       qDebug() << "Error creating pkcs12 bundle";
@@ -594,7 +594,7 @@ void C_Manager::on_push_ssl_import_clicked(){
 
 void C_Manager::LoadCertView(){
   if(SSL_cfg.isNull() || SSL_cfg_bridge.isNull()){ return; }
-  //qDebug() << "Load Cert View";
+  qDebug() << "Load Cert View";
   QSslCertificate cert;
   if(ui->radio_ssl_bridge->isChecked()){ cert = SSL_cfg_bridge.localCertificate(); }
   else{ cert = SSL_cfg.localCertificate(); }

@@ -141,10 +141,10 @@ void MainUI::ServerShutdown(){
 
 //Page Management
 void MainUI::loadPage(QString id){
-  //qDebug() << "Load Page:" << id;
+  qDebug() << "Load Page:" << id;
   QString lastPage = this->centralWidget()->whatsThis();
   PageWidget *page = GetNewPage(id, this, CORE);
-  //qDebug() << "Got Page:" << page;
+  qDebug() << "Got Page:" << page;
   if(page==0){ return; }
   page->setObjectName(id);
   page->setPreviousPage(lastPage);
@@ -156,7 +156,7 @@ void MainUI::loadPage(QString id){
   connect(ui->actionSave, SIGNAL(triggered()), page, SLOT(SaveSettings()) );
   connect(page, SIGNAL(send_message(QJsonObject)), this, SLOT(send_message(QJsonObject)) );
   //Switch page in window
-  //qDebug() << " - Swap page in window";
+  qDebug() << " - Swap page in window";
   QWidget *old = this->centralWidget();
   this->setCentralWidget(page);
   ui->actionBack->setVisible(!id.isEmpty());
@@ -165,11 +165,11 @@ void MainUI::loadPage(QString id){
   ui->actionTitle->setText("");
   if(old!=0 && old!=ui->centralwidget){ old->disconnect(); old->deleteLater(); }
   //Now run the page startup routines
-  //qDebug() << " - Setup Core";
+  qDebug() << " - Setup Core";
   page->setupCore();
-  //qDebug() << " - Start Page";
+  qDebug() << " - Start Page";
   page->startPage();
-  //qDebug() << " - Give Page Focus";
+  qDebug() << " - Give Page Focus";
   page->setFocus();
   this->showNormal();
 }
@@ -215,13 +215,13 @@ void MainUI::Disconnected(){
 
 //Main message signals from core
 void MainUI::newReply(QString id, QString namesp, QString name, QJsonValue args){
-  //qDebug() << "Normal Reply:" << b_id << id;
+  qDebug() << "Normal Reply:" << b_id << id;
   if(!b_id.isEmpty()){ return; } //this reply not for this window
   static_cast<PageWidget*>(this->centralWidget())->ParseReply(id, namesp, name, args);
 }
 
 void MainUI::bridgeReply(QString bridge_id,QString id, QString namesp, QString name, QJsonValue args){
-  //qDebug() << "New Bridge Reply:" << bridge_id << b_id << id;
+  qDebug() << "New Bridge Reply:" << bridge_id << b_id << id;
   if(b_id != bridge_id){ return; } //this reply not for this window
   static_cast<PageWidget*>(this->centralWidget())->ParseReply(id, namesp, name, args);
 }
