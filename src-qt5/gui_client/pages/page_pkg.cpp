@@ -180,7 +180,7 @@ void pkg_page::update_local_list(QJsonObject obj){
     }
     if(it==0){
       //No Item available - need to create one
-      it = new QTreeWidgetItem();
+      it = new InstalledItem();
       it->setWhatsThis(0,origins[i]);
       it->setCheckState(0,(ui->check_local_all->isChecked() ? Qt::Checked : Qt::Unchecked) );
     }
@@ -198,7 +198,8 @@ void pkg_page::update_local_list(QJsonObject obj){
       LoadImageFromURL(it, obj.value(origins[i]).toObject().value("icon").toString());
     }
     it->setText(2, obj.value(origins[i]).toObject().value("version").toString() );
-    it->setText(3, BtoHR(obj.value(origins[i]).toObject().value("flatsize").toString().toDouble()) );
+    it->setData(3, Qt::UserRole, obj.value(origins[i]).toObject().value("flatsize").toString().toDouble() );
+    it->setText(3, BtoHR(it->data(3,Qt::UserRole).toDouble()) );
     it->setText(4, origins[i].section("/",0,0) ); //category
     //Now the hidden data within each item
     it->setWhatsThis(2, obj.value(origins[i]).toObject().value("repository").toString() ); //which repo the pkg was installed from

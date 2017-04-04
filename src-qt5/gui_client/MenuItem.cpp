@@ -12,7 +12,7 @@ extern QHash<QString,sysadm_client*> CORES; // hostIP / core
 //      CORE ACTION
 //=================
 CoreAction::CoreAction(sysadm_client*core, QObject *parent, QString bridge_id) : QAction(parent){
-   //qDebug() << "New CoreAction:" << core->currentHost() << bridge_id;
+   qDebug() << "New CoreAction:" << core->currentHost() << bridge_id;
   //Load the current core settings into the action
   host = core->currentHost();
   b_id = bridge_id;
@@ -45,23 +45,25 @@ CoreAction::CoreAction(sysadm_client*core, QObject *parent, QString bridge_id) :
 }
 
 CoreAction::~CoreAction(){
-  //qDebug() << "CoreAction destructor:" << host << b_id;
+  qDebug() << "CoreAction destructor:" << host << b_id;
   //disconnect(this);
 }
 void CoreAction::CoreClosed(){
-  this->setIcon( QIcon(":/icons/grey/disk.svg") );
+  qDebug() << "CoreClosed:" << host << b_id;
+    this->setIcon( QIcon(":/icons/grey/disk.svg") );
   this->setToolTip( tr("Connection Closed") );
   this->setEnabled(true);
   emit UpdateTrayIcon(); //let the main tray icon know it needs to update as needed
   emit ShowMessage( createMessage(host, "connection", QString(tr("%1: Lost Connection")).arg(nickname), ":/icons/grey/off.svg") );
 }
 void CoreAction::CoreConnecting(){
-  this->setIcon( QIcon(":/icons/black/sync.svg") );
+  qDebug() << "CoreConnecting:" << host << b_id;
+    this->setIcon( QIcon(":/icons/black/sync.svg") );
   this->setToolTip( tr("Trying to connect....") );
   this->setEnabled(false);
 }
 void CoreAction::CoreActive(){
-
+  qDebug() << "CoreActive:" << host << b_id;
   this->setIcon( QIcon(":/icons/black/disk.svg") );
   this->setToolTip( tr("Connection Active") );
   this->setEnabled(true);
@@ -74,10 +76,10 @@ void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
   if(!val.isObject() ){ return; }
   if(type == sysadm_client::SYSSTATE ){
   //Update notices
-  //qDebug() << "Got a system State Event:" << nickname << val;
+  qDebug() << "Got a system State Event:" << nickname << val;
   if(val.toObject().contains("updates")){
     QString stat = val.toObject().value("updates").toObject().value("status").toString();
-    //qDebug() << "Update Status:" << stat;
+    qDebug() << "Update Status:" << stat;
     if(stat=="noupdates"){ emit ClearMessage(host,"updates"); }
     else{
       QString msg, icon;
@@ -115,7 +117,7 @@ void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
   }
 
  }else if(type == sysadm_client::LIFEPRESERVER){
-  //qDebug() << "Got LP Event:" << val;
+  qDebug() << "Got LP Event:" << val;
   int priority = 0;
    if(val.toObject().contains("priority")){ priority = val.toObject().value("priority").toString().section(" ",0,0).toInt(); }
   emit ShowMessage( createMessage(host, "lp/"+val.toObject().value("class").toString(), nickname+": "+val.toObject().value("message").toString(), ":/icons/custom/lifepreserver.png", priority) );
@@ -137,7 +139,7 @@ void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
    }else if(details.value("process_id").toString().startsWith("sysadm_pkg_")){
     QString stat = details.value("state").toString();
     QString act = details.value("process_id").toString().section("-",0,0).section("_",-1);
-    //qDebug() << "pkg state:" << stat << act;
+    qDebug() << "pkg state:" << stat << act;
     if( (stat=="running" || stat=="finished") && !act.contains("lock") && act!="audit" && act!="upgrade"){
       //Always use priority 0 for pkg change events
       QString icon = ":/icons/custom/appcafe.png";
@@ -145,7 +147,7 @@ void CoreAction::CoreEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
       emit ShowMessage( createMessage(host, "pkg", msg.arg(nickname, act, stat), icon, 0) );
     }
   }else{
-    //qDebug() << "Unhandled dispatcher event:" << val;
+    qDebug() << "Unhandled dispatcher event:" << val;
   }
  } //end loop over event type
 }
@@ -171,7 +173,7 @@ void CoreAction::priorityChanged(int priority){
 //=================
 CoreMenu::CoreMenu(sysadm_client* core, QWidget *parent) : QMenu(parent){
   //This is a bridge connection - make a menu of all connections availeable through bridge
-  //qDebug() << "New CoreMenu:" << core->currentHost();
+  qDebug() << "New CoreMenu:" << core->currentHost();
   Core = core; //save pointer for later
   host = core->currentHost();
   updating = false;
@@ -385,7 +387,7 @@ void MenuItem::UpdateMenu(){
     }
   QStringList hosts = settings->value(pathkey).toStringList();
   qDebug() << "Update Menu:" << this->whatsThis() << "Has Core:" << !hosts.isEmpty();
-  //qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
+  qDebug() << "  - subdirs:" << subdirs << "hosts:" << hosts;
   //Now go through and update the menu
 
   //Clean up any obsolete core actions/menus (need special care)
@@ -456,7 +458,7 @@ void MenuItem::UpdateMenu(){
         tmp->setWhatsThis("open_settings");
       this->addSeparator();
       if(msgMenu!=0){
-	//qDebug() << "Inserting MessageMenu";
+    qDebug() << "Inserting MessageMenu";
         this->addMenu(msgMenu);
 	this->addSeparator();
       }

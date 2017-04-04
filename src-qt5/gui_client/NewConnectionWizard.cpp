@@ -50,6 +50,7 @@ void NewConnectionWizard::checkInputs(){
 //core signals/slots
 void NewConnectionWizard::coreConnected(){
   ui->label_results->setText( tr("Host Valid") );
+  qDebug() << "CoreConnected:" << host;
 }
 void NewConnectionWizard::coreAuthenticated(){
   ui->label_results->setText( tr("Test Successful") );
@@ -62,7 +63,7 @@ void NewConnectionWizard::coreAuthenticated(){
   //Save the good info to the settings file
   settings->setValue("Hosts/"+host, nick); //save the nickname
   settings->setValue("Hosts/"+host+"/username", ui->line_user->text());
-	
+  qDebug() << "CoreAuthenticated:" << host << nick;
   //Clean up any core interactions (but leave it running for later)
   
   disconnect(core, 0, this, 0);
@@ -70,7 +71,8 @@ void NewConnectionWizard::coreAuthenticated(){
 
 void NewConnectionWizard::coreDisconnected(){
   //Test was a failure - leave the results label visible so the user can see how far it got
-  ui->group_host->setEnabled(true);
+  qDebug() << "CoreDisconnected:" << host << nick;
+    ui->group_host->setEnabled(true);
   ui->label_results->setVisible(true);
   ui->push_cancel->setVisible(true);
   ui->push_finished->setVisible(false);

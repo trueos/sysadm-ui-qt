@@ -344,7 +344,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../MenuItem.cpp" line="109"/>
         <source>%1: zpool degraded - possible hardware issue</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: zpool herabgesetzt - evtl. Hardware Fehler</translation>
     </message>
 </context>
 <context>
@@ -471,7 +471,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../NewConnectionWizard.ui" line="24"/>
         <source>Connect to a Remote System </source>
-        <translation>Mit einem entfernten System verbinden </translation>
+        <translation>Zu einem entfernten System verbinden</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="33"/>
@@ -511,12 +511,12 @@ Dateiort: %1</translation>
     <message>
         <location filename="../NewConnectionWizard.ui" line="143"/>
         <source>Bridge Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>Bridge Relay</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="183"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Beendet</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="194"/>
@@ -569,7 +569,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/control_panel.cpp" line="88"/>
         <source>Utilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Werkzeuge</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="28"/>
@@ -584,7 +584,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/getPage.h" line="29"/>
         <source>Task Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Task Manager</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="29"/>
@@ -599,7 +599,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/getPage.h" line="30"/>
         <source>iohyve VM Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>iohyve VM Manager</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="30"/>
@@ -739,7 +739,7 @@ Dateiort: %1</translation>
         <location filename="../pages/page_beadm.cpp" line="96"/>
         <location filename="../pages/page_beadm.cpp" line="112"/>
         <source>New Boot Environment</source>
-        <translation>Neue Bootumgebung</translation>
+        <translation>Neue Startumgebung</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="96"/>
@@ -791,7 +791,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_beadm.cpp" line="186"/>
         <source>Retrieving List...</source>
-        <translation>Liste wird abgerufen...</translation>
+        <translation>Empfange Liste...</translation>
     </message>
 </context>
 <context>

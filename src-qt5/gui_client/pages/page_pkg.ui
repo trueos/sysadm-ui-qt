@@ -154,12 +154,6 @@
            </widget>
           </item>
          </layout>
-         <zorder>tool_repo_back</zorder>
-         <zorder>horizontalSpacer_4</zorder>
-         <zorder>line_repo_search</zorder>
-         <zorder>combo_repo</zorder>
-         <zorder>horizontalSpacer_3</zorder>
-         <zorder>tool_repo_search</zorder>
         </widget>
        </item>
        <item>

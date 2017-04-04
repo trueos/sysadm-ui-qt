@@ -73,13 +73,13 @@ sysadm_client::sysadm_client(){
 }
 
 sysadm_client::~sysadm_client(){
-  //qDebug() << "Core deleted";
+  qDebug() << "Core deleted";
 }
 
 // Overall Connection functions (start/stop)
 void sysadm_client::openConnection(QString user, QString pass, QString hostIP){
   cuser = user; cpass = pass; chost = hostIP;
-  //qDebug() << "Client: Setup connection:" << user << pass << hostIP;
+  qDebug() << "Client: Setup connection:" << user << pass << hostIP;
   setupSocket();
 }
 
@@ -164,7 +164,7 @@ return false;
 // Register for Event Notifications (no notifications by default)
 void sysadm_client::registerForEvents(EVENT_TYPE event, bool receive){
   bool set = events.contains(event);
-  //qDebug() << "Register for event:" << event << events << set << receive;
+  qDebug() << "Register for event:" << event << events << set << receive;
   if( set && receive){ return; } //already registered
   else if(!set && !receive){ return; } //already unregistered
   else if(!set){ events << event; }
@@ -233,7 +233,7 @@ QJsonValue sysadm_client::cachedReply(QString id){
 // === PRIVATE ===
 //Functions to do the initial socket setup
 void sysadm_client::performAuth(QString user, QString pass){
-  //qDebug() << "Start Auth:" << currentHost();
+  qDebug() << "Start Auth:" << currentHost();
   //uses cauthkey if empty inputs
   QJsonObject obj;
   obj.insert("namespace","rpc");
@@ -248,7 +248,7 @@ void sysadm_client::performAuth(QString user, QString pass){
       obj.insert("name","auth_ssl");
       obj.insert("args","");
     }else{
-      //qDebug() << " - Saved Token";
+      qDebug() << " - Saved Token";
       //Saved token authentication
       obj.insert("name","auth_token");
       QJsonObject arg;
@@ -256,7 +256,7 @@ void sysadm_client::performAuth(QString user, QString pass){
       obj.insert("args", arg);
     }
   }else{
-    //qDebug() << " - User/Pass Auth";
+    qDebug() << " - User/Pass Auth";
     //User/password authentication
     obj.insert("name","auth");
     QJsonObject arg;
@@ -301,7 +301,7 @@ void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
   if(event == DISPATCHER){ arg = "dispatcher"; }
   else if(event == LIFEPRESERVER){ arg = "life-preserver"; }
   else if(event== SYSSTATE){ arg = "system-state"; }
-  //qDebug() << "Send Event Subscription:" << event << arg << subscribe;
+  qDebug() << "Send Event Subscription:" << event << arg << subscribe;
   this->communicate("sysadm-client-event-auto","events", subscribe ? "subscribe" : "unsubscribe", arg);
 }
 
@@ -310,7 +310,7 @@ void sysadm_client::sendEventSubscription_bridge(QString bridge_id, EVENT_TYPE e
   if(event == DISPATCHER){ arg = "dispatcher"; }
   else if(event == LIFEPRESERVER){ arg = "life-preserver"; }
   else if(event== SYSSTATE){ arg = "system-state"; }
-  //qDebug() << "Send Event Subscription:" << event << arg << subscribe;
+  qDebug() << "Send Event Subscription:" << event << arg << subscribe;
   this->communicate_bridge(bridge_id, "sysadm-client-event-auto","events", subscribe ? "subscribe" : "unsubscribe", arg);
 }
 
@@ -346,9 +346,9 @@ message_in sysadm_client::convertServerReply(QString reply){
   if(!msg.from_bridge_id.isEmpty() ){
     QByteArray key = getBridgeData(msg.from_bridge_id).enc_key;
     //encrypted message through bridge - decrypt it
-    //qDebug() << "Fully encoded message:" << reply;
+    qDebug() << "Fully encoded message:" << reply;
     if(!key.isEmpty()){ reply = DecodeString(reply, key); }
-    //qDebug() << " - Decoded:" << reply;
+    qDebug() << " - Decoded:" << reply;
   }
   //if(!msg.from_bridge_id.isEmpty()){  qDebug() << "Convert reply:" << reply; }
   QJsonDocument doc = QJsonDocument::fromJson(reply.toUtf8());
@@ -373,7 +373,7 @@ QString sysadm_client::SSL_Encode_String(QString str, QSslConfiguration cfg){
   //Get the private key
   QByteArray privkey = cfg.privateKey().toPem();
   //Print out the public key associated with this private key for debugging
-  //qDebug() << "Associated Public Key:" << cfg.localCertificate().publicKey().toPem();
+  qDebug() << "Associated Public Key:" << cfg.localCertificate().publicKey().toPem();
 
     //Reset/Load some SSL stuff
     //OpenSSL_add_all_algorithms();
@@ -393,12 +393,12 @@ QString sysadm_client::SSL_Encode_String(QString str, QSslConfiguration cfg){
   else{ 
     //Now return this as a base64 encoded string
     QByteArray str_encode( (char*)(encode), len);
-    //qDebug() << "Encoded String Info";
-    //qDebug() << " - Raw string:" << str << "Length:" << str.length();
-    //qDebug() << " - Encoded string:" << str_encode << "Length:" << str_encode.length();
+    qDebug() << "Encoded String Info";
+    qDebug() << " - Raw string:" << str << "Length:" << str.length();
+    qDebug() << " - Encoded string:" << str_encode << "Length:" << str_encode.length();
     str_encode = str_encode.toBase64();
-    //qDebug() << " - Enc string (base64):" << str_encode << "Length:" << str_encode.length();
-    //qDebug() << " - Enc string (QString):" << QString(str_encode);
+    qDebug() << " - Enc string (base64):" << str_encode << "Length:" << str_encode.length();
+    qDebug() << " - Enc string (QString):" << QString(str_encode);
     return QString( str_encode ); 
   }
 
@@ -410,7 +410,7 @@ QString sysadm_client::EncodeString(QString str, QByteArray key){
   else if(key.contains(" PRIVATE KEY--")){ pub=false; }
   else{ qDebug() << " - No Encode"; return str; } //unknown encryption - just return as-is
   return str.toLocal8Bit().toBase64(); //TEMPORARY BYPASS
-  //qDebug() << "Start encoding String:" << pub << str.length() << str <<  key;
+  qDebug() << "Start encoding String:" << pub << str.length() << str <<  key;
   //Reset/Load some SSL stuff
     //OpenSSL_add_all_algorithms();
     //ERR_load_crypto_strings();
@@ -498,10 +498,10 @@ QString sysadm_client::DecodeString(QString str, QByteArray key){
     //Already valid JSON - return it
     return str;
   }*/
-  //qDebug() << "Decoded String:" << bytes;
+  qDebug() << "Decoded String:" << bytes;
   return QString(blocks.join()); //TEMPORARY BYPASS
 
-   //qDebug() << "Start decoding String:" << pub << str;//<< key;
+   qDebug() << "Start decoding String:" << pub << str;//<< key;
   //Reset/Load some SSL stuff
     //OpenSSL_add_all_algorithms();
     //ERR_load_crypto_strings();
@@ -510,16 +510,16 @@ QString sysadm_client::DecodeString(QString str, QByteArray key){
   //unsigned char *decode = (unsigned char*)malloc(5*bytes.size());
   RSA *rsa= NULL;
   BIO *keybio = NULL;
-  //qDebug() << " - Generate keybio";
+  qDebug() << " - Generate keybio";
   keybio = BIO_new_mem_buf(key.data(), -1);
   if(keybio==NULL){ return ""; }
-  //qDebug() << " - Read pubkey";
+  qDebug() << " - Read pubkey";
   if(pub){
     //PUBLIC KEY
     rsa = PEM_read_bio_RSA_PUBKEY(keybio, &rsa,NULL, NULL);
     if(rsa==NULL){ qDebug() << " - Invalid Public RSA key!!" <<  key; BIO_free_all(keybio); return ""; }
     //decode = (unsigned char*)malloc( RSA_size(rsa) );
-    //qDebug() << " - Decrypt string";
+    qDebug() << " - Decrypt string";
     for(int i=0; i<blocks.length(); i++){
       unsigned char *decode = (unsigned char*)malloc(2*blocks[i].size());
       int len = RSA_public_decrypt(blocks[i].size(), (unsigned char*)(blocks[i].data()), decode, rsa, RSA_PKCS1_PADDING);
@@ -530,7 +530,7 @@ QString sysadm_client::DecodeString(QString str, QByteArray key){
         outstring.clear();
         break;
       }
-      //qDebug() << " - done";
+      qDebug() << " - done";
       outstring.append( QString( QByteArray( (char*)(decode), len) ) );
     }
     RSA_free(rsa);
@@ -541,7 +541,7 @@ QString sysadm_client::DecodeString(QString str, QByteArray key){
     rsa = PEM_read_bio_RSAPrivateKey(keybio, &rsa,NULL, NULL);
     if(rsa==NULL){ qDebug() << " - Invalid RSA key!!"; BIO_free_all(keybio); return ""; }
     //decode = (unsigned char*)malloc( RSA_size(rsa) );
-    //qDebug() << " - Decrypt string";
+    qDebug() << " - Decrypt string";
     for(int i=0; i<blocks.length(); i++){
       unsigned char *decode = (unsigned char*)malloc(2*blocks[i].size());
       int len = RSA_private_decrypt(blocks[i].size(), (unsigned char*)(blocks[i].data()), decode, rsa, RSA_PKCS1_PADDING);
@@ -552,7 +552,7 @@ QString sysadm_client::DecodeString(QString str, QByteArray key){
         outstring.clear();
         break;
       }
-      //qDebug() << " - done";
+      qDebug() << " - done";
       outstring.append( QString( QByteArray( (char*)(decode), len) ) );
     }
     RSA_free(rsa);
@@ -649,7 +649,7 @@ void sysadm_client::communicate_bridge(QString bridge_host_id, QList<QJsonObject
 
 // === PRIVATE SLOTS ===
 void sysadm_client::setupSocket(){
-  //qDebug() << "Setup Socket:" << SOCKET->isValid();
+  qDebug() << "Setup Socket:" << SOCKET->isValid();
   if(SOCKET->isValid()){ return; }
   //Setup the SSL config as needed
   SSLsuccess = false;
@@ -716,7 +716,7 @@ void sysadm_client::socketSslErrors(const QList<QSslError>&errlist){ //Signal: s
   QList<QSslError> ignored;
   for(int i=0; i< errlist.length(); i++){
     if(errlist[i].error()==QSslError::SelfSignedCertificate || errlist[i].error()==QSslError::HostNameMismatch ){
-      //qDebug() << " - (IGNORED) " << errlist[i].errorString();
+      qDebug() << " - (IGNORED) " << errlist[i].errorString();
       ignored << errlist[i];
     }else{
       qWarning() << "Unhandled SSL Error:" << errlist[i].errorString();
@@ -766,7 +766,7 @@ void sysadm_client::handleMessage(const QString msg){
   if(DEBUG){ qDebug() << "Got Message"; }
   message_in msg_in = convertServerReply(msg);
   if(!handleMessageInternally(msg_in)){
-    //qDebug() << "Send out message:";
+    qDebug() << "Send out message:";
     //Now save this message into the cache for use later (if not an auth reply)
     if(!msg_in.id.isEmpty()){ 
       PENDING.removeAll(msg_in.id);
