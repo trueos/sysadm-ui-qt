@@ -32,6 +32,7 @@ void beadm_page::startPage(){
   connect(ui->mountBE, SIGNAL(clicked()), this, SLOT(mount_be()) );
   connect(ui->unmountBE, SIGNAL(clicked()), this, SLOT(unmount_be()) );
   connect(ui->activateBE, SIGNAL(clicked()), this, SLOT(activate_be()) );
+  connect(ui->cloneBE, SIGNAL(clicked()), this, SLOT(clone_be()) );
 	
   connect(ui->tree_BE, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(updateButtons()) );
   //Now run any CORE communications
