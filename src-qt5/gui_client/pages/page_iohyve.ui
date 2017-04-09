@@ -126,7 +126,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab_vm">
           <attribute name="icon">
@@ -141,6 +141,12 @@
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
               <widget class="QPushButton" name="push_vm_start">
+               <property name="toolTip">
+                <string>Start selected VM</string>
+               </property>
+               <property name="statusTip">
+                <string>Start selected Virtual Machine</string>
+               </property>
                <property name="text">
                 <string>Start VM</string>
                </property>
@@ -152,6 +158,12 @@
              </item>
              <item>
               <widget class="QPushButton" name="push_vm_stop">
+               <property name="toolTip">
+                <string>Stop VM</string>
+               </property>
+               <property name="statusTip">
+                <string>Stop Selected Virtual Machine</string>
+               </property>
                <property name="text">
                 <string>Stop VM</string>
                </property>
@@ -176,6 +188,12 @@
              </item>
              <item>
               <widget class="QPushButton" name="push_vm_create">
+               <property name="toolTip">
+                <string>Create a VM</string>
+               </property>
+               <property name="statusTip">
+                <string>Create a new Virtual Machine</string>
+               </property>
                <property name="text">
                 <string>Create VM</string>
                </property>
@@ -237,6 +255,12 @@
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
               <widget class="QPushButton" name="push_iso_fetch">
+               <property name="toolTip">
+                <string>Fetch an ISO</string>
+               </property>
+               <property name="statusTip">
+                <string>Fetch an OS Image </string>
+               </property>
                <property name="text">
                 <string>Fetch ISO</string>
                </property>
@@ -261,6 +285,12 @@
              </item>
              <item>
               <widget class="QPushButton" name="push_iso_rename">
+               <property name="toolTip">
+                <string>Rename ISO</string>
+               </property>
+               <property name="statusTip">
+                <string>Rename selected OS Image</string>
+               </property>
                <property name="text">
                 <string>Rename ISO</string>
                </property>
@@ -272,6 +302,12 @@
              </item>
              <item>
               <widget class="QPushButton" name="push_iso_remove">
+               <property name="toolTip">
+                <string>Remove ISO</string>
+               </property>
+               <property name="statusTip">
+                <string>Removed selected OS Image</string>
+               </property>
                <property name="text">
                 <string>Remove ISO</string>
                </property>
