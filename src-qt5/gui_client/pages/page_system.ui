@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="Widget8_3">
     <attribute name="title">
@@ -92,6 +92,12 @@
        </item>
        <item>
         <widget class="QPushButton" name="buttonGenerate_3">
+         <property name="toolTip">
+          <string>Generate Report</string>
+         </property>
+         <property name="statusTip">
+          <string>Generate Hardware Profile Report</string>
+         </property>
          <property name="text">
           <string>&amp;Generate</string>
          </property>
@@ -251,7 +257,7 @@
           </sizepolicy>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../../../pcbsd/src-qt5/pc-sysmanager/PBSystem.qrc">:/NewLogoSmall.png</pixmap>
+          <pixmap>:/NewLogoSmall.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -489,6 +495,12 @@
          <layout class="QHBoxLayout" name="horizontalLayout_19">
           <item>
            <widget class="QPushButton" name="fetchSourceBut_3">
+            <property name="toolTip">
+             <string>Fetch Source Code</string>
+            </property>
+            <property name="statusTip">
+             <string>Fretch PC-BSD Source Code </string>
+            </property>
             <property name="text">
              <string>Fetch PC-BSD &amp;System Source</string>
             </property>
@@ -516,6 +528,12 @@
          <layout class="QHBoxLayout" name="horizontalLayout_20">
           <item>
            <widget class="QPushButton" name="fetchPortsBut_3">
+            <property name="toolTip">
+             <string>Fetch Ports Tree</string>
+            </property>
+            <property name="statusTip">
+             <string>Fetch PC-BSD Ports Tree</string>
+            </property>
             <property name="text">
              <string>Fetch PC-BSD P&amp;orts Tree</string>
             </property>
@@ -639,11 +657,17 @@
     </item>
     <item>
      <widget class="QPushButton" name="push_close_3">
+      <property name="toolTip">
+       <string>Close</string>
+      </property>
+      <property name="statusTip">
+       <string>Close</string>
+      </property>
       <property name="text">
        <string>Close</string>
       </property>
       <property name="icon">
-       <iconset resource="../../../../pcbsd/src-qt5/pc-softwaremanager/SoftwareManager.qrc">
+       <iconset>
         <normaloff>:/icons/window-close.png</normaloff>:/icons/window-close.png</iconset>
       </property>
      </widget>
@@ -651,10 +675,6 @@
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="../../../../pcbsd/src-qt5/pc-sysmanager/PBSystem.qrc"/>
-  <include location="../../../../../PBSystem.qrc"/>
-  <include location="../../../../pcbsd/src-qt5/pc-softwaremanager/SoftwareManager.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
