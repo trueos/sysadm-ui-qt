@@ -103,6 +103,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="push_revoke">
+       <property name="toolTip">
+        <string>Revoke Certificate</string>
+       </property>
+       <property name="statusTip">
+        <string>Revoke Selected SSL Certificate</string>
+       </property>
        <property name="text">
         <string>Revoke Certificate</string>
        </property>
