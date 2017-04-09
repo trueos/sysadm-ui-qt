@@ -79,6 +79,12 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="createBE">
+       <property name="toolTip">
+        <string>Create new Boot Environment</string>
+       </property>
+       <property name="statusTip">
+        <string>Create new Boot Environment</string>
+       </property>
        <property name="text">
         <string>Create BE</string>
        </property>
@@ -90,6 +96,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="cloneBE">
+       <property name="toolTip">
+        <string>Clone selected Boot Environment</string>
+       </property>
+       <property name="statusTip">
+        <string>Clone selected Boot Environment</string>
+       </property>
        <property name="text">
         <string>cloneBE</string>
        </property>
@@ -101,6 +113,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="deleteBE">
+       <property name="toolTip">
+        <string>Delete selected Boot Environment</string>
+       </property>
+       <property name="statusTip">
+        <string>Delete selected Boot Environment</string>
+       </property>
        <property name="text">
         <string>Delete BE</string>
        </property>
@@ -112,6 +130,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="renameBE">
+       <property name="toolTip">
+        <string>Rename Selected Boot Environment</string>
+       </property>
+       <property name="statusTip">
+        <string>Rename Selected Boot Environment</string>
+       </property>
        <property name="text">
         <string>Rename BE</string>
        </property>
@@ -123,6 +147,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="mountBE">
+       <property name="toolTip">
+        <string>Mount Selected Boot Environment</string>
+       </property>
+       <property name="statusTip">
+        <string>Mount Selected Boot Environment</string>
+       </property>
        <property name="text">
         <string>Mount BE</string>
        </property>
@@ -134,6 +164,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="unmountBE">
+       <property name="toolTip">
+        <string>Unmount Selected Boot Environment</string>
+       </property>
+       <property name="statusTip">
+        <string>Unmount Selected Boot Environment</string>
+       </property>
        <property name="text">
         <string>Unmount BE</string>
        </property>
@@ -145,6 +181,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="activateBE">
+       <property name="toolTip">
+        <string>Activate Selected Boot Environment</string>
+       </property>
+       <property name="statusTip">
+        <string>Activate Selected Boot Environment</string>
+       </property>
        <property name="text">
         <string>Activate BE</string>
        </property>
@@ -195,7 +237,6 @@ border: 1px solid transparent;
  </widget>
  <resources>
   <include location="../../icons/icons.qrc"/>
-  <include location="../../../../pcbsd/src-qt5/pc-bootconfig/pc-bootconfig.qrc"/>
  </resources>
  <connections/>
 </ui>
