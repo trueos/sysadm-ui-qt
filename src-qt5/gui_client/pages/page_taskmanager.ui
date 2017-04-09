@@ -94,8 +94,14 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="push_kill">
+          <property name="toolTip">
+           <string>Stop selected process</string>
+          </property>
+          <property name="statusTip">
+           <string>Stop selected process</string>
+          </property>
           <property name="text">
-           <string>Kill Selected Process</string>
+           <string>Stop Selected Process</string>
           </property>
           <property name="icon">
            <iconset resource="../../icons/icons.qrc">
