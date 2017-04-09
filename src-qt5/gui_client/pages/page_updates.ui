@@ -20,7 +20,7 @@
       <enum>QTabWidget::North</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="icon">
@@ -82,6 +82,15 @@
              </item>
              <item>
               <widget class="QPushButton" name="push_start_updates">
+               <property name="acceptDrops">
+                <bool>true</bool>
+               </property>
+               <property name="toolTip">
+                <string>Download and Prepare Updates</string>
+               </property>
+               <property name="statusTip">
+                <string>Download and Prepare Updates</string>
+               </property>
                <property name="text">
                 <string>Download and Prepare Updates</string>
                </property>
@@ -335,6 +344,12 @@
           </item>
           <item>
            <widget class="QPushButton" name="push_check_updates">
+            <property name="toolTip">
+             <string>Check for Updates</string>
+            </property>
+            <property name="statusTip">
+             <string>Check Repository for Package Updates</string>
+            </property>
             <property name="text">
              <string>Check For Updates</string>
             </property>
@@ -378,6 +393,12 @@
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="2" column="0">
         <widget class="QPushButton" name="push_chbranch">
+         <property name="toolTip">
+          <string>Change Branch</string>
+         </property>
+         <property name="statusTip">
+          <string>Change Branch</string>
+         </property>
          <property name="text">
           <string>Change Branch</string>
          </property>
@@ -541,6 +562,12 @@
          </item>
          <item>
           <widget class="QPushButton" name="push_settings_save">
+           <property name="toolTip">
+            <string>Save Settings</string>
+           </property>
+           <property name="statusTip">
+            <string>Save Update Repository Settings</string>
+           </property>
            <property name="text">
             <string>Save Settings</string>
            </property>
