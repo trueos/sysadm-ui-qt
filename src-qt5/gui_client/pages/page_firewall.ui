@@ -31,6 +31,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="tool_start">
+       <property name="toolTip">
+        <string>Turn on the firewall</string>
+       </property>
        <property name="statusTip">
         <string>Turn on the firewall</string>
        </property>
@@ -51,6 +54,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="tool_restart">
+       <property name="toolTip">
+        <string>Restart the firewall</string>
+       </property>
        <property name="statusTip">
         <string>Restart the firewall</string>
        </property>
@@ -71,6 +77,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="tool_stop">
+       <property name="toolTip">
+        <string>Stop the firewall</string>
+       </property>
        <property name="statusTip">
         <string>Turn off the firewall</string>
        </property>
@@ -198,11 +207,14 @@
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QToolButton" name="tool_closeports">
+         <property name="toolTip">
+          <string>Close port</string>
+         </property>
          <property name="statusTip">
-          <string>Close the currently-selected ports</string>
+          <string>Close the currently-selected port</string>
          </property>
          <property name="text">
-          <string>Close Ports</string>
+          <string>Close Port</string>
          </property>
          <property name="icon">
           <iconset resource="../../icons/icons.qrc">
@@ -252,7 +264,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>Find by Service</string>
+           <string>Open by Service</string>
           </property>
          </widget>
         </item>
@@ -295,6 +307,12 @@
           </item>
           <item>
            <widget class="QToolButton" name="tool_open_port">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="toolTip">
              <string>Open Port</string>
             </property>
@@ -302,11 +320,14 @@
              <string>Open the designated port</string>
             </property>
             <property name="text">
-             <string notr="true">...</string>
+             <string notr="true">Open Port</string>
             </property>
             <property name="icon">
              <iconset resource="../../icons/icons.qrc">
               <normaloff>:/icons/black/keyhole.svg</normaloff>:/icons/black/keyhole.svg</iconset>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextUnderIcon</enum>
             </property>
            </widget>
           </item>
