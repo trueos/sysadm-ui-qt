@@ -32,7 +32,7 @@
       <enum>QTabWidget::North</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_repo">
       <attribute name="icon">
@@ -81,6 +81,12 @@
           </property>
           <item>
            <widget class="QToolButton" name="tool_repo_back">
+            <property name="toolTip">
+             <string>Go back</string>
+            </property>
+            <property name="statusTip">
+             <string>Go back to previous page</string>
+            </property>
             <property name="text">
              <string>Back</string>
             </property>
@@ -230,7 +236,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>98</width>
-                <height>28</height>
+                <height>16</height>
                </rect>
               </property>
              </widget>
@@ -306,7 +312,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>98</width>
-                <height>28</height>
+                <height>16</height>
                </rect>
               </property>
              </widget>
@@ -410,7 +416,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>98</width>
-                <height>28</height>
+                <height>16</height>
                </rect>
               </property>
              </widget>
@@ -492,6 +498,12 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="toolTip">
+                  <string>Install package</string>
+                 </property>
+                 <property name="statusTip">
+                  <string>Install selected package</string>
+                 </property>
                  <property name="text">
                   <string>Install</string>
                  </property>
@@ -511,6 +523,12 @@
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Uninstall package</string>
+                 </property>
+                 <property name="statusTip">
+                  <string>Uninstall selected package</string>
                  </property>
                  <property name="text">
                   <string>Uninstall</string>
