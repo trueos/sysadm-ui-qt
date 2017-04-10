@@ -10,6 +10,9 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+
+**General Table of Contents**
+
 - [General TrueOS Information](#generalinfo)
 	- [TrueOS Project Documentation](#all-docs)
 		- [TrueOS Handbook](#trueos-docs)
@@ -103,12 +106,16 @@ The Server handbook is a basic installation guide, walking new users through the
 
 Due to the number of repositories under the TrueOS "umbrella", the TrueOS Project consolidates its issue trackers into a few repositories:
 
-* [trueos-core](https://github.com/trueos/trueos-core) : Used for general TrueOS issues, Pico issues, feature  requests, and TrueOS website issues.
+* [trueos-core](https://github.com/trueos/trueos-core) : Used for general TrueOS issues, Pico issues, and feature  requests.
 * [lumina](https://github.com/trueos/lumina) : Issues related to using the Lumina Desktop Environment.
 * (Coming Soon) [sysadm](https://github.com/trueos/sysadm) : Issues with using the SysAdm client or server.
 * [trueos-docs](https://github.com/trueos/trueos-docs) : Issues related to the TrueOS Handbook.
 * [lumina-docs](https://github.com/trueos/lumina-docs) : Issues related to the Lumina Handbook.
 * [sysadm-docs](https://github.com/trueos/sysadm-docs) : Issues related to the SysAdm API Guide, Client, and Server Handbooks.
+* [trueos-website](https://github.com/trueos/trueos-website) : Issues involving any of the TrueOS Project websites: 
+  - https://www.lumina-desktop.org
+  - https://www.trueos.org
+  - https://www.sysadm.us
 
 The TrueOS handbook has detailed instructions to help you report a bug (https://www.trueos.org/handbook/helpsupport.html#report-a-bug). It is recommended to refer to these instructions when creating new GitHub issues. Better bug reports usually result in faster fixes!
 
@@ -149,3 +156,4 @@ The TrueOS Project also maintains a number of social media accounts you can watc
 * Linkedin: http://www.linkedin.com/groups?gid=1942544
 * TrueOS Blog: https://www.trueos.org/blog/
 * Twitter: https://twitter.com/TrueOS_Project/
+
