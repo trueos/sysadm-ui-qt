@@ -589,7 +589,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/getPage.h" line="29"/>
         <source>Monitor system tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Systemaufgaben überwachen</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="30"/>
