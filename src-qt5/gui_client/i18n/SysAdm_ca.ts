@@ -1611,7 +1611,7 @@ Ubicació del fitxer: %1</translation>
     <message>
         <location filename="../pages/page_system.ui" line="65"/>
         <source>You may also generate a diagnostic sheet, with information about your system. This sheet can be used by technicians for troubleshooting purposes.</source>
-        <translation>També podeu generar un full de diagnòstic amb informació sobre el sistema. Aquest full pot ser utilitzat pels tècnics per solucionar problemes.</translation>
+        <translation>També podeu generar un full de diagnòstic amb informació sobre el sistema. Aquest full pot ser utilitzat per tècnics per solucionar problemes.</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="96"/>
