@@ -1173,7 +1173,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_lp.ui" line="310"/>
         <source>Re-initialize replication target (remote data will be lost)</source>
-        <translation type="unfinished"></translation>
+        <translation>Replikationsziel neu initialisieren (entfernte Daten gehen verloren)</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="313"/>
@@ -1661,12 +1661,12 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_system.ui" line="479"/>
         <source>Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Aufgaben</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="485"/>
         <source>System Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Systemaufgaben</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="493"/>
@@ -1778,7 +1778,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="91"/>
         <source>Archivers</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivierungsprogramme</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="92"/>
@@ -1964,7 +1964,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="132"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Drucken</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="133"/>
