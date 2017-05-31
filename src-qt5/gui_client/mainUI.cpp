@@ -215,13 +215,13 @@ void MainUI::Disconnected(){
 
 //Main message signals from core
 void MainUI::newReply(QString id, QString namesp, QString name, QJsonValue args){
-  qDebug() << "Normal Reply:" << b_id << id;
+  //qDebug() << "Normal Reply:" << b_id << id;
   if(!b_id.isEmpty()){ return; } //this reply not for this window
   static_cast<PageWidget*>(this->centralWidget())->ParseReply(id, namesp, name, args);
 }
 
 void MainUI::bridgeReply(QString bridge_id,QString id, QString namesp, QString name, QJsonValue args){
-  qDebug() << "New Bridge Reply:" << bridge_id << b_id << id;
+  //qDebug() << "New Bridge Reply:" << bridge_id << b_id << id;
   if(b_id != bridge_id){ return; } //this reply not for this window
   static_cast<PageWidget*>(this->centralWidget())->ParseReply(id, namesp, name, args);
 }
