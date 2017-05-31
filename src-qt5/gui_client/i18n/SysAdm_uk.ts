@@ -6,12 +6,12 @@
     <message>
         <location filename="../pages/page_pkg-BrowserItem.cpp" line="30"/>
         <source>Install Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Встановити пакунок</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-BrowserItem.cpp" line="33"/>
         <source>Uninstall Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Вилучити пакунок</translation>
     </message>
 </context>
 <context>
@@ -19,56 +19,56 @@
     <message>
         <location filename="../C_Manager.ui" line="20"/>
         <source>SysAdm: Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>SysAdm: З'єднання</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="88"/>
         <source>Add Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Додати групу</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="99"/>
         <source>Remove Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Вилучити групу</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="117"/>
         <source>Add Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Додати з'єднання</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="128"/>
         <source>Remove Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Вилучити з'єднання</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="139"/>
         <source>Reset Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Скинути налаштування</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="157"/>
         <source>Rename Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Переіменувати обране</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="181"/>
         <source>Export Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Експортувати з'єднання</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="218"/>
         <source>Configure Certificates</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштувати сертифікати</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="239"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <source>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name="qrichtext" content="1" /&gt;&lt;style type="text/css"&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;SSL Configuration&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;sysadm uses an encrypted SSL key/certificate bundle for automatically connecting to all the systems which are registered in this client. Once created, these files may later be exported from this client and imported into any other sysadm client on another machine.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;"&gt;
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;&lt;span style=" font-weight:600;"&gt;SSL Configuration&lt;/span&gt;&lt;/p&gt;
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;sysadm uses an encrypted SSL key/certificate bundle for automatically connecting to all the systems which are registered in this client. Once created, these files may later be exported from this client and imported into any other sysadm client on another machine.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3033,7 +3033,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="299"/>
-        <source>Places the user within the &quot;wheel&quot; group for administration abilities</source>
+        <source>Places the user within the "wheel" group for administration abilities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3043,7 +3043,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="309"/>
-        <source>Places the user within the &quot;operator&quot; group for partial system control</source>
+        <source>Places the user within the "operator" group for partial system control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

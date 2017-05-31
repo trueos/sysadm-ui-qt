@@ -113,7 +113,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../../../../pcbsd/src-qt5/about-gui/about-gui.qrc">:/logo.png</pixmap>
+       <pixmap>:/logo.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>false</bool>
@@ -222,6 +222,12 @@
     </item>
     <item>
      <widget class="QPushButton" name="pushButton_3">
+      <property name="toolTip">
+       <string>Close</string>
+      </property>
+      <property name="statusTip">
+       <string>Close</string>
+      </property>
       <property name="text">
        <string>&amp;Close</string>
       </property>
@@ -694,9 +700,6 @@
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="../../../../pcbsd/src-qt5/about-gui/about-gui.qrc"/>
-  <include location="../../../../../about-gui.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

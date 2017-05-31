@@ -44,6 +44,12 @@
      </item>
      <item>
       <widget class="QToolButton" name="tool_refresh">
+       <property name="toolTip">
+        <string>Refresh</string>
+       </property>
+       <property name="statusTip">
+        <string>Refresh Device List</string>
+       </property>
        <property name="text">
         <string notr="true"/>
        </property>
@@ -246,6 +252,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="push_apply">
+          <property name="toolTip">
+           <string>Save</string>
+          </property>
+          <property name="statusTip">
+           <string>Save Mouse Settings</string>
+          </property>
           <property name="text">
            <string>Apply Settings</string>
           </property>
