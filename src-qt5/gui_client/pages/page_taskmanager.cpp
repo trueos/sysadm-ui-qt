@@ -37,7 +37,7 @@ void taskmanager_page::startPage(){
   slotRequestCPUInfo();
   slotRequestCPUTempInfo();
 
-  qDebug() << "Start page!";
+  //qDebug() << "Start page!";
 }
 
 
@@ -107,7 +107,7 @@ void taskmanager_page::parsePIDS(QJsonObject jsobj)
   //qDebug() << "KEYS" << jsobj.keys();
   QStringList keys = jsobj.keys();
   if (keys.contains("message") ) {
-    qDebug() << "MESSAGE" << jsobj.value("message").toString();
+    //qDebug() << "MESSAGE" << jsobj.value("message").toString();
     return;
   }
 
@@ -142,7 +142,7 @@ void taskmanager_page::parsePIDS(QJsonObject jsobj)
       foundItems.at(0)->setText(11, pidinfo.value("command").toString());
     } else {
       // Create the new taskWidget item
-      new CQTreeWidgetItem(ui->taskWidget, QStringList() << PID
+      CQTreeWidgetItem *tmp = new CQTreeWidgetItem(ui->taskWidget, QStringList() << PID
           << pidinfo.value("username").toString()
           << pidinfo.value("thr").toString()
           << pidinfo.value("pri").toString()
@@ -155,6 +155,9 @@ void taskmanager_page::parsePIDS(QJsonObject jsobj)
           << pidinfo.value("wcpu").toString()
           << pidinfo.value("command").toString()
           );
+      if(tmp->text(1)=="root"){
+        tmp->setIcon(1, QIcon(":/icons/black/flag.svg"));
+      }
     }
   }
 
@@ -315,6 +318,11 @@ void taskmanager_page::slot_kill_proc(){
   QTreeWidgetItem *tmp = ui->taskWidget->currentItem();
   if(tmp==0){ return; }
   QString pid = tmp->text(0); //column 0 is the PID
+  if(tmp->text(1)=="root"){
+    if(QMessageBox::Yes != QMessageBox::warning(this, tr("Root Process"), tr("This is a system-level process and killing it may have unintended consequences.")+"\n\n"+tr("Do you want to kill this process anyway?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) ){
+      return; //cancelled
+    }
+  }
   //Now send the request
   QJsonObject jsobj;
   jsobj.insert("action", "killproc");
