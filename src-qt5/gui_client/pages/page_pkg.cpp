@@ -108,7 +108,7 @@ void pkg_page::send_list_cats(QString repo){
   QJsonObject obj;
     obj.insert("action","list_categories");
     obj.insert("repo",repo);
-  communicate(TAG+"list_cats", "sysadm", "pkg",obj); 
+  communicate(TAG+"list_cats", "sysadm", "pkg",obj);
 }
 
 void pkg_page::send_local_update(){
@@ -124,13 +124,13 @@ void pkg_page::send_local_update(){
 void pkg_page::send_local_audit(){
   QJsonObject obj;
     obj.insert("action","pkg_audit");
-  communicate(TAG+"list_audit", "sysadm", "pkg",obj);	
+  communicate(TAG+"list_audit", "sysadm", "pkg",obj);
 }
 
 void pkg_page::send_local_check_upgrade(){
   QJsonObject obj;
     obj.insert("action","pkg_check_upgrade");
-  communicate(TAG+"check_upgrade", "sysadm", "pkg",obj);	  
+  communicate(TAG+"check_upgrade", "sysadm", "pkg",obj);
   communicate(TAG+"has_upgrade_manager", "rpc","query",QJsonObject());
 }
 
@@ -208,9 +208,9 @@ void pkg_page::update_local_list(QJsonObject obj){
     stat_changed = stat_changed || updateStatusList(&stat_ico, "req", obj.value(origins[i]).toObject().contains("reverse_dependencies"));
     stat_changed = stat_changed || updateStatusList(&stat_ico, "auto", obj.value(origins[i]).toObject().value("automatic").toString()=="1");
     if( !obj.value(origins[i]).toObject().contains("reverse_dependencies")){ topnum++; }
-    if(stat_changed){ 
+    if(stat_changed){
       it->setData(0,Qt::UserRole, stat_ico); //save this for later
-      updateStatusIcon(it); 
+      updateStatusIcon(it);
     }
     //More room for expansion later
     //Add this item as needed based on viewing options
@@ -281,12 +281,12 @@ void pkg_page::update_pending_process(QJsonObject obj){
       origin_pending << origins;
       origin_pending.removeDuplicates();
     }
-    if(ui->tree_pending->topLevelItemCount()==1){ 
+    if(ui->tree_pending->topLevelItemCount()==1){
       it->setSelected(true);
       ui->tree_pending->sortItems(3,Qt::DescendingOrder); //start time
     }
   }
-  
+
   if(it!=0){
     //qDebug() << " - Update item";
     it->setText(0, stat);
@@ -295,10 +295,10 @@ void pkg_page::update_pending_process(QJsonObject obj){
     else if(stat=="running" && it->text(3).isEmpty()){ it->setText(3, details.value("time_started").toString() ); }
     it->setWhatsThis(1,log);
     //if this item is currently selected - update the log widget as well
-    if(ui->tree_pending->selectedItems().contains(it)){ 
+    if(ui->tree_pending->selectedItems().contains(it)){
       pending_selection_changed();
     }
-  }else{ 
+  }else{
     //qDebug() << " - Clear log";
     //ui->text_proc_running->clear();
   }
@@ -323,7 +323,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
   obj = obj.value(origin).toObject(); //simplification - go one level deeper for easy access to info
   //qDebug() << "Show Package:" << origin << obj.keys();
   QString repo = obj.value("repository").toString();
-  
+ 
   //Now update all the info on the page
   // - General Info Tab
   if(obj.contains("icon")){
@@ -391,7 +391,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
         tmp->setWhatsThis(0,tmpl[i]);
-    }	  
+    }
   }
   if(obj.contains("reverse_dependencies")){
     QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Required By"));
@@ -400,7 +400,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
         tmp->setWhatsThis(0,tmpl[i]);
-    }	  	  
+    }
   }
   if(obj.contains("conflicts")){
     QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Conflicts"));
@@ -409,7 +409,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
         tmp->setWhatsThis(0,tmpl[i]);
-    }	  	  
+    }
   }
   if(obj.contains("shlibs_required")){
     QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Shared Libraries (Required)"));
@@ -417,7 +417,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
     for(int i=0; i<tmpl.length(); i++){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
-    }	  	  	  
+    }
   }
   if(obj.contains("shlibs_provided")){
     QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Shared Libraries (Provided)"));
@@ -425,7 +425,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
     for(int i=0; i<tmpl.length(); i++){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
-    }	  	  
+    }
   }
   if(obj.contains("provides")){
     QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Provides"));
@@ -433,7 +433,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
     for(int i=0; i<tmpl.length(); i++){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
-    }	  	  
+    }
   }
   if(obj.contains("requires")){
     QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Requires"));
@@ -441,7 +441,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
     for(int i=0; i<tmpl.length(); i++){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
-    }	  	  
+    }
   }
   if(obj.contains("users")){
     QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Users"));
@@ -449,7 +449,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
     for(int i=0; i<tmpl.length(); i++){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
-    }	  	  
+    }
   }
   if(obj.contains("groups")){
     QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Groups"));
@@ -457,7 +457,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
     for(int i=0; i<tmpl.length(); i++){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
-    }	  	  	  
+    }
   }
   if(obj.contains("config_files")){
     QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Configuration Files"));
@@ -465,7 +465,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
     for(int i=0; i<tmpl.length(); i++){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
-    }	  	  
+    }
   }
   if(obj.contains("files")){
     QTreeWidgetItem *cat = new QTreeWidgetItem(ui->tree_app_details, QStringList() << tr("Files"));
@@ -473,11 +473,11 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
     for(int i=0; i<tmpl.length(); i++){
       QTreeWidgetItem *tmp = new QTreeWidgetItem(cat);
 	tmp->setText(0, tmpl[i]);
-    }	  	  
+    }
   }
 
   ui->tree_app_details->sortItems(0, Qt::AscendingOrder);
-  
+
   //Now Update the install/remove/status widgets as needed
   // - first see if there is a pending status for it
   if( origin_pending.contains(origin) ){
@@ -496,7 +496,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
     ui->tool_app_install->setVisible(false);
     ui->tool_app_uninstall->setVisible(false);
   }
-  
+
   //Now ensure this page is visible (since the info is only loaded on demand)
   //ui->tabWidget->setCurrentWidget(ui->tab_repo);
   ui->stacked_repo->setCurrentWidget(ui->page_pkg);
@@ -504,8 +504,8 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
 
 void pkg_page::update_repo_app_lists(QScrollArea *scroll, QJsonObject(obj) ){
   if(scroll->widget()==0){ scroll->setWidget( new QWidget(scroll) ); }
-  if(scroll->widget()->layout()==0){ 
-    scroll->widget()->setLayout( new QVBoxLayout(scroll->widget()) ); 
+  if(scroll->widget()->layout()==0){
+    scroll->widget()->setLayout( new QVBoxLayout(scroll->widget()) );
     scroll->widget()->layout()->setContentsMargins(0,0,0,0);
     scroll->widget()->layout()->setSpacing(2);
   }
@@ -523,10 +523,10 @@ void pkg_page::update_repo_app_lists(QScrollArea *scroll, QJsonObject(obj) ){
     }else if("BrowserItem"!=scroll->widget()->layout()->itemAt(i)->widget()->objectName()){
       scroll->widget()->layout()->takeAt(i)->widget()->deleteLater();
       i--;
-      continue;	    
+      continue;
     }
     BrowserItem *BI = static_cast<BrowserItem *>( scroll->widget()->layout()->itemAt(i)->widget() );
-    if(!origins.contains(BI->ID()) ){ 
+    if(!origins.contains(BI->ID()) ){
       //qDebug() << "Delete BI";
       scroll->widget()->layout()->takeAt(i)->widget()->deleteLater();
       i--;
@@ -613,7 +613,7 @@ void pkg_page::updateStatusIcon( QTreeWidgetItem *it ){
 }
 
 bool pkg_page::updateStatusList(QStringList *list, QString stat, bool enabled){
-  if(list->contains(stat) && !enabled){ 
+  if(list->contains(stat) && !enabled){
     list->removeAll(stat); return true;
   }else if(!list->contains(stat) && enabled){
     list->append(stat); return true;
@@ -657,7 +657,7 @@ void pkg_page::LoadImageFromURL(QTreeWidgetItem *it, QString url){
       imagepending << qurl;
       NMAN->get( QNetworkRequest(qurl) );
     }
-  }	
+  }
 }
 
 void pkg_page::showScreenshot(int num){
@@ -666,7 +666,7 @@ void pkg_page::showScreenshot(int num){
   if(screens.isEmpty()){ return; } //just in case - should never happen though
   if(num <=0){ num = screens.length(); } //wrap around
   else if(num>screens.length()){ num = 1; } //wrap around
-  
+
   //Update the label
   ui->label_app_ssnum->setText( QString::number(num)+"/"+QString::number(screens.length()) );
   //Now update the buttons
@@ -685,8 +685,8 @@ void pkg_page::updateBrowserItem(BrowserItem *it, QJsonObject data){
   it->setText("name", data.value("name").toString());
   it->setText("version", data.value("version").toString());
   it->setText("comment",data.value("comment").toString());
-  if(data.contains("icon")){ 
-	LoadImageFromURL( it->iconLabel(), data.value("icon").toString()); 
+  if(data.contains("icon")){
+	LoadImageFromURL( it->iconLabel(), data.value("icon").toString());
   }
   it->iconLabel()->setVisible(data.contains("icon"));
   //See if it is installed/pending
@@ -719,7 +719,8 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
     ui->combo_repo->addItems(repos);
     if(repos.length()>1){
       //Make sure the "base" repo is not selected by default (almost no packages - not the "normal" repo)
-      if(repos[0].contains("base")){ ui->combo_repo->setCurrentIndex(1); }
+      if(!repos.filter("-major").isEmpty()){ ui->combo_repo->setCurrentIndex( ui->combo_repo->findText( repos.filter("-major").first()) ); }
+      else if(repos[0].contains("base")){ ui->combo_repo->setCurrentIndex(1); }
     }
     ui->combo_repo->addItem("local"); //the local repo is always available (installed pkgs);
     ui->combo_repo->setWhatsThis(ui->combo_repo->currentText()); //save this for later checks
@@ -766,8 +767,8 @@ void pkg_page::ParseEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
     if(finished){ update_local_audit(val.toObject()); }
 
   }else{
-    if(finished){ 
-      //Need to update the list of installed packages    
+    if(finished){
+      //Need to update the list of installed packages
       QTimer::singleShot(500, this, SLOT(send_local_update()) ); //give it a moment
     }
     // Need to update the list of pending processes
@@ -782,7 +783,7 @@ void pkg_page::update_local_buttons(){
   ui->tool_local_unlock->setVisible(local_advmode);
   ui->tool_local_upgrade->setVisible(local_advmode && local_hasupdates);
   ui->tool_local_clean->setVisible(!local_autocleanmode);
-  //Now see if there are any items checked and enable/disable buttons as needed	
+  //Now see if there are any items checked and enable/disable buttons as needed
   bool gotcheck = false;
   for(int i=0; i<ui->tree_local->topLevelItemCount() && !gotcheck; i++){
     gotcheck = (ui->tree_local->topLevelItem(i)->checkState(0)==Qt::Checked);
@@ -876,18 +877,18 @@ void pkg_page::icon_available(QNetworkReply *reply){
   //Now go through all the widgets waiting for this icon and put it in as needed
   QString url = qurl.toString();
   // browser/pkg page
-  if(ui->label_app_icon->whatsThis() == url){ 
-    if(img.isNull()){ ui->label_app_icon->setVisible(false); }  
-    else{ 
+  if(ui->label_app_icon->whatsThis() == url){
+    if(img.isNull()){ ui->label_app_icon->setVisible(false); }
+    else{
 	ui->label_app_icon->setVisible(true);
 	ui->label_app_icon->setPixmap( QPixmap::fromImage(img).scaled( ui->label_app_icon->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) ); 
     }
   }
   if(ui->label_app_screenshot->whatsThis()==url){
-    if(img.isNull()){ ui->label_app_screenshot->setPixmap( QPixmap(":/icons/black/forbidden.svg") ); }  
-    else{ 
+    if(img.isNull()){ ui->label_app_screenshot->setPixmap( QPixmap(":/icons/black/forbidden.svg") ); }
+    else{
 	ui->label_app_screenshot->setPixmap( QPixmap::fromImage(img).scaled( ui->label_app_screenshot->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) ); 
-    }	  
+    }
   }
   //browser/cat page
   //qDebug() << "Try to Load icon for URL:" << url;
@@ -898,8 +899,8 @@ void pkg_page::icon_available(QNetworkReply *reply){
 	BrowserItem * it = static_cast<BrowserItem*>(ui->scroll_cat->widget()->layout()->itemAt(i)->widget());
         //qDebug() << " - Check browser item:" << it->iconLabel()->whatsThis();
 	if(it->iconLabel()->whatsThis()==url){
-	  if(img.isNull()){ it->iconLabel()->setVisible(false); }  
-          else{ 
+	  if(img.isNull()){ it->iconLabel()->setVisible(false); }
+          else{
 	    it->iconLabel()->setVisible(true);
 	    it->iconLabel()->setPixmap( QPixmap::fromImage(img).scaled( it->iconLabel()->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) ); 
           }
@@ -917,8 +918,8 @@ void pkg_page::icon_available(QNetworkReply *reply){
         BrowserItem * it = static_cast<BrowserItem*>(ui->scroll_search->widget()->layout()->itemAt(i)->widget());
 	//qDebug() << " - Check search item:" << it->iconLabel()->whatsThis();
 	if(it->iconLabel()->whatsThis()==url){
-	  if(img.isNull()){ it->iconLabel()->setVisible(false); }  
-          else{ 
+	  if(img.isNull()){ it->iconLabel()->setVisible(false); }
+          else{
 	    it->iconLabel()->setVisible(true);
 	    it->iconLabel()->setPixmap( QPixmap::fromImage(img).scaled( it->iconLabel()->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) ); 
           }
@@ -948,16 +949,16 @@ void pkg_page::browser_last_ss(){
 
 void pkg_page::browser_next_ss(){
  int num = ui->label_app_ssnum->text().section("/",0,0).toInt();
- showScreenshot(num+1);	
+ showScreenshot(num+1);
 }
 
 void pkg_page::browser_prev_ss(){
  int num = ui->label_app_ssnum->text().section("/",0,0).toInt();
- showScreenshot(num-1);	
+ showScreenshot(num-1);
 }
 
 void pkg_page::browser_first_ss(){
- showScreenshot(1);	
+ showScreenshot(1);
 }
 
 void pkg_page::browser_filter_search_cat(QAction *act){
@@ -980,7 +981,7 @@ void pkg_page::browser_go_back(QAction *act){
   }else{
     //use the last action in the history menu
     QList<QAction*> acts = repo_backM->actions();
-    QString cur; 
+    QString cur;
     if(acts.length()>0){ cur = acts[acts.length()-1]->whatsThis(); }
     //special case - looking at local info for an app *without*  coming from the browse tab
     if(cur.startsWith("pkg::") && (cur.section("::",1,1)=="local") && ui->tree_local->currentItem()!=0 && (cur.section("::",2,-1)==ui->tree_local->currentItem()->whatsThis(0)) ){
@@ -1043,7 +1044,7 @@ void pkg_page::browser_home_button_clicked(QString action){
   //  For search: 		"search::<category>::<search term>"
   //  For category: 	"cat::<category>"
   //  For package:	"pkg::<origin>"
-	
+
   //home button action clicked
   qDebug() << "Home Button Action:" << action;
   if(action.startsWith("search::")){
@@ -1051,7 +1052,7 @@ void pkg_page::browser_home_button_clicked(QString action){
     QString cat = action.section("::",1,1);
     ui->tool_search_cat->setWhatsThis(cat);
     send_start_search(action.section("::",2,2), action.section("::",3,-1).split(" "));
-    
+
   }else if(action.startsWith("cat::") ){
     send_start_browse(action.section("::",1,-1));
   }else if(action.startsWith("pkg::") ){
@@ -1068,7 +1069,7 @@ void pkg_page::pending_selection_changed(){
   QList<QTreeWidgetItem*> items = ui->tree_pending->selectedItems();
   if(items.isEmpty()){
     ui->group_pending_log->setVisible(false);
-    
+
   }else{
     ui->group_pending_log->setVisible(true);
     //Update the log display
@@ -1093,7 +1094,7 @@ void pkg_page::send_local_rmpkgs(){
   communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);
   if(local_autocleanmode){
     send_local_cleanpkgs();
-  }	
+  }
 }
 
 void pkg_page::send_local_lockpkgs(){
@@ -1123,8 +1124,8 @@ QStringList pkgs;
 void pkg_page::send_local_upgradepkgs(){
   if(hasupdatemanager){
     if( QMessageBox::Yes == QMessageBox::question(this, tr("Launch Update Manager?"), tr("The system update manager is recommended for this operation, do you wish to open it now?"), QMessageBox::Yes | QMessageBox::No , QMessageBox::Yes) ){
-      emit ChangePage("page_updates"); 
-      return; 
+      emit ChangePage("page_updates");
+      return;
    }
   }
   if(QMessageBox::Cancel == QMessageBox::question(this, tr("Start Updates Now?"), tr("Do you wish to start updates now?\n\nWARNING: This will modify your live system packages. It is recommended that you close any running applications before continuing."), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) ){
@@ -1146,21 +1147,21 @@ void pkg_page::send_local_cleanpkgs(){
 
 // - repo tab
 void pkg_page::send_repo_rmpkg(QString origin){
-  if(origin.isEmpty()){ 
-    origin = ui->page_pkg->whatsThis(); 
+  if(origin.isEmpty()){
+    origin = ui->page_pkg->whatsThis();
     ui->tool_app_uninstall->setVisible(false);
   }
   QJsonObject obj;
     obj.insert("action","pkg_remove");
     obj.insert("recursive","true"); //cleanup orphaned packages
     obj.insert("pkg_origins", origin );
-  communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);	
+  communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);
 }
 
 void pkg_page::send_repo_installpkg(QString origin){
   //This is called from the app page or the search/browse pages
   if(origin.isEmpty()){   //app page used
-    origin = ui->page_pkg->whatsThis(); 
+    origin = ui->page_pkg->whatsThis();
     ui->tool_app_install->setVisible(false);
   }
   QString repo = ui->combo_repo->currentText();
@@ -1178,13 +1179,13 @@ void pkg_page::send_start_search(QString search, QStringList exclude){
     obj.insert("action","pkg_search");
     obj.insert("repo",ui->combo_repo->currentText());
     obj.insert("search_term", search );
-    if(ui->stacked_repo->currentWidget() == ui->page_cat){ 
+    if(ui->stacked_repo->currentWidget() == ui->page_cat){
       //Currently within a special category - only search here
       QString cat = ui->page_cat->whatsThis();
       ui->tool_search_cat->setWhatsThis(cat);
       if(!cat.isEmpty()){ obj.insert("category", cat);  }
     }else if(ui->stacked_repo->currentWidget() == ui->page_search || !ui->tool_search_cat->whatsThis().isEmpty() ){
-      obj.insert("category", ui->tool_search_cat->whatsThis() ); 
+      obj.insert("category", ui->tool_search_cat->whatsThis() );
     }
     if(!exclude.isEmpty()){
       obj.insert("search_excludes", QJsonArray::fromStringList(exclude) );
