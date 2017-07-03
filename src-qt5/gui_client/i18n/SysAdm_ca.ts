@@ -19,7 +19,7 @@
     <message>
         <location filename="../C_Manager.ui" line="20"/>
         <source>SysAdm: Connections</source>
-        <translation>SysAdm: conneccions</translation>
+        <translation>SysAdm: connexions</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="88"/>
