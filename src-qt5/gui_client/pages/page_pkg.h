@@ -28,7 +28,7 @@ public:
 	void setupCore();
 	//Page embedded, go ahead and startup any core requests
 	void startPage();
-		
+
 	QString pageID(){ return "page_pkg"; } //ID is used to identify which type of page this is
 	void ParseReply(QString, QString, QString, QJsonValue);
 	void ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue);
@@ -46,6 +46,7 @@ private:
 	QHash<QUrl,QUrl> urlRedirects; // Redirect/Original
 	//Internal lists of origins being handled
 	QStringList origin_installed, origin_pending;
+	QJsonObject installedObj; //Full object of information on installed packages
 
 	//Core requests
 	void send_list_repos();
@@ -77,7 +78,7 @@ private:
 	void showScreenshot(int num);
 	//Browser Item Update
 	void updateBrowserItem(BrowserItem *it, QJsonObject data);
-	
+
 	//User-interface items (functions defined in page_pkg-extras.cpp)
 	// - Stuff for creating a home page
 	void GenerateHomePage(QStringList cats, QString repo);
@@ -87,7 +88,7 @@ private:
 	// - Other random stuff
 	QStringList catsToText(QStringList cats); //output: <translated name>::::<cat> (pre-sorted by translated names)
 	void GenerateCategoryMenu(QMenu *menu, QStringList cats);
-	
+
 private slots:
 	//GUI Updates
 	// - local tab
@@ -97,6 +98,8 @@ private slots:
 	void update_local_viewadv(bool checked);
 	void update_local_viewclean(bool checked);
 	void goto_browser_from_local(QTreeWidgetItem *it);
+	bool promptAboutRemovals(QStringList aboutToRemove, bool allorphans);
+
 	// - repo tab
 	void browser_goto_pkg(QString origin, QString repo = "");
 	void browser_goto_cat(QAction *act = 0);
@@ -110,7 +113,7 @@ private slots:
 	void browser_filter_search_cat(QAction *act);
 	void browser_go_back(QAction *act = 0);
 	void browser_update_history();
-        void browser_home_button_clicked(QString action);
+	void browser_home_button_clicked(QString action);
 	// - pending tab
 	void pending_show_log(bool);
 	void pending_selection_changed();
@@ -134,7 +137,7 @@ private slots:
 //Special QToolButton subclass for home page buttons
 class HomeButton : public QToolButton{
 	Q_OBJECT
-signals: 
+signals:
 	void HomeAction(QString);
 private slots:
 	void buttonclicked(){

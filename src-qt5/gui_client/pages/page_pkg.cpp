@@ -76,7 +76,7 @@ pkg_page::pkg_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, co
 }
 
 pkg_page::~pkg_page(){
-  
+
 }
 
 //Initialize the CORE <-->Page connections
@@ -143,13 +143,14 @@ void pkg_page::send_repo_app_info(QString origin, QString repo){
     obj.insert("repo",repo);
     obj.insert("result","full");
     obj.insert("pkg_origins",origin);
-  communicate(TAG+"list_app_info", "sysadm", "pkg",obj);	
+  communicate(TAG+"list_app_info", "sysadm", "pkg",obj);
 }
 
 //Parsing Core Replies
 void pkg_page::update_local_list(QJsonObject obj){
   QStringList origins = obj.keys();
   origin_installed = origins; //keep this list around for later
+  installedObj = obj; //also keep this "raw" list around for later
       //See if the currently-shown pkgs needs updating too
       if(!ui->page_pkg->whatsThis().isEmpty() && ui->stacked_repo->currentWidget()==ui->page_pkg){
         send_repo_app_info(ui->page_pkg->whatsThis(), ui->combo_repo->currentText());
@@ -323,7 +324,7 @@ void pkg_page::update_repo_app_info(QJsonObject obj){
   obj = obj.value(origin).toObject(); //simplification - go one level deeper for easy access to info
   //qDebug() << "Show Package:" << origin << obj.keys();
   QString repo = obj.value("repository").toString();
- 
+
   //Now update all the info on the page
   // - General Info Tab
   if(obj.contains("icon")){
@@ -826,6 +827,50 @@ void pkg_page::goto_browser_from_local(QTreeWidgetItem *it){
   ui->tabWidget->setCurrentWidget(ui->tab_repo);
 }
 
+bool pkg_page::promptAboutRemovals(QStringList aboutToRemove, bool allorphans){
+  //Go through and generate the list of everything which is about to be removed, then prompt the user about it
+  //installedObj
+  QString msg, details;
+  if(aboutToRemove.isEmpty()){
+    msg = tr("Are you sure you want to remove all orphaned packages?");
+  }else{
+    msg = tr("Are you sure you want to remove these packages?")+"\n\n        "+aboutToRemove.join(", ");
+    details = tr("Packages to be removed:")+"\n    "+aboutToRemove.join("\n    ");
+  }
+  msg.append("\n\n"+tr("(View details for full list of removed packages)") );
+  if(allorphans){
+    QStringList orphans;
+    bool changed = true;
+    QStringList allPkg = installedObj.keys();
+    int pkglength = allPkg.length();
+    while(changed){
+      changed = false; //needs to be reset to true if the orphan list changes
+      for(int i=0; i<pkglength; i++){
+        //qDebug() << "Check Package for orphan state:" << allPkg[i];
+        if(orphans.contains(allPkg[i])){ continue; } //already detected as an orphan
+        else if(installedObj.value(allPkg[i]).toObject().value("automatic").toString()!="1"){ continue; } // manually installed - not orphan-able
+        else if(installedObj.value(allPkg[i]).toObject().value("locked").toString()=="1"){ continue; } // locked - not orphan-able
+        QJsonArray rdep =  installedObj.value(allPkg[i]).toObject().value("reverse_dependencies").toArray();
+        if(rdep.count()<1){ orphans << allPkg[i]; changed = true; continue; }
+        bool found = false;
+        for(int r=0; r<rdep.count() && !found; r++){
+          if(!orphans.contains(rdep[i].toString())){ found = true; } //found a non-removed package which needs this one
+        }
+        if(found){ orphans << allPkg[i]; changed = true; }
+        //qDebug() << "Checked Package:" << allPkg[i] << found;
+      }  //end loop over allPkg
+    } //end orphan-finder loop
+    //qDebug() << "Found Orphans:" << orphans;
+    if(!orphans.isEmpty()){
+      details.append("\n\n"+tr("Orphaned Packages which will be removed:")+"\n    "+orphans.join("\n    ") );
+    }
+  }
+  QMessageBox dlg(QMessageBox::Warning, tr("Verify Removal"), msg, QMessageBox::Ok | QMessageBox::Cancel, this);
+    dlg.setDetailedText(details);
+    dlg.setDefaultButton(QMessageBox::Cancel);
+  return (dlg.exec() == QMessageBox::Ok);
+}
+
 // - repo tab
 void pkg_page::browser_goto_pkg(QString origin, QString repo){
   if(repo.isEmpty()){ repo = ui->combo_repo->currentText(); }
@@ -1062,7 +1107,7 @@ void pkg_page::browser_home_button_clicked(QString action){
 
 // - pending tab
 void pkg_page::pending_show_log(bool show){
-  ui->text_proc_running->setVisible(show);	
+  ui->text_proc_running->setVisible(show);
 }
 
 void pkg_page::pending_selection_changed(){
@@ -1087,13 +1132,16 @@ void pkg_page::send_local_rmpkgs(){
     if(ui->tree_local->topLevelItem(i)->checkState(0)==Qt::Checked){ pkgs << ui->tree_local->topLevelItem(i)->whatsThis(0); }
   }
   if(pkgs.isEmpty()){ return; } //nothing to do
+  if( !promptAboutRemovals(pkgs, local_autocleanmode) ){ return; } //cancelled
   QJsonObject obj;
     obj.insert("action","pkg_remove");
-    obj.insert("recursive","true");
+    obj.insert("recursive","false");
     obj.insert("pkg_origins", QJsonArray::fromStringList(pkgs) );
   communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);
   if(local_autocleanmode){
-    send_local_cleanpkgs();
+    QJsonObject cobj;
+    cobj.insert("action","pkg_autoremove");
+    communicate(TAG+"pkg_autoremove", "sysadm", "pkg",cobj);
   }
 }
 
@@ -1140,6 +1188,7 @@ void pkg_page::send_local_upgradepkgs(){
 }
 
 void pkg_page::send_local_cleanpkgs(){
+  if( !promptAboutRemovals(QStringList(), true) ){ return; } //cancelled
   QJsonObject obj;
     obj.insert("action","pkg_autoremove");
   communicate(TAG+"pkg_autoremove", "sysadm", "pkg",obj);
@@ -1153,7 +1202,7 @@ void pkg_page::send_repo_rmpkg(QString origin){
   }
   QJsonObject obj;
     obj.insert("action","pkg_remove");
-    obj.insert("recursive","true"); //cleanup orphaned packages
+    obj.insert("recursive","false"); //cleanup orphaned packages
     obj.insert("pkg_origins", origin );
   communicate(TAG+"pkg_remove", "sysadm", "pkg",obj);
 }
