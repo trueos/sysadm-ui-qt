@@ -6,12 +6,12 @@
     <message>
         <location filename="../pages/page_pkg-BrowserItem.cpp" line="30"/>
         <source>Install Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Nainstalovat balíček</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-BrowserItem.cpp" line="33"/>
         <source>Uninstall Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Odinstalovat balíček</translation>
     </message>
 </context>
 <context>
@@ -24,87 +24,87 @@
     <message>
         <location filename="../C_Manager.ui" line="88"/>
         <source>Add Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat skupinu</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="99"/>
         <source>Remove Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Odebrat skupinu</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="117"/>
         <source>Add Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat připojení</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="128"/>
         <source>Remove Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Odebrat připojení</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="139"/>
         <source>Reset Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrátit nastavení na výchozí hodnoty</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="157"/>
         <source>Rename Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Přejmenovat výběr</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="181"/>
         <source>Export Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportovat připojení</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="218"/>
         <source>Configure Certificates</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavit certifikáty</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="239"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <source>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name="qrichtext" content="1" /&gt;&lt;style type="text/css"&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;SSL Configuration&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;sysadm uses an encrypted SSL key/certificate bundle for automatically connecting to all the systems which are registered in this client. Once created, these files may later be exported from this client and imported into any other sysadm client on another machine.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;"&gt;
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;&lt;span style=" font-weight:600;"&gt;SSL Configuration&lt;/span&gt;&lt;/p&gt;
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;sysadm uses an encrypted SSL key/certificate bundle for automatically connecting to all the systems which are registered in this client. Once created, these files may later be exported from this client and imported into any other sysadm client on another machine.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="266"/>
         <source>Import Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Importovat certifikát</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="304"/>
         <source>Create New SSL Certificates</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit nové SSL certifikáty</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="322"/>
         <source>Email Address</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mailová adresa</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="339"/>
         <source>Certificate Nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternativní název certifikátu</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="374"/>
         <source>Create Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit certifikát</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="408"/>
         <source>View Public Certificates</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit veřejné části certifikátů</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="416"/>
         <source>Server Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Serverový certifikát</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="426"/>
@@ -114,7 +114,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../C_Manager.ui" line="446"/>
         <source>Export Public Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportovat veřejnou část klíče</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="482"/>
@@ -124,13 +124,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../C_Manager.ui" line="512"/>
         <source>Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Připojení</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="515"/>
         <location filename="../C_Manager.ui" line="518"/>
         <source>View Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit připojení</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="530"/>
@@ -138,17 +138,17 @@ p, li { white-space: pre-wrap; }
         <location filename="../C_Manager.ui" line="536"/>
         <location filename="../C_Manager.ui" line="539"/>
         <source>Setup SSL</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavit SSL</translation>
     </message>
     <message>
         <location filename="../C_Manager.ui" line="548"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokončeno</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="310"/>
         <source>New Connection Nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternativní název nového připojení</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="310"/>
@@ -158,24 +158,24 @@ p, li { white-space: pre-wrap; }
         <location filename="../C_Manager.cpp" line="483"/>
         <location filename="../C_Manager.cpp" line="485"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Název:</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="312"/>
         <location filename="../C_Manager.cpp" line="485"/>
         <source>Invalid Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatný název</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="415"/>
         <location filename="../C_Manager.cpp" line="426"/>
         <source>Export Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba exportu</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="415"/>
         <source>Could not read settings and SSL files</source>
-        <translation type="unfinished"></translation>
+        <translation>Nedaří se načíst nastavení a SSL soubory</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="426"/>
@@ -185,7 +185,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../C_Manager.cpp" line="436"/>
         <source>Export Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Export dokončen</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="436"/>
@@ -196,17 +196,17 @@ File Location: %1</source>
     <message>
         <location filename="../C_Manager.cpp" line="442"/>
         <source>New Group Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název nové skupiny</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="444"/>
         <source>Invalid Group Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatný název skupiny</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="483"/>
         <source>New Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nový název</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="514"/>
@@ -218,7 +218,7 @@ File Location: %1</source>
     <message>
         <location filename="../C_Manager.cpp" line="514"/>
         <source>Create Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit heslo</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="516"/>
@@ -247,7 +247,7 @@ File Location: %1</source>
         <location filename="../C_Manager.cpp" line="576"/>
         <location filename="../C_Manager.cpp" line="585"/>
         <source>Import Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba importu</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="542"/>
@@ -273,7 +273,7 @@ File Location: %1</source>
     <message>
         <location filename="../C_Manager.cpp" line="627"/>
         <source>Key Exported</source>
-        <translation type="unfinished"></translation>
+        <translation>Klíč exportován</translation>
     </message>
     <message>
         <location filename="../C_Manager.cpp" line="627"/>
@@ -287,42 +287,42 @@ File Location: %1</source>
     <message>
         <location filename="../MenuItem.cpp" line="24"/>
         <source>Local System</source>
-        <translation type="unfinished"></translation>
+        <translation>Místní systém</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="53"/>
         <source>Connection Closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Spojení ukončeno</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="56"/>
         <source>%1: Lost Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: spojení ztraceno</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="60"/>
         <source>Trying to connect....</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokus o spojení…</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="66"/>
         <source>Connection Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Spojení aktivní</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="84"/>
         <source>%1: Reboot required to finish updates</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: Pro dokončení aktualizací je třeba restartovat</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="85"/>
         <source>%1: Updates in progress</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: Probíhá aktualizace</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="86"/>
         <source>%1: Updates available</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: Jsou k dispozici aktualizace</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="106"/>
@@ -345,32 +345,32 @@ File Location: %1</source>
     <message>
         <location filename="../MenuItem.cpp" line="145"/>
         <source>Local System</source>
-        <translation type="unfinished"></translation>
+        <translation>Místní systém</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="189"/>
         <source>Connection Closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Spojení ukončeno</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="192"/>
         <source>%1: Lost Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: Ztraceno spojení</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="198"/>
         <source>Trying to connect....</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokus o spojení…</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="205"/>
         <source>Connection Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Spojení aktivní</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="207"/>
         <source>%1: Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: Spojeno</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="242"/>
@@ -383,42 +383,42 @@ File Location: %1</source>
     <message>
         <location filename="../mainUI.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>HlavníOkno</translation>
     </message>
     <message>
         <location filename="../mainUI.ui" line="25"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>lištaNástrojů</translation>
     </message>
     <message>
         <location filename="../mainUI.ui" line="56"/>
         <source>Control Panel</source>
-        <translation type="unfinished"></translation>
+        <translation>Ovládací panel</translation>
     </message>
     <message>
         <location filename="../mainUI.ui" line="65"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="37"/>
         <source>Disconnect From System</source>
-        <translation type="unfinished"></translation>
+        <translation>Odpojit od systému</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="39"/>
         <source>Reboot System</source>
-        <translation type="unfinished"></translation>
+        <translation>Restartovat systém</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="40"/>
         <source>Shutdown System</source>
-        <translation type="unfinished"></translation>
+        <translation>Vypnout systém</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="53"/>
         <source>Authentication Settings Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení ověřování není platné</translation>
     </message>
     <message>
         <location filename="../mainUI.cpp" line="53"/>
@@ -428,7 +428,7 @@ File Location: %1</source>
     <message>
         <location filename="../mainUI.cpp" line="114"/>
         <source>Local System</source>
-        <translation type="unfinished"></translation>
+        <translation>Místní systém</translation>
     </message>
 </context>
 <context>
@@ -436,17 +436,17 @@ File Location: %1</source>
     <message>
         <location filename="../MenuItem.cpp" line="405"/>
         <source>Unlock Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Odemknout spojení</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="416"/>
         <source>Manage Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Spravovat spojení</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="419"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="427"/>
@@ -464,17 +464,17 @@ File Location: %1</source>
     <message>
         <location filename="../NewConnectionWizard.ui" line="24"/>
         <source>Connect to a Remote System </source>
-        <translation type="unfinished"></translation>
+        <translation>Připojit se k systému na dálku </translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="33"/>
         <source>Host IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP adresa stroje:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="47"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelské jméno:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="54"/>
@@ -484,7 +484,7 @@ File Location: %1</source>
     <message>
         <location filename="../NewConnectionWizard.ui" line="61"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Heslo:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="71"/>
@@ -494,7 +494,7 @@ File Location: %1</source>
     <message>
         <location filename="../NewConnectionWizard.ui" line="93"/>
         <source>Test Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyzkoušet nastavení</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="133"/>
@@ -509,12 +509,12 @@ File Location: %1</source>
     <message>
         <location filename="../NewConnectionWizard.ui" line="183"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokončeno</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="194"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Storno</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="52"/>
@@ -524,7 +524,7 @@ File Location: %1</source>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="55"/>
         <source>Test Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkouška úspěšná</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.cpp" line="82"/>
@@ -537,7 +537,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/control_panel.cpp" line="74"/>
         <source>Application Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Správa aplikací</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="76"/>
@@ -547,37 +547,37 @@ File Location: %1</source>
     <message>
         <location filename="../pages/control_panel.cpp" line="79"/>
         <source>System Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Správa systému</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="82"/>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Spojení</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="85"/>
         <source>SysAdm Server Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení SysAdm serveru</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="88"/>
         <source>Utilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástroje</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="28"/>
         <source>Boot Environment Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správce zaváděcích prostředí</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="28"/>
         <source>Manage operating system snapshots</source>
-        <translation type="unfinished"></translation>
+        <translation>Spravovat zachycené stavy operačního systému</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="29"/>
         <source>Task Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správce úloh</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="29"/>
@@ -602,12 +602,12 @@ File Location: %1</source>
     <message>
         <location filename="../pages/getPage.h" line="31"/>
         <source>Manage SSL Keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Spravovat SSL klíče</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"/>
         <source>SSL Key Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správa SSL klíče</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"/>
@@ -617,12 +617,12 @@ File Location: %1</source>
     <message>
         <location filename="../pages/getPage.h" line="32"/>
         <source>About TrueOS</source>
-        <translation type="unfinished"></translation>
+        <translation>O systému TrueOS</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="32"/>
         <source>More information on TrueOS</source>
-        <translation type="unfinished"></translation>
+        <translation>Další informace o systému TrueOS</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="33"/>
@@ -632,27 +632,27 @@ File Location: %1</source>
     <message>
         <location filename="../pages/getPage.h" line="33"/>
         <source>Manage Local and Remote Backups</source>
-        <translation type="unfinished"></translation>
+        <translation>Spravovat místní a vzdálené zálohy</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="34"/>
         <source>System Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správa systému</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="34"/>
         <source>Information About the System</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o systému</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="35"/>
         <source>Update Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správce aktualizací</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="35"/>
         <source>Perform Updates on the System</source>
-        <translation type="unfinished"></translation>
+        <translation>Provést aktualizace systému</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="36"/>
@@ -662,27 +662,27 @@ File Location: %1</source>
     <message>
         <location filename="../pages/getPage.h" line="36"/>
         <source>Manage Applications/Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Spravovat aplikace/balíčky</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="37"/>
         <source>User Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správa uživatelů</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="37"/>
         <source>Manage Users/Groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Spravovat uživatele/skupiny</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="38"/>
         <source>Service Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správa služeb</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="38"/>
         <source>Manage Services</source>
-        <translation type="unfinished"></translation>
+        <translation>Spravovat služby</translation>
     </message>
 </context>
 <context>
@@ -690,27 +690,27 @@ File Location: %1</source>
     <message>
         <location filename="../SettingsDialog.ui" line="14"/>
         <source>sysadm: Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>sysadm: Nastavení</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="35"/>
         <source>Interface Style:</source>
-        <translation type="unfinished"></translation>
+        <translation>Styl rozhraní:</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="47"/>
         <source>Use Custom Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít vlastní písmo</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="130"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokončeno</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.cpp" line="45"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Žádné</translation>
     </message>
 </context>
 <context>
@@ -718,7 +718,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_about.cpp" line="27"/>
         <source>About PC-BSD</source>
-        <translation type="unfinished"></translation>
+        <translation>O systému PC-BSD</translation>
     </message>
 </context>
 <context>
@@ -726,40 +726,40 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_beadm.cpp" line="27"/>
         <source>Boot-Up Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení zavádění systému</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="96"/>
         <location filename="../pages/page_beadm.cpp" line="112"/>
         <source>New Boot Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Nové zaváděcí prostředí</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="96"/>
         <location filename="../pages/page_beadm.cpp" line="112"/>
         <location filename="../pages/page_beadm.cpp" line="138"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Název:</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="105"/>
         <source>Creating Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytváření zaváděcího prostředí…</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="121"/>
         <source>Cloning Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Klonování zaváděcího prostředí…</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="131"/>
         <source>Deleting Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mazání zaváděcího prostředí…</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="138"/>
         <source>Rename Boot Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Přejmenovat zaváděcí prostředí</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="147"/>
@@ -792,7 +792,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/control_panel.cpp" line="49"/>
         <source>Control Panel</source>
-        <translation type="unfinished"></translation>
+        <translation>Ovládací panel</translation>
     </message>
 </context>
 <context>
@@ -835,7 +835,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="248"/>
         <source>New Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nový název:</translation>
     </message>
 </context>
 <context>
@@ -843,7 +843,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_iohyve.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="39"/>
@@ -853,12 +853,12 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_iohyve.ui" line="50"/>
         <source>ZFS Pool:</source>
-        <translation type="unfinished"></translation>
+        <translation>ZFS fond:</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="57"/>
         <source>Network Interface:</source>
-        <translation type="unfinished"></translation>
+        <translation>Síťové rozhraní:</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="87"/>
@@ -868,27 +868,27 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_iohyve.ui" line="137"/>
         <source>Manage VMs</source>
-        <translation type="unfinished"></translation>
+        <translation>Spravovat virt. stroje</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="145"/>
         <source>Start VM</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustit virt. stroj</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="156"/>
         <source>Stop VM</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastavit virt. stroj</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="180"/>
         <source>Create VM</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit virt. stroj</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="200"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="205"/>
@@ -898,7 +898,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_iohyve.ui" line="210"/>
         <source>Running</source>
-        <translation type="unfinished"></translation>
+        <translation>Spuštěné</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="215"/>
@@ -908,7 +908,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_iohyve.ui" line="220"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Popis</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="233"/>
@@ -986,37 +986,37 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.cpp" line="69"/>
         <source>Sunday</source>
-        <translation type="unfinished"></translation>
+        <translation>Neděle</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="70"/>
         <source>Monday</source>
-        <translation type="unfinished"></translation>
+        <translation>Pondělí</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="71"/>
         <source>Tuesday</source>
-        <translation type="unfinished"></translation>
+        <translation>Úterý</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="72"/>
         <source>Wednesday</source>
-        <translation type="unfinished"></translation>
+        <translation>Středa</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="73"/>
         <source>Thursday</source>
-        <translation type="unfinished"></translation>
+        <translation>Čtvrtek</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="74"/>
         <source>Friday</source>
-        <translation type="unfinished"></translation>
+        <translation>Pátek</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="75"/>
         <source>Saturday</source>
-        <translation type="unfinished"></translation>
+        <translation>Sobota</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.cpp" line="90"/>
@@ -1044,68 +1044,68 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="43"/>
         <source>Snapshots</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachycené stavy</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="51"/>
         <source>ZFS Pool</source>
-        <translation type="unfinished"></translation>
+        <translation>ZFS fond</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="90"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="95"/>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Komentář</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="105"/>
         <source>Create</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="119"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Odebrat</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="135"/>
         <source>Revert to Selected Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrátit do podoby označeného zachyceného stavu</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="156"/>
         <location filename="../pages/page_lp.ui" line="159"/>
         <source>Reverts the selected dataset to match the selected snapshot (DESTRUCTIVE).</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrátí označenou datovou sadu do podoby označeného zachyceného stavu (ZNIČÍ NOVĚJŠÍ DATA).</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="165"/>
         <source>Revert</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrátit zpět</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="190"/>
         <source>Replication</source>
-        <translation type="unfinished"></translation>
+        <translation>Replikace</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="203"/>
         <source>Dataset</source>
-        <translation type="unfinished"></translation>
+        <translation>Datová sada</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="208"/>
         <source>Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Stroj</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="213"/>
@@ -1115,27 +1115,27 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="218"/>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Port</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="223"/>
         <source>Frequency</source>
-        <translation type="unfinished"></translation>
+        <translation>Četnost</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="228"/>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="238"/>
         <source>Create a new replication</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit novou replikaci</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="252"/>
         <source>Remove a replication</source>
-        <translation type="unfinished"></translation>
+        <translation>Odebrat replikaci</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="255"/>
@@ -1146,22 +1146,22 @@ File Location: %1</source>
         <location filename="../pages/page_lp.ui" line="676"/>
         <location filename="../pages/page_lp.ui" line="690"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>…</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="266"/>
         <source>Modify selected replication</source>
-        <translation type="unfinished"></translation>
+        <translation>Upravit označenou replikaci</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="293"/>
         <source>Start replication task</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustit replikační úlohu</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="296"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustit</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="310"/>
@@ -1171,58 +1171,58 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="313"/>
         <source>Initialize</source>
-        <translation type="unfinished"></translation>
+        <translation>Inicializovat</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="329"/>
         <source>Setup Replication</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavit replikaci</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="355"/>
         <source>Host IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP adresa stroje:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="365"/>
         <source>SSH Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>SSH port:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="372"/>
         <source>Dataset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Datová sada:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="395"/>
         <location filename="../pages/page_lp.ui" line="760"/>
         <location filename="../pages/page_lp.ui" line="848"/>
         <source>Frequency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Četnost:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="407"/>
         <location filename="../pages/page_lp.ui" line="772"/>
         <location filename="../pages/page_lp.ui" line="879"/>
         <source>:00</source>
-        <translation type="unfinished"></translation>
+        <translation>:00</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="410"/>
         <location filename="../pages/page_lp.ui" line="775"/>
         <location filename="../pages/page_lp.ui" line="882"/>
         <source>@ </source>
-        <translation type="unfinished"></translation>
+        <translation>@</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="432"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelské jméno:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="442"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Heslo:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="456"/>
@@ -1234,19 +1234,19 @@ File Location: %1</source>
         <location filename="../pages/page_lp.ui" line="805"/>
         <location filename="../pages/page_lp.ui" line="912"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="492"/>
         <location filename="../pages/page_lp.ui" line="816"/>
         <location filename="../pages/page_lp.ui" line="923"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="515"/>
         <source>Schedules</source>
-        <translation type="unfinished"></translation>
+        <translation>Plány</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="528"/>
@@ -1256,7 +1256,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="533"/>
         <source>Snapshots to Keep</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachycené stavy které ponechat</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="538"/>
@@ -1281,7 +1281,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="605"/>
         <source>Remove snapshot from schedule</source>
-        <translation type="unfinished"></translation>
+        <translation>Odebrat zachycený stav z plánu</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="659"/>
@@ -1312,7 +1312,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="753"/>
         <source>Snapshots to keep:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachycené stavy které ponechat:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="832"/>
@@ -1322,12 +1322,12 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="863"/>
         <source>Date: </source>
-        <translation type="unfinished"></translation>
+        <translation>Datum:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="944"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="950"/>
@@ -1337,12 +1337,12 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="957"/>
         <source> % Full</source>
-        <translation type="unfinished"></translation>
+        <translation> % plné</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="967"/>
         <source>Email:</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail:</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="974"/>
@@ -1352,17 +1352,17 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="985"/>
         <source>ALL</source>
-        <translation type="unfinished"></translation>
+        <translation>VŠE</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="990"/>
         <source>WARN</source>
-        <translation type="unfinished"></translation>
+        <translation>VAROVÁNÍ</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="995"/>
         <source>ERROR</source>
-        <translation type="unfinished"></translation>
+        <translation>CHYBA</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="1003"/>
@@ -1372,7 +1372,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_lp.ui" line="1010"/>
         <source>Save Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit nastavení</translation>
     </message>
 </context>
 <context>
@@ -1380,18 +1380,18 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_about.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="49"/>
         <source>Package set:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sada balíčků:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="171"/>
         <location filename="../pages/page_about.ui" line="274"/>
         <source>Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verze:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="178"/>
@@ -1404,22 +1404,22 @@ File Location: %1</source>
         <location filename="../pages/page_about.ui" line="557"/>
         <location filename="../pages/page_about.ui" line="597"/>
         <source>&lt;Unknown&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Neznámé&gt;</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="226"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zavřít</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="262"/>
         <source>FreeBSD base</source>
-        <translation type="unfinished"></translation>
+        <translation>FreeBSD základ</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="297"/>
         <source>Arch:</source>
-        <translation type="unfinished"></translation>
+        <translation>Architektura procesoru:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="320"/>
@@ -1429,73 +1429,73 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_about.ui" line="340"/>
         <source>Software and system components...</source>
-        <translation type="unfinished"></translation>
+        <translation>Software a systémové součásti…</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="347"/>
         <source>Hardware</source>
-        <translation type="unfinished"></translation>
+        <translation>Hardware</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="359"/>
         <source>CPU:</source>
-        <translation type="unfinished"></translation>
+        <translation>Procesor:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="382"/>
         <source>Mem.</source>
-        <translation type="unfinished"></translation>
+        <translation>Op. paměť</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="408"/>
         <location filename="../pages/page_about.ui" line="480"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Zpět</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="432"/>
         <source>Desktop environments:</source>
-        <translation type="unfinished"></translation>
+        <translation>Desktopová prostředí:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="439"/>
         <source>(Please wait...)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Čekejte…)</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="455"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="466"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Verze</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="510"/>
         <source>X.org server version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verze X.org serveru:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="550"/>
         <source>PC-BSD CLI utilities:</source>
-        <translation type="unfinished"></translation>
+        <translation>PC-BSD nástroje pro příkazový řádek:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="590"/>
         <source>PC-BSD UI utilities:</source>
-        <translation type="unfinished"></translation>
+        <translation>PC-BSD nástroje pro uživatelské rozhraní:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="667"/>
         <source>Host:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stroj:</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="674"/>
         <source>????</source>
-        <translation type="unfinished"></translation>
+        <translation>???</translation>
     </message>
 </context>
 <context>
@@ -1576,17 +1576,17 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_ssl_auth.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../pages/page_ssl_auth.ui" line="70"/>
         <source>Certificate Details:</source>
-        <translation type="unfinished"></translation>
+        <translation>Podrobnosti o certifikátu:</translation>
     </message>
     <message>
         <location filename="../pages/page_ssl_auth.ui" line="107"/>
         <source>Revoke Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Odvolat platnost certifikátu</translation>
     </message>
 </context>
 <context>
@@ -1594,12 +1594,12 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_system.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="30"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Obecné</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="65"/>
@@ -1609,17 +1609,17 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_system.ui" line="96"/>
         <source>&amp;Generate</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vytvořit</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="137"/>
         <source>PC-BSD Versions</source>
-        <translation type="unfinished"></translation>
+        <translation>Verze PC-BSD</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="161"/>
         <source>Base:</source>
-        <translation type="unfinished"></translation>
+        <translation>Základ:</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="171"/>
@@ -1629,27 +1629,27 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_system.ui" line="195"/>
         <source>Graphical Utilities:</source>
-        <translation type="unfinished"></translation>
+        <translation>Grafické nástroje:</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="304"/>
         <source>System Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o systému</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="343"/>
         <source>FreeBSD Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verze FreeBSD:</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="381"/>
         <source>CPU Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ procesoru:</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="425"/>
         <source>System Memory:</source>
-        <translation type="unfinished"></translation>
+        <translation>Operační paměť:</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="479"/>
@@ -1669,7 +1669,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_system.ui" line="496"/>
         <source>Alt+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+S</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="520"/>
@@ -1679,17 +1679,17 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_system.ui" line="559"/>
         <source>Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Různé</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="581"/>
         <source>&amp;Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Použít</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="601"/>
         <source>Other Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostatní předvolby</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="607"/>
@@ -1699,7 +1699,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_system.ui" line="643"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavřít</translation>
     </message>
 </context>
 <context>
@@ -1707,61 +1707,61 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="39"/>
         <source>Popular Searches</source>
-        <translation type="unfinished"></translation>
+        <translation>Oblíbená hledání</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="40"/>
         <source>Web Browsers</source>
-        <translation type="unfinished"></translation>
+        <translation>Webové prohlížeče</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="41"/>
         <source>Email Clients</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mailoví klienti</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="42"/>
         <source>Office Suites</source>
-        <translation type="unfinished"></translation>
+        <translation>Sady kancelářských aplikací</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="43"/>
         <source>Desktops</source>
-        <translation type="unfinished"></translation>
+        <translation>Desktopová prostředí</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="46"/>
         <source>Popular Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Oblíbené kategorie</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="47"/>
         <location filename="../pages/page_pkg-extras.cpp" line="109"/>
         <source>Games</source>
-        <translation type="unfinished"></translation>
+        <translation>Hry</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="48"/>
         <location filename="../pages/page_pkg-extras.cpp" line="122"/>
         <source>Multimedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Multimédia</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="49"/>
         <location filename="../pages/page_pkg-extras.cpp" line="93"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvuk</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="50"/>
         <location filename="../pages/page_pkg-extras.cpp" line="101"/>
         <source>Desktop Utilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Desktopové nástroje</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="89"/>
         <source>Accessibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Přístupnost pro hendikepované</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="90"/>
@@ -1771,27 +1771,27 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="91"/>
         <source>Archivers</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivátory</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="92"/>
         <source>Astro</source>
-        <translation type="unfinished"></translation>
+        <translation>Astronomie</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="94"/>
         <source>Benchmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Výkonnostní testy</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="95"/>
         <source>Biology</source>
-        <translation type="unfinished"></translation>
+        <translation>Biologie</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="96"/>
         <source>CAD</source>
-        <translation type="unfinished"></translation>
+        <translation>Počítačová konstrukce (CAD)</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="97"/>
@@ -1806,38 +1806,38 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="99"/>
         <source>Converters</source>
-        <translation type="unfinished"></translation>
+        <translation>Převodníky</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="100"/>
         <source>Databases</source>
-        <translation type="unfinished"></translation>
+        <translation>Databáze</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="102"/>
         <location filename="../pages/page_pkg-extras.cpp" line="185"/>
         <source>Development</source>
-        <translation type="unfinished"></translation>
+        <translation>Vývoj</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="103"/>
         <source>DNS</source>
-        <translation type="unfinished"></translation>
+        <translation>DNS</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="104"/>
         <source>Editors</source>
-        <translation type="unfinished"></translation>
+        <translation>Editory</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="105"/>
         <source>Emulators</source>
-        <translation type="unfinished"></translation>
+        <translation>Emulátory</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="106"/>
         <source>Finance</source>
-        <translation type="unfinished"></translation>
+        <translation>Finance</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="107"/>
@@ -1847,7 +1847,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="108"/>
         <source>FTP</source>
-        <translation type="unfinished"></translation>
+        <translation>FTP</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="110"/>
@@ -1857,7 +1857,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="111"/>
         <source>Graphics</source>
-        <translation type="unfinished"></translation>
+        <translation>Grafika</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="112"/>
@@ -1882,7 +1882,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="116"/>
         <source>Java</source>
-        <translation type="unfinished"></translation>
+        <translation>Java</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="117"/>
@@ -1892,27 +1892,27 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="118"/>
         <source>Languages</source>
-        <translation type="unfinished"></translation>
+        <translation>Jazyky</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="119"/>
         <source>Mail</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="120"/>
         <source>Math</source>
-        <translation type="unfinished"></translation>
+        <translation>Matematika</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="121"/>
         <source>Miscellaneous</source>
-        <translation type="unfinished"></translation>
+        <translation>Různé</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="123"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Síť</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="124"/>
@@ -1922,7 +1922,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="125"/>
         <source>Network-Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Síť – správa</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="126"/>
@@ -1957,7 +1957,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="132"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Tisk</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="133"/>
@@ -1967,12 +1967,12 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="134"/>
         <source>Science</source>
-        <translation type="unfinished"></translation>
+        <translation>Věda</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="135"/>
         <source>Security</source>
-        <translation type="unfinished"></translation>
+        <translation>Zabezpečení</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="136"/>
@@ -1982,12 +1982,12 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="137"/>
         <source>System Utilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Systémové nástroje</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="138"/>
         <source>Text Processing</source>
-        <translation type="unfinished"></translation>
+        <translation>Zpracování textu</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="139"/>
@@ -2053,7 +2053,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="180"/>
         <source>Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Kategorie</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="194"/>
@@ -2063,27 +2063,27 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="203"/>
         <source>Networking</source>
-        <translation type="unfinished"></translation>
+        <translation>Sítě</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="212"/>
         <source>Utilities</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástroje</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="229"/>
         <source>All Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny balíčky</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="30"/>
         <source>View All Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit všechny balíčky</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="34"/>
         <source>View Advanced Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit pokročilé předvolby</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="39"/>
@@ -2108,7 +2108,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg.cpp" line="354"/>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Neznámé</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="379"/>
@@ -2123,7 +2123,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg.cpp" line="396"/>
         <source>Required By</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyžadováno</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="405"/>
@@ -2143,7 +2143,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg.cpp" line="430"/>
         <source>Provides</source>
-        <translation type="unfinished"></translation>
+        <translation>Poskytuje</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="438"/>
@@ -2153,22 +2153,22 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg.cpp" line="446"/>
         <source>Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelé</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="454"/>
         <source>Groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Skupiny</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="462"/>
         <source>Configuration Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory s nastaveními</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="470"/>
         <source>Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="483"/>
@@ -2183,7 +2183,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg.cpp" line="559"/>
         <source>Number of packages: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet balíčků: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="587"/>
@@ -2233,7 +2233,7 @@ File Location: %1</source>
     <message>
         <location filename="../pages/page_pkg.cpp" line="1124"/>
         <source>Launch Update Manager?</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustit správce aktualizací?</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.cpp" line="1124"/>
@@ -2263,22 +2263,22 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_pkg.ui" line="43"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Procházet</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="85"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Zpět</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="135"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Hledat</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="142"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>…</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="186"/>
@@ -2288,7 +2288,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_pkg.ui" line="206"/>
         <source>Browse Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Procházet kategorie</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="263"/>
@@ -2303,17 +2303,17 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_pkg.ui" line="496"/>
         <source>Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Nainstalovat</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="516"/>
         <source>Uninstall</source>
-        <translation type="unfinished"></translation>
+        <translation>Odinstalovat</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="615"/>
         <source>Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verze:</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="629"/>
@@ -2486,7 +2486,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_services.cpp" line="34"/>
         <source>Service Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správa služeb</translation>
     </message>
 </context>
 <context>
@@ -2494,57 +2494,57 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_services.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="22"/>
         <source>Start the selected service</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustit označenou službu</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="36"/>
         <source>Stop the selected service</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastavit označenou službu</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="50"/>
         <source>Restart the selected service</source>
-        <translation type="unfinished"></translation>
+        <translation>Restartovat označenou službu</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="77"/>
         <source>Enable automatic start on boot</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapnout automatické spouštění při zavádění systému</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="91"/>
         <source>Disable automatic start on boot</source>
-        <translation type="unfinished"></translation>
+        <translation>Vypnout automatické spouštění při zavádění systému</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="114"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="119"/>
         <source>Running</source>
-        <translation type="unfinished"></translation>
+        <translation>Spuštěné</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="124"/>
         <source>Start on Boot</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustit při zavádění systému</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="129"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Popis</translation>
     </message>
     <message>
         <location filename="../pages/page_services.ui" line="145"/>
         <source>Syncing Service Information....</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchronizace informací o službě…</translation>
     </message>
 </context>
 <context>
@@ -2552,12 +2552,12 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_ssl_auth.cpp" line="26"/>
         <source>SSL Key Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správa SSL klíčů</translation>
     </message>
     <message>
         <location filename="../pages/page_ssl_auth.cpp" line="66"/>
         <source>SSL Certificate %1</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL certifikát %1</translation>
     </message>
 </context>
 <context>
@@ -2565,22 +2565,22 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../TrayUI.cpp" line="36"/>
         <source>Hide all messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Nezobrazovat žádné zprávy</translation>
     </message>
     <message>
         <location filename="../TrayUI.cpp" line="187"/>
         <source>Password Required</source>
-        <translation type="unfinished"></translation>
+        <translation>Je vyžadováno heslo</translation>
     </message>
     <message>
         <location filename="../TrayUI.cpp" line="187"/>
         <source>Password for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Heslo pro %1</translation>
     </message>
     <message>
         <location filename="../TrayUI.cpp" line="299"/>
         <source>Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Zprávy</translation>
     </message>
 </context>
 <context>
@@ -2588,7 +2588,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_system.cpp" line="26"/>
         <source>System Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správa systému</translation>
     </message>
 </context>
 <context>
@@ -2649,23 +2649,23 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_taskmanager.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="20"/>
         <source>Running Programs</source>
-        <translation type="unfinished"></translation>
+        <translation>Spuštěné programy</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="33"/>
         <source>PID</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifikátor procesu</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="38"/>
         <location filename="../pages/page_taskmanager.ui" line="88"/>
         <source>USER</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="43"/>
@@ -2685,7 +2685,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_taskmanager.ui" line="58"/>
         <source>SIZE</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="63"/>
@@ -2695,7 +2695,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_taskmanager.ui" line="68"/>
         <source>STATE</source>
-        <translation type="unfinished"></translation>
+        <translation>Stav</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="73"/>
@@ -2715,22 +2715,22 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_taskmanager.ui" line="98"/>
         <source>Kill Selected Process</source>
-        <translation type="unfinished"></translation>
+        <translation>Vynuceně ukončit označený proces</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="127"/>
         <source>Resource Usage</source>
-        <translation type="unfinished"></translation>
+        <translation>Využití systémových prostředků</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="139"/>
         <source>Memory Usage:</source>
-        <translation type="unfinished"></translation>
+        <translation>Využití operační paměti:</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="156"/>
         <source>CPU Usage:</source>
-        <translation type="unfinished"></translation>
+        <translation>Využití výpočetního výkonu:</translation>
     </message>
 </context>
 <context>
@@ -2738,59 +2738,59 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_updates.cpp" line="39"/>
         <source>Update Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správce aktualizací</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="75"/>
         <source>Latest Check: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Minulá kontrola: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="101"/>
         <source>FreeBSD Security Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezpečnostní aktualizace systému FreeBSD</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="107"/>
         <source>Major OS Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Velká aktualizace systému</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="119"/>
         <location filename="../pages/page_updates.cpp" line="120"/>
         <location filename="../pages/page_updates.cpp" line="123"/>
         <source>Standalone Patches</source>
-        <translation type="unfinished"></translation>
+        <translation>Samostatné opravy</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="129"/>
         <source>Size: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="130"/>
         <source>Date: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="131"/>
         <source>Tag: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="132"/>
         <source>Additional Details: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Další podrobnosti: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="142"/>
         <source>Package Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizace balíčků</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="371"/>
         <source>Current Branch</source>
-        <translation type="unfinished"></translation>
+        <translation>Stávající větev</translation>
     </message>
 </context>
 <context>
@@ -2798,92 +2798,92 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_updates.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="31"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizace</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="86"/>
         <source>Start Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustit aktualizace</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="118"/>
         <source>View Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit podrobnosti</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="174"/>
         <source>System is up to date!!</source>
-        <translation type="unfinished"></translation>
+        <translation>Systém je aktuální!</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="187"/>
         <source>Reboot Required to Finish Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro dokončení aktualizací je třeba restartovat</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="232"/>
         <source>System Performing Updates:</source>
-        <translation type="unfinished"></translation>
+        <translation>Systém provádí aktualizace:</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="272"/>
         <source>Stop Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastavit aktualizace</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="339"/>
         <source>Check For Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Zjišťování dostupnosti aktualizací</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="361"/>
         <source>Checking for updates....</source>
-        <translation type="unfinished"></translation>
+        <translation>Zjišťování dostupnosti aktualizací…</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="376"/>
         <source>Branches</source>
-        <translation type="unfinished"></translation>
+        <translation>Větve</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="382"/>
         <source>Change Branch</source>
-        <translation type="unfinished"></translation>
+        <translation>Změnit větev</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="410"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="418"/>
         <source>Max Boot Environments</source>
-        <translation type="unfinished"></translation>
+        <translation>Nejvýše zaváděcích prostředí</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="437"/>
         <source>Automatically perform updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Provádět aktualizace automaticky</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="444"/>
         <source>Custom Package Repository</source>
-        <translation type="unfinished"></translation>
+        <translation>Vlastní repozitář s balíčky</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="456"/>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL adresa</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="497"/>
         <source>Save Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit nastavení</translation>
     </message>
 </context>
 <context>
@@ -2891,52 +2891,52 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_users.cpp" line="60"/>
         <source>User Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správa uživatelů</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="90"/>
         <source>Could not remove user</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se odebrat uživatele</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="91"/>
         <source>Could not create user</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se vytvořit uživatele</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="92"/>
         <source>Could not modify user</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se upravit uživatele</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="97"/>
         <source>Could not modify group</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se upravit skupinu</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="107"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="444"/>
         <source>Clean Home Directory?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vymazat domovskou složku?</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="444"/>
         <source>Also remove the home directory for this user?</source>
-        <translation type="unfinished"></translation>
+        <translation>Odebrat také domovskou složku tohoto uživatele?</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="504"/>
         <source>Remove User?</source>
-        <translation type="unfinished"></translation>
+        <translation>Odebrat uživatele?</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="504"/>
         <source>Are you sure you wish to remove this user account?</source>
-        <translation type="unfinished"></translation>
+        <translation>Opravdu chcete odebrat tento uživatelský účet?</translation>
     </message>
     <message>
         <location filename="../pages/page_users.cpp" line="514"/>
@@ -2954,96 +2954,96 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_users.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="40"/>
         <location filename="../pages/page_users.ui" line="876"/>
         <source>Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelé</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="66"/>
         <location filename="../pages/page_users.ui" line="857"/>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardní</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="82"/>
         <location filename="../pages/page_users.ui" line="867"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokročilé</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="102"/>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Podrobnosti</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="153"/>
         <source>Full Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Celé jméno</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="160"/>
         <source>Full name of user (some character restrictions)</source>
-        <translation type="unfinished"></translation>
+        <translation>Celé jméno uživatele (některé znaky nelze použít)</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="167"/>
         <source>User Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelské jméno</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="174"/>
         <source>Shorted username (character restrictions and 16 character limit)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkrácené uživatelské jméno (nemožnost použít některé znaky a nejvýše 16 znaků délky)</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="190"/>
         <location filename="../pages/page_users.ui" line="399"/>
         <location filename="../pages/page_users.ui" line="474"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Heslo</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="228"/>
         <source>UID</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifikátor uživatele (UID)</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="244"/>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Automaticky</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="253"/>
         <source>Home Dir Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Popis umístění domovské složky</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="267"/>
         <source>Shell Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Popis umístění spustitelného souboru se shellem</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="281"/>
         <source>New User Permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>Práva nového uživatele</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="299"/>
-        <source>Places the user within the &quot;wheel&quot; group for administration abilities</source>
-        <translation type="unfinished"></translation>
+        <source>Places the user within the "wheel" group for administration abilities</source>
+        <translation>Pokud má uživatel mít práva pro správu systému, začleňte ho do skupiny „wheel“</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="302"/>
         <source>Administrator Access</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oprávnění pro správu systému</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="309"/>
-        <source>Places the user within the &quot;operator&quot; group for partial system control</source>
+        <source>Places the user within the "operator" group for partial system control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3069,58 +3069,58 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_users.ui" line="464"/>
         <source>Initialize Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Inicializovat zařízení</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="481"/>
         <source>Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Zařízení</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="509"/>
         <source>Import Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Importovat klíč</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="516"/>
         <source>Key File</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor s klíčem</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="531"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>…</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="645"/>
         <source>New User</source>
-        <translation type="unfinished"></translation>
+        <translation>Nový uživatel</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="712"/>
         <location filename="../pages/page_users.ui" line="789"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="730"/>
         <source>Groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Skupiny</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="829"/>
         <source>New Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Nová skupina</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="990"/>
         <source>Members</source>
-        <translation type="unfinished"></translation>
+        <translation>Členové</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="1000"/>
         <source>Available</source>
-        <translation type="unfinished"></translation>
+        <translation>K dispozici</translation>
     </message>
 </context>
 </TS>
