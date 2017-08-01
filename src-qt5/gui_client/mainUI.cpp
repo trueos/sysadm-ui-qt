@@ -43,24 +43,24 @@ MainUI::MainUI(sysadm_client *core, QString pageID, QString bridgeID) : QMainWin
     ui->toolBar->removeAction(ui->actionPower);
   }
   //Now finish up the rest of the init
-  qDebug() << "Init UI";
+  //qDebug() << "Init UI";
   InitializeUI();
   currentPage = pageID;
   if(currentPage.isEmpty()){ currentPage = "somedummy_page"; }
   if(!CORE->isActive()){
-    qDebug() << " - CORE not active";
+    //qDebug() << " - CORE not active";
     if(CORE->needsBaseAuth() && !CORE->isLocalHost()){
       QMessageBox *dlg = new QMessageBox(QMessageBox::Warning, tr("Authentication Settings Invalid"), tr("Please reset your authentication procedures for this server within the connection manager."),QMessageBox::Ok, this);
       dlg->setModal(true);
       connect(dlg, SIGNAL(finished(int)), this, SLOT(close()) );
       dlg->show();
     }else{
-      qDebug() << " - open connection";
+      //qDebug() << " - open connection";
       CORE->openConnection();
     }
   }
   if( CORE->isReady() ){
-    qDebug() << " - Core is ready:" << CORE->isBridge() << b_id;
+    //qDebug() << " - Core is ready:" << CORE->isBridge() << b_id;
     if(CORE->isBridge() && b_id.isEmpty()){ QTimer::singleShot(5,this, SLOT(close()) ); }
     else{ loadPage(pageID); }
   }else if(pageID.isEmpty()){
@@ -93,13 +93,13 @@ void MainUI::InitializeUI(){
 
   connect(ui->actionBack, SIGNAL(triggered()), this, SLOT(loadPage()) );
   connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(SavePage()) );
-	
+
   //Now set the initial window size based on the last saved setting
   QSize orig = settings->value("preferences/MainWindowSize", QSize()).toSize();
   if(!orig.isEmpty() && orig.isValid()){
     //Make sure the old size is larger than the default size hint
     if(orig.width() < this->sizeHint().width()){ orig.setWidth(this->sizeHint().width()); }
-    if(orig.height() < this->sizeHint().height()){ orig.setHeight(this->sizeHint().height()); }    
+    if(orig.height() < this->sizeHint().height()){ orig.setHeight(this->sizeHint().height()); }
     //Also ensure the old size is smaller than the current screen size
     QSize screen = QApplication::desktop()->availableGeometry(this).size();
     if(orig.width() > screen.width()){ orig.setWidth(screen.width()); }
@@ -107,10 +107,10 @@ void MainUI::InitializeUI(){
     //Now resize the window
     this->resize(orig);
   }
-  
+
   //Now setup the window title/icon
   host = settings->value("Hosts/"+CORE->currentHost(),"").toString();
-  if(host.isEmpty()){ 
+  if(host.isEmpty()){
     if(CORE->isLocalHost()){ host = tr("Local System"); }
     else{ host = CORE->currentHost(); }
   }else{ host.append(" ("+CORE->currentHost()+")" ); }

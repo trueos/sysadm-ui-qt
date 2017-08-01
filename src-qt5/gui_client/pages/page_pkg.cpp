@@ -747,6 +747,17 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
     GenerateHomePage(cats, ui->combo_repo->currentText());
   }else if(id==TAG+"has_upgrade_manager"){
     hasupdatemanager = args.toObject().contains("sysadm/update");
+  }else if(id==TAG+"pkg_install_verify"){
+    if( !promptAboutInstalls(args.toObject().value("pkg_install_verify").toObject()) ){
+      //cancelled
+      //QTimer::singleShot(0,this, SLOT()) );
+      return;
+    }
+    QJsonObject obj;
+    obj.insert("action","pkg_install");
+    obj.insert("pkg_origins", args.toObject().value("install_origins") );
+    obj.insert("repo", args.toObject().value("repo") );
+    communicate(TAG+"pkg_install", "sysadm", "pkg",obj);
   }else{
     //qDebug() << " - arguments:" << args;
   }
@@ -868,6 +879,43 @@ bool pkg_page::promptAboutRemovals(QStringList aboutToRemove, bool allorphans){
   QMessageBox dlg(QMessageBox::Warning, tr("Verify Removal"), msg, QMessageBox::Ok | QMessageBox::Cancel, this);
     dlg.setDetailedText(details);
     dlg.setDefaultButton(QMessageBox::Cancel);
+  return (dlg.exec() == QMessageBox::Ok);
+}
+
+bool pkg_page::promptAboutInstalls(QJsonObject obj){
+  QString msg;
+  msg = QString(tr("Are you sure you want to install these packages?"));
+  QStringList pkgs = obj.value("install").toObject().keys();
+  QStringList origins = ArrayToStringList(obj.value("install_origins").toArray());
+  msg.append("\n\n"+ QString(tr("Install: %1")).arg(origins.join(", ") ) );
+  if(pkgs.length()!=origins.length()){ msg.append(" "+QString(tr("(+%1 dependencies)")).arg(QString::number(pkgs.length()-origins.length()) ) ); }
+  //Generate the details list and size information
+  QStringList details;
+  double dlSize, installSize;
+  dlSize = installSize = 0;
+  for(int i=0; i<pkgs.length(); i++){
+    if(!details.isEmpty()){ details << "--------------"; }
+    QJsonObject  tmp = obj.value("install").toObject().value(pkgs[i]).toObject();
+    details << tmp.value("name").toString() + " ("+tmp.value("origin").toString()+")";
+    details << tmp.value("comment").toString();
+    details << "   "+QString(tr("Version: %1")).arg( tmp.value("version").toString() );
+    details << "   "+QString(tr("Package Size: %1")).arg( BtoHR(tmp.value("pkgsize").toString().toDouble()) );
+    details << "   "+QString(tr("Install Size: %1")).arg( BtoHR(tmp.value("flatsize").toString().toDouble()) );
+    //Update the total size numbers
+    dlSize += tmp.value("pkgsize").toString().toDouble();
+    installSize += tmp.value("flatsize").toString().toDouble();
+  }
+
+  //Check for conflicts and change the warnings as needed
+  QStringList conflicts = ArrayToStringList(obj.value("conflicts").toArray());
+  if(!conflicts.isEmpty()){
+    msg.append( "\n"+QString(tr("CONFLICTS: %1")).arg(conflicts.join(", ")) );
+  }
+  msg.append("\n"+QString(tr("Download Size: %1")).arg(BtoHR(dlSize))+"\n"+QString(tr("Required Disk Space: %1")).arg(BtoHR(installSize)) );
+  //Now show the dialog
+  QMessageBox dlg(conflicts.isEmpty() ? QMessageBox::Question : QMessageBox::Warning, tr("Verify Removal"), msg, QMessageBox::Ok | QMessageBox::Cancel, this);
+    dlg.setDetailedText(details.join("\n"));
+    dlg.setDefaultButton( conflicts.isEmpty() ? QMessageBox::Ok : QMessageBox::Cancel);
   return (dlg.exec() == QMessageBox::Ok);
 }
 
@@ -1200,6 +1248,7 @@ void pkg_page::send_repo_rmpkg(QString origin){
     origin = ui->page_pkg->whatsThis();
     ui->tool_app_uninstall->setVisible(false);
   }
+  if( !promptAboutRemovals(QStringList() << origin, false) ){ return; } //cancelled
   QJsonObject obj;
     obj.insert("action","pkg_remove");
     obj.insert("recursive","false"); //cleanup orphaned packages
@@ -1215,10 +1264,10 @@ void pkg_page::send_repo_installpkg(QString origin){
   }
   QString repo = ui->combo_repo->currentText();
   QJsonObject obj;
-    obj.insert("action","pkg_install");
+    obj.insert("action","pkg_install_verify");
     obj.insert("pkg_origins", origin );
     if(!repo.isEmpty() && repo!="local"){ obj.insert("repo",repo); }
-  communicate(TAG+"pkg_unlock", "sysadm", "pkg",obj);
+  communicate(TAG+"pkg_install_verify", "sysadm", "pkg",obj);
 }
 
 void pkg_page::send_start_search(QString search, QStringList exclude){

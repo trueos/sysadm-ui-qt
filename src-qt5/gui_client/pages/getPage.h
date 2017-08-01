@@ -64,7 +64,7 @@ static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   else if(id=="page_taskmanager"){ page = new taskmanager_page(parent, core); }
   else if(id=="page_iohyve"){ page =  new iohyve_page(parent, core); }
   else if(id=="page_ssl_auth"){ page = new ssl_auth_page(parent, core); }
-  else if(id=="page_about"){ page =new about_page(parent, core); } 
+  else if(id=="page_about"){ page =new about_page(parent, core); }
   else if(id=="page_lp"){ page = new lp_page(parent, core); }
   else if(id=="page_system"){ page = new system_page(parent, core); }
   else if(id=="page_updates"){ page = new updates_page(parent, core); }
