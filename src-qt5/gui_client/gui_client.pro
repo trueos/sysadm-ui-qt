@@ -85,6 +85,7 @@ TRANSLATIONS =  i18n/SysAdm_af.ts \
 		i18n/SysAdm_en.ts \
 		i18n/SysAdm_en_US.ts \
 		i18n/SysAdm_en_GB.ts \
+		i18n/SysAdm_en_AU.ts \
 		i18n/SysAdm_en_ZA.ts \
 		i18n/SysAdm_et.ts \
 		i18n/SysAdm_eu.ts \
