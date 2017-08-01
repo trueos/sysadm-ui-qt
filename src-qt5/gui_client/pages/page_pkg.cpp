@@ -755,8 +755,8 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
     }
     QJsonObject obj;
     obj.insert("action","pkg_install");
-    obj.insert("pkg_origins", args.toObject().value("install_origins") );
-    obj.insert("repo", args.toObject().value("repo") );
+    obj.insert("pkg_origins", args.toObject().value("pkg_install_verify").toObject().value("install_origins") );
+    obj.insert("repo", args.toObject().value("pkg_install_verify").toObject().value("repo") );
     communicate(TAG+"pkg_install", "sysadm", "pkg",obj);
   }else{
     //qDebug() << " - arguments:" << args;
@@ -888,7 +888,7 @@ bool pkg_page::promptAboutInstalls(QJsonObject obj){
   QStringList pkgs = obj.value("install").toObject().keys();
   QStringList origins = ArrayToStringList(obj.value("install_origins").toArray());
   msg.append("\n\n"+ QString(tr("Install: %1")).arg(origins.join(", ") ) );
-  if(pkgs.length()!=origins.length()){ msg.append(" "+QString(tr("(+%1 dependencies)")).arg(QString::number(pkgs.length()-origins.length()) ) ); }
+  if(pkgs.length()!=origins.length()){ msg.append(" "+QString(tr(" +%1 dependencies")).arg(QString::number(pkgs.length()-origins.length()) ) ); }
   //Generate the details list and size information
   QStringList details;
   double dlSize, installSize;
@@ -913,10 +913,17 @@ bool pkg_page::promptAboutInstalls(QJsonObject obj){
   }
   msg.append("\n"+QString(tr("Download Size: %1")).arg(BtoHR(dlSize))+"\n"+QString(tr("Required Disk Space: %1")).arg(BtoHR(installSize)) );
   //Now show the dialog
-  QMessageBox dlg(conflicts.isEmpty() ? QMessageBox::Question : QMessageBox::Warning, tr("Verify Removal"), msg, QMessageBox::Ok | QMessageBox::Cancel, this);
+  QMessageBox dlg(this);
+    dlg.setIcon(conflicts.isEmpty() ? QMessageBox::Question : QMessageBox::Warning );
+    dlg.setWindowTitle(tr("Verify Installation"));
+    dlg.setText(msg);
+    if(conflicts.isEmpty()){ dlg.addButton(QMessageBox::Ok); }
+    else{ dlg.addButton("YOLO", QMessageBox::AcceptRole); }
+    dlg.addButton(QMessageBox::Cancel);
     dlg.setDetailedText(details.join("\n"));
     dlg.setDefaultButton( conflicts.isEmpty() ? QMessageBox::Ok : QMessageBox::Cancel);
-  return (dlg.exec() == QMessageBox::Ok);
+    int ret = dlg.exec();
+  return (ret != QMessageBox::Cancel && ret!=0);
 }
 
 // - repo tab
