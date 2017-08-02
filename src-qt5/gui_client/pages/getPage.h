@@ -38,6 +38,7 @@ static QList<PAGEINFO> KnownPages(){
   list << PageInfo("page_services", QObject::tr("Services"), QObject::tr("Services"), ":/icons/black/pressure-reading.svg",QObject::tr("Manage Services"), "sysmgmt", QStringList() << "sysadm/services");
   list << PageInfo("page_firewall", QObject::tr("Firewall"), QObject::tr("Firewall"), ":/icons/black/burn.svg",QObject::tr("Manage Firewall"), "sysmgmt", QStringList() << "sysadm/firewall");
   list << PageInfo("page_moused", QObject::tr("Mouse Settings"), QObject::tr("Mouse Settings"), ":/icons/black/mouse.svg",QObject::tr("Manage pointer device configuration"), "sysmgmt", QStringList() << "sysadm/moused");
+  list << PageInfo("page_devices", QObject::tr("Devices"), QObject::tr("Device Manager"), ":/icons/black/sdcard.svg",QObject::tr("View device information"), "sysmgmt", QStringList() << "sysadm/systemmanager");
 	return list;
 }
 
@@ -56,6 +57,7 @@ static QList<PAGEINFO> KnownPages(){
 #include "page_services.h"
 #include "page_firewall.h"
 #include "page_moused.h"
+#include "page_devices.h"
 
 static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   //Find the page that matches this "id"
@@ -73,6 +75,7 @@ static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   else if(id=="page_services"){ page = new services_page(parent, core); }
   else if(id=="page_firewall"){ page = new firewall_page(parent, core); }
   else if(id=="page_moused"){ page = new moused_page(parent, core); }
+  else if(id=="page_devices"){ page = new devices_page(parent, core); }
   //Return the main control_panel page as the fallback/default
   if(page==0){
     page = new control_panel(parent, core);
