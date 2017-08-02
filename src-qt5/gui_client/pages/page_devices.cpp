@@ -14,6 +14,7 @@ devices_page::devices_page(QWidget *parent, sysadm_client *core) : PageWidget(pa
   int isize = 2*ui->treeWidget->fontMetrics().height();
   ui->treeWidget->setIconSize( QSize(isize,isize) );
   //ui->treeWidget->setItemSpacing(isize/2);
+  ui->plainTextEdit->setVisible(false); //nothing selected initially
 }
 
 devices_page::~devices_page(){

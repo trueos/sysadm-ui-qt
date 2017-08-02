@@ -30,7 +30,7 @@ control_panel::control_panel(QWidget *parent, sysadm_client *core) : PageWidget(
     tree->setIconSize(QSize(icosize,icosize));
   connect(tree, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(ItemClicked(QTreeWidgetItem*, int)) );
   connect(tree, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(ItemClicked(QTreeWidgetItem*, int)) );
-  
+
   //Now add the tree widget to the page
   this->setLayout(new QVBoxLayout(this));
   this->layout()->setContentsMargins(0,0,0,0);
@@ -38,13 +38,13 @@ control_panel::control_panel(QWidget *parent, sysadm_client *core) : PageWidget(
 }
 
 control_panel::~control_panel(){
-  
+
 }
 
 void control_panel::setupCore(){
 
 }
-	
+
 void control_panel::startPage(){
   pages = KnownPages();
   communicate(REQ_ID, "rpc", "query", QJsonValue("simple-query"));
@@ -72,23 +72,23 @@ void control_panel::setupCategoryButton(QString cat, QTreeWidgetItem *item){
   QFont tmp = item->font(0);
     tmp.setWeight(QFont::Bold);
   item->setFont(0,tmp);
-  if(cat=="appmgmt"){ 
-    item->setText(0, QObject::tr("Application Management")); 
-    item->setIcon(0, QIcon(":/icons/black/case.svg")); 
+  if(cat=="appmgmt"){
+    item->setText(0, QObject::tr("Application Management"));
+    item->setIcon(0, QIcon(":/icons/black/case.svg"));
     item->setStatusTip(0, QObject::tr("App Management Status") );
     item->setToolTip(0, item->statusTip(0));
   }else if(cat=="sysmgmt"){
-    item->setText(0, QObject::tr("System Management")); 
-    item->setIcon(0, QIcon(":/icons/black/computer.svg")); 
+    item->setText(0, QObject::tr("System Management"));
+    item->setIcon(0, QIcon(":/icons/black/computer.svg"));
   }else if(cat=="connect"){
-    item->setText(0, QObject::tr("Connection")); 
-    item->setIcon(0, QIcon(":/icons/black/globe.svg")); 
+    item->setText(0, QObject::tr("Connection"));
+    item->setIcon(0, QIcon(":/icons/black/globe.svg"));
   }else if(cat=="servermgmt"){
-    item->setText(0, QObject::tr("SysAdm Server Settings")); 
-    item->setIcon(0, QIcon(":/icons/black/preferences2.svg")); 	
+    item->setText(0, QObject::tr("SysAdm Server Settings"));
+    item->setIcon(0, QIcon(":/icons/black/preferences2.svg"));
   }else{ //utils
-    item->setText(0, QObject::tr("Utilities")); 
-    item->setIcon(0, QIcon(":/icons/black/grid.svg")); 
+    item->setText(0, QObject::tr("Utilities"));
+    item->setIcon(0, QIcon(":/icons/black/grid.svg"));
   }
 }
 
@@ -115,7 +115,7 @@ void control_panel::ItemClicked(QTreeWidgetItem *item, int col){
     emit ChangePage(item->whatsThis(col));
   }else{
     //Should never happen - output some debug info
-    qDebug() << "Empty item clicked:" << col << item->text(0);
+    //qDebug() << "Empty item clicked:" << col << item->text(0);
   }
 }
 
