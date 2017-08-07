@@ -28,7 +28,7 @@ public:
 	void setupCore();
 	//Page embedded, go ahead and startup any core requests
 	void startPage();
-		
+
 	QString pageID(){ return "sysadm/beadm"; } //ID is used to identify which type of page this is
 	void ParseReply(QString, QString, QString, QJsonValue);
 
@@ -43,7 +43,7 @@ private slots:
 
 	//GUI Buttons
 	void create_be();
-	void clone_be();
+	void clone_be(bool invalidname = false);
 	void delete_be();
 	void rename_be();
 	void mount_be();
