@@ -871,7 +871,7 @@ bool pkg_page::promptAboutRemovals(QStringList aboutToRemove, bool allorphans){
           if(!orphans.contains(rdep[i].toString())){ found = true; } //found a non-removed package which needs this one: Not an orphan
         }
         if(!found){ orphans << allPkg[i]; changed = true; }
-        qDebug() << "Checked Package:" << allPkg[i] << found << installedObj.value(allPkg[i]).toObject().value("reverse_dependencies").toArray();
+        //qDebug() << "Checked Package:" << allPkg[i] << found << installedObj.value(allPkg[i]).toObject().value("reverse_dependencies").toArray();
       }  //end loop over allPkg
     } //end orphan-finder loop
     //qDebug() << "Found Orphans:" << orphans;
@@ -1005,7 +1005,7 @@ void pkg_page::icon_available(QNetworkReply *reply){
 	  if(img.isNull()){ it->iconLabel()->setVisible(false); }
           else{
 	    it->iconLabel()->setVisible(true);
-	    it->iconLabel()->setPixmap( QPixmap::fromImage(img).scaled( it->iconLabel()->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) ); 
+	    it->iconLabel()->setPixmap( QPixmap::fromImage(img).scaled( it->iconLabel()->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) );
           }
 	}
       }//end check for browseritem
@@ -1024,7 +1024,7 @@ void pkg_page::icon_available(QNetworkReply *reply){
 	  if(img.isNull()){ it->iconLabel()->setVisible(false); }
           else{
 	    it->iconLabel()->setVisible(true);
-	    it->iconLabel()->setPixmap( QPixmap::fromImage(img).scaled( it->iconLabel()->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) ); 
+	    it->iconLabel()->setPixmap( QPixmap::fromImage(img).scaled( it->iconLabel()->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) );
           }
 	}
       }//end check for browseritem
