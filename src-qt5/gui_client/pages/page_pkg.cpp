@@ -186,9 +186,13 @@ void pkg_page::update_local_list(QJsonObject obj){
       it->setCheckState(0,(ui->check_local_all->isChecked() ? Qt::Checked : Qt::Unchecked) );
     }
     //Remove this item as needed based on viewing options
-    if(obj.value(origins[i]).toObject().contains("reverse_dependencies") && !local_showall){
-      delete it; //this will also remove it from the tree widget if it already exists there
-      continue;
+    if( obj.value(origins[i]).toObject().contains("reverse_dependencies") || origins[i].startsWith("FreeBSD-") ){
+      if(!local_showall){
+        delete it; //this will also remove it from the tree widget if it already exists there
+        continue;
+      }
+    }else{
+      topnum++; //got a top-level package
     }
     //Update the info within the item
     it->setText(1, obj.value(origins[i]).toObject().value("name").toString() );
@@ -201,14 +205,13 @@ void pkg_page::update_local_list(QJsonObject obj){
     it->setText(2, obj.value(origins[i]).toObject().value("version").toString() );
     it->setData(3, Qt::UserRole, obj.value(origins[i]).toObject().value("flatsize").toString().toDouble() );
     it->setText(3, BtoHR(it->data(3,Qt::UserRole).toDouble()) );
-    it->setText(4, origins[i].section("/",0,0) ); //category
+    it->setText(4, obj.value(origins[i]).toObject().value("origin").toString().section("/",0,0) ); //category
     //Now the hidden data within each item
     it->setWhatsThis(2, obj.value(origins[i]).toObject().value("repository").toString() ); //which repo the pkg was installed from
     QStringList stat_ico = it->data(0,Qt::UserRole).toStringList();
     bool stat_changed = updateStatusList(&stat_ico, "lock", obj.value(origins[i]).toObject().value("locked").toString()=="1");
     stat_changed = stat_changed || updateStatusList(&stat_ico, "req", obj.value(origins[i]).toObject().contains("reverse_dependencies"));
     stat_changed = stat_changed || updateStatusList(&stat_ico, "auto", obj.value(origins[i]).toObject().value("automatic").toString()=="1");
-    if( !obj.value(origins[i]).toObject().contains("reverse_dependencies")){ topnum++; }
     if(stat_changed){
       it->setData(0,Qt::UserRole, stat_ico); //save this for later
       updateStatusIcon(it);
@@ -294,7 +297,7 @@ void pkg_page::update_pending_process(QJsonObject obj){
     QString log = obj.value("pkg_log").toString();
     if(stat=="finished"){ it->setText(4, details.value("time_finished").toString() ); }
     else if(stat=="running" && it->text(3).isEmpty()){ it->setText(3, details.value("time_started").toString() ); }
-    it->setWhatsThis(1,log);
+    it->setWhatsThis(1, it->whatsThis(1)+log);
     //if this item is currently selected - update the log widget as well
     if(ui->tree_pending->selectedItems().contains(it)){
       pending_selection_changed();
