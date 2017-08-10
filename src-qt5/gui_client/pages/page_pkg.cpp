@@ -549,7 +549,7 @@ void pkg_page::update_repo_app_lists(QScrollArea *scroll, QJsonObject(obj) ){
      connect(BI, SIGNAL(RemoveClicked(QString)), this, SLOT(send_repo_rmpkg(QString)) );
     //qDebug() << " - Update Item";
     updateBrowserItem(BI, obj.value(origins[i]).toObject());
-    static_cast<QBoxLayout*>(scroll->widget()->layout())->insertWidget(i, BI); 
+    static_cast<QBoxLayout*>(scroll->widget()->layout())->insertWidget(i, BI);
   }
   //qDebug() << "Done Adding BI's";
   if(origins.isEmpty()){
@@ -865,10 +865,10 @@ bool pkg_page::promptAboutRemovals(QStringList aboutToRemove, bool allorphans){
         if(rdep.count()<1){ orphans << allPkg[i]; changed = true; continue; }
         bool found = false;
         for(int r=0; r<rdep.count() && !found; r++){
-          if(!orphans.contains(rdep[i].toString())){ found = true; } //found a non-removed package which needs this one
+          if(!orphans.contains(rdep[i].toString())){ found = true; } //found a non-removed package which needs this one: Not an orphan
         }
-        if(found){ orphans << allPkg[i]; changed = true; }
-        //qDebug() << "Checked Package:" << allPkg[i] << found;
+        if(!found){ orphans << allPkg[i]; changed = true; }
+        qDebug() << "Checked Package:" << allPkg[i] << found << installedObj.value(allPkg[i]).toObject().value("reverse_dependencies").toArray();
       }  //end loop over allPkg
     } //end orphan-finder loop
     //qDebug() << "Found Orphans:" << orphans;
