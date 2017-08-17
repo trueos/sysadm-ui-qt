@@ -16,14 +16,8 @@ target.path=/usr/local/bin
 
 INSTALLS += target
 
-
-			
-SOURCES	+= main.cpp 
+SOURCES	+= main.cpp session.cpp
 		
-#HEADERS += 
-
+HEADERS += session.h
 
 include(../Core/core.pri)
-
-
-

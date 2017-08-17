@@ -73,7 +73,7 @@ sysadm_client::sysadm_client(){
 }
 
 sysadm_client::~sysadm_client(){
-  qDebug() << "Core deleted";
+  if(DEBUG) qDebug() << "Core deleted";
 }
 
 // Overall Connection functions (start/stop)
@@ -242,13 +242,13 @@ void sysadm_client::performAuth(QString user, QString pass){
   //bool noauth = false;
   if(user.isEmpty() || isbridge){
     if(cauthkey.isEmpty()){
-      qDebug() << " - SSL Auth stage 1";
+      if(DEBUG) qDebug() << " - SSL Auth stage 1";
       //SSL Authentication (Stage 1)
       usedSSL = true;
       obj.insert("name","auth_ssl");
       obj.insert("args","");
     }else{
-      qDebug() << " - Saved Token";
+      if(DEBUG) qDebug() << " - Saved Token";
       //Saved token authentication
       obj.insert("name","auth_token");
       QJsonObject arg;
@@ -256,7 +256,7 @@ void sysadm_client::performAuth(QString user, QString pass){
       obj.insert("args", arg);
     }
   }else{
-    qDebug() << " - User/Pass Auth";
+    if(DEBUG) qDebug() << " - User/Pass Auth";
     //User/password authentication
     obj.insert("name","auth");
     QJsonObject arg;
@@ -301,7 +301,7 @@ void sysadm_client::sendEventSubscription(EVENT_TYPE event, bool subscribe){
   if(event == DISPATCHER){ arg = "dispatcher"; }
   else if(event == LIFEPRESERVER){ arg = "life-preserver"; }
   else if(event== SYSSTATE){ arg = "system-state"; }
-  qDebug() << "Send Event Subscription:" << event << arg << subscribe;
+  if(DEBUG) qDebug() << "Send Event Subscription:" << event << arg << subscribe;
   this->communicate("sysadm-client-event-auto","events", subscribe ? "subscribe" : "unsubscribe", arg);
 }
 
@@ -310,7 +310,7 @@ void sysadm_client::sendEventSubscription_bridge(QString bridge_id, EVENT_TYPE e
   if(event == DISPATCHER){ arg = "dispatcher"; }
   else if(event == LIFEPRESERVER){ arg = "life-preserver"; }
   else if(event== SYSSTATE){ arg = "system-state"; }
-  qDebug() << "Send Event Subscription:" << event << arg << subscribe;
+  if(DEBUG) qDebug() << "Send Event Subscription:" << event << arg << subscribe;
   this->communicate_bridge(bridge_id, "sysadm-client-event-auto","events", subscribe ? "subscribe" : "unsubscribe", arg);
 }
 
@@ -358,7 +358,7 @@ message_in sysadm_client::convertServerReply(QString reply){
     msg.name = doc.object().value("name").toString();
     msg.args = doc.object().value("args");
   }else{
-    qDebug() << "Error with data to JSON conversion:" << reply;
+    if(DEBUG) qDebug() << "Error with data to JSON conversion:" << reply;
   }
   return msg; 
 }
@@ -393,7 +393,7 @@ QString sysadm_client::SSL_Encode_String(QString str, QSslConfiguration cfg){
   else{ 
     //Now return this as a base64 encoded string
     QByteArray str_encode( (char*)(encode), len);
-    qDebug() << "Encoded String Info";
+    if(DEBUG) qDebug() << "Encoded String Info";
     qDebug() << " - Raw string:" << str << "Length:" << str.length();
     qDebug() << " - Encoded string:" << str_encode << "Length:" << str_encode.length();
     str_encode = str_encode.toBase64();
@@ -434,7 +434,7 @@ QString sysadm_client::EncodeString(QString str, QByteArray key){
       QByteArray bytes; bytes.append(str.mid(i,rsa_size));
       int len = RSA_private_encrypt(bytes.size(), (unsigned char*)(bytes.data()), encode, rsa, RSA_PKCS1_PADDING);
       if(len <0){ 
-        qDebug() << " - Bad private rsa encrypt";  
+        if(DEBUG) qDebug() << " - Bad private rsa encrypt";  
         qDebug() << ERR_error_string (ERR_peek_error(), NULL);
         qDebug() << ERR_error_string (ERR_peek_last_error(), NULL); 
         array = QJsonArray();
@@ -457,7 +457,7 @@ QString sysadm_client::EncodeString(QString str, QByteArray key){
       QByteArray bytes; bytes.append(str.mid(i,rsa_size));
       int len = RSA_public_encrypt(bytes.size(), (unsigned char*)(bytes.data()), encode, rsa, RSA_PKCS1_PADDING);
       if(len <0){ 
-        qDebug() << " - Bad public rsa encrypt";  
+        if(DEBUG) qDebug() << " - Bad public rsa encrypt";  
         qDebug() << ERR_error_string (ERR_peek_error(), NULL);
         qDebug() << ERR_error_string (ERR_peek_last_error(), NULL); 
         array = QJsonArray();
@@ -510,27 +510,27 @@ QString sysadm_client::DecodeString(QString str, QByteArray key){
   //unsigned char *decode = (unsigned char*)malloc(5*bytes.size());
   RSA *rsa= NULL;
   BIO *keybio = NULL;
-  qDebug() << " - Generate keybio";
+  if(DEBUG) qDebug() << " - Generate keybio";
   keybio = BIO_new_mem_buf(key.data(), -1);
   if(keybio==NULL){ return ""; }
-  qDebug() << " - Read pubkey";
+  if(DEBUG) qDebug() << " - Read pubkey";
   if(pub){
     //PUBLIC KEY
     rsa = PEM_read_bio_RSA_PUBKEY(keybio, &rsa,NULL, NULL);
     if(rsa==NULL){ qDebug() << " - Invalid Public RSA key!!" <<  key; BIO_free_all(keybio); return ""; }
     //decode = (unsigned char*)malloc( RSA_size(rsa) );
-    qDebug() << " - Decrypt string";
+    if(DEBUG) qDebug() << " - Decrypt string";
     for(int i=0; i<blocks.length(); i++){
       unsigned char *decode = (unsigned char*)malloc(2*blocks[i].size());
       int len = RSA_public_decrypt(blocks[i].size(), (unsigned char*)(blocks[i].data()), decode, rsa, RSA_PKCS1_PADDING);
       if(len<0){ 
-        qDebug() << " - Could not decrypt"; 
+        if(DEBUG) qDebug() << " - Could not decrypt"; 
         qDebug() << ERR_error_string (ERR_peek_error(), NULL);
         qDebug() << ERR_error_string (ERR_peek_last_error(), NULL); 
         outstring.clear();
         break;
       }
-      qDebug() << " - done";
+      if(DEBUG) qDebug() << " - done";
       outstring.append( QString( QByteArray( (char*)(decode), len) ) );
     }
     RSA_free(rsa);
@@ -546,7 +546,7 @@ QString sysadm_client::DecodeString(QString str, QByteArray key){
       unsigned char *decode = (unsigned char*)malloc(2*blocks[i].size());
       int len = RSA_private_decrypt(blocks[i].size(), (unsigned char*)(blocks[i].data()), decode, rsa, RSA_PKCS1_PADDING);
       if(len<0){ 
-        qDebug() << " - Could not decrypt"; 
+        if(DEBUG) qDebug() << " - Could not decrypt"; 
         qDebug() << ERR_error_string (ERR_peek_error(), NULL);
         qDebug() << ERR_error_string (ERR_peek_last_error(), NULL); 
         outstring.clear();
@@ -617,7 +617,7 @@ void sysadm_client::communicate_bridge(QString bridge_host_id, QList<QJsonObject
   if(bridge_host_id.isEmpty()){ communicate(requests); return; } //run the non-bridge version
   //qDebug() << "Communicate Bridge:" << bridge_host_id;
   if(!BRIDGE.contains(bridge_host_id)){
-    qDebug() << "Invalid bridge host:" << bridge_host_id;
+    if(DEBUG) qDebug() << "Invalid bridge host:" << bridge_host_id;
     return;
   }
   //qDebug() << "Get bridge data";
@@ -627,7 +627,7 @@ void sysadm_client::communicate_bridge(QString bridge_host_id, QList<QJsonObject
   for(int i=0; i<requests.length(); i++){
     QString ID = requests[i].value("id").toString();
     if(ID.isEmpty()){ 
-      qDebug() << "Malformed JSON request:" << requests[i]; 
+      if(DEBUG) qDebug() << "Malformed JSON request:" << requests[i]; 
       continue; 
     }
 
@@ -662,7 +662,7 @@ void sysadm_client::setupSocket(){
   //Could add a check for a valid port number as well - but that is a bit overkill right now
   if(!hasport){ url.append(":"+QString::number(WSPORTDEFAULT)); }
   else if(url.endsWith(":12149")){ isbridge = true; } //assume this is a bridge for the moment (will adjust on connection)
-  qDebug() << " Open WebSocket:  URL:" << url;
+  if(DEBUG) qDebug() << " Open WebSocket:  URL:" << url;
   QTimer::singleShot(0,SOCKET, SLOT(ignoreSslErrors()) );
   SOCKET->open(QUrl(url));
   connectTimer->start();
@@ -693,7 +693,7 @@ void sysadm_client::socketConnected(){ //Signal: connected()
 }
 
 void sysadm_client::socketClosed(){ //Signal: disconnected()
-  qDebug() << " - Connection Closed:" << chost;
+  if(DEBUG) qDebug() << " - Connection Closed:" << chost;
   if(connectTimer->isActive()){ connectTimer->stop(); }
   if(pingTimer->isActive()){ pingTimer->stop(); }
   BRIDGE.clear();
@@ -702,7 +702,7 @@ void sysadm_client::socketClosed(){ //Signal: disconnected()
   if(keepActive){ 
     //Socket closed due to timeout/server
     // Go ahead and re-open it in one minute if possible with the last-used settings/auth
-    qDebug() << " - - Will attempt to reconnect in 1 minute";
+    if(DEBUG) qDebug() << " - - Will attempt to reconnect in 1 minute";
     QTimer::singleShot(60000, this, SLOT(setupSocket()) );
   }
   emit clientDisconnected();
@@ -716,22 +716,22 @@ void sysadm_client::socketSslErrors(const QList<QSslError>&errlist){ //Signal: s
   QList<QSslError> ignored;
   for(int i=0; i< errlist.length(); i++){
     if(errlist[i].error()==QSslError::SelfSignedCertificate || errlist[i].error()==QSslError::HostNameMismatch ){
-      qDebug() << " - (IGNORED) " << errlist[i].errorString();
+      if(DEBUG) qDebug() << " - (IGNORED) " << errlist[i].errorString();
       ignored << errlist[i];
     }else{
-      qWarning() << "Unhandled SSL Error:" << errlist[i].errorString();
+      if(DEBUG) qWarning() << "Unhandled SSL Error:" << errlist[i].errorString();
     }
   }
   if(ignored.length() != errlist.length()){
-    qWarning() << "Closing Connection due to unhandled SSL errors";
+    if(DEBUG) qWarning() << "Closing Connection due to unhandled SSL errors";
     SOCKET->close(); //SSL errors - close the connection
   }
 }
 
 void sysadm_client::socketError(QAbstractSocket::SocketError err){ //Signal:: error()
-  qWarning() << "Socket Error detected:" << err;
+  if(DEBUG) qWarning() << "Socket Error detected:" << err;
   if(err==QAbstractSocket::SslHandshakeFailedError){qWarning() << " - SSL Handshake Failed"; }
-  qWarning() << " - Final websocket error:" << SOCKET->errorString();
+  if(DEBUG) qWarning() << " - Final websocket error:" << SOCKET->errorString();
 }
 //void sysadm_client::socketProxyAuthRequired(const QNetworkProxy &proxy, QAuthenticator *auth); //Signal: proxyAuthenticationRequired()
 
@@ -794,7 +794,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
       if(type=="bridge"){ isbridge = true; startauth = cauthkey.isEmpty(); }
       else if(type=="server"){ isbridge = false; startauth = cauthkey.isEmpty(); }
       else{  
-        qDebug() << "Unknown system type:" << type <<"\nClosing Connection..."; 
+        if(DEBUG) qDebug() << "Unknown system type:" << type <<"\nClosing Connection..."; 
         this->closeConnection();  //unknown type of system - disconnect now
       }
       //qDebug() << "Got identify response:" << type << isbridge << startauth;
@@ -820,8 +820,8 @@ bool sysadm_client::handleMessageInternally(message_in msg){
     //qDebug() << "Auth Reply" << msg.name << msg.namesp << msg.args;
     //Reply to automated auth system
     if(msg.name=="error"){
-      qDebug() << "Authentication error:" << chost << "Bridge:" << isbridge << "Bridge_Relay:" << msg.from_bridge_id;
-      qDebug() << " - Error Information:" << msg.args;
+      if(DEBUG) qDebug() << "Authentication error:" << chost << "Bridge:" << isbridge << "Bridge_Relay:" << msg.from_bridge_id;
+      if(DEBUG) qDebug() << " - Error Information:" << msg.args;
       if(msg.from_bridge_id.isEmpty()){
         QTimer::singleShot(0, this, SLOT(closeConnection()) );
         emit clientUnauthorized();
@@ -844,14 +844,14 @@ bool sysadm_client::handleMessageInternally(message_in msg){
 	if(msg.from_bridge_id.isEmpty()){
           if(cuser.isEmpty()){ SSLsuccess = true; }
 	  cauthkey = msg.args.toArray().first().toString();
-          qDebug() << "Connection Authorized:" << chost;
+          if(DEBUG) qDebug() << "Connection Authorized:" << chost;
 	  emit clientAuthorized();
 	  //pingTimer->start();
 	  //Now automatically re-subscribe to events as needed
 	  //qDebug() << "Re-subscribe to events:" << events;
 	  for(int i=0; i<events.length(); i++){ sendEventSubscription(events[i]); }
         }else{
-          qDebug() << "Bridge Connection Authorized:" << msg.from_bridge_id;
+          if(DEBUG) qDebug() << "Bridge Connection Authorized:" << msg.from_bridge_id;
           bridge_data data = getBridgeData(msg.from_bridge_id); //make sure the data struct is initialized first
           data.auth_tok = msg.args.toArray().first().toString();
 	  BRIDGE.insert(msg.from_bridge_id, data);
