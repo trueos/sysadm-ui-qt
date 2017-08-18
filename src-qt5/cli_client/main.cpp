@@ -21,8 +21,8 @@ int main( int argc, char ** argv )
   QCoreApplication A(argc, argv);
   int ret = 0;
   QStringList args = A.arguments();
-  QString name, namesp, jsonArgs, fileName, hostIP, user, pass;
-  bool fullJSON=false, partialJSON=false, stdJSON=false;
+  QString name, namesp, jsonArgs, fileName, hostIP, user, pass, id;
+  bool fullJSON=false, stdJSON=false;
   
   if(args.size() > 1) {
     for(int i = 1; i < args.size(); i++) {
@@ -39,11 +39,10 @@ int main( int argc, char ** argv )
         }else if(arg == "-F"){
           fullJSON = true;
           fileName = nextArg;
-        }else if(arg == "-af"){
-          partialJSON = true;
-          fileName = nextArg;
         }else if(arg == "-std"){
           stdJSON = true;
+        }else if(arg == "-id"){
+          id = nextArg;
         }else if(arg == "-ip"){
           hostIP = nextArg;
         }else if(arg == "-u"){
@@ -60,17 +59,21 @@ int main( int argc, char ** argv )
 
   QJsonArray jsonRequests;
   if(fullJSON) {
-    QFile file;
-    file.open(QIODevice::ReadOnly);
-    QStringList jsonList = QStringList( QString::fromLatin1(file.readAll()) );
-    jsonRequests = QJsonArray::fromStringList(jsonList);
-    file.close();
+    QFile *file = new QFile(fileName);
+    file->open(QIODevice::ReadOnly);
+    QJsonObject doc = QJsonDocument::fromJson(file->readAll()).object();
+    id = doc["id"].toString();
+    name = doc["name"].toString();
+    namesp = doc["namespace"].toString();
+    jsonRequests.append(doc["args"]);
+    file->close();
+    delete file;
   }else{
     jsonRequests.append( QJsonDocument::fromJson(jsonArgs.toLocal8Bit()).object() );
   }
 
   QStringList sessionArgs;
-  sessionArgs << name << namesp << hostIP << user << pass;
+  sessionArgs << name << namesp << hostIP << user << pass << id;
   Session *session = new Session(sessionArgs, jsonRequests, &A);
   session->start();
 

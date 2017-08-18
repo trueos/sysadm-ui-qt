@@ -48,6 +48,7 @@ void Session::start() {
 
   for(int i = 0; i < requests.size(); i++) {
     if(DEBUG) qDebug() << "Name:" << args[0] << "Namespace" << args[1] << "Request" << requests[i];
-    S_CORE->communicate("1", args[1], args[0], requests[i]);
+    QString id = (args[5].isEmpty()) ? QString::number(i) : args[5];
+    S_CORE->communicate(id, args[1], args[0], requests[i]);
   }
 }
