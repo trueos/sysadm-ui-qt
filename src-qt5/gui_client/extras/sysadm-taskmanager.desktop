@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+StartupNotify=true
+Comment=SysAdm: task manager
+Categories=Settings;
+GenericName=task manager
+Name=Task Manager
+TryExec=sysadm-client
+Exec=sysadm-client -page page_taskmanager
+Icon=utilities-system-monitor
