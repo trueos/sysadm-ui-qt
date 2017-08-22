@@ -22,21 +22,23 @@ void Session::close() {
 }
 
 void Session::receiveReply(QString ID, QString name, QString namesp, QJsonValue args) {
-  QJsonObject obj;
-  obj.insert("name", name);
-  obj.insert("id",ID);
-  obj.insert("namespace",namesp);
-  obj.insert("args",args);
-  QJsonDocument doc(obj);
-  qDebug("%s", QString(doc.toJson(QJsonDocument::Indented)).toUtf8().data());
-  replies++;
-  if(replies == requests.size())
-    emit(S_CORE->clientDisconnected());
+  if(ids.contains(ID)) {
+    QJsonObject obj;
+    obj.insert("name", name);
+    obj.insert("id",ID);
+    obj.insert("namespace",namesp);
+    obj.insert("args",args);
+    QJsonDocument doc(obj);
+    qDebug("%s", QString(doc.toJson(QJsonDocument::Indented)).toUtf8().data());
+    replies++;
+    if(replies == requests.size())
+      emit(S_CORE->clientDisconnected());
+  }
 }
 
 void Session::start() {
   if(DEBUG) qDebug() << "Starting Session";
-  S_CORE->openConnection(args[3], args[4], args[2]);
+  S_CORE->openConnection(args[1], args[2], args[0]);
   QEventLoop loop;
   connect(S_CORE, SIGNAL(clientAuthorized()), &loop, SLOT(quit()));
   connect(S_CORE, SIGNAL(clientUnauthorized()), &loop, SLOT(quit()));
@@ -47,8 +49,12 @@ void Session::start() {
   replies = 0;
 
   for(int i = 0; i < requests.size(); i++) {
-    if(DEBUG) qDebug() << "Name:" << args[0] << "Namespace" << args[1] << "Request" << requests[i];
-    QString id = (args[5].isEmpty()) ? QString::number(i) : args[5];
-    S_CORE->communicate(id, args[1], args[0], requests[i]);
+    if(!requests[i].toObject().contains("id")){
+      QJsonObject obj = requests[i].toObject();
+       obj.insert("id", QString::number(i));
+      requests[i] = obj;
+    }
+    ids.append(requests[i].toObject()["id"].toString());
+    S_CORE->communicate(requests[i].toObject());
   }
 }

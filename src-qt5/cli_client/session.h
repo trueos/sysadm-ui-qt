@@ -11,7 +11,7 @@ class Session : public QObject {
   private:
     sysadm_client *S_CORE;
     QJsonArray requests;
-    QStringList args;
+    QStringList args, ids;
     int replies;
     QCoreApplication *A;
 
