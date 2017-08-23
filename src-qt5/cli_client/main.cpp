@@ -40,10 +40,10 @@ int main( int argc, char ** argv )
           name = nextArg;
         }else if(arg == "-a"){
           jsonArgs = nextArg;
-        }else if(arg == "-F"){
+        }else if(arg == "-f"){
           fullJSON = true;
           fileName = nextArg;
-        }else if(arg == "-std"){
+        }else if(arg == "-s"){
           stdJSON = true;
           i--;
         }else if(arg == "-id"){
