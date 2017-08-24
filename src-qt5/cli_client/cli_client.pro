@@ -14,10 +14,12 @@ macx-*{
 TARGET=sysadm
 target.path=/usr/local/bin
 
-INSTALLS += target
-
 SOURCES	+= main.cpp session.cpp
-		
 HEADERS += session.h
+
+manpage.path=/usr/local/man/man8
+manpage.extra="gzip -c sysadm.8 > ${INSTALL_ROOT}/usr/local/man/man8/sysadm.8.gz"
+
+INSTALLS += target manpage
 
 include(../Core/core.pri)
