@@ -32,8 +32,9 @@ int main( int argc, char ** argv )
     for(int i = 1; i < args.size(); i+=2) {
       QString arg = args.at(i);
 
-      if(i+1 != args.size()){
-        QString nextArg = args.at(i+1);
+      if(i+1 != args.size() || arg == "-s"){
+        QString nextArg;
+        if(arg != "-s") nextArg = args.at(i+1);
         if(arg == "-ns"){
           namesp = nextArg;
         }else if(arg == "-n"){

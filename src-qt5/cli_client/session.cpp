@@ -42,16 +42,24 @@ void Session::start() {
   QEventLoop loop;
   connect(S_CORE, SIGNAL(clientAuthorized()), &loop, SLOT(quit()));
   connect(S_CORE, SIGNAL(clientUnauthorized()), &loop, SLOT(quit()));
-  connect(S_CORE, SIGNAL(newReply(QString,QString,QString,QJsonValue)), this, SLOT(receiveReply(QString,QString,QString,QJsonValue)));
+  connect(S_CORE, SIGNAL(newReply(QString,QString,QString,QJsonValue)),
+         this, SLOT(receiveReply(QString,QString,QString,QJsonValue)));
   connect(S_CORE, SIGNAL(clientDisconnected()), this, SLOT(close()));
   loop.exec();
   if(DEBUG) qDebug() << "Core ready:" << S_CORE->isReady();
   replies = 0;
 
   for(int i = 0; i < requests.size(); i++) {
+    //Inserts an id if none was given when read from file or standard in
     if(!requests[i].toObject().contains("id")){
       QJsonObject obj = requests[i].toObject();
-       obj.insert("id", QString::number(i));
+      obj.insert("id", QString::number(i));
+      requests[i] = obj;
+    }
+    //Makes the id a valid string if none is provided through the -id argument
+    if(requests[i].toObject()["id"] == "") {
+      QJsonObject obj = requests[i].toObject();
+      obj["id"] = QString::number(i);
       requests[i] = obj;
     }
     ids.append(requests[i].toObject()["id"].toString());
