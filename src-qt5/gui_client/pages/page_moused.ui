@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>419</width>
-    <height>329</height>
+    <width>455</width>
+    <height>509</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -107,42 +107,42 @@
       <item row="2" column="1">
        <widget class="QComboBox" name="combo_hand"/>
       </item>
-      <item row="3" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="label_7">
         <property name="text">
          <string>Terminate Drift:</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="5" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
          <string>Emulate Button 3:</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="6" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
          <string>Virtual Scrolling:</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="6" column="1">
        <widget class="QCheckBox" name="check_virtual_scroll">
         <property name="text">
          <string notr="true"/>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="5" column="1">
        <widget class="QCheckBox" name="check_emulate_button_3">
         <property name="text">
          <string notr="true"/>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="4" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QSlider" name="slider_drift">
@@ -222,7 +222,7 @@
         </layout>
        </widget>
       </item>
-      <item row="6" column="1">
+      <item row="7" column="1">
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -235,7 +235,7 @@
         </property>
        </spacer>
       </item>
-      <item row="7" column="0" colspan="2">
+      <item row="8" column="0" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
          <spacer name="horizontalSpacer">
@@ -277,6 +277,20 @@
          </spacer>
         </item>
        </layout>
+      </item>
+      <item row="3" column="1">
+       <widget class="QCheckBox" name="check_invert_scroll">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Invert Scroll Wheel:</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

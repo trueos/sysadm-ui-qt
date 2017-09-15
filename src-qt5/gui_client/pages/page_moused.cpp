@@ -11,7 +11,7 @@
 #define MOUSED_TAG QString("sysadm_page_moused_")
 
 moused_page::moused_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::page_moused){
-  ui->setupUi(this);	
+  ui->setupUi(this);
   //Setup all the combobox options and slider ranges
   ui->slider_acc_exp->setRange(0, 100);
   ui->slider_acc_linear->setRange(0,100);
@@ -37,7 +37,7 @@ moused_page::moused_page(QWidget *parent, sysadm_client *core) : PageWidget(pare
 }
 
 moused_page::~moused_page(){
-  
+
 }
 
 //Initialize the CORE <-->Page connections
@@ -92,7 +92,7 @@ void moused_page::ParseReply(QString id, QString namesp, QString name, QJsonValu
   }else if(id==MOUSED_TAG+"save_settings"){
     send_list_device_settings();
   }
-  
+
 }
 
 // === PRIVATE SLOTS ===
@@ -125,7 +125,7 @@ void moused_page::send_list_device_settings(){
    QJsonObject obj;
     obj.insert("action","read_device_options");
     obj.insert("device",device);
-  communicate(MOUSED_TAG+"load_settings", "sysadm", "moused",obj); 
+  communicate(MOUSED_TAG+"load_settings", "sysadm", "moused",obj);
 }
 
 void moused_page::send_save_device_settings(){
@@ -141,12 +141,13 @@ void moused_page::send_save_device_settings(){
     obj.insert("terminate_drift_threshold_pixels",  QString::number(ui->slider_drift->value()) ); //no conversion needed here
     obj.insert("emulate_button_3", ui->check_emulate_button_3->isChecked() ? "true" : "false");
     obj.insert("virtual_scrolling", ui->check_virtual_scroll->isChecked() ? "true" : "false" );
-  communicate(MOUSED_TAG+"save_settings", "sysadm", "moused",obj); 
+    obj.insert("mouse_scroll_invert", ui->check_invert_scroll->isChecked() ? "true" : "false" );
+  communicate(MOUSED_TAG+"save_settings", "sysadm", "moused",obj);
 
 }
 
 //UI slots
-void moused_page::settingChanged(){ 
+void moused_page::settingChanged(){
   //update whether the apply button is available
   if(!ui->frame_settings->isEnabled()){ return; } //programmatic changes
   ui->push_apply->setEnabled(true); //make this dynamic later - check that one of the values is actually changed
@@ -171,7 +172,7 @@ void moused_page::slider_acc_linear_changed(){
     else if(num>=1){ num = qRound(num*100.0)/100.0; }
     else{ num = qRound(num*1000.0)/1000.0; }
   ui->label_acc_linear_val->setText( QString::number(num) );
-  settingChanged(); 
+  settingChanged();
 }
 
 void moused_page::slider_drift_changed(){
@@ -181,20 +182,20 @@ void moused_page::slider_drift_changed(){
    QString num = QString::number(ui->slider_drift->value());
     ui->label_drift_val->setText( QString(tr("%1 pixels")).arg(num) );
   }
-  settingChanged(); 
+  settingChanged();
 }
 
 // === PRIVATE ===
 void moused_page::updateCurrentSettings(QJsonObject obj){
   //qDebug() << "Update Settings:" << obj;
   double num = obj.value("accel_exponential").toString().toDouble();
-  //Convert the double into a slider integer: 
+  //Convert the double into a slider integer:
   // EQUATION: X = (Y-1.0)*100   (1.0 <= Y <= 2.0)
   ui->slider_acc_exp->setValue( qRound( (num-1.0)*100) );
   slider_acc_exp_changed();
 
   num = obj.value("accel_linear").toString().toDouble();
-  //Convert the double into a slider integer: 
+  //Convert the double into a slider integer:
   // EQUATION:   X = 50 + ln(Y)/0.0921034  (0.01 <= Y <= 2.0)
   num = 50 + ::log(num)/0.0921034;
   ui->slider_acc_linear->setValue( qRound(num) );
@@ -212,4 +213,5 @@ void moused_page::updateCurrentSettings(QJsonObject obj){
 
   ui->check_emulate_button_3->setChecked( obj.value("emulate_button_3").toString()=="true" );
   ui->check_virtual_scroll->setChecked( obj.value("virtual_scrolling").toString()=="true" );
+  ui->check_invert_scroll->setChecked( obj.value("mouse_scroll_invert").toString()=="true" );
 }
