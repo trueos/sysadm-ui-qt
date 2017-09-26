@@ -33,12 +33,12 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
 
   //Load any CORES
   updateCoreList();
-  
+
   //Setup the tray icon
   UpdateIcon();
   connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayActivated()) );
   //Setup the message menu
-  msgMenu = new QMenu(); 
+  msgMenu = new QMenu();
     msgMenu->setIcon( QIcon(":/icons/black/inbox.svg") );
     QAction *act = msgMenu->addAction(QIcon(":/icons/black/trash.svg"), tr("Hide all messages"));
       act->setWhatsThis("clearall");
@@ -90,8 +90,8 @@ QIcon sysadm_tray::generateMsgIcon(QString iconfile, int priority){
 
 sysadm_client* sysadm_tray::getCore(QString host){
   //simplification to ensure that core always exists fot the given host
-  if(!CORES.contains(host)){ 
-    CORES.insert(host, new sysadm_client()); 
+  if(!CORES.contains(host)){
+    CORES.insert(host, new sysadm_client());
     CORES[host]->registerForEvents(sysadm_client::SYSSTATE);
     CORES[host]->registerForEvents(sysadm_client::LIFEPRESERVER);
     #ifdef __FreeBSD__
@@ -105,7 +105,7 @@ sysadm_client* sysadm_tray::getCore(QString host){
 
 // === PRIVATE SLOTS ===
 void sysadm_tray::trayActivated(){
-  qDebug() << "tray activated";
+  //qDebug() << "tray activated";
   if(this->contextMenu()!=0){
      this->contextMenu()->popup( this->geometry().center());
   }
@@ -136,8 +136,8 @@ void sysadm_tray::updateCoreList(){
     for(int i=0; i<known.length(); i++){
       QString host = known[i].section("/",1,-1).section("/username",0,0);
       if(!CORES.contains(host)){
-          qDebug() << "Connect To Host:" << host;
-	  getCore(host);      
+          //qDebug() << "Connect To Host:" << host;
+	  getCore(host);
 	  QString user = settings->value(known[i]).toString();
 	  CORES[host]->openConnection(host);
       }
@@ -154,19 +154,19 @@ void sysadm_tray::ClientClosed(MainUI* client){
 
 //Menu Actions
 void sysadm_tray::OpenConnectionManager(){
-  if(CMAN==0){ 
-    CMAN = new C_Manager(); 
-    connect(CMAN, SIGNAL(SettingsChanged()), menu, SLOT(UpdateMenu()) ); 
+  if(CMAN==0){
+    CMAN = new C_Manager();
+    connect(CMAN, SIGNAL(SettingsChanged()), menu, SLOT(UpdateMenu()) );
   }
   CMAN->showNormal();
 }
 
 void sysadm_tray::OpenSettings(){
-  if(SDLG==0){ 
-    SDLG = new SettingsDialog(); 
+  if(SDLG==0){
+    SDLG = new SettingsDialog();
     connect(SDLG, SIGNAL(updateWindows()), this, SLOT(UpdateWindows()) );
   }
-  SDLG->showNormal();	
+  SDLG->showNormal();
 }
 
 void sysadm_tray::CloseApplication(){
@@ -189,15 +189,15 @@ void sysadm_tray::CloseApplication(){
     qDebug() << "Deleting Cores...";
     delete CORES.take(cores[i]);
   }
-  QCoreApplication::exit(0);	
+  QCoreApplication::exit(0);
 }
 
 void sysadm_tray::OpenCore(QString host, QString page){
   //See if a window for this host is already open and use that
-  qDebug() << "Open Host Window:" << host;
+  //qDebug() << "Open Host Window:" << host;
   for(int i=0; i<CLIENTS.length(); i++){
     if(CLIENTS[i]->currentHost()==host){
-       //if(CLIENTS[i]->currentCore()->isReady()){  
+       //if(CLIENTS[i]->currentCore()->isReady()){
          CLIENTS[i]->showNormal();
       //}
       return;
@@ -216,7 +216,7 @@ void sysadm_tray::OpenCore(QString host, QString page){
     }else{
       getCore(host)->openConnection();
     }
-    return; 
+    return;
   }
   if(b_id.isEmpty() && getCore(host)->isBridge()){ return; }
   //Open a new window for this host
@@ -224,14 +224,14 @@ void sysadm_tray::OpenCore(QString host, QString page){
     MainUI *tmp = new MainUI(core, page, b_id);
     if(core->isReady()){  tmp->showNormal(); }
     connect(tmp, SIGNAL(ClientClosed(MainUI*)), this, SLOT(ClientClosed(MainUI*)) );
-    CLIENTS << tmp;	
+    CLIENTS << tmp;
 }
 
 void sysadm_tray::UnlockConnections(){
   qDebug() << "UnlockConnections";
     UpdateIcon();
   //Open all the cores
-  updateCoreList();  
+  updateCoreList();
   //Update the menu
   QTimer::singleShot(0, menu, SLOT(UpdateMenu()) );
   QTimer::singleShot(50, this, SLOT(trayActivated()) );
@@ -239,7 +239,7 @@ void sysadm_tray::UnlockConnections(){
 
 //Popup Notifications
 void sysadm_tray::ShowMessage(HostMessage msg){
-  qDebug() << "Got Show Message";
+  //qDebug() << "Got Show Message";
   bool refreshlist = true;
   //Update the internal database of messages
   if(MESSAGES.contains(msg.host_id+"/"+msg.message_id) ){
@@ -251,14 +251,14 @@ void sysadm_tray::ShowMessage(HostMessage msg){
     MESSAGES.insert(msg.host_id+"/"+msg.message_id, msg);
   }
   //Now update the user-viewable menu's
-  if(refreshlist){ 
+  if(refreshlist){
     msgTimer->start();
-    //QTimer::singleShot(10,this, SLOT(updateMessageMenu()) ); 
+    //QTimer::singleShot(10,this, SLOT(updateMessageMenu()) );
   }
 }
 
 void sysadm_tray::ClearMessage(QString host, QString msg_id){
-  qDebug() << "Clear Message:" << host << msg_id;
+  //qDebug() << "Clear Message:" << host << msg_id;
   if(MESSAGES.contains(host+"/"+msg_id)){
     MESSAGES.remove(host+"/"+msg_id);
     msgTimer->start();
@@ -271,9 +271,9 @@ void sysadm_tray::MessageTriggered(QAction *act){
     QStringList keys = MESSAGES.keys();
     QDateTime cdt = QDateTime::currentDateTime();
     QDateTime delay = cdt.addDays(1);
-    qDebug() << "Clear all messages:" << cdt << " -to-" << delay;
+    //qDebug() << "Clear all messages:" << cdt << " -to-" << delay;
     for(int i=0; i<keys.length(); i++){
-      if(MESSAGES[keys[i]].date_time.secsTo(cdt)>1 ){ 
+      if(MESSAGES[keys[i]].date_time.secsTo(cdt)>1 ){
         HostMessage msg = MESSAGES[keys[i]];
           msg.date_time = delay;
         MESSAGES.insert(keys[i],msg);
@@ -293,24 +293,24 @@ void sysadm_tray::MessageTriggered(QAction *act){
 
 //Function to update the messageMenu
 void sysadm_tray::updateMessageMenu(){
-  qDebug() << "Update Message Menu:";
+  //qDebug() << "Update Message Menu:";
   QStringList keys = MESSAGES.keys();
   QList<QAction*> acts = msgMenu->actions();
   //First update the existing actions as needed
   int num = 0; //for the final tally of messages which are visible
   QDateTime cdt = QDateTime::currentDateTime();
-  qDebug() << "Current DT/keys" << cdt << keys;
+  //qDebug() << "Current DT/keys" << cdt << keys;
   uint cdt_t = cdt.toTime_t();
   for(int i=0; i<acts.length(); i++){
-    qDebug() << " - Check Act:" << acts[i]->whatsThis();
+    //qDebug() << " - Check Act:" << acts[i]->whatsThis();
     if(keys.contains(acts[i]->whatsThis()) && (MESSAGES[acts[i]->whatsThis()].date_time.toTime_t() < cdt_t) ){
-      qDebug() << " - Update action" << MESSAGES[acts[i]->whatsThis()].date_time;
+      //qDebug() << " - Update action" << MESSAGES[acts[i]->whatsThis()].date_time;
       acts[i]->setText( MESSAGES[acts[i]->whatsThis()].message );
       acts[i]->setIcon( generateMsgIcon(MESSAGES[acts[i]->whatsThis()].iconfile,MESSAGES[acts[i]->whatsThis()].priority) );
       num++;
       keys.removeAll(acts[i]->whatsThis()); //already handled
     }else if( acts[i]->whatsThis()!="clearall" && !acts[i]->whatsThis().isEmpty() ) {
-      qDebug() << " - Remove Action";
+      //qDebug() << " - Remove Action";
       msgMenu->removeAction(acts[i]);
       acts[i]->deleteLater();
     }
@@ -318,7 +318,7 @@ void sysadm_tray::updateMessageMenu(){
   //Now add in any new messages
   for(int i=0; i<keys.length(); i++){
     if(MESSAGES[keys[i]].date_time.secsTo(cdt)>-1){
-      qDebug() << " Add new action:" << keys[i];
+      //qDebug() << " Add new action:" << keys[i];
       QAction *act = msgMenu->addAction( generateMsgIcon(MESSAGES[keys[i]].iconfile, MESSAGES[keys[i]].priority),MESSAGES[keys[i]].message );
 	act->setWhatsThis(keys[i]);
 	num++;
@@ -347,9 +347,9 @@ void sysadm_tray::UpdateIconPriority(){
   int pri = 0;
   QStringList keys = MESSAGES.keys();
   QDateTime cdt = QDateTime::currentDateTime();
-  qDebug() << "Update Priority:" << cdt;
+  //qDebug() << "Update Priority:" << cdt;
   for(int i=0; i<keys.length(); i++){
-    qDebug() << "Check Key:" << keys[i] << MESSAGES[keys[i]].priority << MESSAGES[keys[i]].date_time;
+    //qDebug() << "Check Key:" << keys[i] << MESSAGES[keys[i]].priority << MESSAGES[keys[i]].date_time;
     if(MESSAGES[keys[i]].date_time.secsTo(cdt) <-1 || MESSAGES[keys[i]].viewed){ continue; } //hidden message - ignore it for priorities
     if(MESSAGES[keys[i]].priority > pri){ pri = MESSAGES[keys[i]].priority; }
   }
@@ -358,12 +358,12 @@ void sysadm_tray::UpdateIconPriority(){
   if(iconTimer->isActive()){ iconTimer->stop(); }
   iconreset = false;
   UpdateIcon();
-  //Now setup the automatic flashing 
+  //Now setup the automatic flashing
   if(cPriority >2 && cPriority < 9){ iconTimer->start();  }
 }
 
 void sysadm_tray::UpdateIcon(){
-  qDebug() << "Update Icon:" << cPriority << QDateTime::currentDateTime();
+  //qDebug() << "Update Icon:" << cPriority << QDateTime::currentDateTime();
   QString icon = ":/icons/custom/sysadm_circle.svg";
   if(iconreset || cPriority <3){
     if(SSL_cfg.isNull()){ icon = ":/icons/custom/sysadm_circle_grey.png"; }

@@ -53,11 +53,11 @@ void updates_page::startPage(){
 // === PRIVATE SLOTS ===
 void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonValue args){
   if(!id.startsWith(IDTAG)){ return; } //not to be handled here
-  qDebug() << "Got Updates reply:" << id << namesp << name << args;
+  //qDebug() << "Got Updates reply:" << id << namesp << name << args;
   if(id==IDTAG+"listbranch"){
     if(name=="error" || !args.isObject() || !args.toObject().contains("listbranches") ){ return; }
     QJsonObject obj = args.toObject().value("listbranches").toObject();
-    QString active; 
+    QString active;
     QStringList avail = obj.keys();
     //Now figure out which one is currently active
     for(int i=0; i<avail.length(); i++){
@@ -75,7 +75,7 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
     ui->tree_updates->clear();
     qDebug() << "Got update check:" << stat;
     ui->frame_lastcheck->setVisible( args.toObject().value("checkupdates").toObject().contains("last_check") );
-    if(args.toObject().value("checkupdates").toObject().contains("last_check")){ 
+    if(args.toObject().value("checkupdates").toObject().contains("last_check")){
       QString text = tr("Latest Check: %1");
       ui->label_lastcheck->setText( text.arg(QDateTime::fromString(args.toObject().value("checkupdates").toObject().value("last_check").toString() , Qt::ISODate).toString(Qt::DefaultLocaleLongDate)) ); 
     }
@@ -96,7 +96,7 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
       QStringList types = args.toObject().value("checkupdates").toObject().keys();
       QString fulldetails = args.toObject().value("checkupdates").toObject().value("details").toString();
 	types.removeAll("status");
-	qDebug() << "Types:" << types;
+	//qDebug() << "Types:" << types;
 	for(int i=0; i<types.length(); i++){
 	  QJsonObject type = args.toObject().value("checkupdates").toObject().value(types[i]).toObject();
 	  QString tname = type.value("name").toString();
@@ -218,11 +218,11 @@ void updates_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
       if(state=="finished"){
         send_start_updates(); //see if there is another update waiting to start, refresh otherwise
       }
-      //Update the log widget 
-      ui->text_up_log->setPlainText( val.toObject().value("update_log").toString() ); //text
+      //Update the log widget
+      ui->text_up_log->setPlainText( ui->text_up_log->toPlainText() + val.toObject().value("update_log").toString() ); //text
       ui->text_up_log->moveCursor(QTextCursor::End);
       ui->text_up_log->ensureCursorVisible();
-      qDebug() << "Got update event:" << state << val;
+      //qDebug() << "Got update event:" << state << val;
       ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
     } //end sysadm/update check
   } //end dispatcher event check
@@ -317,7 +317,7 @@ void updates_page::send_start_updates(){
       obj.insert("target", up);
     }
   qDebug() << "Send update request:" << obj;
-  communicate(IDTAG+"startup", "sysadm", "update",obj);	
+  communicate(IDTAG+"startup", "sysadm", "update",obj);
   //Update the UI right away (so the user knows it is working)
   qDebug() << "Sending update request";
     ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
@@ -411,7 +411,7 @@ void updates_page::check_current_update_item(QTreeWidgetItem *it){
     }
   }
   //Also update this widget itself
-  check_current_update();  
+  check_current_update();
 }
 
 void updates_page::on_check_auto_reboot_toggled(bool checked){
@@ -427,7 +427,7 @@ void updates_page::updateBranchList(QString active, QStringList avail){
     QListWidgetItem *tmp = new QListWidgetItem();
       tmp->setText(avail[i]);
       if(avail[i]!=active){ tmp->setWhatsThis(avail[i]); }
-      else{ 
+      else{
 	QFont font = tmp->font();
 	  font.setBold(true);
 	  tmp->setFont( font ); 
