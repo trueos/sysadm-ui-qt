@@ -7,8 +7,8 @@
 #include "page_source_control.h"
 #include "ui_page_source_control.h" //auto-generated from the .ui file
 
-#define PAGE_ID "page_sourcectl_request_"
-#define FETCH_PROCESS_ID "system_fetch_ports_tree"
+#define PAGE_ID QString("page_sourcectl_request_")
+#define FETCH_PROCESS_ID QString("system_fetch_ports_tree")
 
 sourcectl_page::sourcectl_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::sourcectl_ui){
   ui->setupUi(this);
@@ -45,7 +45,7 @@ void sourcectl_page::ParseReply(QString id, QString namesp, QString name, QJsonV
 
 void sourcectl_page::ParseEvent(sysadm_client::EVENT_TYPE type, QJsonValue val){
   if( type!=sysadm_client::DISPATCHER ){ return; }
-  if(!val.toObject().value("process_id").toString() != FETCH_PROCESS_ID ){ return; }
+  if(val.toObject().value("process_id").toString() != FETCH_PROCESS_ID ){ return; }
   qDebug() << "Got fetch process:" << val.toObject();
   bool isRunning = val.toObject().value("state").toString() == "running";
   qDebug() << " - is Running:" << isRunning;
