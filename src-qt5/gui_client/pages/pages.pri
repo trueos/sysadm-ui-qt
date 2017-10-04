@@ -16,7 +16,8 @@ HEADERS	+= 	$${PWD}/getPage.h \
 		$${PWD}/page_firewall.h \
 		$${PWD}/page_moused.h \
 		$${PWD}/page_devices.h \
-		$${PWD}/page_sysctl.h
+		$${PWD}/page_sysctl.h \
+		$${PWD}/page_source_control.h
 		
 
 SOURCES	+=	$${PWD}/control_panel.cpp \
@@ -36,7 +37,8 @@ SOURCES	+=	$${PWD}/control_panel.cpp \
 		$${PWD}/page_firewall.cpp \
 		$${PWD}/page_moused.cpp \
 		$${PWD}/page_devices.cpp \
-		$${PWD}/page_sysctl.cpp
+		$${PWD}/page_sysctl.cpp \
+		$${PWD}/page_source_control.cpp
 		
 FORMS	+=	$${PWD}/page_beadm.ui \
 		$${PWD}/page_taskmanager.ui \
@@ -52,4 +54,5 @@ FORMS	+=	$${PWD}/page_beadm.ui \
 		$${PWD}/page_firewall.ui \
 		$${PWD}/page_moused.ui \
 		$${PWD}/page_devices.ui \
-		$${PWD}/page_sysctl.ui
+		$${PWD}/page_sysctl.ui \
+		$${PWD}/page_source_control.ui
