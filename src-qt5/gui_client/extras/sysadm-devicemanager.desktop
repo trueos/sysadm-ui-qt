@@ -7,5 +7,5 @@ Categories=Settings;
 GenericName=System Devices
 Name=Device Manager
 TryExec=sysadm-client
-Exec=sysadm-client -page page_moused
+Exec=sysadm-client -page page_devices
 Icon=drive-harddisk
