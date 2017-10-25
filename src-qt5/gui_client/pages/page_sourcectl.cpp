@@ -11,7 +11,8 @@
 
 sourcectl_page::sourcectl_page(QWidget *parent, sysadm_client *core) : PageWidget(parent, core), ui(new Ui::sourcectl_ui){
   ui->setupUi(this);
-  ui->page_stat_layout->setStretchFactor(ui->text_up_log, 2);
+/*
+ *   ui->page_stat_layout->setStretchFactor(ui->text_up_log, 2);
   connect(ui->push_start_updates, SIGNAL(clicked()), this, SLOT(check_start_updates()) );
   connect(ui->push_stop_updates, SIGNAL(clicked()), this, SLOT(send_stop_updates()) );
   connect(ui->push_settings_save, SIGNAL(clicked()), this, SLOT(send_save_settings()) );
@@ -273,4 +274,7 @@ void sourcectl_page::on_pushButton_UpdateSource_clicked(){
 
 void sourcectl_page::on_pushButton_DeleteSource_clicked(){
 
+}
+
+*/
 }

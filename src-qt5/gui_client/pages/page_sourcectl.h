@@ -44,17 +44,17 @@ private slots:
 
 	//Core communications
 
-	void send_list_logs();
-	void send_read_log();
+    //void send_list_logs();
+    //void send_read_log();
 
 	//UI slots
 
 
-    void on_pushButton_DownloadPorts_clicked();
-    void on_pushButton_UpdatePorts_clicked();
-    void on_pushButton_DeletePorts_clicked();
-    void on_pushButton_DownloadSource_clicked();
-    void on_pushButton_UpdateSource_clicked();
-    void on_pushButton_DeleteSource_clicked();
+    //void on_pushButton_DownloadPorts_clicked();
+    //void on_pushButton_UpdatePorts_clicked();
+    //void on_pushButton_DeletePorts_clicked();
+    //void on_pushButton_DownloadSource_clicked();
+    //void on_pushButton_UpdateSource_clicked();
+    //void on_pushButton_DeleteSource_clicked();
 };
 #endif
