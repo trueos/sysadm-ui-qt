@@ -13,6 +13,7 @@ sysctl_page::sysctl_page(QWidget *parent, sysadm_client *core) : PageWidget(pare
   //connect(ui->treeWidget, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(itemCollapsed(QTreeWidgetItem*)) );
   int isize = 1.5*ui->treeWidget->fontMetrics().height();
   ui->treeWidget->setIconSize( QSize(isize,isize) );
+  ui->treeWidget->setColumnCount(3);
   //ui->treeWidget->setItemSpacing(isize/2);
   ui->plainTextEdit->setVisible(false); //nothing selected initially
 }
@@ -45,7 +46,7 @@ void sysctl_page::ParseReply(QString id, QString namesp, QString name, QJsonValu
   //qDebug() << "Got Reply:" << error << args.toObject().value("deviceinfo").toObject();
 
   //Define the static lists of class->icon maps
-  static QStringList knownClasses;
+  /*static QStringList knownClasses;
   static QStringList knownSubclasses;
   static QStringList classIcons;
   static QStringList subclassIcons;
@@ -54,18 +55,27 @@ void sysctl_page::ParseReply(QString id, QString namesp, QString name, QJsonValu
   if(classIcons.isEmpty()){ classIcons << "speech-bubble" << "mark" << "globe" << "music" << "disk" << "photo" << "ticket"; }
   if(knownSubclasses.isEmpty()){ knownSubclasses << "USB" << "SMBus" << "ethernet" << "HDA" << "SATA" << "VGA" << "wifi"; }
   if(subclassIcons.isEmpty()){ subclassIcons << "inbox-download" << "mark2" << "arrow-left-right" << "volume-up" << "disk" << "computer" << "rss"; }
-
+  */
   ui->treeWidget->clear();
   ui->plainTextEdit->setVisible(false); //nothing selected initially
   if(error){ return; }
   //Parse the info list and add it to the tree widget
   QStringList ids = args.toObject().value("sysctllist").toObject().keys();
   for(int i=0; i<ids.length(); i++){
-    QString value = args.toObject().value("sysctllist").toObject().value(ids[i]).toString();
+    if(ids[i].startsWith("irq")){ continue; } //skip these ones - are interrupt device status things
+    QJsonObject sysctl = args.toObject().value("sysctllist").toObject().value(ids[i]).toObject();
     QTreeWidgetItem *it = 0;
     QStringList ident = ids[i].split(".");
     for(int i=0; i<ident.length(); i++){ it = findItem(it, ident[i]); }
-    it->setText(0, ident[ident.length()-1] +"  =  "+value);
+    it->setText(0, ident[ident.length()-1] ); //+"  =  "+sysctl.value("value").toString());
+    if(sysctl.isEmpty()){
+      //Old format - no object of information, just a single value
+      it->setText(1, args.toObject().value("sysctllist").toObject().value(ids[i]).toString() );
+    }else{
+      it->setText(1, sysctl.value("value").toString());
+      it->setWhatsThis(1, sysctl.value("type").toString());
+      it->setText(2, sysctl.value("description").toString());
+    }
   }
   //Now update the visibility of the items
   ui->label->setVisible(false);
