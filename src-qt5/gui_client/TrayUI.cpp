@@ -30,13 +30,17 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
     msgTimer->setInterval(300); //~1/3 seconds
     msgTimer->setSingleShot(true);
     connect(msgTimer, SIGNAL(timeout()), this, SLOT(updateMessageMenu()) );
+  clickTimer = new QTimer(this);
+    clickTimer->setInterval(300); //~1/3 second
+    clickTimer->setSingleShot(true);
+    connect(clickTimer, SIGNAL(timeout()), this, SLOT(popupMenu()) );
 
   //Load any CORES
   updateCoreList();
 
   //Setup the tray icon
   UpdateIcon();
-  connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayActivated()) );
+  connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
   //Setup the message menu
   msgMenu = new QMenu();
     msgMenu->setIcon( QIcon(":/icons/black/inbox.svg") );
@@ -50,7 +54,7 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
 
   //Setup the menu
   menu = new MenuItem(0,"",msgMenu);
-  this->setContextMenu(menu);
+  contextMenu = menu;
   connect(menu, SIGNAL(OpenConnectionManager()), this, SLOT(OpenConnectionManager()) );
   connect(menu, SIGNAL(OpenSettings()), this, SLOT(OpenSettings()) );
   connect(menu, SIGNAL(CloseApplication()),this, SLOT(CloseApplication()) );
@@ -66,7 +70,7 @@ sysadm_tray::sysadm_tray() : QSystemTrayIcon(){
 sysadm_tray::~sysadm_tray(){
   if(CMAN!=0){ CMAN->deleteLater(); }
   if(SDLG!=0){ SDLG->deleteLater(); }
-  delete this->contextMenu(); //Note in docs that the tray does not take ownership of this menu
+  delete contextMenu; //Note in docs that the tray does not take ownership of this menu
 }
 
 // === PRIVATE ===
@@ -104,10 +108,16 @@ sysadm_client* sysadm_tray::getCore(QString host){
 }
 
 // === PRIVATE SLOTS ===
-void sysadm_tray::trayActivated(){
+void sysadm_tray::trayActivated(QSystemTrayIcon::ActivationReason reason){
   //qDebug() << "tray activated";
-  if(this->contextMenu()!=0){
-     this->contextMenu()->popup( this->geometry().center());
+   if((reason == QSystemTrayIcon::Context || reason == QSystemTrayIcon::Trigger) && !clickTimer->isActive()){
+    clickTimer->start();
+  }
+}
+
+void sysadm_tray::popupMenu(){
+  if(contextMenu!=0){
+    contextMenu->popup( this->geometry().center());
   }
 }
 

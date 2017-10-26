@@ -28,6 +28,7 @@ private:
 	QList<MainUI*> CLIENTS; //currently open windows
 	C_Manager *CMAN; //current Connection manager window
 	SettingsDialog *SDLG; //current settings dialog
+	QMenu *contextMenu;
 
 	//Menu's attached to the tray
 	MenuItem *menu; //the main menu
@@ -35,16 +36,17 @@ private:
 	QIcon generateMsgIcon(QString iconfile, int priority);
 
 	//Timers/flags to control the icon "flash" frequency
-	QTimer *iconTimer, *msgTimer;
+	QTimer *iconTimer, *msgTimer, *clickTimer;
 	bool iconreset;
 	int cPriority;
 
 	//Function to create/retrieve a core
 	sysadm_client* getCore(QString host);
-	
+
 private slots:
 	//Tray activated
-	void trayActivated();
+	void trayActivated(QSystemTrayIcon::ActivationReason);
+	void popupMenu();
 
 	//Allow popups
 	void allowPopups(){
@@ -52,11 +54,11 @@ private slots:
 	}
 	//Application-wide setting changed
 	void UpdateWindows();
-	
+
 	//Update function for when a core is added/removed
 	void updateCoreList();
 	void ClientClosed(MainUI*);
-	
+
 	//Menu Actions
 	void OpenConnectionManager();
 	void OpenSettings();
