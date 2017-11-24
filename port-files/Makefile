@@ -1,11 +1,10 @@
-# Created by: Kris Moore <kmoore@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	sysadm-client
 PORTVERSION=	%%CHGVERSION%%
 CATEGORIES=	sysutils
 
-MAINTAINER=	kmoore@FreeBSD.org
+MAINTAINER=	jt@ixsystems.com
 COMMENT=	SysAdm Qt5 Client
 
 LICENSE=	BSD3CLAUSE
