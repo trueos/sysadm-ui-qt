@@ -918,17 +918,17 @@ bool sysadm_client::handleMessageInternally(message_in msg){
 
   }else if(msg.namesp=="events"){
     //Event notification - not tied to any particular request
-    if(msg.name=="dispatcher"){ 
+    if(msg.name=="dispatcher"){
       if(msg.from_bridge_id.isEmpty()){ emit NewEvent(DISPATCHER, msg.args); }
       else{ emit bridgeEvent(msg.from_bridge_id, DISPATCHER, msg.args); }
-    }else if(msg.name=="life-preserver"){ 
+    }else if(msg.name=="life-preserver"){
       if(msg.from_bridge_id.isEmpty()){ emit NewEvent(LIFEPRESERVER, msg.args); }
       else{ emit bridgeEvent(msg.from_bridge_id, LIFEPRESERVER, msg.args); }
-    }else if(msg.name=="system-state"){ 
+    }else if(msg.name=="system-state"){
       QString pri = msg.args.toObject().value("priority").toString();
       int priority = pri.section("-",0,0).simplified().toInt();
       //qDebug() << "Got System State Event:" << priority << "Formerly:" << cPriority;
-      if(cPriority!=priority){ 
+      if(cPriority!=priority){
 	cPriority = priority;
 	if(msg.from_bridge_id.isEmpty()){ emit statePriorityChanged(cPriority);  }
         else{ emit bridgeStatePriorityChanged(msg.from_bridge_id, cPriority);  }
@@ -956,7 +956,7 @@ bool sysadm_client::handleMessageInternally(message_in msg){
           performAuth_bridge(conn);
         }
       }
-      if(removeonly){ emit bridgeConnectionsChanged(avail); } 
+      if(removeonly){ emit bridgeConnectionsChanged(avail); }
     }
   }else if(msg.namesp=="rpc" && msg.name=="identify"){
           QJsonObject args;

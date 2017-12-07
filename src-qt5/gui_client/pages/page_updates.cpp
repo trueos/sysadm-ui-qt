@@ -71,6 +71,7 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
   }else if(id==IDTAG+"startup" && name!="error"){
     //update started successfully - wait for the dispatcher event to do the next UI update
   }else if(id==IDTAG+"checkup"){
+    //qDebug() << "Got Update Check Return:" << args;
     if(name=="error" || !args.isObject() || !args.toObject().contains("checkupdates") ){ return; }
     QString stat = args.toObject().value("checkupdates").toObject().value("status").toString();
     ui->tree_updates->clear();
@@ -217,7 +218,7 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
 void updates_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
   if(evtype==sysadm_client::DISPATCHER && val.isObject()){
     //qDebug() << "Got Dispatcher Event:" << val;
-    if(val.toObject().value("event_system").toString()=="sysadm/update"){
+    if(val.toObject().value("event_system").toString()=="sysadm/update" ){
       QString state = val.toObject().value("state").toString();
       if(state=="finished"){
         send_start_updates(); //see if there is another update waiting to start, refresh otherwise
@@ -229,6 +230,9 @@ void updates_page::ParseEvent(sysadm_client::EVENT_TYPE evtype, QJsonValue val){
       //qDebug() << "Got update event:" << state << val;
       ui->stacked_updates->setCurrentWidget(ui->page_uprunning);
     } //end sysadm/update check
+    else if(val.toObject().value("process_id").toString() == "sysadm_update_checkupdates" ){
+      if(val.toObject().value("state").toString()=="finished"){ send_check_updates(false); } //now the quick check for updates can succeed (long process finished)
+    }
   } //end dispatcher event check
 }
 
