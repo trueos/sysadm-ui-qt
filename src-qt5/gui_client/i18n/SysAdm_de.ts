@@ -435,7 +435,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../mainUI.cpp" line="114"/>
         <source>Local System</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokales System</translation>
     </message>
 </context>
 <context>
@@ -453,7 +453,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../MenuItem.cpp" line="419"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../MenuItem.cpp" line="427"/>
@@ -476,7 +476,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../NewConnectionWizard.ui" line="33"/>
         <source>Host IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>Host-IP:</translation>
     </message>
     <message>
         <location filename="../NewConnectionWizard.ui" line="47"/>
@@ -564,7 +564,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/control_panel.cpp" line="85"/>
         <source>SysAdm Server Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>SysAdm-Servereinstellungen</translation>
     </message>
     <message>
         <location filename="../pages/control_panel.cpp" line="88"/>
@@ -594,7 +594,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/getPage.h" line="30"/>
         <source>iohyve</source>
-        <translation type="unfinished"></translation>
+        <translation>iohyve</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="30"/>
@@ -604,7 +604,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/getPage.h" line="30"/>
         <source>Manage virtual OS instances</source>
-        <translation type="unfinished"></translation>
+        <translation>Virtuelle BS-Instanzen verwalten</translation>
     </message>
     <message>
         <location filename="../pages/getPage.h" line="31"/>
@@ -697,7 +697,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../SettingsDialog.ui" line="14"/>
         <source>sysadm: Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>sysadm: Einstellungen</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.ui" line="35"/>
@@ -712,7 +712,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../SettingsDialog.ui" line="130"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Fertig</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.cpp" line="45"/>
@@ -746,32 +746,32 @@ Dateiort: %1</translation>
         <location filename="../pages/page_beadm.cpp" line="112"/>
         <location filename="../pages/page_beadm.cpp" line="138"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Name:</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="105"/>
         <source>Creating Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Boot-Umgebung wird erstellt...</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="121"/>
         <source>Cloning Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Boot-Umgebung wird geklont...</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="131"/>
         <source>Deleting Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Boot-Umgebung wird gelöscht...</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="138"/>
         <source>Rename Boot Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Boot-Umgebung umbenennen</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="147"/>
         <source>Renaming Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Boot-Umgebung wird umbenannt...</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="158"/>
@@ -786,12 +786,12 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_beadm.cpp" line="179"/>
         <source>Activating Boot Environment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Boot-Umgebung wird aktiviert...</translation>
     </message>
     <message>
         <location filename="../pages/page_beadm.cpp" line="186"/>
         <source>Retrieving List...</source>
-        <translation>Empfange Liste...</translation>
+        <translation>Liste wird abgerufen...</translation>
     </message>
 </context>
 <context>
@@ -807,12 +807,12 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="45"/>
         <source>iohyve VMs</source>
-        <translation type="unfinished"></translation>
+        <translation>iohyve VMs</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="165"/>
         <source>%1 (%2, %3)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 (%2, %3)</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="231"/>
@@ -822,27 +822,27 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="231"/>
         <source>URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>URL:</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="235"/>
         <source>Invalid URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungültige URL</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="235"/>
         <source>Invalid ISO URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungültige ISO-URL</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="248"/>
         <source>Rename ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>ISO umbenennen</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.cpp" line="248"/>
         <source>New Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Neuer Name:</translation>
     </message>
 </context>
 <context>
@@ -870,42 +870,42 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_iohyve.ui" line="87"/>
         <source>Initialize iohyve</source>
-        <translation type="unfinished"></translation>
+        <translation>iohyve initialisieren</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="137"/>
         <source>Manage VMs</source>
-        <translation type="unfinished"></translation>
+        <translation>VMs verwalten</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="145"/>
         <source>Start VM</source>
-        <translation type="unfinished"></translation>
+        <translation>VM starten</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="156"/>
         <source>Stop VM</source>
-        <translation type="unfinished"></translation>
+        <translation>VM stoppen</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="180"/>
         <source>Create VM</source>
-        <translation type="unfinished"></translation>
+        <translation>VM erstellen</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="200"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="205"/>
         <source>VMM</source>
-        <translation type="unfinished"></translation>
+        <translation>VMM</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="210"/>
         <source>Running</source>
-        <translation type="unfinished"></translation>
+        <translation>Wird ausgeführt</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="215"/>
@@ -915,12 +915,12 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_iohyve.ui" line="220"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschreibung</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="233"/>
         <source>Manage ISOs</source>
-        <translation type="unfinished"></translation>
+        <translation>ISOs verwalten</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="241"/>
@@ -930,12 +930,12 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_iohyve.ui" line="265"/>
         <source>Rename ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>ISO umbenennen</translation>
     </message>
     <message>
         <location filename="../pages/page_iohyve.ui" line="276"/>
         <source>Remove ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>ISO entfernen</translation>
     </message>
 </context>
 <context>
@@ -1374,7 +1374,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_lp.ui" line="1003"/>
         <source>Recursive Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Rekursive Verwaltung</translation>
     </message>
     <message>
         <location filename="../pages/page_lp.ui" line="1010"/>
@@ -1416,7 +1416,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_about.ui" line="226"/>
         <source>&amp;Close</source>
-        <translation>&amp;Schließen</translation>
+        <translation>S&amp;chließen</translation>
     </message>
     <message>
         <location filename="../pages/page_about.ui" line="262"/>
@@ -1904,7 +1904,7 @@ Dateiort: %1</translation>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="119"/>
         <source>Mail</source>
-        <translation type="unfinished"></translation>
+        <translation>Mail</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg-extras.cpp" line="120"/>
@@ -2409,12 +2409,12 @@ WARNING: This will modify your live system packages. It is recommended that you 
         <location filename="../pages/page_pkg.ui" line="1080"/>
         <location filename="../pages/page_pkg.ui" line="1083"/>
         <source>Upgrade All Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Pakete aktualisieren</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1086"/>
         <source>Upgrade</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisieren</translation>
     </message>
     <message>
         <location filename="../pages/page_pkg.ui" line="1116"/>
@@ -2782,7 +2782,7 @@ WARNING: This will modify your live system packages. It is recommended that you 
     <message>
         <location filename="../pages/page_updates.cpp" line="131"/>
         <source>Tag: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Schlagwort: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.cpp" line="132"/>
