@@ -186,9 +186,13 @@ void pkg_page::update_local_list(QJsonObject obj){
       it->setCheckState(0,(ui->check_local_all->isChecked() ? Qt::Checked : Qt::Unchecked) );
     }
     //Remove this item as needed based on viewing options
-    if(obj.value(origins[i]).toObject().contains("reverse_dependencies") && !local_showall){
-      delete it; //this will also remove it from the tree widget if it already exists there
-      continue;
+    if( obj.value(origins[i]).toObject().contains("reverse_dependencies") || origins[i].startsWith("FreeBSD-") ){
+      if(!local_showall){
+        delete it; //this will also remove it from the tree widget if it already exists there
+        continue;
+      }
+    }else{
+      topnum++; //got a top-level package
     }
     //Update the info within the item
     it->setText(1, obj.value(origins[i]).toObject().value("name").toString() );
@@ -201,14 +205,13 @@ void pkg_page::update_local_list(QJsonObject obj){
     it->setText(2, obj.value(origins[i]).toObject().value("version").toString() );
     it->setData(3, Qt::UserRole, obj.value(origins[i]).toObject().value("flatsize").toString().toDouble() );
     it->setText(3, BtoHR(it->data(3,Qt::UserRole).toDouble()) );
-    it->setText(4, origins[i].section("/",0,0) ); //category
+    it->setText(4, obj.value(origins[i]).toObject().value("origin").toString().section("/",0,0) ); //category
     //Now the hidden data within each item
     it->setWhatsThis(2, obj.value(origins[i]).toObject().value("repository").toString() ); //which repo the pkg was installed from
     QStringList stat_ico = it->data(0,Qt::UserRole).toStringList();
     bool stat_changed = updateStatusList(&stat_ico, "lock", obj.value(origins[i]).toObject().value("locked").toString()=="1");
     stat_changed = stat_changed || updateStatusList(&stat_ico, "req", obj.value(origins[i]).toObject().contains("reverse_dependencies"));
     stat_changed = stat_changed || updateStatusList(&stat_ico, "auto", obj.value(origins[i]).toObject().value("automatic").toString()=="1");
-    if( !obj.value(origins[i]).toObject().contains("reverse_dependencies")){ topnum++; }
     if(stat_changed){
       it->setData(0,Qt::UserRole, stat_ico); //save this for later
       updateStatusIcon(it);
@@ -294,7 +297,7 @@ void pkg_page::update_pending_process(QJsonObject obj){
     QString log = obj.value("pkg_log").toString();
     if(stat=="finished"){ it->setText(4, details.value("time_finished").toString() ); }
     else if(stat=="running" && it->text(3).isEmpty()){ it->setText(3, details.value("time_started").toString() ); }
-    it->setWhatsThis(1,log);
+    it->setWhatsThis(1, it->whatsThis(1)+log);
     //if this item is currently selected - update the log widget as well
     if(ui->tree_pending->selectedItems().contains(it)){
       pending_selection_changed();
@@ -549,7 +552,7 @@ void pkg_page::update_repo_app_lists(QScrollArea *scroll, QJsonObject(obj) ){
      connect(BI, SIGNAL(RemoveClicked(QString)), this, SLOT(send_repo_rmpkg(QString)) );
     //qDebug() << " - Update Item";
     updateBrowserItem(BI, obj.value(origins[i]).toObject());
-    static_cast<QBoxLayout*>(scroll->widget()->layout())->insertWidget(i, BI); 
+    static_cast<QBoxLayout*>(scroll->widget()->layout())->insertWidget(i, BI);
   }
   //qDebug() << "Done Adding BI's";
   if(origins.isEmpty()){
@@ -747,6 +750,17 @@ void pkg_page::ParseReply(QString id, QString namesp, QString name, QJsonValue a
     GenerateHomePage(cats, ui->combo_repo->currentText());
   }else if(id==TAG+"has_upgrade_manager"){
     hasupdatemanager = args.toObject().contains("sysadm/update");
+  }else if(id==TAG+"pkg_install_verify"){
+    if( !promptAboutInstalls(args.toObject().value("pkg_install_verify").toObject()) ){
+      //cancelled
+      //QTimer::singleShot(0,this, SLOT()) );
+      return;
+    }
+    QJsonObject obj;
+    obj.insert("action","pkg_install");
+    obj.insert("pkg_origins", args.toObject().value("pkg_install_verify").toObject().value("install_origins") );
+    obj.insert("repo", args.toObject().value("pkg_install_verify").toObject().value("repo") );
+    communicate(TAG+"pkg_install", "sysadm", "pkg",obj);
   }else{
     //qDebug() << " - arguments:" << args;
   }
@@ -854,10 +868,10 @@ bool pkg_page::promptAboutRemovals(QStringList aboutToRemove, bool allorphans){
         if(rdep.count()<1){ orphans << allPkg[i]; changed = true; continue; }
         bool found = false;
         for(int r=0; r<rdep.count() && !found; r++){
-          if(!orphans.contains(rdep[i].toString())){ found = true; } //found a non-removed package which needs this one
+          if(!orphans.contains(rdep[i].toString())){ found = true; } //found a non-removed package which needs this one: Not an orphan
         }
-        if(found){ orphans << allPkg[i]; changed = true; }
-        //qDebug() << "Checked Package:" << allPkg[i] << found;
+        if(!found){ orphans << allPkg[i]; changed = true; }
+        //qDebug() << "Checked Package:" << allPkg[i] << found << installedObj.value(allPkg[i]).toObject().value("reverse_dependencies").toArray();
       }  //end loop over allPkg
     } //end orphan-finder loop
     //qDebug() << "Found Orphans:" << orphans;
@@ -869,6 +883,50 @@ bool pkg_page::promptAboutRemovals(QStringList aboutToRemove, bool allorphans){
     dlg.setDetailedText(details);
     dlg.setDefaultButton(QMessageBox::Cancel);
   return (dlg.exec() == QMessageBox::Ok);
+}
+
+bool pkg_page::promptAboutInstalls(QJsonObject obj){
+  QString msg;
+  msg = QString(tr("Are you sure you want to install these packages?"));
+  QStringList pkgs = obj.value("install").toObject().keys();
+  QStringList origins = ArrayToStringList(obj.value("install_origins").toArray());
+  msg.append("\n\n"+ QString(tr("Install: %1")).arg(origins.join(", ") ) );
+  if(pkgs.length()!=origins.length()){ msg.append(" "+QString(tr(" +%1 dependencies")).arg(QString::number(pkgs.length()-origins.length()) ) ); }
+  //Generate the details list and size information
+  QStringList details;
+  double dlSize, installSize;
+  dlSize = installSize = 0;
+  for(int i=0; i<pkgs.length(); i++){
+    if(!details.isEmpty()){ details << "--------------"; }
+    QJsonObject  tmp = obj.value("install").toObject().value(pkgs[i]).toObject();
+    details << tmp.value("name").toString() + " ("+tmp.value("origin").toString()+")";
+    details << tmp.value("comment").toString();
+    details << "   "+QString(tr("Version: %1")).arg( tmp.value("version").toString() );
+    details << "   "+QString(tr("Package Size: %1")).arg( BtoHR(tmp.value("pkgsize").toString().toDouble()) );
+    details << "   "+QString(tr("Install Size: %1")).arg( BtoHR(tmp.value("flatsize").toString().toDouble()) );
+    //Update the total size numbers
+    dlSize += tmp.value("pkgsize").toString().toDouble();
+    installSize += tmp.value("flatsize").toString().toDouble();
+  }
+
+  //Check for conflicts and change the warnings as needed
+  QStringList conflicts = ArrayToStringList(obj.value("conflicts").toArray());
+  if(!conflicts.isEmpty()){
+    msg.append( "\n"+QString(tr("CONFLICTS: %1")).arg(conflicts.join(", ")) );
+  }
+  msg.append("\n"+QString(tr("Download Size: %1")).arg(BtoHR(dlSize))+"\n"+QString(tr("Required Disk Space: %1")).arg(BtoHR(installSize)) );
+  //Now show the dialog
+  QMessageBox dlg(this);
+    dlg.setIcon(conflicts.isEmpty() ? QMessageBox::Question : QMessageBox::Warning );
+    dlg.setWindowTitle(tr("Verify Installation"));
+    dlg.setText(msg);
+    if(conflicts.isEmpty()){ dlg.addButton(QMessageBox::Ok); }
+    else{ dlg.addButton("YOLO", QMessageBox::AcceptRole); }
+    dlg.addButton(QMessageBox::Cancel);
+    dlg.setDetailedText(details.join("\n"));
+    dlg.setDefaultButton( conflicts.isEmpty() ? QMessageBox::Ok : QMessageBox::Cancel);
+    int ret = dlg.exec();
+  return (ret != QMessageBox::Cancel && ret!=0);
 }
 
 // - repo tab
@@ -947,7 +1005,7 @@ void pkg_page::icon_available(QNetworkReply *reply){
 	  if(img.isNull()){ it->iconLabel()->setVisible(false); }
           else{
 	    it->iconLabel()->setVisible(true);
-	    it->iconLabel()->setPixmap( QPixmap::fromImage(img).scaled( it->iconLabel()->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) ); 
+	    it->iconLabel()->setPixmap( QPixmap::fromImage(img).scaled( it->iconLabel()->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) );
           }
 	}
       }//end check for browseritem
@@ -966,7 +1024,7 @@ void pkg_page::icon_available(QNetworkReply *reply){
 	  if(img.isNull()){ it->iconLabel()->setVisible(false); }
           else{
 	    it->iconLabel()->setVisible(true);
-	    it->iconLabel()->setPixmap( QPixmap::fromImage(img).scaled( it->iconLabel()->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) ); 
+	    it->iconLabel()->setPixmap( QPixmap::fromImage(img).scaled( it->iconLabel()->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) );
           }
 	}
       }//end check for browseritem
@@ -1200,6 +1258,7 @@ void pkg_page::send_repo_rmpkg(QString origin){
     origin = ui->page_pkg->whatsThis();
     ui->tool_app_uninstall->setVisible(false);
   }
+  if( !promptAboutRemovals(QStringList() << origin, false) ){ return; } //cancelled
   QJsonObject obj;
     obj.insert("action","pkg_remove");
     obj.insert("recursive","false"); //cleanup orphaned packages
@@ -1215,10 +1274,10 @@ void pkg_page::send_repo_installpkg(QString origin){
   }
   QString repo = ui->combo_repo->currentText();
   QJsonObject obj;
-    obj.insert("action","pkg_install");
+    obj.insert("action","pkg_install_verify");
     obj.insert("pkg_origins", origin );
     if(!repo.isEmpty() && repo!="local"){ obj.insert("repo",repo); }
-  communicate(TAG+"pkg_unlock", "sysadm", "pkg",obj);
+  communicate(TAG+"pkg_install_verify", "sysadm", "pkg",obj);
 }
 
 void pkg_page::send_start_search(QString search, QStringList exclude){

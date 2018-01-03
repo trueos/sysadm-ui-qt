@@ -20,7 +20,7 @@
       <enum>QTabWidget::North</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="icon">
@@ -34,7 +34,7 @@
        <item row="2" column="0">
         <widget class="QStackedWidget" name="stacked_updates">
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="page_updates">
           <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -177,7 +177,8 @@
            <item>
             <widget class="QLabel" name="label_uptodate">
              <property name="styleSheet">
-              <string notr="true">border: 1px solid darkgrey; border-radius: 3px; background: lightblue;</string>
+              <string notr="true">border: 1px solid darkgrey; border-radius: 3px; background: lightblue;
+color: black;</string>
              </property>
              <property name="text">
               <string>System is up to date!!</string>
@@ -188,16 +189,37 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_rebootrequired">
-             <property name="styleSheet">
-              <string notr="true">border: 1px solid darkgrey; border-radius: 3px; background: lightyellow;</string>
-             </property>
-             <property name="text">
-              <string>Reboot Required to Finish Updates</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
+            <widget class="QFrame" name="frame_rebootrequired">
+             <layout class="QHBoxLayout" name="layout_rebootrequired">
+              <item>
+               <widget class="QLabel" name="label_rebootrequired">
+                <property name="styleSheet">
+                 <string notr="true">border: 1px solid darkgrey; border-radius: 3px; background: lightyellow;
+color: black;</string>
+                </property>
+                <property name="text">
+                 <string>Updates ready to apply (will reboot system)</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="tool_apply_updates">
+                <property name="text">
+                 <string>Apply Updates</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../icons/icons.qrc">
+                  <normaloff>:/icons/black/repeat.svg</normaloff>:/icons/black/repeat.svg</iconset>
+                </property>
+                <property name="toolButtonStyle">
+                 <enum>Qt::ToolButtonTextBesideIcon</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
            <item>

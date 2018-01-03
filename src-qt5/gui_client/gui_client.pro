@@ -27,7 +27,11 @@ freebsd-*{
 	extras/appcafe.desktop \
 	extras/pccontrol.desktop \
 	extras/sysadm-updatemanager.desktop \
-	extras/sysadm-moused.desktop
+	extras/sysadm-moused.desktop \
+	extras/sysadm-devicemanager.desktop \
+	extras/sysadm-servicemanager.desktop \
+	extras/sysadm-taskmanager.desktop \
+	extras/sysadm-usermanager.desktop
   xdg.path=/usr/local/share/applications
   
   xdg_auto.files=extras/sysadm-client-auto.desktop
@@ -85,6 +89,7 @@ TRANSLATIONS =  i18n/SysAdm_af.ts \
 		i18n/SysAdm_en.ts \
 		i18n/SysAdm_en_US.ts \
 		i18n/SysAdm_en_GB.ts \
+		i18n/SysAdm_en_AU.ts \
 		i18n/SysAdm_en_ZA.ts \
 		i18n/SysAdm_et.ts \
 		i18n/SysAdm_eu.ts \

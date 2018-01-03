@@ -32,17 +32,17 @@ public:
 		CORE = core; //save the pointer to the core for access later
 	}
 	~PageWidget(){}
-		
+
 	//Initialize the CORE <-->Page connections
 	virtual void setupCore(){}
-		
+
 	//Page embedded, go ahead and startup any core requests
 	virtual void startPage(){}
 	virtual void setPreviousPage(QString){} // will let the page respond appropriately to the previously-viewed page as needed
 	//Simple visual information about the page (icon, title, ID)
 	// use the "windowTitle" and "windowIcon" properties on the QWidget for the display icon/title
 	//virtual QString pageID(){ return ""; } //ID is used to identify which type of page this is
-	
+
 	//Received Messages from CORE
 	virtual void ParseReply(QString, QString, QString, QJsonValue){}
 	virtual void ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue){}
@@ -63,11 +63,11 @@ public:
 
 public slots:
 	//User requested to save any pending changes
-	virtual void SaveSettings(){} 
+	virtual void SaveSettings(){}
 
 signals:
 	//emit this when the page has changes which are waiting to be saved
-	void HasPendingChanges(); 
+	void HasPendingChanges();
 	//emit this when the page title changes (will updates main UI as needed)
 	void ChangePageTitle(QString);
 	//emit this when we need to change to another client/page (if needed - generally only used for the base/group pages)

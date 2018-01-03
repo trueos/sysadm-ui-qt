@@ -25,8 +25,8 @@ static QList<PAGEINFO> KnownPages(){
   // Valid Groups: ["appmgmt", "sysmgmt", "connect", "utils", "servermgmt"]
   QList<PAGEINFO> list;
   //Reminder: <ID>, <name>, <title>, <icon>, <comment>, <category>, <server subsytem list>
-  list << PageInfo("page_beadm", QObject::tr("Boot Environment Manager"), QObject::tr("Boot Environment Manager"),":/icons/black/disk.svg",QObject::tr("Manage operating system snapshots"),"sysmgmt",QStringList() << "sysadm/beadm");
-  list << PageInfo("page_taskmanager", QObject::tr("Task Manager"), QObject::tr("Task Manager"), ":/icons/black/flag.svg", QObject::tr("Monitor system tasks"), "sysmgmt", QStringList() << "sysadm/systemmanager");
+  list << PageInfo("page_beadm", QObject::tr("Boot Environments"), QObject::tr("Boot Environments"),":/icons/black/disk.svg",QObject::tr("Manage operating system snapshots"),"sysmgmt",QStringList() << "sysadm/beadm");
+  list << PageInfo("page_taskmanager", QObject::tr("Tasks"), QObject::tr("Tasks"), ":/icons/black/flag.svg", QObject::tr("Monitor system tasks"), "sysmgmt", QStringList() << "sysadm/systemmanager");
   list << PageInfo("page_iohyve",QObject::tr("iohyve"), QObject::tr("iohyve VM Manager"), ":/icons/black/desktop.svg", QObject::tr("Manage virtual OS instances"), "utils", QStringList() << "sysadm/iohyve" << "sysadm/network" << "sysadm/zfs");
   list << PageInfo("page_ssl_auth", QObject::tr("Manage SSL Keys"), QObject::tr("SSL Key Manager"), ":/icons/black/lock.svg",QObject::tr("List and Revoke SSL key registrations"), "servermgmt", QStringList() << "rpc/settings");
   list << PageInfo("page_about", QObject::tr("About TrueOS"), QObject::tr("About TrueOS"), ":/icons/black/magnifyingglass.svg",QObject::tr("More information on TrueOS"), "utils", QStringList() << "sysadm/about");
@@ -34,10 +34,13 @@ static QList<PAGEINFO> KnownPages(){
   list << PageInfo("page_system", QObject::tr("System Manager"), QObject::tr("System Manager"), ":/icons/black/boxfilled.svg",QObject::tr("Information About the System"), "utils", QStringList() << "sysadm/system");
   list << PageInfo("page_updates", QObject::tr("Update Manager"), QObject::tr("Update Manager"), ":/icons/black/sync.svg",QObject::tr("Perform Updates on the System"), "appmgmt", QStringList() << "sysadm/update");
   list << PageInfo("page_pkg", QObject::tr("AppCafe"), QObject::tr("AppCafe"), ":/icons/custom/appcafe.png",QObject::tr("Manage Applications/Packages"), "appmgmt", QStringList() << "sysadm/pkg");
-  list << PageInfo("page_users", QObject::tr("User Manager"), QObject::tr("User Manager"), ":/icons/black/user.svg",QObject::tr("Manage Users/Groups"), "sysmgmt", QStringList() << "sysadm/users");
-  list << PageInfo("page_services", QObject::tr("Service Manager"), QObject::tr("Service Manager"), ":/icons/black/pressure-reading.svg",QObject::tr("Manage Services"), "sysmgmt", QStringList() << "sysadm/services");
-  list << PageInfo("page_firewall", QObject::tr("Firewall Manager"), QObject::tr("Firewall Manager"), ":/icons/black/burn.svg",QObject::tr("Manage Firewall"), "sysmgmt", QStringList() << "sysadm/firewall");
+  list << PageInfo("page_users", QObject::tr("Users"), QObject::tr("Users"), ":/icons/black/user.svg",QObject::tr("Manage Users/Groups"), "sysmgmt", QStringList() << "sysadm/users");
+  list << PageInfo("page_services", QObject::tr("Services"), QObject::tr("Services"), ":/icons/black/pressure-reading.svg",QObject::tr("Manage Services"), "sysmgmt", QStringList() << "sysadm/services");
+  list << PageInfo("page_firewall", QObject::tr("Firewall"), QObject::tr("Firewall"), ":/icons/black/burn.svg",QObject::tr("Manage Firewall"), "sysmgmt", QStringList() << "sysadm/firewall");
   list << PageInfo("page_moused", QObject::tr("Mouse Settings"), QObject::tr("Mouse Settings"), ":/icons/black/mouse.svg",QObject::tr("Manage pointer device configuration"), "sysmgmt", QStringList() << "sysadm/moused");
+  list << PageInfo("page_devices", QObject::tr("Devices"), QObject::tr("Device Manager"), ":/icons/black/sdcard.svg",QObject::tr("View device information"), "sysmgmt", QStringList() << "sysadm/systemmanager");
+  list << PageInfo("page_sysctl", QObject::tr("System Controls"), QObject::tr("System Control Manager"), ":/icons/black/preferences.svg",QObject::tr("View system tunables"), "sysmgmt", QStringList() << "sysadm/systemmanager");
+  //list << PageInfo("page_sourcectl", QObject::tr("System Sources"), QObject::tr("System Sources"), ":/icons/black/preferences.svg",QObject::tr("System Source Control"), "sysmgmt", QStringList() << "sysadm/systemmanager");
 	return list;
 }
 
@@ -56,6 +59,9 @@ static QList<PAGEINFO> KnownPages(){
 #include "page_services.h"
 #include "page_firewall.h"
 #include "page_moused.h"
+#include "page_devices.h"
+#include "page_sysctl.h"
+#include "page_source_control.h"
 
 static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   //Find the page that matches this "id"
@@ -64,7 +70,7 @@ static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   else if(id=="page_taskmanager"){ page = new taskmanager_page(parent, core); }
   else if(id=="page_iohyve"){ page =  new iohyve_page(parent, core); }
   else if(id=="page_ssl_auth"){ page = new ssl_auth_page(parent, core); }
-  else if(id=="page_about"){ page =new about_page(parent, core); } 
+  else if(id=="page_about"){ page =new about_page(parent, core); }
   else if(id=="page_lp"){ page = new lp_page(parent, core); }
   else if(id=="page_system"){ page = new system_page(parent, core); }
   else if(id=="page_updates"){ page = new updates_page(parent, core); }
@@ -73,6 +79,9 @@ static PageWidget* GetNewPage(QString id, QWidget *parent, sysadm_client *core){
   else if(id=="page_services"){ page = new services_page(parent, core); }
   else if(id=="page_firewall"){ page = new firewall_page(parent, core); }
   else if(id=="page_moused"){ page = new moused_page(parent, core); }
+  else if(id=="page_devices"){ page = new devices_page(parent, core); }
+  else if(id=="page_sysctl"){ page = new sysctl_page(parent, core); }
+  else if(id=="page_sourcectl"){ page = new sourcectl_page(parent, core); }
   //Return the main control_panel page as the fallback/default
   if(page==0){
     page = new control_panel(parent, core);

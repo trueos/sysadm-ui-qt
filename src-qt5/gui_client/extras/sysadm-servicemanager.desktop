@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+StartupNotify=true
+Comment=SysAdm: service manager
+Categories=Settings;
+GenericName=system services
+Name=Service Manager
+TryExec=sysadm-client
+Exec=sysadm-client -page page_services
+Icon=preferences-system-session-services

@@ -33,7 +33,7 @@ void beadm_page::startPage(){
   connect(ui->unmountBE, SIGNAL(clicked()), this, SLOT(unmount_be()) );
   connect(ui->activateBE, SIGNAL(clicked()), this, SLOT(activate_be()) );
   connect(ui->cloneBE, SIGNAL(clicked()), this, SLOT(clone_be()) );
-	
+
   connect(ui->tree_BE, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(updateButtons()) );
   //Now run any CORE communications
   updateList();
@@ -79,7 +79,7 @@ void beadm_page::ParseReply(QString id, QString namesp, QString name, QJsonValue
   }else{
     updateList();
   }
-  
+
 }
 
 void beadm_page::updateButtons(){
@@ -106,14 +106,15 @@ void beadm_page::create_be(){
   startingRequest(tr("Creating Boot Environment...") );
 }
 
-void beadm_page::clone_be(){
+void beadm_page::clone_be(bool invalidname){
   if(ui->tree_BE->currentItem()==0){ return; } //nothing selected
   QString selbe = ui->tree_BE->currentItem()->text(0); //currently selected BE
   //Get the new name from the user
-  QString newname = QInputDialog::getText(this, tr("New Boot Environment"), tr("Name:"));
+  if(invalidname){ QMessageBox::warning(this, tr("Invalid Name"), tr("A boot environment with that name already exists, please choose a different one") ); }
+  QString newname = QInputDialog::getText(this, tr("New Boot Environment"), tr("Name:"), QLineEdit::Normal, selbe);
   if(newname.isEmpty()){ return; }
   //Also verify that the name is not already used
-  if( !ui->tree_BE->findItems(newname, Qt::MatchExactly, 0).isEmpty() ){ create_be(); return;}
+  if( !ui->tree_BE->findItems(newname, Qt::MatchExactly, 0).isEmpty() ){ clone_be(true); return;}
   QJsonObject obj;
     obj.insert("action","createbe");
     obj.insert("newbe",newname);
@@ -145,7 +146,7 @@ void beadm_page::rename_be(){
     obj.insert("source",selbe);
     obj.insert("target",newname);
   communicate("beadm_auto_page_rename", "sysadm", "beadm", obj);
-  startingRequest(tr("Renaming Boot Environment...") );	
+  startingRequest(tr("Renaming Boot Environment...") );
 }
 
 void beadm_page::mount_be(){

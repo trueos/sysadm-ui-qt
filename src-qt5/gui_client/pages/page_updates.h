@@ -28,7 +28,7 @@ public:
 	void setupCore();
 	//Page embedded, go ahead and startup any core requests
 	void startPage();
-		
+
 	QString pageID(){ return "page_updates"; } //ID is used to identify which type of page this is
 	void ParseReply(QString, QString, QString, QJsonValue);
 	void ParseEvent(sysadm_client::EVENT_TYPE, QJsonValue);
@@ -49,6 +49,7 @@ private slots:
 	void check_start_updates();
 	void send_start_updates();
 	void send_stop_updates();
+	void send_apply_update();
 	void send_list_settings();
 	void send_save_settings();
 	void send_list_logs();

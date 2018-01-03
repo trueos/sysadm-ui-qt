@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+StartupNotify=true
+Comment=SysAdm: device information
+Categories=Settings;
+GenericName=System Devices
+Name=Device Manager
+TryExec=sysadm-client
+Exec=sysadm-client -page page_devices
+Icon=drive-harddisk

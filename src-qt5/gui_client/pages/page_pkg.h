@@ -48,6 +48,7 @@ private:
 	QStringList origin_installed, origin_pending;
 	QJsonObject installedObj; //Full object of information on installed packages
 
+
 	//Core requests
 	void send_list_repos();
 	void send_list_cats(QString repo);
@@ -98,7 +99,9 @@ private slots:
 	void update_local_viewadv(bool checked);
 	void update_local_viewclean(bool checked);
 	void goto_browser_from_local(QTreeWidgetItem *it);
+
 	bool promptAboutRemovals(QStringList aboutToRemove, bool allorphans);
+	bool promptAboutInstalls(QJsonObject obj);
 
 	// - repo tab
 	void browser_goto_pkg(QString origin, QString repo = "");
