@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>709</width>
-    <height>626</height>
+    <width>1248</width>
+    <height>780</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <enum>QTabWidget::North</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="icon">
@@ -458,7 +458,7 @@ color: black;</string>
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>Max Boot Environments</string>
+            <string>Maximum Boot Environments</string>
            </property>
           </widget>
          </item>
@@ -477,7 +477,7 @@ color: black;</string>
        <item>
         <widget class="QCheckBox" name="check_settings_autoup">
          <property name="text">
-          <string>Automatically perform updates</string>
+          <string>Automatically fetch/stage updates</string>
          </property>
         </widget>
        </item>
@@ -486,7 +486,7 @@ color: black;</string>
          <item>
           <widget class="QCheckBox" name="check_auto_reboot">
            <property name="text">
-            <string>Automatically reboot to finish updates</string>
+            <string>Automatically reboot to apply updates</string>
            </property>
           </widget>
          </item>
@@ -504,55 +504,6 @@ color: black;</string>
           </widget>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="radio_repo_stable">
-         <property name="text">
-          <string>STABLE Repository</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="radio_repo_unstable">
-         <property name="text">
-          <string>UNSTABLE Repository (staging repository for testing the next STABLE updates)</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="radio_repo_custom">
-         <property name="text">
-          <string>CUSTOM</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="group_settings_customrepo">
-         <property name="title">
-          <string>Custom Package Repository</string>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-         <property name="checked">
-          <bool>false</bool>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>URL</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="line_settings_url"/>
-          </item>
-         </layout>
-        </widget>
        </item>
        <item>
         <spacer name="verticalSpacer">
@@ -601,6 +552,185 @@ color: black;</string>
          </item>
          <item>
           <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_repos">
+      <attribute name="icon">
+       <iconset resource="../../icons/icons.qrc">
+        <normaloff>:/icons/black/cloud-arrow-down-border.svg</normaloff>:/icons/black/cloud-arrow-down-border.svg</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Repositories</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QGroupBox" name="group_cdn_type">
+         <property name="title">
+          <string>Type of CDN</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_10">
+          <property name="leftMargin">
+           <number>18</number>
+          </property>
+          <property name="topMargin">
+           <number>10</number>
+          </property>
+          <property name="rightMargin">
+           <number>18</number>
+          </property>
+          <property name="bottomMargin">
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QRadioButton" name="radio_type_traditional">
+            <property name="text">
+             <string>Traditional</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radio_type_ipfs">
+            <property name="text">
+             <string>IPFS</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Update Schedule</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_9">
+          <property name="topMargin">
+           <number>10</number>
+          </property>
+          <property name="bottomMargin">
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QRadioButton" name="radio_repo_stable">
+            <property name="text">
+             <string>STABLE (6-month release track)</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radio_repo_unstable">
+            <property name="text">
+             <string>UNSTABLE (Rolling-release track)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radio_repo_custom">
+            <property name="text">
+             <string>CUSTOM</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="group_settings_customrepo">
+         <property name="title">
+          <string>Custom Package Repository</string>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="topMargin">
+           <number>10</number>
+          </property>
+          <property name="bottomMargin">
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>URL</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="line_settings_url"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <item>
+          <spacer name="horizontalSpacer_8">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="push_repos_save">
+           <property name="toolTip">
+            <string>Save Settings</string>
+           </property>
+           <property name="statusTip">
+            <string>Save Update Repository Settings</string>
+           </property>
+           <property name="text">
+            <string>Save Settings</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../icons/icons.qrc">
+             <normaloff>:/icons/black/download.svg</normaloff>:/icons/black/download.svg</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_9">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>

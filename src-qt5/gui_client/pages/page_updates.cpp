@@ -15,6 +15,7 @@ updates_page::updates_page(QWidget *parent, sysadm_client *core) : PageWidget(pa
   connect(ui->push_start_updates, SIGNAL(clicked()), this, SLOT(check_start_updates()) );
   connect(ui->push_stop_updates, SIGNAL(clicked()), this, SLOT(send_stop_updates()) );
   connect(ui->push_settings_save, SIGNAL(clicked()), this, SLOT(send_save_settings()) );
+  connect(ui->push_repos_save, SIGNAL(clicked()), this, SLOT(send_save_settings()) );
   connect(ui->push_chbranch, SIGNAL(clicked()), this, SLOT(send_change_branch()) );
   connect(ui->list_branches, SIGNAL(currentRowChanged(int)), this, SLOT(check_current_branch()) );
   connect(ui->tree_updates, SIGNAL(itemSelectionChanged()), this, SLOT(check_current_update()) );
@@ -25,7 +26,11 @@ updates_page::updates_page(QWidget *parent, sysadm_client *core) : PageWidget(pa
   ui->stacked_updates->setCurrentWidget(ui->page_updates); //always start on this page - has the "checking" notice
   ui->tabWidget->setTabEnabled(1, false); //disable the "branches" tab by default - will be enabled if/when branches become available
   ui->tabWidget->setCurrentIndex(0);
-  connect(ui->radio_repo_custom, SIGNAL(toggled(bool)), ui->group_settings_customrepo, SLOT(setEnabled(bool)) );
+  connect(ui->radio_repo_custom, SIGNAL(toggled(bool)), this, SLOT(update_repo_toggles()) );
+  connect(ui->radio_repo_stable, SIGNAL(toggled(bool)), this, SLOT(update_repo_toggles()) );
+  connect(ui->radio_repo_unstable, SIGNAL(toggled(bool)), this, SLOT(update_repo_toggles()) );
+  connect(ui->radio_type_ipfs, SIGNAL(toggled(bool)), this, SLOT(update_repo_toggles()) );
+  connect(ui->radio_type_traditional, SIGNAL(toggled(bool)), this, SLOT(update_repo_toggles()) );
 }
 
 updates_page::~updates_page(){
@@ -179,12 +184,19 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
       if(hour>=0 && hour<24){ ui->time_auto_reboot->setTime(QTime(hour,0)); }
     }
     ui->check_auto_reboot->setChecked(autoup);
-    QString  repo = "STABLE";
+    //CDN Type
+    QString cdn = "TRAD";
+    if(obj.contains("cdn_type")){ cdn= obj.value("cdn_type").toString().toUpper(); }
+    if(cdn=="IPFS"){ ui->radio_type_ipfs->setChecked(true); }
+    else{ ui->radio_type_traditional->setChecked(true); }
+    //Repository Setting
+    QString repo = "STABLE";
     if(obj.contains("package_set")){ repo = obj.value("package_set").toString().toUpper(); }
-    if(repo=="CUSTOM"){ ui->radio_repo_custom->setChecked(true); }
+    if(repo=="CUSTOM" && cdn!="IPFS"){ ui->radio_repo_custom->setChecked(true); }
     else if(repo=="UNSTABLE"){ ui->radio_repo_unstable->setChecked(true); }
     else{ ui->radio_repo_stable->setChecked(true); }
     ui->group_settings_customrepo->setEnabled(ui->radio_repo_custom->isChecked());
+
     ui->line_settings_url->setText( obj.value("package_url").toString() ); //normally empty/nonexistant
 
   }else if(id==IDTAG+"list_logs"){
@@ -368,6 +380,11 @@ void updates_page::send_save_settings(){
     }else{
       obj.insert("package_set","STABLE");
     }
+    if(ui->radio_type_ipfs->isChecked()){
+      obj.insert("cdn_type","IPFS");
+    }else{
+      obj.insert("cdn_type","Traditional");
+    }
   communicate(IDTAG+"save_settings", "sysadm", "update",obj);
 }
 
@@ -445,11 +462,20 @@ void updates_page::updateBranchList(QString active, QStringList avail){
       else{
 	QFont font = tmp->font();
 	  font.setBold(true);
-	  tmp->setFont( font ); 
+	  tmp->setFont( font );
 	  tmp->setText(tmp->text()+" ("+tr("Current Branch")+")");
       }
     ui->list_branches->addItem(tmp);
   }
   check_current_branch();
   ui->tabWidget->setTabEnabled(1, !avail.isEmpty());
+}
+
+void updates_page::update_repo_toggles(){
+  //Sanity Check: IPFS cannot be used with CUSTOM repos
+  if(ui->radio_repo_custom->isChecked() && ui->radio_type_ipfs->isChecked()){
+    ui->radio_repo_stable->setChecked(true);
+  }
+  ui->radio_repo_custom->setEnabled(ui->radio_type_traditional->isChecked());
+  ui->group_settings_customrepo->setEnabled(ui->radio_repo_custom->isChecked());
 }
