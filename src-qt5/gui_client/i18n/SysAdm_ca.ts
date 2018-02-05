@@ -400,7 +400,7 @@ Ubicació del fitxer: %1</translation>
     <message>
         <location filename="../mainUI.ui" line="56"/>
         <source>Control Panel</source>
-        <translation>Plafó de control</translation>
+        <translation>Tauler de control</translation>
     </message>
     <message>
         <location filename="../mainUI.ui" line="65"/>
@@ -799,7 +799,7 @@ Ubicació del fitxer: %1</translation>
     <message>
         <location filename="../pages/control_panel.cpp" line="49"/>
         <source>Control Panel</source>
-        <translation>Plafó de control</translation>
+        <translation>Tauler de control</translation>
     </message>
 </context>
 <context>
@@ -2882,7 +2882,7 @@ AVÍS: això modificarà els paquets del sistema autònom. És recomanable que t
     <message>
         <location filename="../pages/page_updates.ui" line="444"/>
         <source>Custom Package Repository</source>
-        <translation>Repositori de paquets personalitzat</translation>
+        <translation>Dipòsit de paquets personalitzat</translation>
     </message>
     <message>
         <location filename="../pages/page_updates.ui" line="456"/>

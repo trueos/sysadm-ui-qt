@@ -3058,7 +3058,7 @@ VAROVÁNÍ: Toto upraví balíčky právě spuštěného systému. Je doporučen
     <message>
         <location filename="../pages/page_users.ui" line="312"/>
         <source>Operator Access (Recommended)</source>
-        <translation>O</translation>
+        <translation>Oprávnění pro správu (doporučeno)</translation>
     </message>
     <message>
         <location filename="../pages/page_users.ui" line="330"/>

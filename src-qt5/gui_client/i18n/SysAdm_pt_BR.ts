@@ -2679,17 +2679,17 @@ AVISO: Isto irá modificar pacotes do sistema atual. É recomendado fechar todos
     <message>
         <location filename="../pages/page_taskmanager.ui" line="43"/>
         <source>THR</source>
-        <translation type="unfinished"></translation>
+        <translation>THR</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="48"/>
         <source>PRI</source>
-        <translation type="unfinished"></translation>
+        <translation>PRI</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="53"/>
         <source>NICE</source>
-        <translation type="unfinished"></translation>
+        <translation>NICE</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="58"/>
@@ -2699,7 +2699,7 @@ AVISO: Isto irá modificar pacotes do sistema atual. É recomendado fechar todos
     <message>
         <location filename="../pages/page_taskmanager.ui" line="63"/>
         <source>RES</source>
-        <translation type="unfinished"></translation>
+        <translation>RES</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="68"/>
@@ -2709,7 +2709,7 @@ AVISO: Isto irá modificar pacotes do sistema atual. É recomendado fechar todos
     <message>
         <location filename="../pages/page_taskmanager.ui" line="73"/>
         <source>C</source>
-        <translation type="unfinished"></translation>
+        <translation>C</translation>
     </message>
     <message>
         <location filename="../pages/page_taskmanager.ui" line="78"/>
