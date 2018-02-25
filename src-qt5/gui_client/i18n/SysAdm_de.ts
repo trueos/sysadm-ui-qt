@@ -1700,8 +1700,8 @@ Dateiort: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="607"/>
-        <source>Force IBUS keyboard input</source>
-        <translation>IBUS-Tastatureingabe erzwingen</translation>
+        <source>Force Fcitx keyboard input</source>
+        <translation>Fcitx-Tastatureingabe erzwingen</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="643"/>
