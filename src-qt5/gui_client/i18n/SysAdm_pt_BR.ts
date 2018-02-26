@@ -1700,8 +1700,8 @@ Localização do Arquivo: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="607"/>
-        <source>Force IBUS keyboard input</source>
-        <translation>Forçar entrada de teclado IBUS</translation>
+        <source>Force Fcitx keyboard input</source>
+        <translation>Forçar entrada de teclado Fcitx</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="643"/>

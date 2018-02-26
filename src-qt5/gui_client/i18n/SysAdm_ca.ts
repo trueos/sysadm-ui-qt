@@ -1700,8 +1700,8 @@ Ubicació del fitxer: %1</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="607"/>
-        <source>Force IBUS keyboard input</source>
-        <translation>Força l'entrada de teclat IBUS</translation>
+        <source>Force Fcitx keyboard input</source>
+        <translation>Força l'entrada de teclat Fcitx</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="643"/>

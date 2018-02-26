@@ -1699,8 +1699,8 @@ File Location: %1</source>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="607"></location>
-        <source>Force IBUS keyboard input</source>
-        <translation>Принудительный ввод IBUS клавиатуры</translation>
+        <source>Force Fcitx keyboard input</source>
+        <translation>Принудительный ввод Fcitx клавиатуры</translation>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="643"></location>

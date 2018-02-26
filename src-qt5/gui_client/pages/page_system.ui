@@ -622,7 +622,7 @@
         <item row="0" column="0">
          <widget class="QCheckBox" name="checkForceIbus_3">
           <property name="text">
-           <string>Force IBUS keyboard input</string>
+           <string>Force Fcitx keyboard input</string>
           </property>
          </widget>
         </item>

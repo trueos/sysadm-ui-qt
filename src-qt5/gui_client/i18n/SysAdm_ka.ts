@@ -1693,7 +1693,7 @@ File Location: %1</source>
     </message>
     <message>
         <location filename="../pages/page_system.ui" line="607"/>
-        <source>Force IBUS keyboard input</source>
+        <source>Force Fcitx keyboard input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
