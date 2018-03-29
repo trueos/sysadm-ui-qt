@@ -132,6 +132,15 @@ inline bool LoadSSLFile(QString pass){
   return imported;
 }
 
+inline QString getUsername(){
+  QProcess p;
+  p.start("id -nu");
+  p.waitForFinished();
+  QString uname = p.readAllStandardOutput();
+  if(uname.endsWith("\n")){ uname.chop(1); }
+  qDebug() << "Got username:" << uname;
+  return uname;
+}
 
 #define LOCALHOST QString("127.0.0.1")
 

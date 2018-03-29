@@ -101,7 +101,7 @@ sysadm_client* sysadm_tray::getCore(QString host){
     #ifdef __FreeBSD__
      //Also load the currently-running user for this process and place that into the UI automatically
       //Note: This will only be valid on FreeBSD systems (since the server is only for FreeBSD)
-    if(host==LOCALHOST){ CORES[host]->openConnection(getlogin(),"",LOCALHOST); }
+    if(host==LOCALHOST){ CORES[host]->openConnection(getUsername(),"",LOCALHOST); }
     #endif
   }
   return CORES[host];

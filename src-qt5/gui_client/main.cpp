@@ -43,8 +43,8 @@ int main( int argc, char ** argv )
     if(QString(argv[i])=="-page" && argc>i+1){
       local_only = true;
       gotopage = argv[i+1]; i++;
-    }else if(QString(argv[i])=="-localhost"){ 
-      local_only = true; 
+    }else if(QString(argv[i])=="-localhost"){
+      local_only = true;
     }
   }
 #endif
@@ -67,10 +67,10 @@ int main( int argc, char ** argv )
     //Verify that the settings directory exists first - and create it as needed
     QDir sdir(settings->fileName().section("/",0,-2));
       bool check = false;
-      if(!sdir.exists()){ 
+      if(!sdir.exists()){
         check = true;
         sdir.mkpath(sdir.absolutePath());
-        qDebug() << "Creating Settings Directory:" << sdir.absolutePath(); 
+        qDebug() << "Creating Settings Directory:" << sdir.absolutePath();
       }
       if(check){
         //Now see if the settings files exist in the old PC-BSD directory, and move them over to the new dir as needed
@@ -97,7 +97,7 @@ int main( int argc, char ** argv )
     T->show();
     //Start the event loop
     ret = A.exec();
-    
+
   }else{
     if( !sysadm_client::localhostRunning() ){
       QMessageBox::warning(0, QObject::tr("Local Service Not Found"), QObject::tr("The local sysadm service does not appear to be running. Please start it and then try again."));
@@ -106,7 +106,7 @@ int main( int argc, char ** argv )
     //Open the stand-alone client just for the localhost
     sysadm_client CORE;
       #ifdef __FreeBSD__
-      CORE.openConnection(getlogin(),"","127.0.0.1");
+      CORE.openConnection(getUsername(),"","127.0.0.1");
 	while( CORE.isConnecting() ){
 	  QApplication::processEvents();
 	}
@@ -118,7 +118,7 @@ int main( int argc, char ** argv )
     CORE.disconnect();
     CORE.closeConnection();
   }
-  
+
   //qDebug() << "Cleanly Closing Client...";
   //Clean up any global classes before exiting
   settings->sync();
