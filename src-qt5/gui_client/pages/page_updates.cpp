@@ -189,6 +189,10 @@ void updates_page::ParseReply(QString id, QString namesp, QString name, QJsonVal
     if(obj.contains("cdn_type")){ cdn= obj.value("cdn_type").toString().toUpper(); }
     if(cdn=="IPFS"){ ui->radio_type_ipfs->setChecked(true); }
     else{ ui->radio_type_traditional->setChecked(true); }
+    ui->radio_type_ipfs->setEnabled(false);
+    //IPFS SERVERS DISABLED (5/3/18) - switch back to traditional
+    if(cdn=="IPFS"){ QTimer::singleShot(0, ui->radio_type_traditional, SLOT(toggle()) ); }
+
     //Repository Setting
     QString repo = "STABLE";
     if(obj.contains("package_set")){ repo = obj.value("package_set").toString().toUpper(); }
