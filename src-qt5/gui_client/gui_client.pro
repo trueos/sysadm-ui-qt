@@ -41,8 +41,8 @@ freebsd-*{
 }
 
 
-RESOURCES += ../icons/icons.qrc \
-			../styles/styles.qrc
+RESOURCES += icons/icons.qrc \
+			styles/styles.qrc
 			
 SOURCES	+= main.cpp \
 		TrayUI.cpp \
