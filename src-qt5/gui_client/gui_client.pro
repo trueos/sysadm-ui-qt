@@ -1,4 +1,3 @@
-TEMPLATE	= app
 LANGUAGE	= C++
 
 !win64{
@@ -8,13 +7,8 @@ CONFIG += qt warn_on release console
 }
 
 QT = core gui widgets svg
-QMAKE_LIBDIR = /usr/local/lib/qt5 /usr/local/lib
 
 LIBS += -lssl -lcrypto
-
-macx-*{ 
-  INCLUDEPATH += /usr/local/ssl/include
-}
 
 TARGET=sysadm-client
 target.path=/usr/local/bin
