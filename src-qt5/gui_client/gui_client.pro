@@ -28,16 +28,13 @@ freebsd-*{
 	extras/sysadm-usermanager.desktop
   xdg.path=/usr/local/share/applications
   
-  xdg_auto.files=extras/sysadm-client-auto.desktop
-  xdg_auto.path=/usr/local/etc/xdg/autostart
-  
   #Install the icon for the XDG files
   xdg_icon.files=extras/sysadm.svg \
 	extras/trueos.png \
 	extras/appcafe.png
   xdg_icon.path=/usr/local/share/pixmaps
   
-  INSTALLS += xdg xdg_auto xdg_icon
+  INSTALLS += xdg xdg_icon
 }
 
 
@@ -141,8 +138,8 @@ include(../Core/core.pri)
 include(pages/pages.pri)
 
   #Some conf to redirect intermediate stuff in separate dirs
-  UI_DIR=./.build/ui/
-  MOC_DIR=./.build/moc/
-  OBJECTS_DIR=./.build/obj
-  RCC_DIR=./.build/rcc
-  QMAKE_DISTCLEAN += -r ./.build
+  #UI_DIR=./.build/ui/
+  #MOC_DIR=./.build/moc/
+  #OBJECTS_DIR=./.build/obj
+  #RCC_DIR=./.build/rcc
+  #QMAKE_DISTCLEAN += -r ./.build
