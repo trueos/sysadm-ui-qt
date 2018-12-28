@@ -25,21 +25,21 @@ static QList<PAGEINFO> KnownPages(){
   // Valid Groups: ["appmgmt", "sysmgmt", "connect", "utils", "servermgmt"]
   QList<PAGEINFO> list;
   //Reminder: <ID>, <name>, <title>, <icon>, <comment>, <category>, <server subsytem list>
-  list << PageInfo("page_beadm", QObject::tr("Boot Environments"), QObject::tr("Boot Environments"),":/icons/black/disk.svg",QObject::tr("Manage operating system snapshots"),"sysmgmt",QStringList() << "sysadm/beadm");
-  list << PageInfo("page_taskmanager", QObject::tr("Tasks"), QObject::tr("Tasks"), ":/icons/black/flag.svg", QObject::tr("Monitor system tasks"), "sysmgmt", QStringList() << "sysadm/systemmanager");
-  list << PageInfo("page_iohyve",QObject::tr("iohyve"), QObject::tr("iohyve VM Manager"), ":/icons/black/desktop.svg", QObject::tr("Manage virtual OS instances"), "utils", QStringList() << "sysadm/iohyve" << "sysadm/network" << "sysadm/zfs");
-  list << PageInfo("page_ssl_auth", QObject::tr("Manage SSL Keys"), QObject::tr("SSL Key Manager"), ":/icons/black/lock.svg",QObject::tr("List and Revoke SSL key registrations"), "servermgmt", QStringList() << "rpc/settings");
-  list << PageInfo("page_about", QObject::tr("About TrueOS"), QObject::tr("About TrueOS"), ":/icons/black/magnifyingglass.svg",QObject::tr("More information on TrueOS"), "utils", QStringList() << "sysadm/about");
+  list << PageInfo("page_beadm", QObject::tr("Boot Environments"), QObject::tr("Boot Environments"),"run-build-install",QObject::tr("Manage operating system snapshots"),"sysmgmt",QStringList() << "sysadm/beadm");
+  list << PageInfo("page_taskmanager", QObject::tr("Tasks"), QObject::tr("Tasks"), "speed-high", QObject::tr("Monitor system tasks"), "sysmgmt", QStringList() << "sysadm/systemmanager");
+  list << PageInfo("page_iohyve",QObject::tr("iohyve"), QObject::tr("iohyve VM Manager"), "system-run", QObject::tr("Manage virtual OS instances"), "utils", QStringList() << "sysadm/iohyve" << "sysadm/network" << "sysadm/zfs");
+  list << PageInfo("page_ssl_auth", QObject::tr("Manage SSL Keys"), QObject::tr("SSL Key Manager"), "object-unlocked",QObject::tr("List and Revoke SSL key registrations"), "servermgmt", QStringList() << "rpc/settings");
+  list << PageInfo("page_about", QObject::tr("About TrueOS"), QObject::tr("About TrueOS"), "dialog-information",QObject::tr("More information on TrueOS"), "utils", QStringList() << "sysadm/about");
   list << PageInfo("page_lp", QObject::tr("Life Preserver"), QObject::tr("Life Preserver"), ":/icons/custom/lifepreserver.png",QObject::tr("Manage Local and Remote Backups"), "utils", QStringList() << "sysadm/lifepreserver" << "sysadm/zfs");
-  list << PageInfo("page_system", QObject::tr("System Manager"), QObject::tr("System Manager"), ":/icons/black/boxfilled.svg",QObject::tr("Information About the System"), "utils", QStringList() << "sysadm/system");
-  list << PageInfo("page_updates", QObject::tr("Update Manager"), QObject::tr("Update Manager"), ":/icons/black/sync.svg",QObject::tr("Perform Updates on the System"), "appmgmt", QStringList() << "sysadm/update");
+  list << PageInfo("page_system", QObject::tr("System Manager"), QObject::tr("System Manager"), "system-help",QObject::tr("Information About the System"), "utils", QStringList() << "sysadm/system");
+  list << PageInfo("page_updates", QObject::tr("Update Manager"), QObject::tr("Update Manager"), "system-upgrade",QObject::tr("Perform Updates on the System"), "appmgmt", QStringList() << "sysadm/update");
   list << PageInfo("page_pkg", QObject::tr("AppCafe"), QObject::tr("AppCafe"), ":/icons/custom/appcafe.png",QObject::tr("Manage Applications/Packages"), "appmgmt", QStringList() << "sysadm/pkg");
-  list << PageInfo("page_users", QObject::tr("Users"), QObject::tr("Users"), ":/icons/black/user.svg",QObject::tr("Manage Users/Groups"), "sysmgmt", QStringList() << "sysadm/users");
-  list << PageInfo("page_services", QObject::tr("Services"), QObject::tr("Services"), ":/icons/black/pressure-reading.svg",QObject::tr("Manage Services"), "sysmgmt", QStringList() << "sysadm/services");
-  list << PageInfo("page_firewall", QObject::tr("Firewall"), QObject::tr("Firewall"), ":/icons/black/burn.svg",QObject::tr("Manage Firewall"), "sysmgmt", QStringList() << "sysadm/firewall");
-  list << PageInfo("page_moused", QObject::tr("Mouse Settings"), QObject::tr("Mouse Settings"), ":/icons/black/mouse.svg",QObject::tr("Manage pointer device configuration"), "sysmgmt", QStringList() << "sysadm/moused");
-  list << PageInfo("page_devices", QObject::tr("Devices"), QObject::tr("Device Manager"), ":/icons/black/sdcard.svg",QObject::tr("View device information"), "sysmgmt", QStringList() << "sysadm/systemmanager");
-  list << PageInfo("page_sysctl", QObject::tr("System Controls"), QObject::tr("System Control Manager"), ":/icons/black/preferences.svg",QObject::tr("View system tunables"), "sysmgmt", QStringList() << "sysadm/systemmanager");
+  list << PageInfo("page_users", QObject::tr("Users"), QObject::tr("Users"), "system-config-users",QObject::tr("Manage Users/Groups"), "sysmgmt", QStringList() << "sysadm/users");
+  list << PageInfo("page_services", QObject::tr("Services"), QObject::tr("Services"), "system-config-services",QObject::tr("Manage Services"), "sysmgmt", QStringList() << "sysadm/services");
+  list << PageInfo("page_firewall", QObject::tr("Firewall"), QObject::tr("Firewall"), "firewall-config",QObject::tr("Manage Firewall"), "sysmgmt", QStringList() << "sysadm/firewall");
+  list << PageInfo("page_moused", QObject::tr("Mouse Settings"), QObject::tr("Mouse Settings"), "input-mouse",QObject::tr("Manage pointer device configuration"), "sysmgmt", QStringList() << "sysadm/moused");
+  list << PageInfo("page_devices", QObject::tr("Devices"), QObject::tr("Device Manager"), "disks",QObject::tr("View device information"), "sysmgmt", QStringList() << "sysadm/systemmanager");
+  list << PageInfo("page_sysctl", QObject::tr("System Controls"), QObject::tr("System Control Manager"), "driver-manager",QObject::tr("View system tunables"), "sysmgmt", QStringList() << "sysadm/systemmanager");
   //list << PageInfo("page_sourcectl", QObject::tr("System Sources"), QObject::tr("System Sources"), ":/icons/black/preferences.svg",QObject::tr("System Source Control"), "sysmgmt", QStringList() << "sysadm/systemmanager");
 	return list;
 }

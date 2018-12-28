@@ -49,7 +49,7 @@
   </widget>
   <action name="actionBack">
    <property name="icon">
-    <iconset resource="../icons/icons.qrc">
+    <iconset theme="arrow-left">
      <normaloff>:/icons/black/arrow-left-circled-border.svg</normaloff>:/icons/black/arrow-left-circled-border.svg</iconset>
    </property>
    <property name="text">
@@ -58,7 +58,7 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset resource="../icons/icons.qrc">
+    <iconset theme="document-save">
      <normaloff>:/icons/black/rounded-arrow-down.svg</normaloff>:/icons/black/rounded-arrow-down.svg</iconset>
    </property>
    <property name="text">
@@ -72,7 +72,7 @@
   </action>
   <action name="actionPower">
    <property name="icon">
-    <iconset resource="../icons/icons.qrc">
+    <iconset>
      <normaloff>:/icons/black/off.svg</normaloff>:/icons/black/off.svg</iconset>
    </property>
    <property name="text">

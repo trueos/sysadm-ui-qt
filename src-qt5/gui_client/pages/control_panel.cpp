@@ -64,7 +64,7 @@ void control_panel::setupPageButton(QString id, QTreeWidgetItem *item, int colum
   if(info.id.isEmpty()){ return; }
   // *** Setup an icon/text for this page ***
   item->setText(column, info.name);
-  item->setIcon(column, QIcon(info.icon));
+  item->setIcon(column, (info.icon.startsWith(":/") ? QIcon(info.icon) : QIcon::fromTheme(info.icon)) );
   item->setToolTip(column, info.comment);
 }
 

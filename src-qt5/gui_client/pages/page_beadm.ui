@@ -89,8 +89,7 @@
         <string>Create BE</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons/icons.qrc">
-         <normaloff>:/icons/black/plus.svg</normaloff>:/icons/black/plus.svg</iconset>
+        <iconset theme="list-add"/>
        </property>
       </widget>
      </item>
@@ -106,8 +105,7 @@
         <string>cloneBE</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons/icons.qrc">
-         <normaloff>:/icons/black/pages-view4.svg</normaloff>:/icons/black/pages-view4.svg</iconset>
+        <iconset theme="edit-copy"/>
        </property>
       </widget>
      </item>
@@ -123,8 +121,7 @@
         <string>Delete BE</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons/icons.qrc">
-         <normaloff>:/icons/black/minus.svg</normaloff>:/icons/black/minus.svg</iconset>
+        <iconset theme="list-remove"/>
        </property>
       </widget>
      </item>
@@ -140,8 +137,7 @@
         <string>Rename BE</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons/icons.qrc">
-         <normaloff>:/icons/black/box.svg</normaloff>:/icons/black/box.svg</iconset>
+        <iconset theme="edit-rename"/>
        </property>
       </widget>
      </item>
@@ -157,7 +153,7 @@
         <string>Mount BE</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons/icons.qrc">
+        <iconset>
          <normaloff>:/icons/black/action-right-2.svg</normaloff>:/icons/black/action-right-2.svg</iconset>
        </property>
       </widget>
@@ -174,7 +170,7 @@
         <string>Unmount BE</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons/icons.qrc">
+        <iconset>
          <normaloff>:/icons/black/action-left.svg</normaloff>:/icons/black/action-left.svg</iconset>
        </property>
       </widget>
@@ -191,8 +187,7 @@
         <string>Activate BE</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons/icons.qrc">
-         <normaloff>:/icons/black/triangle-right.svg</normaloff>:/icons/black/triangle-right.svg</iconset>
+        <iconset theme="system-upgrade"/>
        </property>
       </widget>
      </item>

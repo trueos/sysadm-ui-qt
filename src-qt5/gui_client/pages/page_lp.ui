@@ -36,7 +36,7 @@
      </property>
      <widget class="QWidget" name="tab_snapshot">
       <attribute name="icon">
-       <iconset resource="../../icons/icons.qrc">
+       <iconset>
         <normaloff>:/icons/black/camera.svg</normaloff>:/icons/black/camera.svg</iconset>
       </attribute>
       <attribute name="title">
@@ -114,7 +114,7 @@
             <string>Create</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
+            <iconset>
              <normaloff>:/icons/black/plus.svg</normaloff>:/icons/black/plus.svg</iconset>
            </property>
            <property name="toolButtonStyle">
@@ -134,7 +134,7 @@
             <string>Remove</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
+            <iconset>
              <normaloff>:/icons/black/minus.svg</normaloff>:/icons/black/minus.svg</iconset>
            </property>
            <property name="toolButtonStyle">
@@ -180,7 +180,7 @@
              <string>Revert</string>
             </property>
             <property name="icon">
-             <iconset resource="../../icons/icons.qrc">
+             <iconset>
               <normaloff>:/icons/black/arrow-left-curved-down.svg</normaloff>:/icons/black/arrow-left-curved-down.svg</iconset>
             </property>
             <property name="popupMode">
@@ -198,7 +198,7 @@
      </widget>
      <widget class="QWidget" name="tab_replication">
       <attribute name="icon">
-       <iconset resource="../../icons/icons.qrc">
+       <iconset>
         <normaloff>:/icons/black/cloud-arrow-up-border.svg</normaloff>:/icons/black/cloud-arrow-up-border.svg</iconset>
       </attribute>
       <attribute name="title">
@@ -259,8 +259,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/plus.svg</normaloff>:/icons/black/plus.svg</iconset>
+            <iconset theme="list-add"/>
            </property>
           </widget>
          </item>
@@ -276,8 +275,7 @@
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/minus.svg</normaloff>:/icons/black/minus.svg</iconset>
+            <iconset theme="list-remove"/>
            </property>
           </widget>
          </item>
@@ -293,8 +291,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/preferences.svg</normaloff>:/icons/black/preferences.svg</iconset>
+            <iconset theme="edit"/>
            </property>
           </widget>
          </item>
@@ -323,8 +320,7 @@
             <string>Start</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/cloud-arrow-up-border.svg</normaloff>:/icons/black/cloud-arrow-up-border.svg</iconset>
+            <iconset theme="arrow-up-double"/>
            </property>
            <property name="toolButtonStyle">
             <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -343,8 +339,7 @@
             <string>Initialize</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/cloud-sync-border.svg</normaloff>:/icons/black/cloud-sync-border.svg</iconset>
+            <iconset theme="edit-delete"/>
            </property>
            <property name="toolButtonStyle">
             <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -406,19 +401,6 @@
             <item row="2" column="1">
              <widget class="QLineEdit" name="line_rep_remoteds"/>
             </item>
-            <item row="1" column="1">
-             <widget class="QSpinBox" name="spin_rep_port">
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>30000</number>
-              </property>
-              <property name="value">
-               <number>22</number>
-              </property>
-             </widget>
-            </item>
             <item row="3" column="0">
              <widget class="QLabel" name="label_11">
               <property name="text">
@@ -448,6 +430,19 @@
                </widget>
               </item>
              </layout>
+            </item>
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="spin_rep_port">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>30000</number>
+              </property>
+              <property name="value">
+               <number>22</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -517,7 +512,7 @@
                  <string>Cancel</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../../icons/icons.qrc">
+                 <iconset>
                   <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
                 </property>
                </widget>
@@ -534,7 +529,7 @@
                  <string>Save</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../../icons/icons.qrc">
+                 <iconset>
                   <normaloff>:/icons/black/inbox-download.svg</normaloff>:/icons/black/inbox-download.svg</iconset>
                 </property>
                </widget>
@@ -550,7 +545,7 @@
      </widget>
      <widget class="QWidget" name="tab_schedule">
       <attribute name="icon">
-       <iconset resource="../../icons/icons.qrc">
+       <iconset>
         <normaloff>:/icons/black/calendar-date.svg</normaloff>:/icons/black/calendar-date.svg</iconset>
       </attribute>
       <attribute name="title">
@@ -625,8 +620,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../../icons/icons.qrc">
-                <normaloff>:/icons/black/camera.svg</normaloff>:/icons/black/camera.svg</iconset>
+               <iconset theme="list-add"/>
               </property>
              </widget>
             </item>
@@ -642,8 +636,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../../icons/icons.qrc">
-                <normaloff>:/icons/black/preferences.svg</normaloff>:/icons/black/preferences.svg</iconset>
+               <iconset theme="edit"/>
               </property>
              </widget>
             </item>
@@ -659,8 +652,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../../icons/icons.qrc">
-                <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
+               <iconset theme="list-remove"/>
               </property>
              </widget>
             </item>
@@ -716,8 +708,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../../icons/icons.qrc">
-                <normaloff>:/icons/black/pressure-reading.svg</normaloff>:/icons/black/pressure-reading.svg</iconset>
+               <iconset theme="find"/>
               </property>
              </widget>
             </item>
@@ -733,8 +724,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../../icons/icons.qrc">
-                <normaloff>:/icons/black/preferences.svg</normaloff>:/icons/black/preferences.svg</iconset>
+               <iconset theme="edit"/>
               </property>
              </widget>
             </item>
@@ -750,8 +740,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../../icons/icons.qrc">
-                <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
+               <iconset theme="remove"/>
               </property>
              </widget>
             </item>
@@ -871,7 +860,7 @@
                <string>Cancel</string>
               </property>
               <property name="icon">
-               <iconset resource="../../icons/icons.qrc">
+               <iconset>
                 <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
               </property>
              </widget>
@@ -888,7 +877,7 @@
                <string>Save</string>
               </property>
               <property name="icon">
-               <iconset resource="../../icons/icons.qrc">
+               <iconset>
                 <normaloff>:/icons/black/inbox-download.svg</normaloff>:/icons/black/inbox-download.svg</iconset>
               </property>
              </widget>
@@ -990,7 +979,7 @@
                <string>Cancel</string>
               </property>
               <property name="icon">
-               <iconset resource="../../icons/icons.qrc">
+               <iconset>
                 <normaloff>:/icons/black/cancel.svg</normaloff>:/icons/black/cancel.svg</iconset>
               </property>
              </widget>
@@ -1007,7 +996,7 @@
                <string>Save</string>
               </property>
               <property name="icon">
-               <iconset resource="../../icons/icons.qrc">
+               <iconset>
                 <normaloff>:/icons/black/inbox-download.svg</normaloff>:/icons/black/inbox-download.svg</iconset>
               </property>
              </widget>
@@ -1021,7 +1010,7 @@
      </widget>
      <widget class="QWidget" name="tab_settings">
       <attribute name="icon">
-       <iconset resource="../../icons/icons.qrc">
+       <iconset>
         <normaloff>:/icons/black/preferences.svg</normaloff>:/icons/black/preferences.svg</iconset>
       </attribute>
       <attribute name="title">
@@ -1100,8 +1089,7 @@
           <string>Save Settings</string>
          </property>
          <property name="icon">
-          <iconset resource="../../icons/icons.qrc">
-           <normaloff>:/icons/black/inbox-download.svg</normaloff>:/icons/black/inbox-download.svg</iconset>
+          <iconset theme="document-save"/>
          </property>
         </widget>
        </item>

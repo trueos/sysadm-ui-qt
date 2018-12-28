@@ -41,8 +41,7 @@
         <string>Start</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons/icons.qrc">
-         <normaloff>:/icons/black/media-play.svg</normaloff>:/icons/black/media-play.svg</iconset>
+        <iconset theme="media-playback-start"/>
        </property>
        <property name="toolButtonStyle">
         <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -64,8 +63,7 @@
         <string>Restart</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons/icons.qrc">
-         <normaloff>:/icons/black/sync.svg</normaloff>:/icons/black/sync.svg</iconset>
+        <iconset theme="media-playlist-repeat"/>
        </property>
        <property name="toolButtonStyle">
         <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -87,8 +85,7 @@
         <string>Stop</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons/icons.qrc">
-         <normaloff>:/icons/black/media-pause.svg</normaloff>:/icons/black/media-pause.svg</iconset>
+        <iconset theme="media-playback-stop"/>
        </property>
        <property name="toolButtonStyle">
         <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -130,8 +127,7 @@
         <string>Enable</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons/icons.qrc">
-         <normaloff>:/icons/black/off.svg</normaloff>:/icons/black/off.svg</iconset>
+        <iconset theme="run-build"/>
        </property>
        <property name="toolButtonStyle">
         <enum>Qt::ToolButtonIconOnly</enum>
@@ -153,8 +149,7 @@
         <string>Disable</string>
        </property>
        <property name="icon">
-        <iconset resource="../../icons/icons.qrc">
-         <normaloff>:/icons/black/circled-off.svg</normaloff>:/icons/black/circled-off.svg</iconset>
+        <iconset theme="run-build-file"/>
        </property>
        <property name="toolButtonStyle">
         <enum>Qt::ToolButtonIconOnly</enum>
@@ -217,11 +212,10 @@
           <string>Close Port</string>
          </property>
          <property name="icon">
-          <iconset resource="../../icons/icons.qrc">
-           <normaloff>:/icons/black/key.svg</normaloff>:/icons/black/key.svg</iconset>
+          <iconset theme="list-remove"/>
          </property>
          <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextUnderIcon</enum>
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -323,11 +317,10 @@
              <string notr="true">Open Port</string>
             </property>
             <property name="icon">
-             <iconset resource="../../icons/icons.qrc">
-              <normaloff>:/icons/black/keyhole.svg</normaloff>:/icons/black/keyhole.svg</iconset>
+             <iconset theme="list-add"/>
             </property>
             <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextUnderIcon</enum>
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
            </widget>
           </item>
