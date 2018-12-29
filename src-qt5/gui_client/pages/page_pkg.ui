@@ -36,7 +36,7 @@
      </property>
      <widget class="QWidget" name="tab_repo">
       <attribute name="icon">
-       <iconset resource="../../icons/icons.qrc">
+       <iconset>
         <normaloff>:/icons/black/plus-circled.svg</normaloff>:/icons/black/plus-circled.svg</iconset>
       </attribute>
       <attribute name="title">
@@ -91,8 +91,8 @@
              <string>Back</string>
             </property>
             <property name="icon">
-             <iconset resource="../../icons/icons.qrc">
-              <normaloff>:/icons/black/arrow-left.svg</normaloff>:/icons/black/arrow-left.svg</iconset>
+             <iconset theme="arrow-left">
+              <normaloff>../../../../../.designer/backup</normaloff>../../../../../.designer/backup</iconset>
             </property>
             <property name="popupMode">
              <enum>QToolButton::MenuButtonPopup</enum>
@@ -154,8 +154,8 @@
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset resource="../../icons/icons.qrc">
-              <normaloff>:/icons/black/magnifyingglass.svg</normaloff>:/icons/black/magnifyingglass.svg</iconset>
+             <iconset theme="search">
+              <normaloff>../../../../../.designer/backup</normaloff>../../../../../.designer/backup</iconset>
             </property>
            </widget>
           </item>
@@ -212,7 +212,7 @@
                 <string>Browse Categories</string>
                </property>
                <property name="icon">
-                <iconset resource="../../icons/icons.qrc">
+                <iconset>
                  <normaloff>:/icons/black/list.svg</normaloff>:/icons/black/list.svg</iconset>
                </property>
                <property name="popupMode">
@@ -235,7 +235,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
+                <width>91</width>
                 <height>16</height>
                </rect>
               </property>
@@ -312,7 +312,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>98</width>
-                <height>16</height>
+                <height>28</height>
                </rect>
               </property>
              </widget>
@@ -392,7 +392,7 @@
                 <string notr="true">Filter</string>
                </property>
                <property name="icon">
-                <iconset resource="../../icons/icons.qrc">
+                <iconset>
                  <normaloff>:/icons/black/list.svg</normaloff>:/icons/black/list.svg</iconset>
                </property>
                <property name="popupMode">
@@ -416,7 +416,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>98</width>
-                <height>16</height>
+                <height>28</height>
                </rect>
               </property>
              </widget>
@@ -508,8 +508,7 @@
                   <string>Install</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../icons/icons.qrc">
-                   <normaloff>:/icons/black/download.svg</normaloff>:/icons/black/download.svg</iconset>
+                  <iconset theme="downloading"/>
                  </property>
                  <property name="toolButtonStyle">
                   <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -534,8 +533,8 @@
                   <string>Uninstall</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../icons/icons.qrc">
-                   <normaloff>:/icons/black/trash.svg</normaloff>:/icons/black/trash.svg</iconset>
+                  <iconset theme="edit-delete">
+                   <normaloff>../../../../../.designer/backup</normaloff>../../../../../.designer/backup</iconset>
                  </property>
                  <property name="toolButtonStyle">
                   <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -563,7 +562,7 @@
              </property>
              <widget class="QWidget" name="tab_app_description">
               <attribute name="icon">
-               <iconset resource="../../icons/icons.qrc">
+               <iconset>
                 <normaloff>:/icons/black/tag.svg</normaloff>:/icons/black/tag.svg</iconset>
               </attribute>
               <attribute name="title">
@@ -615,7 +614,7 @@
              </widget>
              <widget class="QWidget" name="tab_app_general">
               <attribute name="icon">
-               <iconset resource="../../icons/icons.qrc">
+               <iconset>
                 <normaloff>:/icons/black/questionmark.svg</normaloff>:/icons/black/questionmark.svg</iconset>
               </attribute>
               <attribute name="title">
@@ -741,7 +740,7 @@
              </widget>
              <widget class="QWidget" name="tab_app_screenshot">
               <attribute name="icon">
-               <iconset resource="../../icons/icons.qrc">
+               <iconset>
                 <normaloff>:/icons/black/photo.svg</normaloff>:/icons/black/photo.svg</iconset>
               </attribute>
               <attribute name="title">
@@ -796,8 +795,7 @@
                      <string notr="true">...</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="../../icons/icons.qrc">
-                      <normaloff>:/icons/black/triangle-right-circled.svg</normaloff>:/icons/black/triangle-right-circled.svg</iconset>
+                     <iconset theme="arrow-right-double"/>
                     </property>
                     <property name="toolButtonStyle">
                      <enum>Qt::ToolButtonIconOnly</enum>
@@ -816,8 +814,7 @@
                      <string notr="true">...</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="../../icons/icons.qrc">
-                      <normaloff>:/icons/black/triangle-right.svg</normaloff>:/icons/black/triangle-right.svg</iconset>
+                     <iconset theme="arrow-right"/>
                     </property>
                     <property name="toolButtonStyle">
                      <enum>Qt::ToolButtonIconOnly</enum>
@@ -849,8 +846,7 @@
                      <string notr="true">...</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="../../icons/icons.qrc">
-                      <normaloff>:/icons/black/triangle-left.svg</normaloff>:/icons/black/triangle-left.svg</iconset>
+                     <iconset theme="arrow-left"/>
                     </property>
                     <property name="toolButtonStyle">
                      <enum>Qt::ToolButtonIconOnly</enum>
@@ -869,8 +865,7 @@
                      <string notr="true"/>
                     </property>
                     <property name="icon">
-                     <iconset resource="../../icons/icons.qrc">
-                      <normaloff>:/icons/black/triangle-left-circled.svg</normaloff>:/icons/black/triangle-left-circled.svg</iconset>
+                     <iconset theme="arrow-left-double"/>
                     </property>
                     <property name="toolButtonStyle">
                      <enum>Qt::ToolButtonIconOnly</enum>
@@ -890,8 +885,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>405</width>
-                    <height>138</height>
+                    <width>416</width>
+                    <height>183</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -919,7 +914,7 @@
              </widget>
              <widget class="QWidget" name="tab_app_details">
               <attribute name="icon">
-               <iconset resource="../../icons/icons.qrc">
+               <iconset>
                 <normaloff>:/icons/black/list.svg</normaloff>:/icons/black/list.svg</iconset>
               </attribute>
               <attribute name="title">
@@ -971,7 +966,7 @@
      </widget>
      <widget class="QWidget" name="tab_local">
       <attribute name="icon">
-       <iconset resource="../../icons/icons.qrc">
+       <iconset>
         <normaloff>:/icons/black/home.svg</normaloff>:/icons/black/home.svg</iconset>
       </attribute>
       <attribute name="title">
@@ -1011,8 +1006,7 @@
             <string>Remove</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/trash.svg</normaloff>:/icons/black/trash.svg</iconset>
+            <iconset theme="edit-delete"/>
            </property>
            <property name="autoRaise">
             <bool>true</bool>
@@ -1031,8 +1025,7 @@
             <string>Lock</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/lock.svg</normaloff>:/icons/black/lock.svg</iconset>
+            <iconset theme="object-locked"/>
            </property>
            <property name="autoRaise">
             <bool>true</bool>
@@ -1051,8 +1044,7 @@
             <string>Unlock</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/key.svg</normaloff>:/icons/black/key.svg</iconset>
+            <iconset theme="object-unlocked"/>
            </property>
            <property name="autoRaise">
             <bool>true</bool>
@@ -1084,8 +1076,7 @@
             <string>Clean</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/flag.svg</normaloff>:/icons/black/flag.svg</iconset>
+            <iconset theme="dialog-warning"/>
            </property>
            <property name="toolButtonStyle">
             <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -1107,8 +1098,7 @@
             <string>Upgrade</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/sync.svg</normaloff>:/icons/black/sync.svg</iconset>
+            <iconset theme="system-upgrade"/>
            </property>
            <property name="toolButtonStyle">
             <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -1143,8 +1133,7 @@
             <string>Options</string>
            </property>
            <property name="icon">
-            <iconset resource="../../icons/icons.qrc">
-             <normaloff>:/icons/black/list.svg</normaloff>:/icons/black/list.svg</iconset>
+            <iconset theme="open-menu"/>
            </property>
            <property name="popupMode">
             <enum>QToolButton::InstantPopup</enum>
@@ -1231,7 +1220,7 @@
      </widget>
      <widget class="QWidget" name="tab_queue">
       <attribute name="icon">
-       <iconset resource="../../icons/icons.qrc">
+       <iconset>
         <normaloff>:/icons/black/download.svg</normaloff>:/icons/black/download.svg</iconset>
       </attribute>
       <attribute name="title">
